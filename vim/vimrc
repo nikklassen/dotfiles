@@ -166,6 +166,9 @@ imap <leader><CR> <ESC>o
 
 nnoremap <space> za
 
+vmap < <gv
+vmap > >gv
+
 nnoremap <Left> gT
 nnoremap <Right> gt
 

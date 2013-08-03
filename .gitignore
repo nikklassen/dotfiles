@@ -1,3 +1,5 @@
 .netrwhist
 view/
+*.swp
 .DS_Store
+*.orig
