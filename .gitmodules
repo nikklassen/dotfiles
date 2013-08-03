@@ -1,12 +1,42 @@
 [submodule "vim/bundle/delimitMate"]
-	path = vim/bundle/delimitMate
-	url = https://github.com/Raimondi/delimitMate.git
+    path = vim/bundle/delimitMate
+    url = https://github.com/Raimondi/delimitMate.git
 [submodule "vim/bundle/tcomment"]
-	path = vim/bundle/tcomment
-	url = https://github.com/tomtom/tcomment_vim.git
-[submodule ".\\vim\\bundle\\syntastic"]
-	path = .\\vim\\bundle\\syntastic
-	url = https://github.com/scrooloose/syntastic.git
-[submodule ".\\vim\\bundle\\surround"]
-	path = .\\vim\\bundle\\surround
-	url = https://github.com/tpope/vim-surround.git
+    path = vim/bundle/tcomment
+    url = https://github.com/tomtom/tcomment_vim.git
+[submodule "vim/bundle/syntastic"]
+    path = vim/bundle/syntastic
+    url = https:/github.com/scrooloose/syntastic.git
+[submodule "vim/bundle/surround"]
+    path = vim/bundle/surround
+    url = https://github.com/tpope/vim-surround.git
+[submodule "rbenv"]
+    path = rbenv
+    url = https://github.com/sstephenson/rbenv.git
+[submodule "vim/bundle/addon-mw-utils"]
+    path = vim/bundle/addon-mw-utils
+    url = https://github.com/MarcWeber/vim-addon-mw-utils.git
+[submodule "vim/bundle/fakeclip"]
+    path = vim/bundle/fakeclip
+    url = https://github.com/vim-scripts/fakeclip.git
+[submodule "vim/bundle/nerdtree"]
+    path = vim/bundle/nerdtree
+    url = https://github.com/scrooloose/nerdtree.git
+[submodule "vim/bundle/pathogen"]
+    path = vim/bundle/pathogen
+    url = https://github.com/tpope/vim-pathogen.git
+[submodule "vim/bundle/snipmate"]
+    path = vim/bundle/snipmate
+    url = https://github.com/garbas/vim-snipmate.git
+[submodule "vim/bundle/tlib"]
+    path = vim/bundle/tlib
+    url = https://github.com/tomtom/tlib_vim.git
+[submodule "vim/bundle/localvimrc"]
+    path = vim/bundle/localvimrc
+    url = https://github.com/embear/vim-localvimrc.git
+[submodule "vim/bundle/markmultiple"]
+    path = vim/bundle/markmultiple
+    url = https://github.com/adinapoli/vim-markmultiple.git
+[submodule "vim/bundle/snippets"]
+    path = vim/bundle/snippets
+    url = https://github.com/honza/vim-snippets.git
