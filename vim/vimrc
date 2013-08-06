@@ -194,3 +194,11 @@ autocmd BufNewFile,BufRead *.tex let mapleader=","
 au BufRead,BufNewFile *.thor setf ruby
 
 let g:tex_flavor='latex'
+
+"------------------------------------------------------------
+" VsVim Configs
+"------------------------------------------------------------
+
+if exists( "vsvim_useeditordefaults" )
+    set vsvim_useeditordefaults
+endif
