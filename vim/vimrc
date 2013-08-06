@@ -169,12 +169,23 @@ nnoremap <space> za
 vmap < <gv
 vmap > >gv
 
+nnoremap <Left> gT
+nnoremap <Right> gt
+
+nmap <leader>v :tabe $MYVIMRC<CR>
+
+" <A-K> Move current line up
+nmap ˚ ddkP
+
+" <A-J> Move current line down
+nmap ∆ ddp
+
 "------------------------------------------------------------
 " View Settings
 "------------------------------------------------------------
 
-au BufWinLeave * mkview!
-au BufWinEnter * silent loadview
+au BufWinLeave ?* mkview!
+au BufWinEnter ?* silent loadview
 
 " Hold onto marks for the last ten files
 set viminfo='10
@@ -193,12 +204,25 @@ autocmd BufNewFile,BufRead *.tex let mapleader=","
 
 au BufRead,BufNewFile *.thor setf ruby
 
+function! RunRuby()
+    wa
+    !ruby %
+endfunction
+
+au BufRead,BufNewFile *.rb nmap ® :call RunRuby()<CR>
+au BufRead,BufNewFile *.rb set tags=tags,~/.rbenv/versions/2.0.0-p195/tags;
+
+au bufwritepost .vimrc source $MYVIMRC
+
 let g:tex_flavor='latex'
 
 "------------------------------------------------------------
-" VsVim Configs
+" Plug-in settings
 "------------------------------------------------------------
 
 if exists( "vsvim_useeditordefaults" )
     set vsvim_useeditordefaults
 endif
+
+let g:localvimrc_sandbox=0
+let g:localvimrc_ask=0
