@@ -220,5 +220,9 @@ let g:tex_flavor='latex'
 " Plug-in settings
 "------------------------------------------------------------
 
+if exists( "vsvim_useeditordefaults" )
+    set vsvim_useeditordefaults
+endif
+
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
