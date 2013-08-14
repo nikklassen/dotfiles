@@ -34,9 +34,12 @@
 [submodule "vim/bundle/localvimrc"]
     path = vim/bundle/localvimrc
     url = https://github.com/embear/vim-localvimrc.git
-[submodule "vim/bundle/markmultiple"]
-    path = vim/bundle/markmultiple
-    url = https://github.com/adinapoli/vim-markmultiple.git
 [submodule "vim/bundle/snippets"]
     path = vim/bundle/snippets
     url = https://github.com/honza/vim-snippets.git
+[submodule "vim/bundle/easymotion"]
+	path = vim/bundle/easymotion
+	url = https://github.com/Lokaltog/vim-easymotion.git
+[submodule "vim/bundle/multiple-cursors"]
+	path = vim/bundle/multiple-cursors
+	url = https://github.com/terryma/vim-multiple-cursors.git
