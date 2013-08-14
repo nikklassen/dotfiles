@@ -147,9 +147,8 @@ set expandtab
 "set tabstop=2
 
 "------------------------------------------------------------
-" Mappings {{{1
-"
-" Useful mappings
+" Mappings 
+"------------------------------------------------------------
 
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
@@ -157,28 +156,36 @@ map Y y$
 
 " Map <C-L> (redraw screen) to also turn off search highlighting until the
 " next search
-nnoremap <C-L> :nohl<CR><C-L>
+nnoremap <C-L>      :nohl<CR><C-L>
 
-map <C-/> :TComment<CR>
+map <C-/>           :TComment<CR>
 
-nmap <leader><CR> mrO<ESC>`r
-imap <leader><CR> <ESC>o
+nmap <leader><CR>   mrO<ESC>`r
+imap <leader><CR>   <ESC>o
 
-nnoremap <space> za
+nmap <leader>=      mrggVG=`r
+nmap <leader>db     ^v$%d
 
-vmap < <gv
-vmap > >gv
+nnoremap <space>    za
 
-nnoremap <Left> gT
-nnoremap <Right> gt
+vnoremap <          <gv
+vnoremap <leader><  <
 
-nmap <leader>v :tabe $MYVIMRC<CR>
+vnoremap >          >gv
+vnoremap <leader>>  >
+
+nnoremap <Left>     gT
+nnoremap <Right>    gt
+nnoremap <Up>       :bprev<CR>
+nnoremap <Down>     :bnext<CR>
+
+nmap <leader>v      :tabe $MYVIMRC<CR>
 
 " <A-K> Move current line up
-nmap ˚ ddkP
+nmap ˚              ddkP
 
 " <A-J> Move current line down
-nmap ∆ ddp
+nmap ∆              ddp
 
 "------------------------------------------------------------
 " View Settings
@@ -200,6 +207,8 @@ hi Pmenu ctermbg=Blue
 " File type specific settings
 "------------------------------------------------------------
 
+" Since backslash is used so often with LaTeX remap
+" it to something less often used
 autocmd BufNewFile,BufRead *.tex let mapleader=","
 
 au BufRead,BufNewFile *.thor setf ruby
@@ -212,7 +221,7 @@ endfunction
 au BufRead,BufNewFile *.rb nmap ® :call RunRuby()<CR>
 au BufRead,BufNewFile *.rb set tags=tags,~/.rbenv/versions/2.0.0-p195/tags;
 
-au bufwritepost .vimrc source $MYVIMRC
+au BufWritePost .vimrc source $MYVIMRC
 
 let g:tex_flavor='latex'
 
@@ -223,6 +232,8 @@ let g:tex_flavor='latex'
 if exists( "vsvim_useeditordefaults" )
     set vsvim_useeditordefaults
 endif
+
+let g:EasyMotion_leader_key = '<Leader>'
 
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0

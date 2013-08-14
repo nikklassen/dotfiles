@@ -1,12 +1,13 @@
 alias ls="ls -FG"
 alias grep="egrep --color"
 alias cdt="cd ~/Movies/TV\ Shows"
-alias cdp='cd ~/Documents/Programming'
-alias cdd='cd ~/Documents/School/1B/CS\ 138'
-alias cds='cd ~/Documents/School/1B'
+alias cdp='cd ~/Programming'
 alias mount='hdiutil mount'
 alias eject='hdiutil eject'
-alias irb='irb --simple-prompt'
 
+alias parent='source parent'
+
+alias irb='irb --simple-prompt'
 alias cowsay='cowsay -f vader-koala'
-cowsay `fortune`
+
+export EDITOR=vim
