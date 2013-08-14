@@ -176,9 +176,12 @@ nmap <leader>v :tabe $MYVIMRC<CR>
 
 " <A-K> Move current line up
 nmap ˚ ddkP
-
 " <A-J> Move current line down
 nmap ∆ ddp
+
+" Windows equivalents
+nmap <m-k> ddkP
+nmap <m-j> ddp
 
 "------------------------------------------------------------
 " View Settings
