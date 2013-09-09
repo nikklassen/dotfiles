@@ -1,6 +1,4 @@
-[submodule "vim/bundle/delimitMate"]
-    path = vim/bundle/delimitMate
-    url = https://github.com/Raimondi/delimitMate.git
+    ignore = dirty
 [submodule "vim/bundle/syntastic"]
     path = vim/bundle/syntastic
     url = https:/github.com/scrooloose/syntastic.git
@@ -40,9 +38,9 @@
 [submodule "vim/bundle/multiple-cursors"]
 	path = vim/bundle/multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
-[submodule "Command-T"]
-	path = Command-T
-	url = https://github.com/wincent/Command-T.git
 [submodule "vim/bundle/command-t"]
 	path = vim/bundle/command-t
 	url = https://github.com/wincent/Command-T.git
+[submodule "vim/bundle/colors-solarized"]
+	path = vim/bundle/colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized.git
