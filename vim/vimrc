@@ -72,8 +72,16 @@ map <C-/>           :TComment<CR>
 nmap <leader><CR>   mrO<ESC>`r
 imap <leader><CR>   <ESC>o
 
+" Reindent whole file
 nmap <leader>=      mrggVG=`r
+
+" Delete a method (assuming { is on your current line)
 nmap <leader>db     ^v$%d
+
+" Replace word under cursor with last yanked
+nmap <leader>r      viw"0p
+" Replace Word under cursor
+nmap <leader>R      viW"0p
 
 nnoremap <space>    za
 
@@ -96,6 +104,10 @@ nmap ˚              ddkP
 
 " <A-J> Move current line down
 nmap ∆              ddp
+
+" Windows equivalents
+nmap <m-k> ddkP
+nmap <m-j> ddp
 
 nnoremap <leader>q :wq<CR>
 
