@@ -7,6 +7,7 @@ filetype indent plugin on
 
 " Enable syntax highlighting
 syntax enable
+set t_Co=16
 
 " Better command-line completion
 set wildmenu
@@ -52,9 +53,6 @@ set number
 set shiftwidth=4
 set softtabstop=4
 set tabstop=2
-" set shiftwidth=2
-" set softtabstop=2
-" set tabstop=2
 
 set expandtab
 
@@ -67,8 +65,6 @@ map Y y$
 " next search
 nnoremap <C-L>      :nohl<CR><C-L>
 
-map <C-/>           :TComment<CR>
-
 nmap <leader><CR>   mrO<ESC>`r
 imap <leader><CR>   <ESC>o
 
@@ -80,8 +76,6 @@ nmap <leader>db     ^v$%d
 
 " Replace word under cursor with last yanked
 nmap <leader>r      viw"0p
-" Replace Word under cursor
-nmap <leader>R      viW"0p
 
 nnoremap <space>    za
 
@@ -106,23 +100,31 @@ nmap ˚              ddkP
 nmap ∆              ddp
 
 " Windows equivalents
-nmap <m-k> ddkP
-nmap <m-j> ddp
-
-" Save a file that requires admin priviledges
-cmap w!! w !sudo tee > /dev/null %
-nnoremap <leader>q :wq<CR>
-nnoremap <leader>w :w<CR>
-inoremap <leader>w <ESC>:w<CR>
+nmap <A-k> ddkP
+nmap <A-j> ddp
 
 nnoremap <leader>q :wq<CR>
+nnoremap <leader>s :w<CR>
+inoremap <leader>s <ESC>:w<CR>
 
 "------------------------------------------------------------
 " View Settings
 "------------------------------------------------------------
 
-au BufWinLeave ?* mkview!
-au BufWinEnter ?* silent loadview
+function! SaveViewSettings()
+    if expand('%:t') != ""
+        mkview!
+    endif
+endfunction
+
+function! LoadViewSettings()
+    if expand('%:t') != ""
+        silent loadview
+    endif
+endfunction
+
+au BufWinLeave * call SaveViewSettings()
+au BufWinEnter * call LoadViewSettings()
 
 " Hold onto marks for the last ten files
 set viminfo='10
@@ -174,3 +176,4 @@ hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
 nnoremap <silent> <leader>o :CommandT<CR>
+
