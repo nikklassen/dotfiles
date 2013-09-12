@@ -21,11 +21,12 @@ call pathogen#helptags()
 " contents. Use this to allow intelligent auto-indenting for each filetype,
 " and for plugins that are filetype specific.
 filetype indent plugin on
+set t_Co=16 
 
 " Enable syntax highlighting
 syntax enable
-" set background=dark
-" colorscheme solarized
+set background=dark
+colorscheme solarized
 
 "------------------------------------------------------------
 " Must have options {{{1
@@ -199,6 +200,12 @@ nmap ∆              ddp
 nmap <m-k> ddkP
 nmap <m-j> ddp
 
+" Save a file that requires admin priviledges
+cmap w!! w !sudo tee > /dev/null %
+nnoremap <leader>q :wq<CR>
+nnoremap <leader>w :w<CR>
+inoremap <leader>w <ESC>:w<CR>
+
 "------------------------------------------------------------
 " View Settings
 "------------------------------------------------------------
@@ -249,3 +256,8 @@ let g:EasyMotion_leader_key = '<Leader>'
 
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
+
+hi link EasyMotionTarget ErrorMsg
+hi link EasyMotionShade  Comment
+
+nnoremap <silent> <leader>o :CommandT<CR>
