@@ -172,8 +172,10 @@ let g:EasyMotion_leader_key = '<leader>'
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
 
+let g:qcc_format_menu = '${0}'
+au BufRead /tmp/mutt* setlocal omnifunc=QueryCommandComplete
+
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
 nnoremap <silent> <leader>o :CommandT<CR>
-
