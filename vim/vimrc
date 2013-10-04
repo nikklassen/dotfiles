@@ -12,6 +12,11 @@ set t_Co=16
 " Better command-line completion
 set wildmenu
 
+" Completion settings
+au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+set completeopt=menu,longest
+
+
 " Show partial commands in the last line of the screen
 set showcmd
 
@@ -87,8 +92,8 @@ vnoremap <leader>>  >
 
 nnoremap <Left>     gT
 nnoremap <Right>    gt
-nnoremap <Up>       :bprev<CR>
-nnoremap <Down>     :bnext<CR>
+nnoremap <Up>       :lpr<CR>
+nnoremap <Down>     :lne<CR>
 
 nmap <leader>v      :tabe $MYVIMRC<CR>
 nnoremap <leader>o  :CommandT<CR> 
@@ -106,6 +111,9 @@ nmap <A-j> ddp
 nnoremap <leader>q :wq<CR>
 nnoremap <leader>s :w<CR>
 inoremap <leader>s <ESC>:w<CR>
+
+" build tags of your own project with Ctrl-F12
+nmap <C-T> :!ctags -R --sort=yes --c++-kinds=+pl --fields=+iaS --extra=+q .<CR>
 
 "------------------------------------------------------------
 " View Settings
@@ -141,6 +149,8 @@ colorscheme solarized
 " File type specific settings
 "------------------------------------------------------------
 
+set tags+=~/.vim/tags/cpp
+
 " Since backslash is used so often with LaTeX remap
 " it to something less often used
 autocmd BufNewFile,BufRead *.tex let mapleader=","
@@ -155,7 +165,9 @@ endfunction
 
 " Run ruby with <A-R>
 au BufRead,BufNewFile *.rb nmap ® :call RunRuby()<CR>
-au BufRead,BufNewFile *.rb set tags=tags,~/.rbenv/versions/2.0.0-p195/tags;
+au BufRead,BufNewFile *.rb set tags+=tags,~/.rbenv/versions/2.0.0-p195/tags
+
+au BufRead,BufNewFile *.asm set syntax=mips
 
 au BufWritePost .vimrc source $MYVIMRC
 
@@ -178,4 +190,20 @@ au BufRead /tmp/mutt* setlocal omnifunc=QueryCommandComplete
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
+" Syntastic
+" let g:syntastic_mode_map = { 'passive_filetypes': ['c', 'cpp'] }
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_quiet_warnings = 1
+
 nnoremap <silent> <leader>o :CommandT<CR>
+
+" Clang_complete
+let g:clang_auto_select = 1
+
+let g:clang_close_preview = 1
+let g:clang_library_path = "/usr/lib/"
+
+" SuperTab
+let g:SuperTabLongestHighlight = 1
+" let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
+let g:SuperTabDefaultCompletionType = "context"
