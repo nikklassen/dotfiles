@@ -7,9 +7,15 @@ filetype indent plugin on
 
 " Enable syntax highlighting
 syntax enable
+set t_Co=16
 
 " Better command-line completion
 set wildmenu
+
+" Completion settings
+au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+set completeopt=menu,longest
+
 
 " Show partial commands in the last line of the screen
 set showcmd
@@ -52,9 +58,6 @@ set number
 set shiftwidth=4
 set softtabstop=4
 set tabstop=2
-" set shiftwidth=2
-" set softtabstop=2
-" set tabstop=2
 
 set expandtab
 
@@ -67,8 +70,6 @@ map Y y$
 " next search
 nnoremap <C-L>      :nohl<CR><C-L>
 
-map <C-/>           :TComment<CR>
-
 nmap <leader><CR>   mrO<ESC>`r
 imap <leader><CR>   <ESC>o
 
@@ -80,8 +81,6 @@ nmap <leader>db     ^v$%d
 
 " Replace word under cursor with last yanked
 nmap <leader>r      viw"0p
-" Replace Word under cursor
-nmap <leader>R      viW"0p
 
 nnoremap <space>    za
 
@@ -93,8 +92,8 @@ vnoremap <leader>>  >
 
 nnoremap <Left>     gT
 nnoremap <Right>    gt
-nnoremap <Up>       :bprev<CR>
-nnoremap <Down>     :bnext<CR>
+nnoremap <Up>       :lpr<CR>
+nnoremap <Down>     :lne<CR>
 
 nmap <leader>v      :tabe $MYVIMRC<CR>
 nnoremap <leader>o  :CommandT<CR> 
@@ -106,17 +105,34 @@ nmap ˚              ddkP
 nmap ∆              ddp
 
 " Windows equivalents
-nmap <m-k> ddkP
-nmap <m-j> ddp
+nmap <A-k> ddkP
+nmap <A-j> ddp
 
 nnoremap <leader>q :wq<CR>
+nnoremap <leader>s :w<CR>
+inoremap <leader>s <ESC>:w<CR>
+
+" build tags of your own project with Ctrl-F12
+nmap <C-T> :!ctags -R --sort=yes --c++-kinds=+pl --fields=+iaS --extra=+q .<CR>
 
 "------------------------------------------------------------
 " View Settings
 "------------------------------------------------------------
 
-au BufWinLeave ?* mkview!
-au BufWinEnter ?* silent loadview
+function! SaveViewSettings()
+    if expand('%:t') != ""
+        mkview!
+    endif
+endfunction
+
+function! LoadViewSettings()
+    if expand('%:t') != ""
+        silent loadview
+    endif
+endfunction
+
+au BufWinLeave * call SaveViewSettings()
+au BufWinEnter * call LoadViewSettings()
 
 " Hold onto marks for the last ten files
 set viminfo='10
@@ -133,6 +149,8 @@ colorscheme solarized
 " File type specific settings
 "------------------------------------------------------------
 
+set tags+=~/.vim/tags/cpp
+
 " Since backslash is used so often with LaTeX remap
 " it to something less often used
 autocmd BufNewFile,BufRead *.tex let mapleader=","
@@ -147,7 +165,9 @@ endfunction
 
 " Run ruby with <A-R>
 au BufRead,BufNewFile *.rb nmap ® :call RunRuby()<CR>
-au BufRead,BufNewFile *.rb set tags=tags,~/.rbenv/versions/2.0.0-p195/tags;
+au BufRead,BufNewFile *.rb set tags+=tags,~/.rbenv/versions/2.0.0-p195/tags
+
+au BufRead,BufNewFile *.asm set syntax=mips
 
 au BufWritePost .vimrc source $MYVIMRC
 
@@ -163,3 +183,27 @@ let g:EasyMotion_leader_key = '<leader>'
 
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
+
+let g:qcc_format_menu = '${0}'
+au BufRead /tmp/mutt* setlocal omnifunc=QueryCommandComplete
+
+hi link EasyMotionTarget ErrorMsg
+hi link EasyMotionShade  Comment
+
+" Syntastic
+" let g:syntastic_mode_map = { 'passive_filetypes': ['c', 'cpp'] }
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_quiet_warnings = 1
+
+nnoremap <silent> <leader>o :CommandT<CR>
+
+" Clang_complete
+let g:clang_auto_select = 1
+
+let g:clang_close_preview = 1
+let g:clang_library_path = "/usr/lib/"
+
+" SuperTab
+let g:SuperTabLongestHighlight = 1
+" let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
+let g:SuperTabDefaultCompletionType = "context"
