@@ -7,7 +7,6 @@ filetype indent plugin on
 
 " Enable syntax highlighting
 syntax enable
-set t_Co=16
 
 " Better command-line completion
 set wildmenu
@@ -19,8 +18,8 @@ set completeopt=menu,longest
 
 " Show partial commands in the last line of the screen
 set showcmd
-
 " Search commands
+
 set hlsearch
 set incsearch
 set ignorecase
@@ -52,6 +51,14 @@ set cmdheight=2
 " Display line numbers on the left
 set number
 
+" Shorter timeout for escape keys
+set tm=250
+
+" conceal in insert (i), normal (n) and visual (v) modes
+set concealcursor=inv
+" hide concealed text completely unless replacement character is defined
+set conceallevel=2
+
 "------------------------------------------------------------
 " Indentation options
 "------------------------------------------------------------
@@ -60,6 +67,9 @@ set softtabstop=4
 set tabstop=2
 
 set expandtab
+set smarttab
+set shiftround
+set nojoinspaces
 
 "------------------------------------------------------------
 " Mappings 
@@ -74,10 +84,7 @@ nmap <leader><CR>   mrO<ESC>`r
 imap <leader><CR>   <ESC>o
 
 " Reindent whole file
-nmap <leader>=      mrggVG=`r
-
-" Delete a method (assuming { is on your current line)
-nmap <leader>db     ^v$%d
+nmap <leader>=      mrgg=G`r
 
 " Replace word under cursor with last yanked
 nmap <leader>r      viw"0p
@@ -98,22 +105,14 @@ nnoremap <Down>     :lne<CR>
 nmap <leader>v      :tabe $MYVIMRC<CR>
 nnoremap <leader>o  :CommandT<CR> 
 
-" <A-K> Move current line up
-nmap ˚              ddkP
+" Move lines
+nnoremap <C-J> ddp
+nnoremap <C-K> ddkP
 
-" <A-J> Move current line down
-nmap ∆              ddp
-
-" Windows equivalents
-nmap <A-k> ddkP
-nmap <A-j> ddp
-
-nnoremap <leader>q :wq<CR>
-nnoremap <leader>s :w<CR>
-inoremap <leader>s <ESC>:w<CR>
+set pastetoggle=<F5>
 
 " build tags of your own project with Ctrl-F12
-nmap <C-T> :!ctags -R --sort=yes --c++-kinds=+pl --fields=+iaS --extra=+q .<CR>
+nnoremap <F12> :!ctags -R --sort=yes --c++-kinds=+pl --fields=+iaS --extra=+q .<CR>
 
 "------------------------------------------------------------
 " View Settings
@@ -143,7 +142,9 @@ set viminfo='10
 
 hi Pmenu ctermbg=Blue
 set background=dark
-colorscheme solarized
+"colorscheme solarized
+let g:molokai_original = 1
+colorscheme molokai
 
 "------------------------------------------------------------
 " File type specific settings
@@ -153,8 +154,10 @@ set tags+=~/.vim/tags/cpp
 
 " Since backslash is used so often with LaTeX remap
 " it to something less often used
-autocmd BufNewFile,BufRead *.tex let mapleader=","
+autocmd BufNewFile,BufRead *.tex let mapleader = ","
 let g:tex_flavor='latex'
+
+au BufEnter *.hs compile ghc
 
 au BufRead,BufNewFile *.thor setf ruby
 
@@ -167,7 +170,10 @@ endfunction
 au BufRead,BufNewFile *.rb nmap ® :call RunRuby()<CR>
 au BufRead,BufNewFile *.rb set tags+=tags,~/.rbenv/versions/2.0.0-p195/tags
 
+au BufWritePost *.hs :GhcModCheck
+
 au BufRead,BufNewFile *.asm set syntax=mips
+au BufRead,BufNewFile *.wlpp set syntax=cpp
 
 au BufWritePost .vimrc source $MYVIMRC
 
@@ -180,6 +186,7 @@ if exists( "vsvim_useeditordefaults" )
 endif
 
 let g:EasyMotion_leader_key = '<leader>'
+let g:EasyMotion_mapping_n = "<leader>x"
 
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
@@ -191,19 +198,43 @@ hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
 " Syntastic
-" let g:syntastic_mode_map = { 'passive_filetypes': ['c', 'cpp'] }
+let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell']}
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_quiet_warnings = 1
+let g:syntastic_cpp_checkers = ['clang']
+let g:syntastic_check_on_wq = 0
+let g:syntastic_ignore_files = ['\.h$']
 
+" Command-T
 nnoremap <silent> <leader>o :CommandT<CR>
+let g:CommandTWildIgnore="dist/*"
+
+nnoremap <leader>n :NERDTreeToggle<CR>
+
+" GhcMod
+let g:ghcmod_ghc_options = ['-fno-warn-missing-signatures', '-fno-warn-orphans']
 
 " Clang_complete
+let g:clang_use_library = 1
+let g:clang_library_path = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
 let g:clang_auto_select = 1
+let g:clang_user_options='|| exit 0'
 
 let g:clang_close_preview = 1
-let g:clang_library_path = "/usr/lib/"
+
+let g:clang_snippets = 1
+let g:clang_snippets_engine = "ultisnips"
+let g:clang_trailing_placeholder = 1
 
 " SuperTab
 let g:SuperTabLongestHighlight = 1
 " let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
 let g:SuperTabDefaultCompletionType = "context"
+
+" Ultisnips
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" Haskellmod
+let g:haddock_browser="google-chrome"

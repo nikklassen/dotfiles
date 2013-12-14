@@ -1,7 +1,7 @@
     ignore = dirty
 [submodule "vim/bundle/syntastic"]
     path = vim/bundle/syntastic
-    url = https:/github.com/scrooloose/syntastic.git
+    url = https:/github.com/nikklassen/syntastic.git
 [submodule "vim/bundle/surround"]
     path = vim/bundle/surround
     url = https://github.com/tpope/vim-surround.git
@@ -50,3 +50,12 @@
 [submodule "vim/bundle/supertab"]
 	path = vim/bundle/supertab
 	url = https://github.com/ervandew/supertab.git
+[submodule "vim/bundle/distinguished"]
+	path = vim/bundle/distinguished
+	url = https://github.com/Lokaltog/vim-distinguished.git
+[submodule "vim/bundle/molokai"]
+	path = vim/bundle/molokai
+	url = https://github.com/tomasr/molokai.git
+[submodule "vim/bundle/ultisnips"]
+	path = vim/bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips
