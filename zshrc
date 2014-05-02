@@ -12,6 +12,9 @@ PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
 # Setup rbenv
 PATH="$HOME/.rbenv/bin:$PATH"
 
+# Gems path
+PATH="$HOME/.rbenv/versions/2.0.0-p195/bin/gem:$PATH"
+
 # Node modules
 PATH="$PATH:$HOME/node_modules/.bin"
 
@@ -24,6 +27,12 @@ PATH="$PATH:$HOME/Library/Haskell/bin:$HOME/.cabal/bin"
 
 alias ls="ls -FG"
 alias xgit="xcrun git"
+alias mysql=/usr/local/mysql/bin/mysql
+alias mysqladmin=/usr/local/mysql/bin/mysqladmin
+
+# Git
+alias gst="git status"
+alias gdiff="git diff --cached"
 
 export CLASSPATH="$HOME/Programming/Java/classes/"
 
@@ -39,16 +48,19 @@ setopt SHARE_HISTORY
 
 setopt correct
 setopt correctall
+alias sudo="nocorrect sudo"
+
 setopt globdots
 setopt automenu
 setopt autoparamslash
 setopt completealiases
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
+
+autoload up-line-or-beginning-search
+autoload down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search # Up
-bindkey "^[[B" down-line-or-beginning-search 
+bindkey "\e[A" up-line-or-beginning-search
+bindkey "\e[B" down-line-or-beginning-search
 
 autoload -U edit-command-line
 zle -N edit-command-line
@@ -68,3 +80,15 @@ function auto-ls-after-cd() {
     ls
 }
 add-zsh-hook chpwd auto-ls-after-cd
+
+function proxy_toggle() {
+    proxy_info="$(sudo networksetup -getsocksfirewallproxy Wi-Fi)"
+
+    if [[ $proxy_info =~ "Enabled: No" ]]; then
+        echo "Turning on"
+        sudo networksetup -setsocksfirewallproxystate Wi-Fi on
+    else
+        echo "Turning off"
+        sudo networksetup -setsocksfirewallproxystate Wi-Fi off
+    fi
+}

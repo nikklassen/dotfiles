@@ -32,6 +32,8 @@ set backspace=indent,eol,start
 " the same indent as the line you're currently on. Useful for READMEs, etc.
 set autoindent
 
+set smartindent
+
 " Stop certain movements from always going to the first character of a line.
 " While this behaviour deviates from that of Vi, it does what most users
 " coming from other editors would expect.
@@ -146,6 +148,11 @@ set background=dark
 let g:molokai_original = 1
 colorscheme molokai
 
+nmap <leader>l :set list!<CR>
+set listchars=tab:>-
+
+autocmd BufEnter syn match WhiteSpace / / containedin=ALL conceal cchar=· " | highlight link Whitespace Normal
+
 "------------------------------------------------------------
 " File type specific settings
 "------------------------------------------------------------
@@ -202,8 +209,11 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell']}
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_quiet_warnings = 1
 let g:syntastic_cpp_checkers = ['clang']
+let g:syntastic_cpp_clang_args = "-std=c++11"
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.h$']
+
+let g:syntastic_javascript_checkers = ['jshint']
 
 " Command-T
 nnoremap <silent> <leader>o :CommandT<CR>
