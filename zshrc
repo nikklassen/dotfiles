@@ -4,26 +4,7 @@ compinit -u
 promptinit
 prompt suse
 
-EDITOR=/opt/local/bin/vim
-
-# Setting PATH for Python 2.7
-PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
-
-# Setup rbenv
-PATH="$HOME/.rbenv/bin:$PATH"
-
-# Gems path
-PATH="$HOME/.rbenv/versions/2.0.0-p195/bin/gem:$PATH"
-
-# Node modules
-PATH="$PATH:$HOME/node_modules/.bin"
-
 eval "$(rbenv init -)"
-
-# MacPorts Installer addition on 2012-11-19_at_19:38:15: adding an appropriate PATH variable for use with MacPorts.
-PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-
-PATH="$PATH:$HOME/Library/Haskell/bin:$HOME/.cabal/bin"
 
 alias ls="ls -FG"
 alias xgit="xcrun git"
@@ -61,6 +42,9 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "\e[A" up-line-or-beginning-search
 bindkey "\e[B" down-line-or-beginning-search
+bindkey "\e[1~" beginning-of-line # ⌘ <-
+bindkey "\e[4~" end-of-line # ⌘ ->
+bindkey "\e[3~" delete-char # fn delete
 
 autoload -U edit-command-line
 zle -N edit-command-line
@@ -92,3 +76,5 @@ function proxy_toggle() {
         sudo networksetup -setsocksfirewallproxystate Wi-Fi off
     fi
 }
+
+osascript ~/dotfiles/scripts/itermcolours.applescript 2> /dev/null

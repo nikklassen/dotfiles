@@ -15,7 +15,6 @@ set wildmenu
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menu,longest
 
-
 " Show partial commands in the last line of the screen
 set showcmd
 " Search commands
@@ -113,8 +112,23 @@ nnoremap <C-K> ddkP
 
 set pastetoggle=<F5>
 
-" build tags of your own project with Ctrl-F12
-nnoremap <F12> :!ctags -R --sort=yes --c++-kinds=+pl --fields=+iaS --extra=+q .<CR>
+" build
+nmap <leader>m :w \| make<CR>
+
+function! ExtendedHome()
+    let column = col('.')
+    normal! ^
+    if column == col('.')
+        normal! 0
+    endif
+endfunction
+
+" Smart home
+noremap <silent> [1~ :call ExtendedHome()<CR>
+
+" 'Home' and 'End' for insert mode
+inoremap <silent> <leader>a <C-O>:call ExtendedHome()<CR>
+inoremap <leader>e <C-O>A
 
 "------------------------------------------------------------
 " View Settings
@@ -143,21 +157,23 @@ set viminfo='10
 "------------------------------------------------------------
 
 hi Pmenu ctermbg=Blue
-set background=dark
-"colorscheme solarized
 let g:molokai_original = 1
-colorscheme molokai
 
-nmap <leader>l :set list!<CR>
-set listchars=tab:>-
+function! SetColourScheme()
+    if strftime("%H") > 8 && strftime("%H") < 21
+        set background=light
+        colorscheme solarized
+    else
+        set background=dark
+        colorscheme molokai
+    endif
+endfunction
 
-autocmd BufEnter syn match WhiteSpace / / containedin=ALL conceal cchar=· " | highlight link Whitespace Normal
+au BufEnter,BufRead,BufWritePost * call SetColourScheme()
 
 "------------------------------------------------------------
 " File type specific settings
 "------------------------------------------------------------
-
-set tags+=~/.vim/tags/cpp
 
 " Since backslash is used so often with LaTeX remap
 " it to something less often used
@@ -182,6 +198,8 @@ au BufWritePost *.hs :GhcModCheck
 au BufRead,BufNewFile *.asm set syntax=mips
 au BufRead,BufNewFile *.wlpp set syntax=cpp
 
+set tags+=~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags
+
 au BufWritePost .vimrc source $MYVIMRC
 
 "------------------------------------------------------------
@@ -197,6 +215,7 @@ let g:EasyMotion_mapping_n = "<leader>x"
 
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
+let g:localvimrc_reverse=1
 
 let g:qcc_format_menu = '${0}'
 au BufRead /tmp/mutt* setlocal omnifunc=QueryCommandComplete
@@ -209,7 +228,7 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell']}
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_quiet_warnings = 1
 let g:syntastic_cpp_checkers = ['clang']
-let g:syntastic_cpp_clang_args = "-std=c++11"
+let g:syntastic_cpp_clang_args = "-std=c++11 -isystem ~/Programming/C++/gtest/include"
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.h$']
 
@@ -238,7 +257,6 @@ let g:clang_trailing_placeholder = 1
 
 " SuperTab
 let g:SuperTabLongestHighlight = 1
-" let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
 let g:SuperTabDefaultCompletionType = "context"
 
 " Ultisnips
