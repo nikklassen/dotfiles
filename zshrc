@@ -10,6 +10,11 @@ alias ls="ls -FG"
 alias xgit="xcrun git"
 alias mysql=/usr/local/mysql/bin/mysql
 alias mysqladmin=/usr/local/mysql/bin/mysqladmin
+alias rsync="rsync -h --progress"
+mkcd () {
+    mkdir -p "$*"
+    cd "$*"
+}
 
 # Git
 alias gst="git status"
@@ -59,13 +64,13 @@ trash () {
     fi
 }
 
-function auto-ls-after-cd() {
+auto-ls-after-cd() {
     emulate -L zsh
     ls
 }
 add-zsh-hook chpwd auto-ls-after-cd
 
-function proxy_toggle() {
+proxy_toggle() {
     proxy_info="$(sudo networksetup -getsocksfirewallproxy Wi-Fi)"
 
     if [[ $proxy_info =~ "Enabled: No" ]]; then
@@ -75,6 +80,24 @@ function proxy_toggle() {
         echo "Turning off"
         sudo networksetup -setsocksfirewallproxystate Wi-Fi off
     fi
+}
+
+firewall_toggle() {
+
+    firewall_state="$(sudo defaults read /Library/Preferences/com.apple.alf globalstate)"
+
+    new_state=1
+    if [[ $firewall_state == 0 ]]; then
+        echo "Turning on"
+    else
+        echo "Turning off"
+        new_state=0
+    fi
+
+    sudo defaults write /Library/Preferences/com.apple.alf globalstate -int $new_state
+
+    sudo launchctl unload /System/Library/LaunchDaemons/com.apple.alf.agent.plist
+    sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist
 }
 
 osascript ~/dotfiles/scripts/itermcolours.applescript 2> /dev/null

@@ -16,3 +16,5 @@ PATH="$PATH:$HOME/Library/Haskell/bin:$HOME/.cabal/bin"
 
 # Homebrew path
 PATH="/usr/local/bin:$PATH"
+
+XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
