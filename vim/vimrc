@@ -52,6 +52,8 @@ set cmdheight=2
 " Display line numbers on the left
 set number
 
+set ruler
+
 " Shorter timeout for escape keys
 set tm=250
 
@@ -62,6 +64,15 @@ set conceallevel=2
 
 " Tell Vim not to highlight matching parentheses
 let loaded_matchparen = 1
+
+set path=.,/usr/include,,
+
+" Netrw
+let g:netrw_retmap= 1
+let g:netrw_liststyle=3
+let g:netrw_list_hide="pyc"
+nnoremap <2-rightmouse> :Ntree<CR>
+nnoremap <leader>d :Explore<CR>
 
 "------------------------------------------------------------
 " Indentation options
@@ -102,19 +113,20 @@ vnoremap <leader><  <
 vnoremap >          >gv
 vnoremap <leader>>  >
 
+nnoremap gp `[v`]
+
 nnoremap <Left>     gT
 nnoremap <Right>    gt
 nnoremap <Up>       :lpr<CR>
 nnoremap <Down>     :lne<CR>
 
-nmap \v      :tabe $MYVIMRC<CR>
-nnoremap \o  :CommandT<CR> 
+nnoremap <C-J>      ddp
+nnoremap <C-K>      ddkP
 
-" Move lines
-nnoremap <C-J> ddp
-nnoremap <C-K> ddkP
+nmap <leader>v      :tabe $MYVIMRC<CR>
+nnoremap <leader>o  :CommandT<CR> 
 
-set pastetoggle=<F12>
+set pastetoggle=<F5>
 
 " build
 nmap \m :w \| make<CR>
@@ -128,13 +140,14 @@ function! ExtendedHome()
 endfunction
 
 " Smart home
-noremap <silent> [1~ :call ExtendedHome()<CR>
+noremap <silent> <D-Left> :call ExtendedHome()<CR>
 
 " 'Home' and 'End' for insert mode
 inoremap <silent> ,a <C-O>:call ExtendedHome()<CR>
 inoremap ,e <C-O>A
 
-noremap <leader>c :cd <C-R>=expand('%:p:h')<CR><CR>
+noremap <leader>c :cd %:p:h<CR><CR>
+noremap <leader>p :!open -a Skim %:p:r.pdf<CR><CR>
 
 "------------------------------------------------------------
 " View Settings
@@ -197,25 +210,9 @@ au BufRead,BufNewFile *.rb set tags+=tags,~/.rbenv/versions/2.0.0-p195/tags
 au BufRead,BufNewFile *.asm set syntax=mips
 au BufRead,BufNewFile *.wlpp set syntax=cpp
 
-set tags+=~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags
+let tags="tags,~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags"
 
 au BufWritePost .vimrc source $MYVIMRC
-
-" Switch back and for between .h and .cpp
-function! SwitchCpp()
-    let filename = expand("%")
-    if match(filename, "\.h$") != -1
-        let filename = substitute(filename, "\.h$", "\.cpp", "")
-    elseif match(filename, "\.cpp$") != -1
-        let filename = substitute(filename, "\.cpp$", "\.h", "")
-    else
-        return
-    endif
-
-    execute 'edit ' . fnameescape(filename)
-endfunction
-
-au BufRead,BufNewFile *.cpp,*.h nnoremap <leader>c :call SwitchCpp()<CR>
 
 "------------------------------------------------------------
 " Plug-in settings
@@ -225,9 +222,11 @@ if exists( "vsvim_useeditordefaults" )
     set vsvim_useeditordefaults
 endif
 
+" EasyMotion
 let g:EasyMotion_leader_key = '<leader>'
 let g:EasyMotion_mapping_n = "<leader>x"
 
+" Local vimrc
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
 let g:localvimrc_reverse=1
@@ -238,14 +237,20 @@ au BufRead /tmp/mutt* setlocal omnifunc=QueryCommandComplete
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
+" Javascript indent
+let g:SimpleJsIndenter_BriefMode = 1
+let g:SimpleJsIndenter_CaseIndentLevel = -1
+
 " Syntastic
-let g:syntastic_mode_map = { 'passive_filetypes': ['tex']}
+let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell']}
 let g:syntastic_auto_loc_list = 1
+
+let g:syntastic_less_checkers = ['lessc']
 
 let g:syntastic_cpp_checkers = ['clang']
 let g:syntastic_cpp_clang_args = "-std=c++11 -isystem ~/Programming/C++/gtest/include"
 
-let g:syntastic_haskell_checkers = ['ghc_mod', 'hlint']
+let g:syntastic_html_tidy_args = "-xml"
 
 let g:syntastic_javascript_checkers = ['jshint']
 
@@ -254,27 +259,42 @@ let g:syntastic_ignore_files = ['\.h$']
 
 " Command-T
 nnoremap <silent> <leader>o :CommandT<CR>
-let g:CommandTWildIgnore=&wildignore . ",node_modules/*"
+let g:CommandTWildIgnore=&wildignore . ",node_modules/*,*.o,*.pyc,*.hi"
 
-" Clang_complete
-let g:clang_use_library = 1
+" html indentation
+let g:html_indent_inctags = "html,body,head,tbody,svg,g"
+
+" YouCompleteMe
+let g:ycm_semantic_triggers = {'haskell' : ['.'], 'html' : ['<'], 'js' : ['.'], 'tex' : ['\\']}
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_complete_in_strings = 0
+let g:ycm_complete_in_comments = 0
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:clang_library_path = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
-let g:clang_auto_select = 1
-let g:clang_user_options='|| exit 0'
-let g:clang_debug = 1
-let g:clang_complete_auto = 1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_filetype_blacklist = {
+        \ 'pandoc' : 1,
+        \ 'text': 1
+        \}
 
-let g:clang_close_preview = 1
+au BufRead,BufEnter *.c,*.cpp,*.py,*.cs map <F12> :YcmCompleter GoToDefinition<CR>
 
-let g:clang_snippets = 1
-let g:clang_trailing_placeholder = 1
+" delimitMate
+let delimitMate_expand_cr = 1
 
-" SuperTab
-let g:SuperTabLongestHighlight = 1
-let g:SuperTabDefaultCompletionType = "context"
+" Tern
+let tern_show_signature_in_pum = 1
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<C-K>"
+let g:UltiSnipsJumpForwardTrigger="<C-K>"                                           
+let g:UltiSnipsJumpBackwardTrigger="<C-J>"
 
 " Vim2HS
-let g:haskell_conceal_wide = 1
+let g:haskell_conceal = 0
 
 " vim-latex
 let g:tex_indent_brace=0

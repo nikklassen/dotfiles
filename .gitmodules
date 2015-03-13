@@ -77,3 +77,45 @@
 [submodule "vim/bundle/vim-latex"]
 	path = vim/bundle/vim-latex
 	url = git://git.code.sf.net/p/vim-latex/vim-latex
+[submodule "vim/bundle/repeat"]
+	path = vim/bundle/repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "vim/bundle/js-indent"]
+	path = vim/bundle/js-indent
+	url = https://github.com/vim-scripts/JavaScript-Indent.git
+[submodule "vim/bundle/js-syntax"]
+	path = vim/bundle/js-syntax
+	url = https://github.com/jelera/vim-javascript-syntax.git
+[submodule "vim/bundle/fugitive"]
+	path = vim/bundle/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "vim/bundle/ycm"]
+	path = vim/bundle/ycm
+	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "vim/bundle/ghcmod-vim"]
+	path = vim/bundle/ghcmod-vim
+	url = https://github.com/eagletmt/ghcmod-vim.git
+[submodule "vim/bundle/vim-javascript"]
+	path = vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
+[submodule "vim/bundle/vim-pandoc-syntax"]
+	path = vim/bundle/vim-pandoc-syntax
+	url = https://github.com/vim-pandoc/vim-pandoc-syntax.git
+[submodule "vim/bundle/vim-pandoc"]
+	path = vim/bundle/vim-pandoc
+	url = https://github.com/vim-pandoc/vim-pandoc.git
+[submodule "vim/bundle/vim-angular"]
+	path = vim/bundle/vim-angular
+	url = https://github.com/tlvince/vim-angular.git
+[submodule "vim/bundle/xml-vim"]
+	path = vim/bundle/xml-vim
+	url = https://github.com/othree/xml.vim.git
+[submodule "vim/bundle/tern"]
+	path = vim/bundle/tern
+	url = https://github.com/marijnh/tern_for_vim.git
+[submodule "vim/bundle/delimitMate"]
+	path = vim/bundle/delimitMate
+	url = https://github.com/Raimondi/delimitMate.git
+[submodule "vim/bundle/vim-less"]
+	path = vim/bundle/vim-less
+	url = https://github.com/groenewege/vim-less
