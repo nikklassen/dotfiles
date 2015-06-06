@@ -104,6 +104,7 @@ nmap \=      mrgg=G`r
 
 " Replace word under cursor with last yanked
 nmap <leader>r      viw"0p
+nmap <leader>R      V"0p
 
 nnoremap <space>    za
 
@@ -120,11 +121,13 @@ nnoremap <Right>    gt
 nnoremap <Up>       :lpr<CR>
 nnoremap <Down>     :lne<CR>
 
-nnoremap <C-J>      ddp
-nnoremap <C-K>      ddkP
+nnoremap <M-Down>   ddp
+nnoremap <M-Up>     ddkP
+
+vnoremap <M-Down>   dpgv
+vnoremap <M-Up>     dkPgv
 
 nmap <leader>v      :tabe $MYVIMRC<CR>
-nnoremap <leader>o  :CommandT<CR> 
 
 set pastetoggle=<F5>
 
@@ -147,7 +150,7 @@ inoremap <silent> ,a <C-O>:call ExtendedHome()<CR>
 inoremap ,e <C-O>A
 
 noremap <leader>c :cd %:p:h<CR><CR>
-noremap <leader>p :!open -a Skim %:p:r.pdf<CR><CR>
+noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
 
 "------------------------------------------------------------
 " View Settings
@@ -214,6 +217,12 @@ let tags="tags,~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags"
 
 au BufWritePost .vimrc source $MYVIMRC
 
+" Keep the quickfix window small when there aren't many lines
+au FileType qf call AdjustWindowHeight(3, 10)
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
 "------------------------------------------------------------
 " Plug-in settings
 "------------------------------------------------------------
@@ -242,7 +251,7 @@ let g:SimpleJsIndenter_BriefMode = 1
 let g:SimpleJsIndenter_CaseIndentLevel = -1
 
 " Syntastic
-let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell']}
+let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell'] }
 let g:syntastic_auto_loc_list = 1
 
 let g:syntastic_less_checkers = ['lessc']
@@ -259,13 +268,14 @@ let g:syntastic_ignore_files = ['\.h$']
 
 " Command-T
 nnoremap <silent> <leader>o :CommandT<CR>
+nnoremap <silent> <leader>b :CommandTMRU<CR>
 let g:CommandTWildIgnore=&wildignore . ",node_modules/*,*.o,*.pyc,*.hi"
 
 " html indentation
 let g:html_indent_inctags = "html,body,head,tbody,svg,g"
 
 " YouCompleteMe
-let g:ycm_semantic_triggers = {'haskell' : ['.'], 'html' : ['<'], 'js' : ['.'], 'tex' : ['\\']}
+let g:ycm_semantic_triggers = {'html' : ['<'], 'js' : ['.'], 'haskell': ['.']}
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_complete_in_strings = 0
 let g:ycm_complete_in_comments = 0
@@ -277,7 +287,8 @@ let g:clang_library_path = "/Applications/Xcode.app/Contents/Developer/Toolchain
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_filetype_blacklist = {
         \ 'pandoc' : 1,
-        \ 'text': 1
+        \ 'text': 1,
+        \ 'tex': 1
         \}
 
 au BufRead,BufEnter *.c,*.cpp,*.py,*.cs map <F12> :YcmCompleter GoToDefinition<CR>
