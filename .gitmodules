@@ -119,3 +119,6 @@
 [submodule "vim/bundle/vim-less"]
 	path = vim/bundle/vim-less
 	url = https://github.com/groenewege/vim-less
+[submodule "zsh/oh-my-zsh-sparse"]
+	path = zsh/oh-my-zsh-sparse
+	url = https://github.com/robbyrussell/oh-my-zsh.git

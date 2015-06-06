@@ -16,8 +16,15 @@ PATH="$PATH:$HOME/node_modules/.bin:./node_modules/.bin"
 
 PATH="$PATH:$HOME/Library/Haskell/bin:$HOME/.cabal/bin"
 
+PATH="/usr/texbin:$PATH"
+
 # Homebrew path
 PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+
+# Buildozer path
+PATH="$PATH:./.buildozer/android/platform/android-sdk-21/platform-tools"
+
+PYTHONPATH="${PYTHONPATH}:~/Programming/Python"
 
 XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
 [[ -s /usr/local/etc/profile.d/autojump.sh ]] && . /usr/local/etc/profile.d/autojump.sh
