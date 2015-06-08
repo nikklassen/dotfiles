@@ -2,8 +2,10 @@ EDITOR=/usr/local/bin/vim
 
 PATH=".:$PATH"
 
+# Python
 # Setting PATH for Python 2.7
 PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
+PYTHONSTARTUP=~/.pystartup
 
 # Setup rbenv
 PATH="$HOME/.rbenv/bin:$PATH"

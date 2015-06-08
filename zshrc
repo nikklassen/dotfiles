@@ -22,7 +22,7 @@ multisrc *.zsh
 
 popd > /dev/null
 
-alias ls="ls -FG"
+alias ls="ls -FG --color=auto"
 alias lls="ls -lah"
 alias xgit="xcrun git"
 alias mysql=/usr/local/mysql/bin/mysql
@@ -37,9 +37,9 @@ youtube-mp3 () {
     youtube-dl -x --audio-format mp3 $1
 }
 
-mkcd() {
-    mkdir -p $1
-    cd $1
+mkcd () {
+    mkdir -p "$*"
+    cd "$*"
 }
 
 export CLASSPATH="$HOME/Programming/Java/classes/"

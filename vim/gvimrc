@@ -1,2 +1,22 @@
-set macmeta
-set guifont=Inconsolata:h15
+let os = substitute(system('uname'), "\n", "", "")
+if os == "Mac"
+    set macmeta
+    set guifont=Inconsolata:h15
+elseif os == "Linux"
+    set guifont=Inconsolata\ 13
+endif
+
+function! SetColourScheme()
+    if strftime("%H") > 8 && strftime("%H") < 21
+        set background=light
+        colorscheme solarized
+    else
+        set background=dark
+        colorscheme molokai
+    endif
+endfunction
+
+call SetColourScheme()
+
+set columns=180
+set lines=55

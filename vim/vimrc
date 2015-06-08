@@ -87,7 +87,7 @@ set shiftround
 set nojoinspaces
 
 "------------------------------------------------------------
-" Mappings 
+" Mappings
 "------------------------------------------------------------
 
 map Y y$
@@ -106,7 +106,9 @@ nmap \=      mrgg=G`r
 nmap <leader>r      viw"0p
 nmap <leader>R      V"0p
 
-nnoremap <space>    za
+nmap <C-S> :w<CR>
+
+nnoremap <silent> <space> @=(foldlevel('.') ? 'za' : "\<space>")<CR>
 
 vnoremap <          <gv
 vnoremap <leader><  <
@@ -152,6 +154,9 @@ inoremap ,e <C-O>A
 noremap <leader>c :cd %:p:h<CR><CR>
 noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
 
+" Search for the currently selected text
+vnoremap // y/<C-R>"<CR>
+
 "------------------------------------------------------------
 " View Settings
 "------------------------------------------------------------
@@ -181,17 +186,10 @@ set viminfo='10
 hi Pmenu ctermbg=Blue
 hi clear Conceal
 
-function! SetColourScheme()
-    if strftime("%H") > 8 && strftime("%H") < 21
-        set background=light
-        colorscheme solarized
-    else
-        set background=dark
-        colorscheme molokai
-    endif
-endfunction
-
-call SetColourScheme()
+if !has('gui_running')
+    set background=dark
+    colorscheme molokai
+endif
 
 "------------------------------------------------------------
 " File type specific settings
@@ -261,7 +259,10 @@ let g:syntastic_cpp_clang_args = "-std=c++11 -isystem ~/Programming/C++/gtest/in
 
 let g:syntastic_html_tidy_args = "-xml"
 
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['jshint', 'jscs']
+
+let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_python_pylint_args = '--rcfile=~/.pylintrc'
 
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.h$']
@@ -269,17 +270,20 @@ let g:syntastic_ignore_files = ['\.h$']
 " Command-T
 nnoremap <silent> <leader>o :CommandT<CR>
 nnoremap <silent> <leader>b :CommandTMRU<CR>
-let g:CommandTWildIgnore=&wildignore . ",node_modules/*,*.o,*.pyc,*.hi"
+let g:CommandTWildIgnore=&wildignore . ",**/node_modules/*,*.o,*.pyc,*.hi"
+let g:CommandTTraverseSCM = 'pwd'
+let g:CommandTFileScanner = 'find'
 
 " html indentation
-let g:html_indent_inctags = "html,body,head,tbody,svg,g"
+let g:html_indent_inctags = "html,body,head,tbody,svg,g,script"
 
 " YouCompleteMe
 let g:ycm_semantic_triggers = {'html' : ['<'], 'js' : ['.'], 'haskell': ['.']}
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_complete_in_strings = 0
 let g:ycm_complete_in_comments = 0
-let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_min_num_of_chars_for_completion = 2
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
@@ -301,7 +305,7 @@ let tern_show_signature_in_pum = 1
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<C-K>"
-let g:UltiSnipsJumpForwardTrigger="<C-K>"                                           
+let g:UltiSnipsJumpForwardTrigger="<C-K>"
 let g:UltiSnipsJumpBackwardTrigger="<C-J>"
 
 " Vim2HS
