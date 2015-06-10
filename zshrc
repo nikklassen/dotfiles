@@ -16,7 +16,7 @@ multisrc() {
 }
 
 # Souce other scripts
-pushd .zsh > /dev/null
+pushd "$HOME/.zsh" > /dev/null
 
 multisrc *.zsh
 
@@ -29,7 +29,7 @@ alias mysql=/usr/local/mysql/bin/mysql
 alias mysqladmin=/usr/local/mysql/bin/mysqladmin
 alias rsync="rsync -h --progress"
 alias ytaudio="youtube-dl -x --audio-format mp3"
-alias gvim=mvim
+alias stf="sudo tail -f"
 
 alias plz='sudo $(fc -ln -1)' 
 
@@ -63,14 +63,7 @@ setopt globdots
 setopt extendedglob
 setopt automenu
 setopt autoparamslash
-setopt completealiases
 
-autoload up-line-or-beginning-search
-autoload down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "\e[A" up-line-or-beginning-search
-bindkey "\e[B" down-line-or-beginning-search
 bindkey "\e[1~" beginning-of-line # ⌘ <-
 bindkey "\e[4~" end-of-line # ⌘ ->
 bindkey "\e[3~" delete-char # fn delete

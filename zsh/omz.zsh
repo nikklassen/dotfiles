@@ -2,6 +2,6 @@
 OMZ_DIR=oh-my-zsh-sparse
 
 multisrc $OMZ_DIR/lib/*.zsh
-multisrc $OMZ_DIR/plugins/**/*.zsh
+multisrc $OMZ_DIR/plugins/git/*.zsh
 
 source $OMZ_DIR/themes/dpoggi.zsh-theme

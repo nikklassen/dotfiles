@@ -1,0 +1,6 @@
+lib/theme-and-appearance.zsh
+lib/git.zsh
+lib/key-bindings.zsh
+lib/completion.zsh
+plugins/git/*
+themes/dpoggi.zsh-theme
