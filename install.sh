@@ -1,15 +1,17 @@
-#!/bin/sh
+#!/bin/zsh
 git submodule init
 
 # Setup oh-my-zsh
 OMZ_MODULE=.git/modules/zsh/oh-my-zsh-sparse
-ln -s .omz.sparse-checkout $OMZ_MODULE/info/sparse-checkout
+ln -s $PWD/.omz.sparse-checkout $OMZ_MODULE/info/sparse-checkout
 git config -f $OMZ_MODULE/config core.sparsecheckout true
 
 git submodule update --recursive
 
 link_home() {
-    ln -s $1 $HOME/.$1
+    if [ ! -L $HOME/.$1 ]; then
+        ln -s $1 $HOME/.$1
+    fi
 }
 
 link_home zshrc

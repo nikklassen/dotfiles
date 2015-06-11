@@ -22,7 +22,9 @@ multisrc *.zsh
 
 popd > /dev/null
 
-alias ls="ls -FG --color=auto"
+source $HOME/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
+
+alias ls="ls -FG"
 alias lls="ls -lah"
 alias xgit="xcrun git"
 alias mysql=/usr/local/mysql/bin/mysql
@@ -54,6 +56,7 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 setopt AUTO_CD
+setopt EXTENDED_GLOB
 
 setopt correct
 setopt correctall

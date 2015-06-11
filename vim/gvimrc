@@ -1,5 +1,5 @@
 let os = substitute(system('uname'), "\n", "", "")
-if os == "Mac"
+if os == "Darwin"
     set macmeta
     set guifont=Inconsolata:h15
 elseif os == "Linux"
