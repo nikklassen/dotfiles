@@ -15,7 +15,7 @@ link_home() {
 }
 
 link_home zshrc
-link_home zprofile
+link_home zshenv
 link_home zsh
 link_home vim
 link_home osx

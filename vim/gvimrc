@@ -20,3 +20,5 @@ call SetColourScheme()
 
 set columns=180
 set lines=55
+
+set guioptions -=T

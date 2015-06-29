@@ -155,7 +155,20 @@ noremap <leader>c :cd %:p:h<CR><CR>
 noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
 
 " Search for the currently selected text
-vnoremap // y/<C-R>"<CR>
+vnoremap // "sy/<C-R>s<CR>
+
+function! ReplaceCurrentWord()
+    let new_word = input('New word: ')
+    if new_word == ''
+        return
+    endif
+
+    let w = expand('<cword>')
+    let new_line = substitute(getline('.'), w, new_word, 'g')
+    call setline('.', new_line)
+endfunction
+
+nmap <leader>s :call ReplaceCurrentWord()<CR>
 
 "------------------------------------------------------------
 " View Settings

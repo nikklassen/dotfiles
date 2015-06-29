@@ -29,4 +29,3 @@ PATH="$PATH:./.buildozer/android/platform/android-sdk-21/platform-tools"
 PYTHONPATH="${PYTHONPATH}:~/Programming/Python"
 
 XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
-[[ -s /usr/local/etc/profile.d/autojump.sh ]] && . /usr/local/etc/profile.d/autojump.sh

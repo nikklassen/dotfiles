@@ -1,4 +1,4 @@
-export PATH="/Users/Nik/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/Users/Nik/.rbenv/versions/2.0.0-p195/bin/gem:/Users/Nik/.rbenv/bin:.:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/usr/texbin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/Users/Nik/node_modules/.bin:./node_modules/.bin:/Users/Nik/Library/Haskell/bin:/Users/Nik/.cabal/bin"
+export PATH="/usr/local/bin:/usr/local/sbin:.:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/usr/texbin:./node_modules/.bin:"
 
 # Load and run compinit
 autoload -U compinit
@@ -7,13 +7,13 @@ compinit -i -d "$HOME/.zcompdump"
 autoload -U add-zsh-hook 
 autoload -U zmv
 
-eval "$(rbenv init -)"
-
 multisrc() {
     for f in $@;
     do source $f
     done
 }
+
+return_code="%?"
 
 # Souce other scripts
 pushd "$HOME/.zsh" > /dev/null
@@ -24,14 +24,15 @@ popd > /dev/null
 
 source $HOME/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 
-alias ls="ls -FG"
-alias lls="ls -lah"
+alias ls="ls -FG --color=auto"
+alias lls="ls -lAh"
 alias xgit="xcrun git"
 alias mysql=/usr/local/mysql/bin/mysql
 alias mysqladmin=/usr/local/mysql/bin/mysqladmin
 alias rsync="rsync -h --progress"
 alias ytaudio="youtube-dl -x --audio-format mp3"
 alias stf="sudo tail -f"
+alias gpnew='git push --set-upstream origin $(current_branch)'
 
 alias plz='sudo $(fc -ln -1)' 
 
@@ -44,7 +45,10 @@ mkcd () {
     cd "$*"
 }
 
-export CLASSPATH="$HOME/Programming/Java/classes/"
+gbc () {
+    git branch $1 &&
+    git checkout $1
+}
 
 HISTFILE=$HOME/.zhistory
 HISTSIZE=SAVEHIST=10000
@@ -66,10 +70,6 @@ setopt globdots
 setopt extendedglob
 setopt automenu
 setopt autoparamslash
-
-bindkey "\e[1~" beginning-of-line # ⌘ <-
-bindkey "\e[4~" end-of-line # ⌘ ->
-bindkey "\e[3~" delete-char # fn delete
 
 auto-ls-after-cd() {
     emulate -L zsh
@@ -106,3 +106,10 @@ firewall_toggle() {
     sudo launchctl unload /System/Library/LaunchDaemons/com.apple.alf.agent.plist
     sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist
 }
+
+# Load automjump
+if [[ $(uname) == 'Darwin' ]]; then
+    . $HOME/.zsh/macos.zsh
+else
+    . $HOME/.zsh/ubuntu.zsh
+fi
