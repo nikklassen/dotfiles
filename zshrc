@@ -64,7 +64,11 @@ setopt EXTENDED_GLOB
 
 setopt correct
 setopt correctall
+
+# Nocorrect
 alias sudo="nocorrect sudo"
+alias gulp="nocorrect gulp"
+alias make="nocorrect make"
 
 setopt globdots
 setopt extendedglob

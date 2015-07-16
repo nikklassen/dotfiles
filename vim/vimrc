@@ -12,7 +12,6 @@ syntax enable
 set wildmenu
 
 " Completion settings
-au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menu,longest
 
 " Show partial commands in the last line of the screen
@@ -67,12 +66,7 @@ let loaded_matchparen = 1
 
 set path=.,/usr/include,,
 
-" Netrw
-let g:netrw_retmap= 1
-let g:netrw_liststyle=3
-let g:netrw_list_hide="pyc"
-nnoremap <2-rightmouse> :Ntree<CR>
-nnoremap <leader>d :Explore<CR>
+set hidden
 
 "------------------------------------------------------------
 " Indentation options
@@ -148,8 +142,8 @@ endfunction
 noremap <silent> <D-Left> :call ExtendedHome()<CR>
 
 " 'Home' and 'End' for insert mode
-inoremap <silent> ,a <C-O>:call ExtendedHome()<CR>
-inoremap ,e <C-O>A
+inoremap <silent> <C-a> <C-O>:call ExtendedHome()<CR>
+inoremap <C-e> <C-O>A
 
 noremap <leader>c :cd %:p:h<CR><CR>
 noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
@@ -189,6 +183,8 @@ endfunction
 au BufWinLeave * call SaveViewSettings()
 au BufWinEnter * call LoadViewSettings()
 
+nnoremap <C-W>c :lcl \| close<CR>
+
 " Hold onto marks for the last ten files
 set viminfo='10
 
@@ -203,6 +199,14 @@ if !has('gui_running')
     set background=dark
     colorscheme molokai
 endif
+
+set statusline=   " clear the statusline for when vimrc is reloaded
+set statusline+=[%n]\                   " buffer number
+set statusline+=%<%.99f\                " file name
+set statusline+=%h%m%r%w%q              " flags
+set statusline+=%y                      " file type
+set statusline+=%=                      " right align
+set statusline+=%-16(\ %l,%c\ %)\ %<%P  " offset
 
 "------------------------------------------------------------
 " File type specific settings
@@ -249,7 +253,6 @@ let g:EasyMotion_mapping_n = "<leader>x"
 " Local vimrc
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
-let g:localvimrc_reverse=1
 
 let g:qcc_format_menu = '${0}'
 au BufRead /tmp/mutt* setlocal omnifunc=QueryCommandComplete
@@ -282,7 +285,7 @@ let g:syntastic_ignore_files = ['\.h$']
 
 " Command-T
 nnoremap <silent> <leader>o :CommandT<CR>
-nnoremap <silent> <leader>b :CommandTMRU<CR>
+nnoremap <silent> <leader>b :CommandTBuffer<CR>
 let g:CommandTWildIgnore=&wildignore . ",**/node_modules/*,*.o,*.pyc,*.hi"
 let g:CommandTTraverseSCM = 'pwd'
 let g:CommandTFileScanner = 'find'
@@ -305,10 +308,16 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_filetype_blacklist = {
         \ 'pandoc' : 1,
         \ 'text': 1,
-        \ 'tex': 1
+        \ 'tex': 1,
+        \ 'gitcommit': 1,
         \}
 
 au BufRead,BufEnter *.c,*.cpp,*.py,*.cs map <F12> :YcmCompleter GoToDefinition<CR>
+
+" NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+nmap <leader>n :NERDTreeToggle<CR>
+nmap <leader>nf :NERDTreeFind<CR>
 
 " delimitMate
 let delimitMate_expand_cr = 1
