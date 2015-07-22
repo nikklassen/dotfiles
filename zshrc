@@ -32,7 +32,9 @@ alias mysqladmin=/usr/local/mysql/bin/mysqladmin
 alias rsync="rsync -h --progress"
 alias ytaudio="youtube-dl -x --audio-format mp3"
 alias stf="sudo tail -f"
+
 alias gpnew='git push --set-upstream origin $(current_branch)'
+alias -g NV='--no-verify'
 
 alias plz='sudo $(fc -ln -1)' 
 
@@ -48,6 +50,11 @@ mkcd () {
 gbc () {
     git branch $1 &&
     git checkout $1
+}
+
+gbd () {
+    git branch -D $1 &&
+    git push origin :$1
 }
 
 HISTFILE=$HOME/.zhistory

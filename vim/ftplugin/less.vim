@@ -5,3 +5,5 @@ endif
 if g:build_less
     au BufWritePost *.less silent! !lessc % > %:r.css
 endif
+
+setlocal foldmethod=syntax

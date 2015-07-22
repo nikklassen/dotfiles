@@ -164,6 +164,8 @@ endfunction
 
 nmap <leader>s :call ReplaceCurrentWord()<CR>
 
+nmap <leader>i 0i<BS><CR>
+
 "------------------------------------------------------------
 " View Settings
 "------------------------------------------------------------
@@ -183,7 +185,7 @@ endfunction
 au BufWinLeave * call SaveViewSettings()
 au BufWinEnter * call LoadViewSettings()
 
-nnoremap <C-W>c :lcl \| close<CR>
+nnoremap <silent> <C-W>c :lcl \| close<CR>
 
 " Hold onto marks for the last ten files
 set viminfo='10
@@ -200,13 +202,22 @@ if !has('gui_running')
     colorscheme molokai
 endif
 
-set statusline=   " clear the statusline for when vimrc is reloaded
-set statusline+=[%n]\                   " buffer number
-set statusline+=%<%.99f\                " file name
-set statusline+=%h%m%r%w%q              " flags
-set statusline+=%y                      " file type
-set statusline+=%=                      " right align
-set statusline+=%-16(\ %l,%c\ %)\ %<%P  " offset
+function! GitSL()
+    let head = fugitive#head()
+    if head != ''
+        return ' @ ' . head
+    endif
+    return ''
+endfunction
+
+set statusline=                          " clear the statusline for when vimrc is reloaded
+set statusline+=[%n]\                    " buffer number
+set statusline+=%<%.99f                  " file name
+set statusline+=%{GitSL()}\ 
+set statusline+=%h%m%r%w%q               " flags
+set statusline+=%=                       " right align
+set statusline+=%y\                      " file type
+set statusline+=%-8(\ %l,%c\ %)          " offset
 
 "------------------------------------------------------------
 " File type specific settings
@@ -316,6 +327,8 @@ au BufRead,BufEnter *.c,*.cpp,*.py,*.cs map <F12> :YcmCompleter GoToDefinition<C
 
 " NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeIgnore = ['pyc$']
+
 nmap <leader>n :NERDTreeToggle<CR>
 nmap <leader>nf :NERDTreeFind<CR>
 
