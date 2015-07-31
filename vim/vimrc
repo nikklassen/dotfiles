@@ -239,6 +239,8 @@ au BufRead,BufNewFile *.rb set tags+=tags,~/.rbenv/versions/2.0.0-p195/tags
 au BufRead,BufNewFile *.asm set syntax=mips
 au BufRead,BufNewFile *.wlpp set syntax=cpp
 
+au BufNewFile,BufReadPost *.log set filetype=log
+
 let tags="tags,~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags"
 
 au BufWritePost .vimrc source $MYVIMRC
@@ -278,6 +280,7 @@ let g:SimpleJsIndenter_CaseIndentLevel = -1
 " Syntastic
 let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell'] }
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_aggregate_errors = 1
 
 let g:syntastic_less_checkers = ['lessc']
 
@@ -287,6 +290,9 @@ let g:syntastic_cpp_clang_args = "-std=c++11 -isystem ~/Programming/C++/gtest/in
 let g:syntastic_html_tidy_args = "-xml"
 
 let g:syntastic_javascript_checkers = ['jshint', 'jscs']
+
+let g:syntastic_typescript_checkers = ['tsc', 'tslint']
+let g:syntastic_typescript_tsc_args = ' -t "es5" --noImplicitAny'
 
 let g:syntastic_python_checkers = ['pylint']
 let g:syntastic_python_pylint_args = '--rcfile=~/.pylintrc'
@@ -323,7 +329,7 @@ let g:ycm_filetype_blacklist = {
         \ 'gitcommit': 1,
         \}
 
-au BufRead,BufEnter *.c,*.cpp,*.py,*.cs map <F12> :YcmCompleter GoToDefinition<CR>
+au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts map <F12> :YcmCompleter GoToDefinition<CR>
 
 " NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
