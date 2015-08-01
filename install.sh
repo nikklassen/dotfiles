@@ -23,4 +23,10 @@ link_home irbrc
 ln -s vim/vimrc $HOME/.vimrc
 ln -s vim/gvimrc $HOME/.gvimrc
 
+ln -s scripts/vim_diffconflicts /usr/local/bin/diffconflicts
+git config --global merge.tool diffconflicts
+git config --global mergetool.diffconflicts.cmd 'diffconflicts vim $BASE $LOCAL $REMOTE $MERGED'
+git config --global mergetool.diffconflictstrustExitCode true
+git config --global mergetool.keepBackup false
+
 source ~/.zshrc

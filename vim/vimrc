@@ -1,7 +1,6 @@
 set nocompatible
 
-execute pathogen#infect()
-call pathogen#helptags()
+source ~/.vim/plugins.vim
 
 filetype indent plugin on
 
@@ -117,6 +116,9 @@ nnoremap <Right>    gt
 nnoremap <Up>       :lpr<CR>
 nnoremap <Down>     :lne<CR>
 
+nnoremap [q        :cprevious<CR>
+nnoremap ]q        :cnext<CR>
+
 nnoremap <M-Down>   ddp
 nnoremap <M-Up>     ddkP
 
@@ -164,7 +166,7 @@ endfunction
 
 nmap <leader>s :call ReplaceCurrentWord()<CR>
 
-nmap <leader>i 0i<BS><CR>
+vnoremap <silent> <C-S> :sort<CR>
 
 "------------------------------------------------------------
 " View Settings
@@ -226,22 +228,11 @@ set statusline+=%-8(\ %l,%c\ %)          " offset
 let g:tex_flavor='latex'
 
 au BufRead,BufNewFile *.thor setf ruby
-
-function! RunRuby()
-    wa
-    !ruby %
-endfunction
-
-" Run ruby with <A-R>
-au BufRead,BufNewFile *.rb nmap ® :call RunRuby()<CR>
 au BufRead,BufNewFile *.rb set tags+=tags,~/.rbenv/versions/2.0.0-p195/tags
-
-au BufRead,BufNewFile *.asm set syntax=mips
-au BufRead,BufNewFile *.wlpp set syntax=cpp
 
 au BufNewFile,BufReadPost *.log set filetype=log
 
-let tags="tags,~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags"
+let tags="tags,~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags,./*.vi"
 
 au BufWritePost .vimrc source $MYVIMRC
 
@@ -267,9 +258,6 @@ let g:EasyMotion_mapping_n = "<leader>x"
 let g:localvimrc_sandbox=0
 let g:localvimrc_ask=0
 
-let g:qcc_format_menu = '${0}'
-au BufRead /tmp/mutt* setlocal omnifunc=QueryCommandComplete
-
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
@@ -287,8 +275,6 @@ let g:syntastic_less_checkers = ['lessc']
 let g:syntastic_cpp_checkers = ['clang']
 let g:syntastic_cpp_clang_args = "-std=c++11 -isystem ~/Programming/C++/gtest/include"
 
-let g:syntastic_html_tidy_args = "-xml"
-
 let g:syntastic_javascript_checkers = ['jshint', 'jscs']
 
 let g:syntastic_typescript_checkers = ['tsc', 'tslint']
@@ -296,6 +282,8 @@ let g:syntastic_typescript_tsc_args = ' -t "es5" --noImplicitAny'
 
 let g:syntastic_python_checkers = ['pylint']
 let g:syntastic_python_pylint_args = '--rcfile=~/.pylintrc'
+
+let g:syntastic_html_checkers = []
 
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.h$']
@@ -351,6 +339,9 @@ let g:UltiSnipsJumpBackwardTrigger="<C-J>"
 
 " Vim2HS
 let g:haskell_conceal = 0
+
+" Rust
+let g:rustc_makeprg_no_percent = 1
 
 " vim-latex
 let g:tex_indent_brace=0

@@ -18,13 +18,16 @@ return_code="%?"
 # Souce other scripts
 pushd "$HOME/.zsh" > /dev/null
 
-multisrc *.zsh
+multisrc omz.zsh syntax-highlighting/zsh-syntax-highlighting.zsh
+
+if [[ $(uname) == 'Darwin' ]]; then
+    . macos.zsh
+else
+    . ubuntu.zsh
+fi
 
 popd > /dev/null
 
-source $HOME/.zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
-
-alias ls="ls -FG --color=auto"
 alias lls="ls -lAh"
 alias xgit="xcrun git"
 alias mysql=/usr/local/mysql/bin/mysql
@@ -87,40 +90,3 @@ auto-ls-after-cd() {
     ls
 }
 add-zsh-hook chpwd auto-ls-after-cd
-
-proxy_toggle() {
-    proxy_info="$(sudo networksetup -getsocksfirewallproxy Wi-Fi)"
-
-    if [[ $proxy_info =~ "Enabled: No" ]]; then
-        echo "Turning on"
-        sudo networksetup -setsocksfirewallproxystate Wi-Fi on
-    else
-        echo "Turning off"
-        sudo networksetup -setsocksfirewallproxystate Wi-Fi off
-    fi
-}
-
-firewall_toggle() {
-
-    firewall_state="$(sudo defaults read /Library/Preferences/com.apple.alf globalstate)"
-
-    new_state=1
-    if [[ $firewall_state == 0 ]]; then
-        echo "Turning on"
-    else
-        echo "Turning off"
-        new_state=0
-    fi
-
-    sudo defaults write /Library/Preferences/com.apple.alf globalstate -int $new_state
-
-    sudo launchctl unload /System/Library/LaunchDaemons/com.apple.alf.agent.plist
-    sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist
-}
-
-# Load automjump
-if [[ $(uname) == 'Darwin' ]]; then
-    . $HOME/.zsh/macos.zsh
-else
-    . $HOME/.zsh/ubuntu.zsh
-fi

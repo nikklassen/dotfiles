@@ -4,3 +4,4 @@
 *.orig
 vim/tags
 vim/view
+vim/plugged
