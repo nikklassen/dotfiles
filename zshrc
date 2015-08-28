@@ -1,4 +1,4 @@
-export PATH="/usr/local/bin:/usr/local/sbin:.:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/usr/texbin:./node_modules/.bin:"
+. "$HOME/.zpath"
 
 # Load and run compinit
 autoload -U compinit
@@ -27,6 +27,12 @@ else
 fi
 
 popd > /dev/null
+
+function _backward_kill_default_word() {
+  WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>' zle backward-kill-word
+}
+zle -N backward-kill-default-word _backward_kill_default_word
+bindkey '\ew' backward-kill-default-word
 
 alias lls="ls -lAh"
 alias xgit="xcrun git"

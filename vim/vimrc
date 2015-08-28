@@ -160,7 +160,7 @@ function! ReplaceCurrentWord()
     endif
 
     let w = expand('<cword>')
-    let new_line = substitute(getline('.'), w, new_word, 'g')
+    let new_line = substitute(getline('.'), w, new_word, 'gI')
     call setline('.', new_line)
 endfunction
 
@@ -168,18 +168,25 @@ nmap <leader>s :call ReplaceCurrentWord()<CR>
 
 vnoremap <silent> <C-S> :sort<CR>
 
+" Run selected lines
+vnoremap <silent> <f2> :<c-u>exe join(getline("'<","'>"), "\n")<cr>
+
 "------------------------------------------------------------
 " View Settings
 "------------------------------------------------------------
 
+function! PersistViewForFile()
+    return expand('%:t') != "" && expand('%:p') !~ '^fugitive://'
+endfunction
+
 function! SaveViewSettings()
-    if expand('%:t') != ""
+    if PersistViewForFile()
         mkview!
     endif
 endfunction
 
 function! LoadViewSettings()
-    if expand('%:t') != ""
+    if PersistViewForFile()
         silent loadview
     endif
 endfunction
@@ -278,7 +285,7 @@ let g:syntastic_cpp_clang_args = "-std=c++11 -isystem ~/Programming/C++/gtest/in
 let g:syntastic_javascript_checkers = ['jshint', 'jscs']
 
 let g:syntastic_typescript_checkers = ['tsc', 'tslint']
-let g:syntastic_typescript_tsc_args = ' -t "es5" --noImplicitAny'
+let g:syntastic_typescript_tsc_args = ' -t "es5" --noImplicitAny --module commonjs'
 
 let g:syntastic_python_checkers = ['pylint']
 let g:syntastic_python_pylint_args = '--rcfile=~/.pylintrc'
@@ -315,6 +322,7 @@ let g:ycm_filetype_blacklist = {
         \ 'text': 1,
         \ 'tex': 1,
         \ 'gitcommit': 1,
+        \ 'log': 1
         \}
 
 au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts map <F12> :YcmCompleter GoToDefinition<CR>

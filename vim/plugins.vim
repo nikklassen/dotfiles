@@ -14,7 +14,7 @@ Plug 'embear/vim-localvimrc'
 Plug 'fs111/pydoc.vim'
 Plug 'groenewege/vim-less'
 Plug 'leafgarland/typescript-vim'
-Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
+Plug 'marijnh/tern_for_vim', {'do': 'npm install', 'for': 'javascript'}
 Plug 'mattn/emmet-vim'
 Plug 'othree/xml.vim'
 Plug 'pangloss/vim-javascript'

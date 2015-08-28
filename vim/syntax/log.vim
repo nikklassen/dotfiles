@@ -27,7 +27,7 @@ syn match   messagesIP          '\d\+\.\d\+\.\d\+\.\d\+\(/\d\+\|:\d\+\)\?'
 syn match   messagesURL         '\w\+://\S\+'
 
 syn match   messagesText        contained display '.*'
-                                \ contains=messagesNumber,messagesIP,messagesURL,messagesError
+                                \ contains=messagesNumber,messagesIP,messagesURL,messagesError,messagesNewline
 
 syn match   messagesNumber      contained '0x[0-9a-fA-F]*\|\[<[0-9a-f]\+>\]\|\<\d[0-9a-fA-F]*'
 

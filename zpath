@@ -1,0 +1,1 @@
+PATH="$PATH:/usr/local/bin:/usr/local/sbin:.:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/usr/texbin:./node_modules/.bin:"

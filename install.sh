@@ -14,14 +14,13 @@ link_home() {
     fi
 }
 
+link_home zpath
 link_home zshrc
 link_home zshenv
 link_home zsh
 link_home vim
 link_home osx
 link_home irbrc
-ln -s vim/vimrc $HOME/.vimrc
-ln -s vim/gvimrc $HOME/.gvimrc
 
 ln -s scripts/vim_diffconflicts /usr/local/bin/diffconflicts
 git config --global merge.tool diffconflicts
