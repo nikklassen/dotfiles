@@ -1,6 +1,6 @@
 export CLASSPATH="$HOME/Programming/Java/classes/"
 
-alias ls="ls -dFG"
+alias ls="ls -FG"
 
 bindkey "\e[1~" beginning-of-line # ⌘ <-
 bindkey "\e[4~" end-of-line # ⌘ ->
@@ -41,3 +41,5 @@ toggle_proxy() {
 [[ -s /usr/local/etc/profile.d/autojump.sh ]] && . /usr/local/etc/profile.d/autojump.sh
 
 . ./remotepair.zsh
+
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh

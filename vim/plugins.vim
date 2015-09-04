@@ -14,7 +14,9 @@ Plug 'embear/vim-localvimrc'
 Plug 'fs111/pydoc.vim'
 Plug 'groenewege/vim-less'
 Plug 'leafgarland/typescript-vim'
-Plug 'marijnh/tern_for_vim', {'do': 'npm install', 'for': 'javascript'}
+" Remove node_modules since tern_for_vim doesn't update the required version
+" of tern in package.json
+Plug 'marijnh/tern_for_vim', {'for': 'javascript', 'do': 'rm -rf node_modules; npm install'}
 Plug 'mattn/emmet-vim'
 Plug 'othree/xml.vim'
 Plug 'pangloss/vim-javascript'
@@ -24,7 +26,7 @@ Plug 'scrooloose/syntastic'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround' | Plug 'tpope/vim-repeat'
-Plug 'vim-latex/vim-latex'
+Plug 'LaTeX-Box-Team/LaTeX-Box'
 Plug 'vim-pandoc/vim-pandoc' | Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-scripts/JavaScript-Indent'
 Plug 'vim-scripts/fakeclip'
@@ -37,6 +39,7 @@ if has('mac')
     Plug 'Floobits/floobits-vim', {'on': ['FlooJoinWorkspace', 'FlooShareDirPublic', 'FlooShareDirPrivate']}
     Plug 'rizzatti/dash.vim', {'on': 'Dash'}
     Plug 'rust-lang/rust.vim'
+    Plug 'phildawes/racer', {'do': 'cargo build --release -j 4'}
 endif
 
 call plug#end()

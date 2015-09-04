@@ -8,6 +8,7 @@ filetype indent plugin on
 syntax enable
 
 " Better command-line completion
+set wildmode=list:longest,full
 set wildmenu
 
 " Completion settings
@@ -129,6 +130,8 @@ nmap <leader>v      :tabe $MYVIMRC<CR>
 
 set pastetoggle=<F5>
 
+noremap <F10> 1z=
+
 " build
 nmap \m :w \| make<CR>
 
@@ -193,8 +196,6 @@ endfunction
 
 au BufWinLeave * call SaveViewSettings()
 au BufWinEnter * call LoadViewSettings()
-
-nnoremap <silent> <C-W>c :lcl \| close<CR>
 
 " Hold onto marks for the last ten files
 set viminfo='10
@@ -306,7 +307,7 @@ let g:CommandTFileScanner = 'find'
 let g:html_indent_inctags = "html,body,head,tbody,svg,g,script"
 
 " YouCompleteMe
-let g:ycm_semantic_triggers = {'html' : ['<'], 'js' : ['.'], 'haskell': ['.']}
+let g:ycm_semantic_triggers = {'html' : ['<'], 'js' : ['.'], 'haskell': ['.'], 'rust': ['::'], 'tex': ['{', '\']}
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_complete_in_strings = 0
 let g:ycm_complete_in_comments = 0
@@ -320,7 +321,6 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_filetype_blacklist = {
         \ 'pandoc' : 1,
         \ 'text': 1,
-        \ 'tex': 1,
         \ 'gitcommit': 1,
         \ 'log': 1
         \}
@@ -351,9 +351,24 @@ let g:haskell_conceal = 0
 " Rust
 let g:rustc_makeprg_no_percent = 1
 
-" vim-latex
-let g:tex_indent_brace=0
-let g:tex_indent_items=0
-let g:tex_conceal=""
-imap <C-l> <Plug>IMAP_JumpForward
-noremap <leader>q <Plug>Tex_InsertItemOnThisLine
+let g:racer_cmd = "~/.vim/plugged/racer/target/release/racer"
+let $RUST_SRC_PATH="/usr/local/Cellar/rust-nightly/1.0-2015-08-01/src/"
+
+" LaTeXBox
+let g:LatexBox_viewer = 'open -a Skim'
+let g:LatexBox_autojump = 1
+let g:LatexBox_latexmk_async = 1
+let g:LatexBox_latexmk_preview_continuously = 1
+let g:LatexBox_quickfix = 2
+let g:LatexBox_complete_inlineMath = 1
+
+imap <buffer> [[     \begin{
+imap <buffer> ]]     <Plug>LatexCloseCurEnv
+nmap <buffer> <F5>   <Plug>LatexChangeEnv
+vmap <buffer> <F7>   <Plug>LatexWrapSelection
+vmap <buffer> <S-F7> <Plug>LatexEnvWrapSelection
+map <buffer> <leader>% <Plug>LatexBox_JumpToMatch
+map <buffer> <silent> <leader>ls :silent
+        \ !/Applications/Skim.app/Contents/SharedSupport/displayline
+        \ <C-R>=line('.')<CR> "<C-R>=LatexBox_GetOutputFile()<CR>"
+        \ "%:p" <CR>

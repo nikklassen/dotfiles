@@ -21,9 +21,9 @@ pushd "$HOME/.zsh" > /dev/null
 multisrc omz.zsh syntax-highlighting/zsh-syntax-highlighting.zsh
 
 if [[ $(uname) == 'Darwin' ]]; then
-    . macos.zsh
+    . ./macos.zsh
 else
-    . ubuntu.zsh
+    . ./ubuntu.zsh
 fi
 
 popd > /dev/null
@@ -85,6 +85,7 @@ setopt correctall
 alias sudo="nocorrect sudo"
 alias gulp="nocorrect gulp"
 alias make="nocorrect make"
+alias cargo="nocorrect cargo"
 
 setopt globdots
 setopt extendedglob
