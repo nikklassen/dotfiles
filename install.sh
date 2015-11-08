@@ -1,16 +1,30 @@
 #!/bin/zsh
+
+if [[ -z `which git` ]]; then
+    sudo apt-get install git
+fi
+
+if [[ $1 == "-f" ]]; then
+    FORCE=-f
+fi
+
+symlink() {
+    ln -s $FORCE $@
+}
+export symlink
+
 git submodule init
 
 # Setup oh-my-zsh
 OMZ_MODULE=.git/modules/zsh/oh-my-zsh-sparse
-ln -s $PWD/.omz.sparse-checkout $OMZ_MODULE/info/sparse-checkout
+symlink $PWD/.omz.sparse-checkout $OMZ_MODULE/info/sparse-checkout
 git config -f $OMZ_MODULE/config core.sparsecheckout true
 
 git submodule update --recursive
 
 link_home() {
-    if [ ! -L $HOME/.$1 ]; then
-        ln -s $1 $HOME/.$1
+    if [[ ! -L $HOME/.$1 || -n $FORCE ]]; then
+        symlink $PWD/$1 $HOME/.$1
     fi
 }
 
@@ -22,7 +36,7 @@ link_home vim
 link_home osx
 link_home irbrc
 
-ln -s scripts/vim_diffconflicts /usr/local/bin/diffconflicts
+sudo ln -s $FORCE scripts/vim_diffconflicts /usr/local/bin/diffconflicts
 git config --global merge.tool diffconflicts
 git config --global mergetool.diffconflicts.cmd 'diffconflicts vim $BASE $LOCAL $REMOTE $MERGED'
 git config --global mergetool.diffconflictstrustExitCode true
