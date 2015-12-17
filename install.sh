@@ -39,4 +39,7 @@ git config --global mergetool.diffconflicts.cmd 'diffconflicts vim $BASE $LOCAL 
 git config --global mergetool.diffconflictstrustExitCode true
 git config --global mergetool.keepBackup false
 
-source ~/.zshrc
+# If this is a login shell source the changes immediately
+if [[ $- == *i* ]]; then
+    source ~/.zshrc
+fi
