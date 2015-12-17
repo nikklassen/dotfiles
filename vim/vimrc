@@ -57,7 +57,7 @@ set ruler
 set tm=250
 
 " conceal in insert (i), normal (n) and visual (v) modes
-set concealcursor=inv
+set concealcursor=n
 " hide concealed text completely unless replacement character is defined
 set conceallevel=2
 
@@ -67,6 +67,23 @@ let loaded_matchparen = 1
 set path=.,/usr/include,,
 
 set hidden
+
+if !&scrolloff
+    set scrolloff=1
+endif
+if !&sidescrolloff
+    set sidescrolloff=5
+endif
+set display+=lastline
+
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+set list
+
+set autoread
+
+set formatoptions+=j
 
 "------------------------------------------------------------
 " Indentation options
@@ -172,7 +189,7 @@ nmap <leader>s :call ReplaceCurrentWord()<CR>
 vnoremap <silent> <C-S> :sort<CR>
 
 " Run selected lines
-vnoremap <silent> <f2> :<c-u>exe join(getline("'<","'>"), "\n")<cr>
+vnoremap <f2> :<c-u>exe join(getline("'<","'>"), "\n")<cr>
 
 "------------------------------------------------------------
 " View Settings
@@ -207,10 +224,8 @@ set viminfo='10
 hi Pmenu ctermbg=Blue
 hi clear Conceal
 
-if !has('gui_running')
-    set background=dark
-    colorscheme molokai
-endif
+set background=dark
+colorscheme molokai
 
 function! GitSL()
     let head = fugitive#head()
@@ -288,10 +303,12 @@ let g:syntastic_javascript_checkers = ['jshint', 'jscs']
 let g:syntastic_typescript_checkers = ['tsc', 'tslint']
 let g:syntastic_typescript_tsc_args = ' -t "es5" --noImplicitAny --module commonjs'
 
-let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_python_checkers = ['pylint', 'pep8']
 let g:syntastic_python_pylint_args = '--rcfile=~/.pylintrc'
 
 let g:syntastic_html_checkers = []
+
+let g:syntastic_scala_checkers = ['fsc']
 
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.h$']
@@ -320,6 +337,7 @@ let g:clang_library_path = "/Applications/Xcode.app/Contents/Developer/Toolchain
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_filetype_blacklist = {
         \ 'pandoc' : 1,
+        \ 'markdown' : 1,
         \ 'text': 1,
         \ 'gitcommit': 1,
         \ 'log': 1
@@ -336,6 +354,7 @@ nmap <leader>nf :NERDTreeFind<CR>
 
 " delimitMate
 let delimitMate_expand_cr = 1
+let delimitMate_nesting_quotes = ['`']
 
 " Tern
 let tern_show_signature_in_pum = 1
@@ -351,9 +370,6 @@ let g:haskell_conceal = 0
 " Rust
 let g:rustc_makeprg_no_percent = 1
 
-let g:racer_cmd = "~/.vim/plugged/racer/target/release/racer"
-let $RUST_SRC_PATH="/usr/local/Cellar/rust-nightly/1.0-2015-08-01/src/"
-
 " LaTeXBox
 let g:LatexBox_viewer = 'open -a Skim'
 let g:LatexBox_autojump = 1
@@ -362,13 +378,15 @@ let g:LatexBox_latexmk_preview_continuously = 1
 let g:LatexBox_quickfix = 2
 let g:LatexBox_complete_inlineMath = 1
 
-imap <buffer> [[     \begin{
-imap <buffer> ]]     <Plug>LatexCloseCurEnv
-nmap <buffer> <F5>   <Plug>LatexChangeEnv
-vmap <buffer> <F7>   <Plug>LatexWrapSelection
-vmap <buffer> <S-F7> <Plug>LatexEnvWrapSelection
-map <buffer> <leader>% <Plug>LatexBox_JumpToMatch
-map <buffer> <silent> <leader>ls :silent
-        \ !/Applications/Skim.app/Contents/SharedSupport/displayline
-        \ <C-R>=line('.')<CR> "<C-R>=LatexBox_GetOutputFile()<CR>"
-        \ "%:p" <CR>
+" Table mode
+
+let g:table_mode_corner = "|"
+
+" Pandoc
+
+let g:pandoc#modules#disabled = ["formatting"]
+let g:pandoc#command#autoexec_on_writes = 1
+let g:pandoc#syntax#conceal#use = 0
+let g:pandoc#syntax#codeblocks#embeds#langs = ["java", "c"]
+let g:pandoc#command#autoexec_command = "Pandoc pdf -Ss -f markdown+hard_line_breaks+subscript+superscript+pipe_tables -V geometry:margin=1in"
+let g:pandoc#formatting#mode = 'ha'

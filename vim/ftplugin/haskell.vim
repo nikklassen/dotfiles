@@ -7,7 +7,7 @@ hi Conceal ctermbg=NONE
 " Extend what Vim considers a keyword (to include . )
 set iskeyword=a-z,A-Z,_,.,39
 
-autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+" autocmd BufWritePost *.hs GhcModCheckAndLintAsync
 
 let &l:statusline = '%{empty(getqflist()) ? "[No Errors]" : "[Errors Found]"}' . (empty(&l:statusline) ? &statusline : &l:statusline)
 

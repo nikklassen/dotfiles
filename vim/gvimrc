@@ -1,21 +1,9 @@
 if has('mac')
     set macmeta
-    set guifont=Inconsolata:h15
+    set guifont=Inconsolata:h16
 elseif has('unix')
     set guifont=Inconsolata\ 13
 endif
-
-function! SetColourScheme()
-    if strftime("%H") > 8 && strftime("%H") < 21
-        set background=light
-        colorscheme solarized
-    else
-        set background=dark
-        colorscheme molokai
-    endif
-endfunction
-
-call SetColourScheme()
 
 set columns=180
 set lines=55

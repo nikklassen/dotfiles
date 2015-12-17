@@ -1,3 +1,14 @@
-let g:pandoc#command#autoexec_on_writes = 1
-let g:pandoc#syntax#conceal#blacklist = ["codeblock_start", "codeblock_delim", "block"]
-let g:pandoc#syntax#codeblocks#embeds#langs = ["java", "c"]
+setlocal cole=0
+setlocal sw=4 ts=4
+
+function! ClipPic()
+    let fname = input('Image name: ')
+    call system('pngpaste ' . fname . '.png')
+    let line = getline('.')
+    call setline('.', line . ' ![](' . fname . '.png)')
+endfunction
+
+nmap <leader>cp :call ClipPic()<CR>
+
+setlocal comments=b:*,b:-,b:+,n:>
+setlocal formatoptions+=ro

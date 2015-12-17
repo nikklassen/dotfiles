@@ -1,6 +1,7 @@
 export CLASSPATH="$HOME/Programming/Java/classes/"
 
 alias ls="ls -FG"
+alias tar="tar --disable-copyfile"
 
 bindkey "\e[1~" beginning-of-line # ⌘ <-
 bindkey "\e[4~" end-of-line # ⌘ ->
@@ -30,15 +31,33 @@ toggle_proxy() {
     if [[ $proxy_info =~ "Enabled: No" ]]; then
         echo "Turning on"
         sudo networksetup -setsocksfirewallproxystate Wi-Fi on
-        ssh -ND 9999 root@nikklassen.ca
+        ssh -ND 9999 nik@nikklassen.ca 2> /dev/null
     else
         echo "Turning off"
         sudo networksetup -setsocksfirewallproxystate Wi-Fi off
     fi
 }
 
-# Load autojump
-[[ -s /usr/local/etc/profile.d/autojump.sh ]] && . /usr/local/etc/profile.d/autojump.sh
+start_calibre_server() {
+    /Applications/calibre.app/Contents/MacOS/calibre-server --port 7777&
+    ssh -NR 5555:localhost:7777 nik@nikklassen.ca
+    /usr/bin/read -n 1
+}
+
+linux_headless() {
+    VBoxManage list runningvms | grep "Ubuntu 15.10" > /dev/null
+    if [[ $? == 1 ]]; then
+        VBoxManage startvm Ubuntu\ 15.10 --type headless
+    fi
+    ssh -p 2222 nik@localhost
+}
+
+# Load z
+. /usr/local/etc/profile.d/z.sh
+
+# Load nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 . ./remotepair.zsh
 

@@ -1,10 +1,13 @@
-. "$HOME/.zpath"
+export EDITOR=vim
+
+# initialization completions
+fpath=(/usr/local/share/zsh-completions $fpath)
 
 # Load and run compinit
 autoload -U compinit
 compinit -i -d "$HOME/.zcompdump"
 
-autoload -U add-zsh-hook 
+autoload -U add-zsh-hook
 autoload -U zmv
 
 multisrc() {
@@ -41,7 +44,9 @@ alias mysqladmin=/usr/local/mysql/bin/mysqladmin
 alias rsync="rsync -h --progress"
 alias ytaudio="youtube-dl -x --audio-format mp3"
 alias stf="sudo tail -f"
+alias prm=". /usr/local/bin/prm.sh"
 
+alias gdl='git clone --depth 1'
 alias gpnew='git push --set-upstream origin $(current_branch)'
 alias -g NV='--no-verify'
 

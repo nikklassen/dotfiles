@@ -1,9 +1,5 @@
 #!/bin/zsh
-
-if [[ -z `which git` ]]; then
-    sudo apt-get install git
-fi
-
+FORCE=""
 if [[ $1 == "-f" ]]; then
     FORCE=-f
 fi
@@ -28,15 +24,16 @@ link_home() {
     fi
 }
 
-link_home zpath
 link_home zshrc
 link_home zshenv
 link_home zsh
 link_home vim
-link_home osx
-link_home irbrc
 
-sudo ln -s $FORCE scripts/vim_diffconflicts /usr/local/bin/diffconflicts
+if [[ $(uname) == 'Darwin' ]]; then
+    link_home osx
+fi
+
+sudo ln -s $FORCE $PWD/scripts/vim_diffconflicts /usr/local/bin/diffconflicts
 git config --global merge.tool diffconflicts
 git config --global mergetool.diffconflicts.cmd 'diffconflicts vim $BASE $LOCAL $REMOTE $MERGED'
 git config --global mergetool.diffconflictstrustExitCode true

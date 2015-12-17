@@ -1,0 +1,4 @@
+Opera
+iTerm
+Seil
+Karabiner
