@@ -145,6 +145,11 @@ vnoremap <M-Up>     dkPgv
 
 nmap <leader>v      :tabe $MYVIMRC<CR>
 
+nnoremap <M-h> <C-W>h
+nnoremap <M-j> <C-W>j
+nnoremap <M-k> <C-W>k
+nnoremap <M-l> <C-W>l
+
 set pastetoggle=<F5>
 
 noremap <F10> 1z=
@@ -165,10 +170,11 @@ noremap <silent> <D-Left> :call ExtendedHome()<CR>
 
 " 'Home' and 'End' for insert mode
 inoremap <silent> <C-a> <C-O>:call ExtendedHome()<CR>
-inoremap <C-e> <C-O>A
 
 noremap <leader>c :cd %:p:h<CR><CR>
 noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
+
+noremap <silent> <leader>ag :Ag <C-R><C-W><CR>
 
 " Search for the currently selected text
 vnoremap // "sy/<C-R>s<CR>
@@ -189,7 +195,7 @@ nmap <leader>s :call ReplaceCurrentWord()<CR>
 vnoremap <silent> <C-S> :sort<CR>
 
 " Run selected lines
-vnoremap <f2> :<c-u>exe join(getline("'<","'>"), "\n")<cr>
+vnoremap <silent> <f2> :<c-u>exe join(getline("'<","'>"), "\n")<cr>
 
 "------------------------------------------------------------
 " View Settings
@@ -214,10 +220,10 @@ endfunction
 if !has('nvim')
     au BufWinLeave * call SaveViewSettings()
     au BufWinEnter * call LoadViewSettings()
-endif
 
-" Hold onto marks for the last ten files
-set viminfo='10
+    " Hold onto marks for the last ten files
+    set viminfo='10
+endif
 
 "------------------------------------------------------------
 " Colour settings
@@ -248,11 +254,11 @@ set statusline+=%y\                      " file type
 set statusline+=%-8(\ %l,%c\ %)          " offset
 
 "------------------------------------------------------------
-" NeoVim
+" Nvim specific settings override previous
 "------------------------------------------------------------
 
 if has('nvim')
-    source ~/.config/nvim/nvim.vim
+    source $XDG_CONFIG_HOME/nvim/nvim.vim
 endif
 
 "------------------------------------------------------------
@@ -314,8 +320,7 @@ let g:syntastic_javascript_checkers = ['jshint', 'jscs']
 let g:syntastic_typescript_checkers = ['tsc', 'tslint']
 let g:syntastic_typescript_tsc_args = ' -t "es5" --noImplicitAny --module commonjs'
 
-let g:syntastic_python_checkers = ['pylint', 'pep8']
-let g:syntastic_python_pylint_args = '--rcfile=~/.pylintrc'
+let g:syntastic_python_checkers = ['pylint']
 
 let g:syntastic_html_checkers = []
 
@@ -324,12 +329,11 @@ let g:syntastic_scala_checkers = ['fsc']
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.h$']
 
-" Command-T
-nnoremap <silent> <leader>o :CommandT<CR>
-nnoremap <silent> <leader>b :CommandTBuffer<CR>
-let g:CommandTWildIgnore=&wildignore . ",**/node_modules/*,*.o,*.pyc,*.hi"
-let g:CommandTTraverseSCM = 'pwd'
-let g:CommandTFileScanner = 'find'
+" CtrlP
+let g:ctrlp_map = '<leader>o'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore=&wildignore . ",**/node_modules/*,*.o,*.pyc,*.hi"
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " html indentation
 let g:html_indent_inctags = "html,body,head,tbody,svg,g,script"

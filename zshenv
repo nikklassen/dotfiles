@@ -30,3 +30,5 @@ PYTHONPATH="$PYTHONPATH:~/Programming/Python"
 PYTHONSTARTUP=~/.pystartup
 
 XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
+
+XDG_CONFIG_HOME="$HOME/.config"
