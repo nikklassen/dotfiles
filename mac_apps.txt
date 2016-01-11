@@ -1,4 +1,7 @@
-Opera
+Vivaldi
 iTerm
 Seil
 Karabiner
+LastPass
+Dash
+Slack

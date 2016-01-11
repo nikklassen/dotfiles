@@ -33,6 +33,7 @@ link_home tmux.conf
 
 if [[ $(uname) == 'Darwin' ]]; then
     link_home osx
+    source install_osx.sh
 fi
 
 sudo ln -s $FORCE $PWD/scripts/vim_diffconflicts /usr/local/bin/diffconflicts
