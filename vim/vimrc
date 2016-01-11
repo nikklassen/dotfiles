@@ -211,8 +211,10 @@ function! LoadViewSettings()
     endif
 endfunction
 
-au BufWinLeave * call SaveViewSettings()
-au BufWinEnter * call LoadViewSettings()
+if !has('nvim')
+    au BufWinLeave * call SaveViewSettings()
+    au BufWinEnter * call LoadViewSettings()
+endif
 
 " Hold onto marks for the last ten files
 set viminfo='10
@@ -225,6 +227,7 @@ hi Pmenu ctermbg=Blue
 hi clear Conceal
 
 set background=dark
+let g:rehash256 = 1
 colorscheme molokai
 
 function! GitSL()
@@ -243,6 +246,14 @@ set statusline+=%h%m%r%w%q               " flags
 set statusline+=%=                       " right align
 set statusline+=%y\                      " file type
 set statusline+=%-8(\ %l,%c\ %)          " offset
+
+"------------------------------------------------------------
+" NeoVim
+"------------------------------------------------------------
+
+if has('nvim')
+    source ~/.config/nvim/nvim.vim
+endif
 
 "------------------------------------------------------------
 " File type specific settings

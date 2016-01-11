@@ -39,9 +39,11 @@ toggle_proxy() {
 }
 
 start_calibre_server() {
-    /Applications/calibre.app/Contents/MacOS/calibre-server --port 7777&
-    ssh -NR 5555:localhost:7777 nik@nikklassen.ca
+    /Applications/calibre.app/Contents/MacOS/calibre-server --port 7777 --daemonize
+    ssh -NR \*:5555:localhost:7777 nik@nikklassen.ca &
+    PID=$!
     /usr/bin/read -n 1
+    pkill calibre-server
 }
 
 linux_headless() {
