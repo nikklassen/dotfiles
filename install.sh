@@ -29,6 +29,7 @@ link_home zshrc
 link_home zshenv
 link_home zsh
 link_home vim
+link_home tmux.conf
 
 if [[ $(uname) == 'Darwin' ]]; then
     link_home osx

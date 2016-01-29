@@ -102,3 +102,10 @@ auto-ls-after-cd() {
     ls
 }
 add-zsh-hook chpwd auto-ls-after-cd
+
+# Load z
+[[ -e /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
+
+# Load nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"

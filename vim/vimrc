@@ -49,7 +49,7 @@ set confirm
 set cmdheight=2
 
 " Display line numbers on the left
-set number
+set relativenumber
 
 set ruler
 
@@ -170,11 +170,13 @@ noremap <silent> <D-Left> :call ExtendedHome()<CR>
 
 " 'Home' and 'End' for insert mode
 inoremap <silent> <C-a> <C-O>:call ExtendedHome()<CR>
+inoremap <C-e> <C-O>A
 
 noremap <leader>c :cd %:p:h<CR><CR>
 noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
 
-noremap <silent> <leader>ag :Ag <C-R><C-W><CR>
+nnoremap <silent> <leader>ag :Ag <C-R><C-W><CR>
+vnoremap <silent> <leader>ag "gy:Ag -Q "<C-R>=substitute(@g, '\\\@<!"', '\\"', 'g')<CR>"<CR>
 
 " Search for the currently selected text
 vnoremap // "sy/<C-R>s<CR>
@@ -196,6 +198,16 @@ vnoremap <silent> <C-S> :sort<CR>
 
 " Run selected lines
 vnoremap <silent> <f2> :<c-u>exe join(getline("'<","'>"), "\n")<cr>
+
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+noremap <silent> <f3> :call NumberToggle()
 
 "------------------------------------------------------------
 " View Settings
@@ -223,6 +235,9 @@ if !has('nvim')
 
     " Hold onto marks for the last ten files
     set viminfo='10
+else
+    " Jump to the last position on load
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
 
 "------------------------------------------------------------
@@ -276,12 +291,6 @@ let tags="tags,~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags,./*.vi"
 
 au BufWritePost .vimrc source $MYVIMRC
 
-" Keep the quickfix window small when there aren't many lines
-au FileType qf call AdjustWindowHeight(3, 10)
-function! AdjustWindowHeight(minheight, maxheight)
-  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
-endfunction
-
 "------------------------------------------------------------
 " Plug-in settings
 "------------------------------------------------------------
@@ -330,13 +339,15 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.h$']
 
 " CtrlP
-let g:ctrlp_map = '<leader>o'
-let g:ctrlp_cmd = 'CtrlP'
+nnoremap <silent> <leader>u :CtrlPMRU<CR>
 let g:ctrlp_custom_ignore=&wildignore . ",**/node_modules/*,*.o,*.pyc,*.hi"
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard', 'find %s -type f']
+let g:ctrlp_by_filename = 1
 
 " html indentation
 let g:html_indent_inctags = "html,body,head,tbody,svg,g,script"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
 
 " YouCompleteMe
 let g:ycm_semantic_triggers = {'html' : ['<'], 'js' : ['.'], 'haskell': ['.'], 'rust': ['::'], 'tex': ['{', '\']}

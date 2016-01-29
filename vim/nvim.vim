@@ -15,13 +15,14 @@ let $NVIM = 1
 " Neomake
 
 let g:neomake_open_list = 2
+
 au! BufWritePost * Neomake
 
-let g:neomake_python_enabled_makers = ['pylint']
+let g:neomake_python_enabled_makers = ['pep8', 'pylint']
 let g:neomake_python_pylint_cwd = '%:p:h'
 
-let g:neomake_javascript_enabled_makers = ['jshint']
-let g:neomake_javascript_jshint_cwd = '%:p:h'
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_javascript_eslint_cwd = '%:p:h'
 
 " neovim-editcommand
 
