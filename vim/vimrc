@@ -412,7 +412,8 @@ let g:LatexBox_complete_inlineMath = 1
 
 " Table mode
 
-let g:table_mode_corner = "|"
+let g:table_mode_corner_corner="+"
+let g:table_mode_header_fillchar="="
 
 " Pandoc
 

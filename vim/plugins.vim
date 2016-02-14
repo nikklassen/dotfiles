@@ -25,7 +25,7 @@ Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': 'tex'}
 Plug 'vim-pandoc/vim-pandoc', {'for': ['markdown', 'pandoc']} | Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-scripts/JavaScript-Indent', {'for': ['javascript']}
 Plug 'chase/vim-ansible-yaml', {'for': 'ansible'}
-Plug 'dhruvasagar/vim-table-mode', {'on': 'TableModeToggle'}
+Plug 'dhruvasagar/vim-table-mode', {'for': ['pandoc', 'markdown']}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 " Load ag.vim after fzf so that fzf's Ag command is overridden
 Plug 'rking/ag.vim'
