@@ -7,6 +7,7 @@ nnoremap <M-h> <C-w>h
 nnoremap <M-j> <C-w>j
 nnoremap <M-k> <C-w>k
 nnoremap <M-l> <C-w>l
+nnoremap <M-c> <C-w>c
 
 cnoremap <C-A> <Home>
 

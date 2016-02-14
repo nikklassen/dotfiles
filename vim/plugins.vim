@@ -17,7 +17,6 @@ Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 Plug 'mattn/emmet-vim', {'for': ['html', 'htmldjango']}
 Plug 'othree/xml.vim'
 Plug 'pangloss/vim-javascript', {'for': ['javascript', 'html', 'htmldjango']}
-Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-fugitive'
@@ -27,7 +26,9 @@ Plug 'vim-pandoc/vim-pandoc', {'for': ['markdown', 'pandoc']} | Plug 'vim-pandoc
 Plug 'vim-scripts/JavaScript-Indent', {'for': ['javascript']}
 Plug 'chase/vim-ansible-yaml', {'for': 'ansible'}
 Plug 'dhruvasagar/vim-table-mode', {'on': 'TableModeToggle'}
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
+" Load ag.vim after fzf so that fzf's Ag command is overridden
+Plug 'rking/ag.vim'
 
 if has('nvim')
     Plug 'benekastah/neomake'

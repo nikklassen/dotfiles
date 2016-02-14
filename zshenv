@@ -1,4 +1,6 @@
-EDITOR=/usr/local/bin/vim
+export PAGER=less
+export LESS="-SR -# .5"
+export EDITOR=vim
 
 # Python
 # Setting PATH for Python 2.7
@@ -24,11 +26,17 @@ PATH="$PATH:./.buildozer/android/platform/android-sdk-21/platform-tools"
 PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # For security the local directory should be at the end
-PATH="$PATH:."
+export PATH="$PATH:."
 
 PYTHONPATH="$PYTHONPATH:~/Programming/Python"
 PYTHONSTARTUP=~/.pystartup
 
 XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
 
-XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# Undocumented feature that stops zsh-syntax-highlight after a certain length
+ZSH_HIGHLIGHT_MAXLENGTH=100
+
+export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_TMUX=0

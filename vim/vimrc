@@ -11,6 +11,8 @@ syntax enable
 set wildmode=list:longest,full
 set wildmenu
 
+let &wildignore = "*.o,*.pyc,*.hi"
+
 " Completion settings
 set completeopt=menu,longest
 
@@ -208,6 +210,13 @@ function! NumberToggle()
 endfunc
 
 noremap <silent> <f3> :call NumberToggle()
+"
+"------------------------------------------------------------
+" Custom commands
+"------------------------------------------------------------
+
+" read the output of a shell command into a new scratch buffer
+command! -nargs=* -complete=shellcmd R new | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
 
 "------------------------------------------------------------
 " View Settings
@@ -338,11 +347,8 @@ let g:syntastic_scala_checkers = ['fsc']
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.h$']
 
-" CtrlP
-nnoremap <silent> <leader>u :CtrlPMRU<CR>
-let g:ctrlp_custom_ignore=&wildignore . ",**/node_modules/*,*.o,*.pyc,*.hi"
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard', 'find %s -type f']
-let g:ctrlp_by_filename = 1
+" FZF
+nmap <silent> <leader>u :Files<CR>
 
 " html indentation
 let g:html_indent_inctags = "html,body,head,tbody,svg,g,script"

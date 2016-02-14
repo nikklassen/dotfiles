@@ -1,5 +1,3 @@
-export EDITOR=vim
-
 # initialization completions
 fpath=(/usr/local/share/zsh-completions $fpath)
 
@@ -50,7 +48,7 @@ alias gdl='git clone --depth 1'
 alias gpnew='git push --set-upstream origin $(current_branch)'
 alias -g NV='--no-verify'
 
-alias plz='sudo $(fc -ln -1)' 
+alias plz='sudo $(fc -ln -1)'
 
 youtube-mp3 () {
     youtube-dl -x --audio-format mp3 $1
@@ -62,13 +60,11 @@ mkcd () {
 }
 
 gbc () {
-    git branch $1 &&
-    git checkout $1
+    git branch $1 && git checkout $1
 }
 
 gbd () {
-    git branch -D $1 &&
-    git push origin :$1
+    git branch -D $1 && git push origin :$1
 }
 
 HISTFILE=$HOME/.zhistory
@@ -109,3 +105,5 @@ add-zsh-hook chpwd auto-ls-after-cd
 # Load nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
