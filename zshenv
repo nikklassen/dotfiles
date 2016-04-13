@@ -1,6 +1,6 @@
 export PAGER=less
 export LESS="-SR -# .5"
-export EDITOR=vim
+export EDITOR=/usr/local/bin/vim
 
 # Python
 # Setting PATH for Python 2.7
