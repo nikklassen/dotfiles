@@ -5,6 +5,8 @@
 [submodule "zsh/oh-my-zsh-sparse"]
     path = zsh/oh-my-zsh-sparse
     url = https://github.com/robbyrussell/oh-my-zsh.git
+    branch = master
 [submodule "zsh/syntax-highlighting"]
     path = zsh/syntax-highlighting
     url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+    branch = master

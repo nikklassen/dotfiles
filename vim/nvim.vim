@@ -16,6 +16,7 @@ let $NVIM = 1
 " Neomake
 
 let g:neomake_open_list = 2
+let g:neomake_list_height = 3
 
 au! BufWritePost * Neomake
 

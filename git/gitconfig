@@ -1,0 +1,23 @@
+[user]
+	name = Nik Klassen
+[merge]
+	tool = diffconflicts
+[mergetool "diffconflicts"]
+	cmd = diffconflicts $EDITOR $BASE $LOCAL $REMOTE $MERGED
+[mergetool]
+	diffconflictstrustExitCode = true
+	keepBackup = false
+[push]
+	default = upstream
+[color]
+	ui = auto
+[core]
+	excludesfile = ~/.gitignore_global
+[alias]
+	and-this = commit --amend --no-edit
+[rebase]
+	autoStash = true
+[pull]
+	rebase = true
+[include]
+	path = ~/.gitconfig_user

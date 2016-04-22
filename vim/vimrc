@@ -1,6 +1,7 @@
 set nocompatible
 
 source ~/.vim/plugins.vim
+source ~/.vim/abbrev.vim
 
 filetype indent plugin on
 
@@ -277,6 +278,12 @@ set statusline+=%=                       " right align
 set statusline+=%y\                      " file type
 set statusline+=%-8(\ %l,%c\ %)          " offset
 
+" Keep the quickfix window small when there aren't many lines
+au FileType qf call AdjustWindowHeight(3, 10)
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
 "------------------------------------------------------------
 " Nvim specific settings override previous
 "------------------------------------------------------------
@@ -349,9 +356,11 @@ let g:syntastic_ignore_files = ['\.h$']
 
 " FZF
 nmap <silent> <leader>u :Files<CR>
+nmap <silent> <leader>b :Buffers<CR>
+let g:fzf_layout = { 'up': '40%' }
 
 " html indentation
-let g:html_indent_inctags = "html,body,head,tbody,svg,g,script"
+let g:html_indent_inctags = "html,body,head,tbody,svg,g,script,section,nav,main,header"
 let g:html_indent_script1 = "inc"
 let g:html_indent_style1 = "inc"
 
@@ -372,7 +381,9 @@ let g:ycm_filetype_blacklist = {
         \ 'markdown' : 1,
         \ 'text': 1,
         \ 'gitcommit': 1,
-        \ 'log': 1
+        \ 'log': 1,
+        \ 'less': 1,
+        \ 'html': 1
         \}
 
 au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts map <F12> :YcmCompleter GoToDefinition<CR>

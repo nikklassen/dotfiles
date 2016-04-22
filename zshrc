@@ -30,7 +30,7 @@ fi
 popd > /dev/null
 
 function _backward_kill_default_word() {
-  WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>' zle backward-kill-word
+  WORDCHARS="$WORDCHARS/" zle backward-kill-word
 }
 zle -N backward-kill-default-word _backward_kill_default_word
 bindkey '\ew' backward-kill-default-word

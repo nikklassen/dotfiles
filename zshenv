@@ -40,3 +40,5 @@ ZSH_HIGHLIGHT_MAXLENGTH=100
 
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_TMUX=0
+
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
