@@ -1,5 +1,5 @@
 export PAGER=less
-export LESS="-SR -# .5"
+export LESS="-SR -# 0"
 export EDITOR=/usr/local/bin/nvim
 
 # Python
@@ -25,6 +25,12 @@ PATH="/usr/texbin:$PATH"
 # Buildozer path
 PATH="$PATH:./.buildozer/android/platform/android-sdk-21/platform-tools"
 
+# Homebrew path
+PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+
+# rvm
+export PATH="$PATH:$HOME/.rvm/bin"
+
 # For security the local directory should be at the end
 export PATH="$PATH:."
 
@@ -42,6 +48,8 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_TMUX=0
 
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+export JAVA_HOME="$(/usr/libexec/java_home/)"
 
 BOOT_EMIT_TARGET=no
 

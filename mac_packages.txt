@@ -1,5 +1,6 @@
-wget
 tree
-htop
+ag
+wget
+neovim
 python
 python3

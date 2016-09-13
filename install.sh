@@ -45,6 +45,10 @@ git config --global mergetool.diffconflicts.cmd 'diffconflicts "vim -u NONE" $BA
 git config --global mergetool.diffconflictstrustExitCode true
 git config --global mergetool.keepBackup false
 
+mkdir -p /usr/local/etc/profile.d/
+sudo ln -s $FORCE $PWD/z/z.sh /usr/local/etc/profile.d/z.sh
+sudo ln -s $FORCE $PWD/z/z.1 /usr/local/man/man1/z.1
+
 # If this is a login shell source the changes immediately
 if [[ $- == *i* ]]; then
     source ~/.zshrc
