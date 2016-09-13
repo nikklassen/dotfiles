@@ -8,7 +8,22 @@ function! ClipPic()
     call setline('.', line . ' ![](' . fname . '.png)')
 endfunction
 
+let s:sdir = expand('<sfile>:p:h')
+function! NextPage()
+    call system('osascript ' . s:sdir . '/advance_page.applescript +')
+endfunction
+
+function! PrevPage()
+    call system('osascript ' . s:sdir . '/advance_page.applescript -')
+endfunction
+
 nmap <leader>cp :call ClipPic()<CR>
+
+imap <silent> <F6> :call PrevPage()<CR><Right>
+imap <silent> <F7> :call NextPage()<CR><Right>
+
+nmap <silent> <F6> :call PrevPage()<CR>
+nmap <silent> <F7> :call NextPage()<CR>
 
 setlocal comments=b:*,b:-,b:+,n:>
 setlocal formatoptions+=ro

@@ -1,0 +1,5 @@
+wget
+tree
+htop
+python
+python3

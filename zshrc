@@ -99,11 +99,26 @@ auto-ls-after-cd() {
 }
 add-zsh-hook chpwd auto-ls-after-cd
 
+function virtualenv_info(){
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        venv=$(basename ${VIRTUAL_ENV##*/})
+    else
+        venv=''
+    fi
+    [[ -n "$venv" ]] && echo "($venv) "
+}
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+local VENV="\$(virtualenv_info)";
+PS1="${VENV}$PS1"
+
 # Load z
-[[ -e /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
+[[ -e /usr/local/opt/z/z.sh ]] && . /usr/local/opt/z/z.sh
 
 # Load nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(rbenv init -)"

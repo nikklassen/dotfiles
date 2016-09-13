@@ -31,6 +31,7 @@ start_calibre_server() {
     PID=$!
     /usr/bin/read -n 1
     pkill calibre-server
+    kill $PID
 }
 
 linux_headless() {

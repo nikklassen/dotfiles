@@ -6,3 +6,5 @@ vim/tags
 vim/view
 vim/plugged
 vim/spell
+vim/.nrepl-history
+vim/rplugin/

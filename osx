@@ -1,6 +1,8 @@
 # Faster keyboard repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 0
 
+defaults write -g ApplePressAndHoldEnabled -bool false
+
 # Allow text selection in Quick Look
 defaults write com.apple.finder QLEnableTextSelection -bool true
 

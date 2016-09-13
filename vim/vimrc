@@ -1,7 +1,13 @@
 set nocompatible
 
-source ~/.vim/plugins.vim
-source ~/.vim/abbrev.vim
+let g:python_host_prog = '/usr/local/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
+
+let g:PLUGINS_FILE = expand('~/.vim/plugins.vim')
+exec "source " . g:PLUGINS_FILE
+
+let g:ABBREV_FILE = expand('~/.vim/abbrev.vim')
+exec "source " . g:ABBREV_FILE
 
 filetype indent plugin on
 
@@ -147,6 +153,7 @@ vnoremap <M-Down>   dpgv
 vnoremap <M-Up>     dkPgv
 
 nmap <leader>v      :tabe $MYVIMRC<CR>
+exec "nmap <leader>vp :tabe " . g:PLUGINS_FILE . "<CR>"
 
 nnoremap <M-h> <C-W>h
 nnoremap <M-j> <C-W>j
@@ -195,7 +202,7 @@ function! ReplaceCurrentWord()
     call setline('.', new_line)
 endfunction
 
-nmap <leader>s :call ReplaceCurrentWord()<CR>
+nnoremap <leader>s :call ReplaceCurrentWord()<CR>
 
 vnoremap <silent> <C-S> :sort<CR>
 
@@ -307,6 +314,8 @@ let tags="tags,~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags,./*.vi"
 
 au BufWritePost .vimrc source $MYVIMRC
 
+au filetype quickfix exe "3wincmd _"
+
 "------------------------------------------------------------
 " Plug-in settings
 "------------------------------------------------------------
@@ -329,6 +338,12 @@ hi link EasyMotionShade  Comment
 " Javascript indent
 let g:SimpleJsIndenter_BriefMode = 1
 let g:SimpleJsIndenter_CaseIndentLevel = -1
+
+" vim-javascript
+let javascript_enable_domhtmlcss = 1
+
+" vim-jsx
+" let g:jsx_ext_required = 0
 
 " Syntastic
 let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell'] }
@@ -357,7 +372,7 @@ let g:syntastic_ignore_files = ['\.h$']
 " FZF
 nmap <silent> <leader>u :Files<CR>
 nmap <silent> <leader>b :Buffers<CR>
-let g:fzf_layout = { 'up': '40%' }
+let g:fzf_layout = { 'up': '~40%' }
 
 " html indentation
 let g:html_indent_inctags = "html,body,head,tbody,svg,g,script,section,nav,main,header"
@@ -382,6 +397,7 @@ let g:ycm_filetype_blacklist = {
         \ 'text': 1,
         \ 'gitcommit': 1,
         \ 'log': 1,
+        \ 'tex': 1,
         \ 'less': 1,
         \ 'html': 1
         \}
@@ -398,6 +414,7 @@ nmap <leader>nf :NERDTreeFind<CR>
 " delimitMate
 let delimitMate_expand_cr = 1
 let delimitMate_nesting_quotes = ['`']
+let delimitMate_excluded_ft = "clojure,html,eruby"
 
 " Tern
 let tern_show_signature_in_pum = 1
@@ -412,6 +429,10 @@ let g:haskell_conceal = 0
 
 " Rust
 let g:rustc_makeprg_no_percent = 1
+
+" Racer
+let g:ycm_rust_src_path = '/usr/local/include/rust/'
+
 
 " LaTeXBox
 let g:LatexBox_viewer = 'open -a Skim'
@@ -432,5 +453,5 @@ let g:pandoc#modules#disabled = ["formatting"]
 let g:pandoc#command#autoexec_on_writes = 1
 let g:pandoc#syntax#conceal#use = 0
 let g:pandoc#syntax#codeblocks#embeds#langs = ["java", "c"]
-let g:pandoc#command#autoexec_command = "Pandoc pdf -Ss -f markdown+hard_line_breaks+subscript+superscript+pipe_tables -V geometry:margin=1in"
+let g:pandoc#command#autoexec_command = "Pandoc pdf -R -Ss -f markdown+hard_line_breaks+subscript+superscript+pipe_tables -V geometry:margin=1in"
 let g:pandoc#formatting#mode = 'ha'

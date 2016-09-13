@@ -1,6 +1,7 @@
-#!/bin/zsh
-FORCE=""
-if [[ $1 == "-f" ]]; then
+#!/bin/sh
+
+FORCE=''
+if [[ $1 == '-f' ]]; then
     FORCE=-f
 fi
 
@@ -19,6 +20,8 @@ git config -f $OMZ_MODULE/config core.sparsecheckout true
 # Clean up each subdirectory's working tree to only use the sparse checkout
 git submodule foreach 'git read-tree -m -u HEAD'
 
+git clone https://github.com/rupa/z.git /usr/local/opt/z
+
 link_home() {
     if [[ ! -L $HOME/.$1 || -n $FORCE ]]; then
         symlink $PWD/$1 $HOME/.$1
@@ -36,9 +39,9 @@ if [[ $(uname) == 'Darwin' ]]; then
     source install_osx.sh
 fi
 
-sudo ln -s $FORCE $PWD/scripts/vim_diffconflicts /usr/local/bin/diffconflicts
+curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts > /usr/local/bin/diffconflicts
 git config --global merge.tool diffconflicts
-git config --global mergetool.diffconflicts.cmd 'diffconflicts vim $BASE $LOCAL $REMOTE $MERGED'
+git config --global mergetool.diffconflicts.cmd 'diffconflicts "vim -u NONE" $BASE $LOCAL $REMOTE $MERGED'
 git config --global mergetool.diffconflictstrustExitCode true
 git config --global mergetool.keepBackup false
 
