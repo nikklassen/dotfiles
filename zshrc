@@ -36,17 +36,15 @@ zle -N backward-kill-default-word _backward_kill_default_word
 bindkey '\ew' backward-kill-default-word
 
 alias lls="ls -lAh"
-alias xgit="xcrun git"
-alias mysql=/usr/local/mysql/bin/mysql
-alias mysqladmin=/usr/local/mysql/bin/mysqladmin
 alias rsync="rsync -h --progress"
 alias ytaudio="youtube-dl -x --audio-format mp3"
 alias stf="sudo tail -f"
-alias prm=". /usr/local/bin/prm.sh"
+alias pyg='pygmentize -f 256 -O style=monokai'
 
 alias gdl='git clone --depth 1'
 alias gpnew='git push --set-upstream origin $(current_branch)'
 alias -g NV='--no-verify'
+alias -g LO='$(eval `fc -ln -1`)'
 
 alias plz='sudo $(fc -ln -1)'
 
@@ -114,11 +112,12 @@ local VENV="\$(virtualenv_info)";
 PS1="${VENV}$PS1"
 
 # Load z
-[[ -e /usr/local/opt/z/z.sh ]] && . /usr/local/opt/z/z.sh
+[[ -e /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
 
 # Load nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(rbenv init -)"
+
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
