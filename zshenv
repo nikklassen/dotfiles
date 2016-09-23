@@ -47,8 +47,6 @@ ZSH_HIGHLIGHT_MAXLENGTH=100
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_TMUX=0
 
-export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
 export JAVA_HOME="$(/usr/libexec/java_home/)"
 
 BOOT_EMIT_TARGET=no
