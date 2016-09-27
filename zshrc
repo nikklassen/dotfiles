@@ -35,18 +35,23 @@ function _backward_kill_default_word() {
 zle -N backward-kill-default-word _backward_kill_default_word
 bindkey '\ew' backward-kill-default-word
 
+bindkey '^U' backward-kill-line
+
 alias lls="ls -lAh"
 alias rsync="rsync -h --progress"
 alias ytaudio="youtube-dl -x --audio-format mp3"
 alias stf="sudo tail -f"
 alias pyg='pygmentize -f 256 -O style=monokai'
+alias rc='$EDITOR $HOME/.zshrc'
+alias plz='sudo $(fc -ln -1)'
 
 alias gdl='git clone --depth 1'
 alias gpnew='git push --set-upstream origin $(current_branch)'
+
 alias -g NV='--no-verify'
 alias -g LO='$(eval `fc -ln -1`)'
-
-alias plz='sudo $(fc -ln -1)'
+alias -g NE='2> /dev/null'
+alias -g NUL='> /dev/null 2>&1'
 
 youtube-mp3 () {
     youtube-dl -x --audio-format mp3 $1

@@ -114,7 +114,7 @@ map Y y$
 
 " Map <C-L> (redraw screen) to also turn off search highlighting until the
 " next search
-nnoremap <C-L>      :nohl<CR><C-L>
+nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
 
 nmap \<CR>   mrO<ESC>`r
 imap \<CR>   <ESC>o
@@ -159,6 +159,7 @@ nnoremap <M-h> <C-W>h
 nnoremap <M-j> <C-W>j
 nnoremap <M-k> <C-W>k
 nnoremap <M-l> <C-W>l
+nnoremap <M-c> <C-w>c
 
 set pastetoggle=<F5>
 
@@ -218,14 +219,6 @@ function! NumberToggle()
 endfunc
 
 noremap <silent> <f3> :call NumberToggle()
-
-nnoremap <M-h> <C-w>h
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-l> <C-w>l
-nnoremap <M-c> <C-w>c
-
-cnoremap <C-A> <Home>
 
 "------------------------------------------------------------
 " Custom commands
@@ -467,3 +460,5 @@ let g:pandoc#syntax#conceal#use = 0
 let g:pandoc#syntax#codeblocks#embeds#langs = ["java", "c"]
 let g:pandoc#command#autoexec_command = "Pandoc pdf -R -Ss -f markdown+hard_line_breaks+subscript+superscript+pipe_tables -V geometry:margin=1in"
 let g:pandoc#formatting#mode = 'ha'
+
+let g:EclimCompletionMethod = 'omnifunc'

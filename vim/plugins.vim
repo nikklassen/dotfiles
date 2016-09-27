@@ -33,9 +33,10 @@ Plug 'vim-pandoc/vim-pandoc', {'for': ['markdown', 'pandoc']} | Plug 'vim-pandoc
 Plug 'chase/vim-ansible-yaml', {'for': 'ansible'}
 Plug 'dhruvasagar/vim-table-mode', {'for': ['pandoc', 'markdown']}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdcommenter'
 
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
+Plug 'tpope/vim-rails', {'for': 'ruby'}
 
 " Load ag.vim after fzf so that fzf's Ag command is overridden
 Plug 'rking/ag.vim'

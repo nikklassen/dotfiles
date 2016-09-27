@@ -37,6 +37,7 @@ let g:neomake_rust_cargo_maker = {
 let g:neomake_rust_enabled_makers = ['cargo']
 let g:neomake_cpp_enabled_makers = []
 let g:neomake_tex_enabled_makers = []
+let g:neomake_java_enabled_makers = []
 
 " neovim-editcommand
 

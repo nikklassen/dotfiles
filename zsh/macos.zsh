@@ -1,5 +1,3 @@
-export CLASSPATH="$HOME/Programming/Java/classes/"
-
 alias ls="ls -FG"
 alias tar="tar --disable-copyfile"
 

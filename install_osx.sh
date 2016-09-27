@@ -21,7 +21,7 @@ if [[ ! -d $ITERM_DIR ]]; then
     ln -s $PWD/iterm.plist $ITERM_DIR/com.googlecode.iterm2.plist
 fi
 
-KARABINER_DIR="$HOME/Library/Application\ Support/Karabiner/"
+KARABINER_DIR="$HOME/Library/Application Support/Karabiner/"
 if [[ -d $KARABINER_DIR ]]; then
-    ln -s $PWD/karabiner_mappings.xml $KARABINER_DIR/private.xml
+    ln -fs $PWD/karabiner_mappings.xml $KARABINER_DIR/private.xml
 fi
