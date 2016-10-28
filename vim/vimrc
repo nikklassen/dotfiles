@@ -183,6 +183,10 @@ noremap <silent> <D-Left> :call ExtendedHome()<CR>
 inoremap <silent> <C-a> <C-O>:call ExtendedHome()<CR>
 inoremap <C-e> <C-O>A
 
+cnoremap <C-A> <Home>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
+
 noremap <leader>c :cd %:p:h<CR><CR>
 noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
 
@@ -346,6 +350,7 @@ let g:SimpleJsIndenter_CaseIndentLevel = -1
 
 " vim-javascript
 let javascript_enable_domhtmlcss = 1
+let g:javascript_plugin_jsdoc = 1
 
 " vim-jsx
 " let g:jsx_ext_required = 0
@@ -407,7 +412,8 @@ let g:ycm_filetype_blacklist = {
         \ 'html': 1
         \}
 
-au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts map <F12> :YcmCompleter GoToDefinition<CR>
+au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> <F12> :YcmCompleter GoToDefinition<CR>
+au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> K :YcmCompleter GetDoc<CR>
 
 " NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif

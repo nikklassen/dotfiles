@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 which -s brew 2>&1 > /dev/null
 if [[ $? == 1 ]]; then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -12,7 +14,7 @@ if [[ $? == 1 ]]; then
     brew install neovim/neovim/neovim
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     ln -s ~/.vim $XDG_CONFIG_HOME/nvim
-    sudo pip install neovim
+    sudo pip3 install neovim
 fi
 
 ITERM_DIR=$HOME/.iterm
@@ -24,4 +26,8 @@ fi
 KARABINER_DIR="$HOME/Library/Application Support/Karabiner/"
 if [[ -d $KARABINER_DIR ]]; then
     ln -fs $PWD/karabiner_mappings.xml $KARABINER_DIR/private.xml
+fi
+
+if [[ -z "$NVM_DIR" || ! -d "$NVM_DIR" ]]; then
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
 fi

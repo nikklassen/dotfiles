@@ -52,3 +52,5 @@ export JAVA_HOME="$(/usr/libexec/java_home/)"
 BOOT_EMIT_TARGET=no
 
 export RUST_SRC_PATH='/usr/local/include/rust/src'
+
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket

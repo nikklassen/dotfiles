@@ -1,6 +1,5 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'Lokaltog/vim-easymotion'
 Plug 'Raimondi/delimitMate'
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -19,9 +18,8 @@ Plug 'embear/vim-localvimrc'
 Plug 'fs111/pydoc.vim', {'for': 'python'}
 Plug 'groenewege/vim-less', {'for': 'less'}
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
-Plug 'mattn/emmet-vim', {'for': ['html', 'htmldjango']}
+Plug 'mattn/emmet-vim', {'for': ['html', 'htmldjango', 'xml']}
 Plug 'othree/xml.vim'
-Plug 'tpope/vim-abolish'
 Plug 'pangloss/vim-javascript' | Plug 'mxw/vim-jsx'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'tomasr/molokai'

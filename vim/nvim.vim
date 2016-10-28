@@ -8,6 +8,8 @@ tnoremap <M-l> <C-\><C-n><C-w>l
 autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
 
+command! Vterm vertical belowright split | term
+
 " Neomake
 
 let g:neomake_open_list = 2
@@ -20,6 +22,8 @@ let g:neomake_python_pylint_cwd = '%:p:h'
 
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_javascript_eslint_cwd = '%:p:h'
+
+let g:neomake_typescript_tsc_args = ['--noEmit']
 
 let g:neomake_rust_cargo_maker = {
             \ 'exe': 'cargo',
@@ -38,6 +42,7 @@ let g:neomake_rust_enabled_makers = ['cargo']
 let g:neomake_cpp_enabled_makers = []
 let g:neomake_tex_enabled_makers = []
 let g:neomake_java_enabled_makers = []
+let g:neomake_html_enabled_makers = []
 
 " neovim-editcommand
 
