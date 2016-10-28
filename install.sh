@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 FORCE=''
 if [[ $1 == '-f' ]]; then
@@ -33,7 +33,7 @@ link_home vim
 link_home tmux.conf
 
 if [[ $(uname) == 'Darwin' ]]; then
-    link_home osx
+    link_home macos
     source install_osx.sh
 fi
 
