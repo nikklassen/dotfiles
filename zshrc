@@ -40,6 +40,13 @@ bindkey '\ew' backward-kill-default-word
 
 bindkey '^U' backward-kill-line
 
+vim-none-command-line () {
+  local EDITOR="$EDITOR -u NONE"
+  edit-command-line
+}
+zle -N vim-none-command-line
+bindkey '^X^E' vim-none-command-line
+
 alias lls="ls -lAh"
 alias rsync="rsync -h --progress"
 alias ytaudio="youtube-dl -x --audio-format mp3"
