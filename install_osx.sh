@@ -23,11 +23,6 @@ if [[ ! -d $ITERM_DIR ]]; then
     ln -s $PWD/iterm.plist $ITERM_DIR/com.googlecode.iterm2.plist
 fi
 
-KARABINER_DIR="$HOME/Library/Application Support/Karabiner/"
-if [[ -d $KARABINER_DIR ]]; then
-    ln -fs $PWD/karabiner_mappings.xml $KARABINER_DIR/private.xml
-fi
-
 if [[ -z "$NVM_DIR" || ! -d "$NVM_DIR" ]]; then
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
 fi
