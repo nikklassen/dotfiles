@@ -304,7 +304,7 @@ endfunction
 " Nvim specific settings override previous
 "------------------------------------------------------------
 
-if has('nvim')
+if has('nvim') && $XDG_CONFIG_HOME != ''
     source $XDG_CONFIG_HOME/nvim/nvim.vim
 endif
 
