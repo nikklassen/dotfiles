@@ -1,6 +1,5 @@
 [core]
 	excludesfile = ~/.gitignore_global
-	include = .gitconfig_local
 [merge]
 	tool = diffconflicts
 [mergetool "diffconflicts"]
@@ -13,4 +12,5 @@
 [alias]
 	and-this = commit --amend --no-edit
 	hidden = !git ls-files -v | awk '/^[[:lower:]]/ { print $2 }'
-
+[include]
+	path = ~/.gitconfig_local
