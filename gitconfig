@@ -1,0 +1,16 @@
+[core]
+	excludesfile = ~/.gitignore_global
+	include = .gitconfig_local
+[merge]
+	tool = diffconflicts
+[mergetool "diffconflicts"]
+	cmd = diffconflicts \"vim -u NONE\" $BASE $LOCAL $REMOTE $MERGED
+[mergetool]
+	diffconflictstrustExitCode = true
+	keepBackup = false
+[user]
+	name = Nik Klassen
+[alias]
+	and-this = commit --amend --no-edit
+	hidden = !git ls-files -v | awk '/^[[:lower:]]/ { print $2 }'
+

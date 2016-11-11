@@ -31,6 +31,7 @@ link_home zshenv
 link_home zsh
 link_home vim
 link_home tmux.conf
+link_home gitconfig
 
 if [[ $(uname) == 'Darwin' ]]; then
     link_home macos
@@ -38,10 +39,6 @@ if [[ $(uname) == 'Darwin' ]]; then
 fi
 
 curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts > /usr/local/bin/diffconflicts
-git config --global merge.tool diffconflicts
-git config --global mergetool.diffconflicts.cmd 'diffconflicts "vim -u NONE" $BASE $LOCAL $REMOTE $MERGED'
-git config --global mergetool.diffconflictstrustExitCode true
-git config --global mergetool.keepBackup false
 
 sudo mkdir -p /usr/local/etc/profile.d/
 sudo ln -s $FORCE $PWD/z/z.sh /usr/local/etc/profile.d/z.sh
