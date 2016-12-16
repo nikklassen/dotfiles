@@ -55,6 +55,8 @@ alias pyg='pygmentize -f 256 -O style=monokai'
 alias rc='$EDITOR $HOME/.zshrc'
 alias plz='sudo $(fc -ln -1)'
 
+[[ -f /usr/local/bin/nvim ]] && alias vim=nvim
+
 alias gdl='git clone --depth 1'
 alias gpnew='git push --set-upstream origin $(current_branch)'
 

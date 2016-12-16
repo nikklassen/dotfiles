@@ -4,7 +4,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-Plug 'Valloric/YouCompleteMe', { 'on': 'YcmCompleter', 'do': '~/.vim/install_ycm.sh' }
+Plug 'Valloric/YouCompleteMe', { 'do': '~/.vim/install_ycm.sh' }
 
 Plug 'dag/vim2hs', {'for': 'haskell'}
 Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
@@ -27,9 +27,10 @@ Plug 'chase/vim-ansible-yaml', {'for': 'ansible'}
 Plug 'dhruvasagar/vim-table-mode', {'for': ['pandoc', 'markdown']}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdcommenter'
+Plug 'wellle/targets.vim'
 
-Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
-Plug 'tpope/vim-rails', {'for': 'ruby'}
+Plug 'vim-ruby/vim-ruby', {'for': ['ruby', 'eruby']}
+Plug 'tpope/vim-rails', {'for': ['ruby', 'eruby']}
 
 " Load ag.vim after fzf so that fzf's Ag command is overridden
 Plug 'rking/ag.vim'

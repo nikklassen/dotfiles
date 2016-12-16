@@ -10,6 +10,8 @@ autocmd BufLeave term://* stopinsert
 
 command! Vterm vertical belowright split | term
 
+set inccommand=nosplit
+
 " Neomake
 
 let g:neomake_open_list = 2
@@ -17,7 +19,7 @@ let g:neomake_list_height = 3
 
 au! BufWritePost * Neomake
 
-let g:neomake_python_enabled_makers = ['pep8', 'pylint']
+let g:neomake_python_enabled_makers = ['pylint']
 let g:neomake_python_pylint_cwd = '%:p:h'
 
 let g:neomake_javascript_enabled_makers = ['eslint']

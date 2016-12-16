@@ -33,6 +33,8 @@ link_home vim
 link_home tmux.conf
 link_home gitconfig
 
+link_home linting/pylintrc
+
 if [[ $(uname) == 'Darwin' ]]; then
     link_home macos
     source install_osx.sh
