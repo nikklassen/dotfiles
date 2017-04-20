@@ -1,7 +1,7 @@
 set nocompatible
 
-let g:python_host_prog = '/usr/local/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
 
 let g:PLUGINS_FILE = expand('~/.vim/plugins.vim')
 exec "source " . g:PLUGINS_FILE
@@ -444,8 +444,7 @@ let g:haskell_conceal = 0
 let g:rustc_makeprg_no_percent = 1
 
 " Racer
-let g:ycm_rust_src_path = '/usr/local/include/rust/'
-
+let g:ycm_rust_src_path = $RUST_SRC_PATH
 
 " LaTeXBox
 let g:LatexBox_viewer = 'open -a Skim'

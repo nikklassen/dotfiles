@@ -28,6 +28,7 @@ Plug 'dhruvasagar/vim-table-mode', {'for': ['pandoc', 'markdown']}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'wellle/targets.vim'
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
 
 Plug 'vim-ruby/vim-ruby', {'for': ['ruby', 'eruby']}
 Plug 'tpope/vim-rails', {'for': ['ruby', 'eruby']}
@@ -51,7 +52,6 @@ endif
 if has('mac')
     Plug 'Floobits/floobits-vim', {'on': ['FlooJoinWorkspace', 'FlooShareDirPublic', 'FlooShareDirPrivate']}
     Plug 'rizzatti/dash.vim', {'on': 'Dash'}
-    Plug 'rust-lang/rust.vim', {'for': 'rust'}
 endif
 
 call plug#end()

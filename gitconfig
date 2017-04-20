@@ -14,3 +14,5 @@
 	hidden = !git ls-files -v | awk '/^[[:lower:]]/ { print $2 }'
 [include]
 	path = ~/.gitconfig_local
+[push]
+	default = simple

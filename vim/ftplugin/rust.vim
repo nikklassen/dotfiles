@@ -12,3 +12,6 @@ function! ToggleMaker()
 endf
 
 au filetype rust nmap <local> <leader>m :call ToggleMaker()<CR>
+
+au BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
+au BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&"

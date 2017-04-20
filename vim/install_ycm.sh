@@ -1,11 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 completers=''
 
 function prompt_for() {
-    printf "Install $1 completer [yN]: "
-    read install
-    echo ""
-    [[ install == 'y' ]] && completers="$completers --${1}-completer"
+    if [[ $- == *i* ]]; then
+        printf "Install $1 completer [yN]: "
+        read install
+        echo ""
+        [[ install == 'y' ]] && completers="$completers --${1}-completer"
+    else
+        completers="$completers --${1}-completer"
+    fi
 }
 
 prompt_for tern

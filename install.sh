@@ -33,14 +33,18 @@ link_home vim
 link_home tmux.conf
 link_home gitconfig
 
-link_home linting/pylintrc
+symlink $PWD/linting/pylintrc $HOME/.pylintrc
+
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+[[ ! -f $XDG_CONFIG_HOME ]] && mkdir -p $XDG_CONFIG_HOME
+symlink $PWD/vim $XDG_CONFIG_HOME/nvim
 
 if [[ $(uname) == 'Darwin' ]]; then
     link_home macos
     source install_osx.sh
 fi
 
-curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts > /usr/local/bin/diffconflicts
+sudo curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts -o /usr/local/bin/diffconflicts
 
 sudo mkdir -p /usr/local/etc/profile.d/
 sudo ln -s $FORCE $PWD/z/z.sh /usr/local/etc/profile.d/z.sh
