@@ -58,6 +58,8 @@ alias stf="sudo tail -f"
 alias pyg='pygmentize -f 256 -O style=monokai'
 alias rc='$EDITOR $HOME/.zshrc'
 alias plz='sudo $(fc -ln -1)'
+# 256 color
+alias tmux='tmux -2'
 
 [[ -f /usr/local/bin/nvim ]] && alias vim=nvim
 

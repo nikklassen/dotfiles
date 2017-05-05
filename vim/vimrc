@@ -76,9 +76,6 @@ set concealcursor=n
 " hide concealed text completely unless replacement character is defined
 set conceallevel=2
 
-" Tell Vim not to highlight matching parentheses
-let loaded_matchparen = 1
-
 set path=.,/usr/include,,
 
 set hidden
