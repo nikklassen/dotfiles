@@ -1,6 +1,6 @@
 export PAGER=less
 export LESS="-SR -# 0"
-if [[ $(which nvim) ]]; then
+if [[ $(which nvim > /dev/null 2>&1) == 0 ]]; then
     export EDITOR=nvim
 else
     export EDITOR=vim
@@ -43,8 +43,10 @@ export FZF_TMUX=0
 
 BOOT_EMIT_TARGET=no
 
-if [[ $(which rustc) ]]; then
+if [[ $(which rustc > /dev/null 2>&1) == 0 ]]; then
     export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
 fi
 
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+
+[ -f ~/.zshenv.local ] && source ~/.zshenv.local

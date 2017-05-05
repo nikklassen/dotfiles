@@ -33,6 +33,12 @@ link_home vim
 link_home tmux.conf
 link_home gitconfig
 
+read 'email?Enter a global email for git: '
+cat <<EOF > ~/.gitconfig_local
+[user]
+	email = $email
+EOF
+
 symlink $PWD/linting/pylintrc $HOME/.pylintrc
 
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
@@ -42,6 +48,8 @@ symlink $PWD/vim $XDG_CONFIG_HOME/nvim
 if [[ $(uname) == 'Darwin' ]]; then
     link_home macos
     source install_osx.sh
+else
+    source install_ubuntu.sh
 fi
 
 sudo curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts -o /usr/local/bin/diffconflicts
