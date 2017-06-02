@@ -22,3 +22,4 @@ texlive-fonts-recommended
 tmux
 tree
 vim
+jq
