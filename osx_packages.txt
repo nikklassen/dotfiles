@@ -6,7 +6,6 @@ gnu-time
 gnupg
 macvim
 md5sha1sum
-rogual/neovim-dot-app/neovim-dot-app
 nginx
 nmap
 pandoc
@@ -24,3 +23,4 @@ xdot
 youtube-dl
 z
 zsh-completions
+gnu-sed

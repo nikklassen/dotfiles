@@ -97,6 +97,8 @@ set autoread
 
 set formatoptions+=j
 
+set mouse=a
+
 "------------------------------------------------------------
 " Indentation options
 "------------------------------------------------------------
@@ -412,7 +414,8 @@ let g:ycm_filetype_blacklist = {
         \ 'log': 1,
         \ 'tex': 1,
         \ 'less': 1,
-        \ 'html': 1
+        \ 'html': 1,
+        \ 'ruby': 1
         \}
 
 au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> <F12> :YcmCompleter GoToDefinition<CR>

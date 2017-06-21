@@ -1,9 +1,9 @@
 export PAGER=less
 export LESS="-SR -# 0"
-if [[ $(which nvim > /dev/null 2>&1) == 0 ]]; then
-    export EDITOR=nvim
-else
+if [[ -z $(which nvim 2> /dev/null) ]]; then
     export EDITOR=vim
+else
+    export EDITOR=nvim
 fi
 
 # Node modules

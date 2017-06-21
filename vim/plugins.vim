@@ -13,8 +13,8 @@ Plug 'embear/vim-localvimrc'
 Plug 'fs111/pydoc.vim', {'for': 'python'}
 Plug 'groenewege/vim-less', {'for': 'less'}
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
-Plug 'mattn/emmet-vim', {'for': ['html', 'htmldjango', 'xml']}
-Plug 'othree/xml.vim', {'for': ['xml', 'html']}
+Plug 'mattn/emmet-vim', {'for': ['html', 'htmldjango', 'xml', 'eruby']}
+Plug 'othree/xml.vim', {'for': ['xml', 'html', 'eruby']}
 Plug 'pangloss/vim-javascript', {'for': ['js', 'jsx']} | Plug 'mxw/vim-jsx', {'for': ['jsx']}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'tomasr/molokai'

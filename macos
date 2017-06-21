@@ -85,3 +85,6 @@ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 # Top right screen corner → Sleep
 defaults write com.apple.dock wvous-tr-corner -int 10
 defaults write com.apple.dock wvous-tr-modifier -int 0
+
+sudo ifconfig lo0 alias 127.0.0.2 up
+sudo ifconfig lo0 alias 127.0.0.3 up
