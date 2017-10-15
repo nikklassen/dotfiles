@@ -22,7 +22,3 @@ if [[ ! -d $ITERM_DIR ]]; then
     mkdir $ITERM_DIR
     ln -s $PWD/iterm.plist $ITERM_DIR/com.googlecode.iterm2.plist
 fi
-
-if [[ -z "$NVM_DIR" || ! -d "$NVM_DIR" ]]; then
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash
-fi

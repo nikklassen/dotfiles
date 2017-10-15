@@ -22,9 +22,9 @@ pushd "$HOME/.zsh" > /dev/null
 multisrc omz.zsh syntax-highlighting/zsh-syntax-highlighting.zsh
 
 if [[ $(uname) == 'Darwin' ]]; then
-    . ./macos.zsh
+    source ./macos.zsh
 else
-    . ./ubuntu.zsh
+    source ./ubuntu.zsh
 fi
 
 popd > /dev/null
@@ -61,7 +61,7 @@ alias plz='sudo $(fc -ln -1)'
 # 256 color
 alias tmux='tmux -2'
 
-[[ -f /usr/local/bin/nvim ]] && alias vim=nvim
+[ -f /usr/local/bin/nvim ] && alias vim=nvim
 
 alias gdl='git clone --depth 1'
 alias gpnew='git push --set-upstream origin $(current_branch)'
@@ -71,9 +71,7 @@ alias -g LO='$(eval `fc -ln -1`)'
 alias -g NE='2> /dev/null'
 alias -g NUL='> /dev/null 2>&1'
 
-youtube-mp3 () {
-    youtube-dl -x --audio-format mp3 $1
-}
+alias youtube-mp3='youtube-dl -x --audio-format mp3'
 
 mkcd () {
     mkdir -p "$*"
@@ -128,14 +126,10 @@ local VENV="\$(virtualenv_info)";
 PS1="${VENV}$PS1"
 
 # Load z
-[[ -e /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
-
-# Load nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
