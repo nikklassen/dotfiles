@@ -3,7 +3,7 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 
 # Load and run compinit
 autoload -U compinit
-compinit -i -d "$HOME/.zcompdump"
+compinit -C -d "$HOME/.zcompdump"
 
 autoload -U add-zsh-hook
 autoload -U zmv
@@ -53,7 +53,6 @@ bindkey '^X^E' vim-none-command-line
 
 alias lls="ls -lAh"
 alias rsync="rsync -h --progress"
-alias ytaudio="youtube-dl -x --audio-format mp3"
 alias stf="sudo tail -f"
 alias pyg='pygmentize -f 256 -O style=monokai'
 alias rc='$EDITOR $HOME/.zshrc'
@@ -63,8 +62,17 @@ alias tmux='tmux -2'
 
 [ -f /usr/local/bin/nvim ] && alias vim=nvim
 
+alias dc='docker-compose'
+alias d='docker'
+
+function dccs() {
+    docker-compose create "$1" && \
+        docker-compose start "$1"
+}
+
+[[ -f /usr/local/bin/nvim ]] && alias -g vim=nvim
+
 alias gdl='git clone --depth 1'
-alias gpnew='git push --set-upstream origin $(current_branch)'
 
 alias -g NV='--no-verify'
 alias -g LO='$(eval `fc -ln -1`)'
@@ -78,12 +86,16 @@ mkcd () {
     cd "$*"
 }
 
-gbc () {
+function gbc () {
     git branch $1 && git checkout $1
 }
 
-gbd () {
-    git branch -D $1 && git push origin :$1
+function gbdd () {
+    git branch -D $1 && git push origin :$1 --no-verify
+}
+
+function grc () {
+    git reset HEAD $1 && git checkout $1
 }
 
 HISTFILE=$HOME/.zhistory

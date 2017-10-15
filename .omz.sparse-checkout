@@ -2,5 +2,9 @@ lib/theme-and-appearance.zsh
 lib/git.zsh
 lib/key-bindings.zsh
 lib/completion.zsh
+
 plugins/git/*
+plugins/docker/*
+plugins/docker-compose/*
+
 themes/dpoggi.zsh-theme

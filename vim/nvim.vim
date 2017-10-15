@@ -46,6 +46,9 @@ let g:neomake_tex_enabled_makers = []
 let g:neomake_java_enabled_makers = []
 let g:neomake_html_enabled_makers = []
 
+hi NeomakeErrorSign ctermfg=white
+hi NeomakeError term=underline ctermfg=darkgrey
+
 " neovim-editcommand
 
 let g:editcommand_prompt = '»'

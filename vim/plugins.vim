@@ -15,6 +15,7 @@ Plug 'groenewege/vim-less', {'for': 'less'}
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 Plug 'mattn/emmet-vim', {'for': ['html', 'htmldjango', 'xml', 'eruby']}
 Plug 'othree/xml.vim', {'for': ['xml', 'html', 'eruby']}
+Plug 'othree/html5.vim', {'for': ['html', 'eruby']}
 Plug 'pangloss/vim-javascript', {'for': ['js', 'jsx']} | Plug 'mxw/vim-jsx', {'for': ['jsx']}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'tomasr/molokai'
@@ -33,6 +34,8 @@ Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'vim-ruby/vim-ruby', {'for': ['ruby', 'eruby']}
 Plug 'tpope/vim-rails', {'for': ['ruby', 'eruby']}
 
+Plug 'Quramy/vim-js-pretty-template', {'for': ['typescript']}
+
 " Load ag.vim after fzf so that fzf's Ag command is overridden
 Plug 'rking/ag.vim'
 
@@ -50,7 +53,6 @@ if !has('win32')
     Plug 'tpope/vim-eunuch'
 endif
 if has('mac')
-    Plug 'Floobits/floobits-vim', {'on': ['FlooJoinWorkspace', 'FlooShareDirPublic', 'FlooShareDirPrivate']}
     Plug 'rizzatti/dash.vim', {'on': 'Dash'}
 endif
 

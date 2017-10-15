@@ -24,3 +24,4 @@ youtube-dl
 z
 zsh-completions
 gnu-sed
+reattach-to-user-namespace
