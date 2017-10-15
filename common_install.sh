@@ -30,6 +30,7 @@ link_home zshrc
 link_home zshenv
 link_home zsh
 link_home tmux.conf
+link_home tmux
 link_home gitconfig
 
 sudo curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts -o /usr/local/bin/diffconflicts
