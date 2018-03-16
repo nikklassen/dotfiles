@@ -60,17 +60,22 @@ alias plz='sudo $(fc -ln -1)'
 # 256 color
 alias tmux='tmux -2'
 
-[ -f /usr/local/bin/nvim ] && alias vim=nvim
-
 alias dc='docker-compose'
+alias dcu='docker-compose up -d'
+alias dcd='docker-compose down'
+alias dclg='docker-compose logs'
+alias dcr='docker-compose restart'
+alias dcru='docker-compose run'
+alias dcri='docker-compose run --rm -it'
 alias d='docker'
+alias dri='docker run --rm -it'
 
 function dccs() {
     docker-compose create "$1" && \
         docker-compose start "$1"
 }
 
-[[ -f /usr/local/bin/nvim ]] && alias -g vim=nvim
+[[ -f /usr/local/bin/nvim ]] && alias -g vim=nvim && alias -g vi=nvim
 
 alias gdl='git clone --depth 1'
 
@@ -91,11 +96,16 @@ function gbc () {
 }
 
 function gbdd () {
-    git branch -D $1 && git push origin :$1 --no-verify
+    git branch -D $1
+    git push origin :$1 --no-verify
 }
 
 function grc () {
-    git reset HEAD $1 && git checkout $1
+    git reset HEAD $1 > /dev/null && git checkout $1
+}
+
+function testport () {
+    nc -v "$1" "$2" < /dev/null
 }
 
 HISTFILE=$HOME/.zhistory
@@ -110,7 +120,7 @@ setopt SHARE_HISTORY
 setopt AUTO_CD
 setopt EXTENDED_GLOB
 
-setopt correct
+# setopt correct
 
 setopt globdots
 setopt extendedglob
@@ -143,5 +153,3 @@ PS1="${VENV}$PS1"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
-[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh

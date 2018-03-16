@@ -1,7 +1,7 @@
 set nocompatible
 
-let g:ycm_server_python_interpreter = '/usr/local/bin/python'
-let g:python_host_prog = '/usr/local/bin/python'
+let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
+let g:python_host_prog = '/usr/local/bin/python2'
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 let g:PLUGINS_FILE = expand('~/.vim/plugins.vim')
@@ -229,6 +229,8 @@ endfunc
 
 noremap <silent> <f3> :call NumberToggle()
 
+nnoremap <c-h> <c-^>
+
 "------------------------------------------------------------
 " Custom commands
 "------------------------------------------------------------
@@ -408,7 +410,6 @@ let g:ycm_filetype_blacklist = {
         \ 'tex': 1,
         \ 'less': 1,
         \ 'html': 1,
-        \ 'ruby': 1
         \}
 
 au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> <F12> :YcmCompleter GoToDefinition<CR>

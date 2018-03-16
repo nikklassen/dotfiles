@@ -1,1 +1,1 @@
-au BufRead,BufNewFile *.md	set filetype=pandoc
+au BufRead,BufNewFile *.md,README	set filetype=pandoc

@@ -7,3 +7,4 @@ tmux
 nmap
 jq
 node
+fd

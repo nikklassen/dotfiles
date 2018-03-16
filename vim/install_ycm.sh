@@ -11,4 +11,4 @@ has_exe node tern
 # has_exe clang++ clang
 has_exe rustc racer
 
-eval ./install.py $completers
+eval python3 ./install.py $completers

@@ -42,4 +42,6 @@ linux_headless() {
 
 . ./remotepair.zsh
 
-test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+export PS1="%{\$(iterm2_prompt_mark)%}$PS1"
+
+[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh

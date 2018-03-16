@@ -16,3 +16,5 @@
 	path = ~/.gitconfig_local
 [push]
 	default = simple
+[rebase]
+	autoStash = true

@@ -38,6 +38,8 @@ Plug 'Quramy/vim-js-pretty-template', {'for': ['typescript']}
 
 " Load ag.vim after fzf so that fzf's Ag command is overridden
 Plug 'rking/ag.vim'
+Plug 'vito-c/jq.vim', {'for': 'jq'}
+Plug 'chr4/nginx.vim'
 
 if has('nvim')
     Plug 'benekastah/neomake'

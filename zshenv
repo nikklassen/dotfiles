@@ -36,7 +36,9 @@ PYTHONSTARTUP=~/.pystartup
 # Undocumented feature that stops zsh-syntax-highlight after a certain length
 ZSH_HIGHLIGHT_MAXLENGTH=100
 
-export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_DEFAULT_COMMAND="fd --type f"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type d"
 export FZF_TMUX=0
 
 [[ -f /usr/libexec/java_home/ ]] && export JAVA_HOME="$(/usr/libexec/java_home/)"
