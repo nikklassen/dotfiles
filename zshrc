@@ -63,19 +63,30 @@ alias tmux='tmux -2'
 alias dc='docker-compose'
 alias dcu='docker-compose up -d'
 alias dcd='docker-compose down'
-alias dclg='docker-compose logs'
+alias dclg='docker-compose logs -f'
+alias dctf='docker-compose logs -f --tail="100"'
 alias dcr='docker-compose restart'
 alias dcru='docker-compose run'
 alias dcri='docker-compose run --rm -it'
 alias d='docker'
 alias dri='docker run --rm -it'
 
+function docker-upload () {
+    repo="$1"
+    last_image=$(docker images --format '{{ .Repository }}:{{ .Tag }}' | head -1)
+    echo "Uploading $last_image"
+    docker tag "$last_image" "$repo/$last_image"
+    docker push "$repo/$last_image"
+}
+
+alias dup="docker-upload"
+
 function dccs() {
     docker-compose create "$1" && \
         docker-compose start "$1"
 }
 
-[[ -f /usr/local/bin/nvim ]] && alias -g vim=nvim && alias -g vi=nvim
+[[ -f /usr/local/bin/nvim ]] && alias vim=nvim && alias vi=nvim
 
 alias gdl='git clone --depth 1'
 
