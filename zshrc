@@ -51,6 +51,9 @@ vim-none-command-line () {
 zle -N vim-none-command-line
 bindkey '^X^E' vim-none-command-line
 
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+
 alias lls="ls -lAh"
 alias rsync="rsync -h --progress"
 alias stf="sudo tail -f"
@@ -86,7 +89,7 @@ function dccs() {
         docker-compose start "$1"
 }
 
-[[ -f /usr/local/bin/nvim ]] && alias vim=nvim && alias vi=nvim
+command -v nvim >/dev/null 2>&1 && alias vim=nvim && alias vi=nvim
 
 alias gdl='git clone --depth 1'
 
@@ -164,3 +167,5 @@ PS1="${VENV}$PS1"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"

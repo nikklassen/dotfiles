@@ -1,21 +1,16 @@
 export PAGER=less
 export LESS="-SR -# 0"
-if [[ -z $(which nvim 2> /dev/null) ]]; then
-    export EDITOR=vim
-else
+if command -v nvim >/dev/null 2>&1; then
     export EDITOR=nvim
+else
+    export EDITOR=vim
 fi
 
 # Node modules
 PATH="./node_modules/.bin:$PATH"
 
 # Cargo
-PATH="$HOME/.cargo/bin:$PATH"
-
-# Homebrew path
-PATH="/usr/local/bin:/usr/local/sbin:$PATH"
-
-PATH="$PATH:$HOME/Library/Haskell/bin:$HOME/.cabal/bin:$HOME/.pandoc/bin"
+[[ -f "$HOME/.cargo" ]] && PATH="$HOME/.cargo/bin:$PATH"
 
 PATH="/usr/texbin:$PATH"
 
@@ -23,18 +18,17 @@ PATH="/usr/texbin:$PATH"
 PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # rvm
-export PATH="$PATH:$HOME/.rvm/bin"
+[[ -f "$HOME/.rvm" ]] && PATH="$PATH:$HOME/.rvm/bin"
 
 # For security the local directory should be at the end
 export PATH="$PATH:."
 
-PYTHONPATH="$PYTHONPATH:~/Programming/Python"
-PYTHONSTARTUP=~/.pystartup
+export PYTHONSTARTUP=~/.pystartup
 
 [[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
 
 # Undocumented feature that stops zsh-syntax-highlight after a certain length
-ZSH_HIGHLIGHT_MAXLENGTH=100
+export ZSH_HIGHLIGHT_MAXLENGTH=100
 
 export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -45,7 +39,7 @@ export FZF_TMUX=0
 
 BOOT_EMIT_TARGET=no
 
-if [[ $(which rustc > /dev/null 2>&1) == 0 ]]; then
+if command -v rustc >/dev/null 2>&1; then
     export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
 fi
 

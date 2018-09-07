@@ -1,8 +1,8 @@
 set nocompatible
 
-let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
-let g:python_host_prog = '/usr/local/bin/python2'
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:ycm_server_python_interpreter = '/usr/bin/python'
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
 
 let g:PLUGINS_FILE = expand('~/.vim/plugins.vim')
 exec "source " . g:PLUGINS_FILE
@@ -229,7 +229,7 @@ endfunc
 
 noremap <silent> <f3> :call NumberToggle()
 
-nnoremap <c-h> <c-^>
+nnoremap <BS> <c-^>
 
 "------------------------------------------------------------
 " Custom commands
@@ -391,30 +391,35 @@ nmap <silent> <leader>u :Files<CR>
 nmap <silent> <leader>b :Buffers<CR>
 let g:fzf_layout = { 'up': '~40%' }
 
-" YouCompleteMe
-let g:ycm_semantic_triggers = {'html' : ['<'], 'js,typescript,haskell' : ['.'], 'rust': ['::'], 'tex': ['{', '\']}
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_complete_in_comments = 0
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_filetype_blacklist = {
-        \ 'pandoc' : 1,
-        \ 'markdown' : 1,
-        \ 'text': 1,
-        \ 'gitcommit': 1,
-        \ 'log': 1,
-        \ 'tex': 1,
-        \ 'less': 1,
-        \ 'html': 1,
-        \}
+if exists('g:deoplete#enable_at_startup')
+    " Deoplete
+    let g:deoplete#enable_at_startup = 1
+else
+    " YouCompleteMe
+    let g:ycm_semantic_triggers = {'html' : ['<'], 'js,typescript,haskell' : ['.'], 'rust': ['::'], 'tex': ['{', '\']}
+    let g:ycm_seed_identifiers_with_syntax = 1
+    let g:ycm_complete_in_comments = 0
+    let g:ycm_add_preview_to_completeopt = 1
+    let g:ycm_autoclose_preview_window_after_insertion = 1
+    let g:ycm_collect_identifiers_from_tags_files = 1
+    let g:ycm_min_num_of_chars_for_completion = 2
+    let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+    let g:ycm_confirm_extra_conf = 0
+    let g:ycm_filetype_blacklist = {
+            \ 'pandoc' : 1,
+            \ 'markdown' : 1,
+            \ 'text': 1,
+            \ 'gitcommit': 1,
+            \ 'log': 1,
+            \ 'tex': 1,
+            \ 'less': 1,
+            \ 'html': 1,
+            \}
 
-au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> <F12> :YcmCompleter GoToDefinition<CR>
-au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> gd <F12>
-au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> K :YcmCompleter GetDoc<CR>
+    au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> <F12> :YcmCompleter GoToDefinition<CR>
+    au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> gd <F12>
+    au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> K :YcmCompleter GetDoc<CR>
+endif
 
 " NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif

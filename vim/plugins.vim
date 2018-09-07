@@ -1,10 +1,10 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'Raimondi/delimitMate'
-Plug 'Shougo/vimproc.vim', {'do': 'make'}
+if !has('nvim')
+    Plug 'Shougo/vimproc.vim', {'do': 'make'}
+endif
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
-Plug 'Valloric/YouCompleteMe', { 'do': '~/.vim/install_ycm.sh' }
 
 Plug 'dag/vim2hs', {'for': 'haskell'}
 Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
@@ -47,7 +47,16 @@ if has('nvim')
     Plug 'neovim/node-host' | Plug 'snoe/nvim-parinfer.js', {
         \ 'for': 'clojure',
         \ 'do': 'ln -s rplugin/node/nvim-parinfer.js ../../rplugin/node/nvim-parinfer.js'}
+
+    Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
+
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'sbdchd/neoformat'
 else
+    Plug 'Valloric/YouCompleteMe', { 'do': '~/.vim/install_ycm.sh' }
     Plug 'scrooloose/syntastic'
     Plug 'vim-scripts/fakeclip'
 endif

@@ -65,3 +65,33 @@ function! ToggleParinfer()
 endf
 
 nnoremap <F6> :call ToggleParinfer()<CR>
+
+" Deoplete
+let g:deoplete#enable_at_startup = 1
+
+" Language Service
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+let g:LanguageClient_hasSnippetSupport = 0
+
+" Neoformat
+augroup fmt
+    autocmd!
+    autocmd BufWritePre * undojoin | Neoformat
+augroup END
+
+let g:neoformat_rust_rustfmt = {
+            \ 'exe': 'rustfmt',
+            \ 'args': ['--emit stdout'],
+            \ 'stdin': 1,
+            \ 'no_append': 1,
+            \ }
+
+let g:neoformat_enabled_rust = ['rustfmt']
+let g:neoformat_enabled_typescript = ['clang-format']
