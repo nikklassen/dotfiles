@@ -10,6 +10,9 @@
     path = zsh/syntax-highlighting
     url = https://github.com/zsh-users/zsh-syntax-highlighting.git
     branch = master
+[submodule "zsh/zsh-async"]
+	path = zsh/zsh-async
+	url = https://github.com/mafredri/zsh-async
 [submodule "z"]
 	path = z
 	url = https://github.com/rupa/z

@@ -1,6 +1,5 @@
 set nocompatible
 
-let g:ycm_server_python_interpreter = '/usr/bin/python'
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/bin/python3'
 
@@ -10,11 +9,6 @@ exec "source " . g:PLUGINS_FILE
 let g:ABBREV_FILE = expand('~/.vim/abbrev.vim')
 exec "source " . g:ABBREV_FILE
 
-filetype indent plugin on
-
-" Enable syntax highlighting
-syntax enable
-
 if &term =~ '256color'
     " https://sunaku.github.io/vim-256color-bce.html
     set t_ut=
@@ -22,7 +16,6 @@ endif
 
 " Better command-line completion
 set wildmode=list:longest,full
-set wildmenu
 
 let &wildignore = "*.o,*.pyc,*.hi"
 
@@ -34,16 +27,8 @@ set showcmd
 " Search commands
 
 set hlsearch
-set incsearch
 set ignorecase
 set smartcase
-
-" Allow backspacing over autoindent, line breaks and start of insert action
-set backspace=indent,eol,start
-
-" When opening a new line and no filetype-specific indenting is enabled, keep
-" the same indent as the line you're currently on. Useful for READMEs, etc.
-set autoindent
 
 set smartindent
 
@@ -51,9 +36,6 @@ set smartindent
 " While this behaviour deviates from that of Vi, it does what most users
 " coming from other editors would expect.
 set nostartofline
-
-" Always display the status line, even if only one window is displayed
-set laststatus=2
 
 " Instead of failing a command because of unsaved changes, instead raise a
 " dialogue asking if you wish to save changed files.
@@ -65,8 +47,6 @@ set cmdheight=2
 
 " Display line numbers on the left
 set relativenumber
-
-set ruler
 
 " Shorter timeout for escape keys
 set tm=250
@@ -80,22 +60,7 @@ set path=.,/usr/include,,
 
 set hidden
 
-if !&scrolloff
-    set scrolloff=1
-endif
-if !&sidescrolloff
-    set sidescrolloff=5
-endif
-set display+=lastline
-
-if &listchars ==# 'eol:$'
-  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-endif
 set list
-
-set autoread
-
-set formatoptions+=j
 
 set mouse=a
 
@@ -107,129 +72,8 @@ set softtabstop=4
 set tabstop=2
 
 set expandtab
-set smarttab
 set shiftround
 set nojoinspaces
-
-"------------------------------------------------------------
-" Mappings
-"------------------------------------------------------------
-
-map Y y$
-
-" Map <C-L> (redraw screen) to also turn off search highlighting until the
-" next search
-nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-
-nmap \<CR>   mrO<ESC>`r
-imap \<CR>   <ESC>o
-
-" Reindent whole file
-nmap \=      mrgg=G`r
-
-" Replace word under cursor with last yanked
-nmap <leader>r      viw"0p
-nmap <leader>R      V"0p
-
-nmap <C-S> :w<CR>
-
-nnoremap <silent> <space> @=(foldlevel('.') ? 'za' : "\<space>")<CR>
-
-vnoremap <          <gv
-vnoremap <leader><  <
-
-vnoremap >          >gv
-vnoremap <leader>>  >
-
-nnoremap gp `[v`]
-
-nnoremap <Left>     gT
-nnoremap <Right>    gt
-nnoremap <Up>       :lpr<CR>
-nnoremap <Down>     :lne<CR>
-
-nnoremap [q        :cprevious<CR>
-nnoremap ]q        :cnext<CR>
-
-nnoremap <M-Down>   ddp
-nnoremap <M-Up>     ddkP
-
-vnoremap <M-Down>   dpgv
-vnoremap <M-Up>     dkPgv
-
-nmap <leader>v      :tabe $MYVIMRC<CR>
-exec "nmap <leader>vp :tabe " . g:PLUGINS_FILE . "<CR>"
-
-nnoremap <M-h> <C-W>h
-nnoremap <M-j> <C-W>j
-nnoremap <M-k> <C-W>k
-nnoremap <M-l> <C-W>l
-nnoremap <M-c> <C-w>c
-
-set pastetoggle=<F5>
-
-noremap <F10> 1z=
-
-" build
-nmap \m :w \| make<CR>
-
-function! ExtendedHome()
-    let column = col('.')
-    normal! ^
-    if column == col('.')
-        normal! 0
-    endif
-endfunction
-
-" Smart home
-noremap <silent> <D-Left> :call ExtendedHome()<CR>
-
-" 'Home' and 'End' for insert mode
-inoremap <silent> <C-a> <C-O>:call ExtendedHome()<CR>
-inoremap <C-e> <C-O>A
-
-cnoremap <C-A> <Home>
-cnoremap <M-b> <S-Left>
-cnoremap <M-f> <S-Right>
-
-noremap <leader>c :cd %:p:h<CR><CR>
-noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
-
-nnoremap <silent> <leader>ag :Ag <C-R><C-W><CR>
-vnoremap <silent> <leader>ag "gy:Ag -Q "<C-R>=substitute(@g, '\\\@<!"', '\\"', 'g')<CR>"<CR>
-
-" Search for the currently selected text
-vnoremap // "sy/<C-R>s<CR>
-
-function! ReplaceCurrentWord()
-    let new_word = input('New word: ')
-    if new_word == ''
-        return
-    endif
-
-    let w = expand('<cword>')
-    let new_line = substitute(getline('.'), w, new_word, 'gI')
-    call setline('.', new_line)
-endfunction
-
-nnoremap <leader>s :call ReplaceCurrentWord()<CR>
-
-vnoremap <silent> <C-S> :sort<CR>
-
-" Run selected lines
-vnoremap <silent> <f2> :<c-u>exe join(getline("'<","'>"), "\n")<cr>
-
-function! NumberToggle()
-    if(&relativenumber == 1)
-        set number
-    else
-        set relativenumber
-    endif
-endfunc
-
-noremap <silent> <f3> :call NumberToggle()
-
-nnoremap <BS> <c-^>
 
 "------------------------------------------------------------
 " Custom commands
@@ -308,25 +152,14 @@ function! AdjustWindowHeight(minheight, maxheight)
 endfunction
 
 "------------------------------------------------------------
-" Nvim specific settings override previous
-"------------------------------------------------------------
-
-if has('nvim') && $XDG_CONFIG_HOME != ''
-    source $XDG_CONFIG_HOME/nvim/nvim.vim
-endif
-
-"------------------------------------------------------------
 " File type specific settings
 "------------------------------------------------------------
 
 let g:tex_flavor='latex'
 
 au BufRead,BufNewFile *.thor setf ruby
-au BufRead,BufNewFile *.rb set tags+=tags,~/.rbenv/versions/2.0.0-p195/tags
 
 au BufNewFile,BufReadPost *.log set filetype=log
-
-let tags="tags,~/.vim/tags/cpp/tags,~/.vim/tags/gtest/tags,./*.vi"
 
 au BufWritePost .vimrc source $MYVIMRC
 
@@ -340,146 +173,22 @@ if exists( "vsvim_useeditordefaults" )
     set vsvim_useeditordefaults
 endif
 
-" EasyMotion
-let g:EasyMotion_leader_key = '<leader>'
-let g:EasyMotion_mapping_n = "<leader>x"
-
-" Local vimrc
-let g:localvimrc_sandbox=0
-let g:localvimrc_ask=0
-
-hi link EasyMotionTarget ErrorMsg
-hi link EasyMotionShade  Comment
-
-" Javascript indent
-let g:SimpleJsIndenter_BriefMode = 1
-let g:SimpleJsIndenter_CaseIndentLevel = -1
-
-" vim-javascript
-let javascript_enable_domhtmlcss = 1
-let g:javascript_plugin_jsdoc = 1
-
-" vim-jsx
-" let g:jsx_ext_required = 0
-
-" Syntastic
-let g:syntastic_mode_map = { 'passive_filetypes': ['tex', 'haskell'] }
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_aggregate_errors = 1
-
-let g:syntastic_less_checkers = ['lessc']
-
-let g:syntastic_cpp_checkers = ['clang']
-let g:syntastic_cpp_clang_args = "-std=c++11 -isystem ~/Programming/C++/gtest/include"
-
-let g:syntastic_javascript_checkers = ['jshint', 'jscs']
-
-let g:syntastic_typescript_checkers = ['tsc', 'tslint']
-let g:syntastic_typescript_tsc_args = ' -t "es5" --noImplicitAny --module commonjs'
-
-let g:syntastic_python_checkers = ['pylint']
-
-let g:syntastic_html_checkers = []
-
-let g:syntastic_scala_checkers = ['fsc']
-
-let g:syntastic_check_on_wq = 0
-let g:syntastic_ignore_files = ['\.h$']
-
-" FZF
-nmap <silent> <leader>u :Files<CR>
-nmap <silent> <leader>b :Buffers<CR>
-let g:fzf_layout = { 'up': '~40%' }
-
-if exists('g:deoplete#enable_at_startup')
-    " Deoplete
-    let g:deoplete#enable_at_startup = 1
-else
-    " YouCompleteMe
-    let g:ycm_semantic_triggers = {'html' : ['<'], 'js,typescript,haskell' : ['.'], 'rust': ['::'], 'tex': ['{', '\']}
-    let g:ycm_seed_identifiers_with_syntax = 1
-    let g:ycm_complete_in_comments = 0
-    let g:ycm_add_preview_to_completeopt = 1
-    let g:ycm_autoclose_preview_window_after_insertion = 1
-    let g:ycm_collect_identifiers_from_tags_files = 1
-    let g:ycm_min_num_of_chars_for_completion = 2
-    let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-    let g:ycm_confirm_extra_conf = 0
-    let g:ycm_filetype_blacklist = {
-            \ 'pandoc' : 1,
-            \ 'markdown' : 1,
-            \ 'text': 1,
-            \ 'gitcommit': 1,
-            \ 'log': 1,
-            \ 'tex': 1,
-            \ 'less': 1,
-            \ 'html': 1,
-            \}
-
-    au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> <F12> :YcmCompleter GoToDefinition<CR>
-    au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> gd <F12>
-    au BufRead,BufEnter *.c,*.cpp,*.py,*.cs,*.ts,*.js nmap <buffer> K :YcmCompleter GetDoc<CR>
+if has('nvim') && $XDG_CONFIG_HOME != ''
+    source $XDG_CONFIG_HOME/nvim/nvim.vim
 endif
 
-" NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let NERDTreeIgnore = ['pyc$']
-let NERDTreeQuitOnOpen = 1
-let NERDTreeWinSize = 20
+let local_vimrc = expand('~/.vimrc.local')
+if filereadable(local_vimrc)
+    exec "source " . local_vimrc
+endif
 
-nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>nf :NERDTreeFind<CR>
+for plugin in g:plugs_order
+  let fn = expand('~/.vim/plugin-config/' . plugin)
+  if fn !~ "\.vim$"
+    let fn .= ".vim"
+  endif
+  if filereadable(fn)
+    exec "source " . fn
+  endif
+endfor
 
-" delimitMate
-let delimitMate_expand_cr = 1
-let delimitMate_nesting_quotes = ['`']
-let delimitMate_excluded_ft = "clojure,html,eruby"
-
-" Tern
-let tern_show_signature_in_pum = 1
-
-" UltiSnips
-let g:UltiSnipsExpandTrigger="<C-K>"
-let g:UltiSnipsJumpForwardTrigger="<C-K>"
-let g:UltiSnipsJumpBackwardTrigger="<C-J>"
-
-" Vim2HS
-let g:haskell_conceal = 0
-
-" Rust
-let g:rustc_makeprg_no_percent = 1
-
-" Racer
-let g:ycm_rust_src_path = $RUST_SRC_PATH
-
-" LaTeXBox
-let g:LatexBox_viewer = 'open -a Skim'
-let g:LatexBox_autojump = 1
-let g:LatexBox_latexmk_async = 1
-let g:LatexBox_latexmk_preview_continuously = 1
-let g:LatexBox_quickfix = 2
-let g:LatexBox_complete_inlineMath = 1
-
-" Table mode
-
-let g:table_mode_corner_corner="+"
-let g:table_mode_header_fillchar="="
-
-" Pandoc
-
-let g:pandoc#modules#disabled = ["formatting"]
-let g:pandoc#syntax#conceal#use = 0
-let g:pandoc#syntax#codeblocks#embeds#langs = ["java", "c"]
-let g:pandoc#command#autoexec_command = "Pandoc pdf -R -Ss -f markdown+hard_line_breaks+subscript+superscript+pipe_tables -V geometry:margin=1in"
-let g:pandoc#formatting#mode = 'ha'
-if system('whereis pandoc') != ''
-    let g:pandoc#command#autoexec_on_writes = 1
-end
-
-" vim-template
-autocmd BufRead,BufNewFile *.component.ts JsPreTmpl html
-" For leafgarland/typescript-vim users only. See https://github.com/Quramy/vim-js-pretty-template/issues/1 for details
-autocmd BufRead,BufNewFile *.component.ts syn clear foldBraces
-
-" Dash
-nmap <silent> <leader>d <Plug>DashSearch

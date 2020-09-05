@@ -35,3 +35,8 @@ command! PrintPyVar call PrintPyVar()
 nmap <leader>pr :PrintPyVar<CR>
 
 let b:delimitMate_nesting_quotes = ['"']
+
+set tabstop=8
+set expandtab
+set softtabstop=4
+set shiftwidth=4

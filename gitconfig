@@ -3,12 +3,13 @@
 [merge]
 	tool = diffconflicts
 [mergetool "diffconflicts"]
-	cmd = diffconflicts \"vim -u NONE\" $BASE $LOCAL $REMOTE $MERGED
+	cmd = nvim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 [mergetool]
 	diffconflictstrustExitCode = true
 	keepBackup = false
 [user]
 	name = Nik Klassen
+	email = nikklassen@users.noreply.github.com
 [alias]
 	and-this = commit --amend --no-edit
 	hidden = !git ls-files -v | awk '/^[[:lower:]]/ { print $2 }'
@@ -16,5 +17,11 @@
 	path = ~/.gitconfig_local
 [push]
 	default = simple
+[pull]
+	rebase = true
 [rebase]
 	autoStash = true
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[url "git@github.com"]
+	insteadOf = https://github.com

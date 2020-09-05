@@ -27,6 +27,10 @@ export PYTHONSTARTUP=~/.pystartup
 
 [[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
 
+[[ -d "$HOME/.local/bin" ]] && export PATH="$PATH:$HOME/.local/bin"
+
+[[ -d "/usr/local/go/bin" ]] && export PATH="$PATH:/usr/local/go/bin"
+
 # Undocumented feature that stops zsh-syntax-highlight after a certain length
 export ZSH_HIGHLIGHT_MAXLENGTH=100
 
@@ -44,5 +48,7 @@ if command -v rustc >/dev/null 2>&1; then
 fi
 
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local

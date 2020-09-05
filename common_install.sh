@@ -33,8 +33,6 @@ link_home tmux.conf
 link_home tmux
 link_home gitconfig
 
-sudo curl https://raw.githubusercontent.com/whiteinge/dotfiles/master/bin/diffconflicts -o /usr/local/bin/diffconflicts
-
 sudo mkdir -p /usr/local/etc/profile.d/
 sudo ln -s $FORCE $PWD/z/z.sh /usr/local/etc/profile.d/z.sh
 sudo mkdir -p /usr/local/man/man1/

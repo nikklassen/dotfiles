@@ -11,3 +11,5 @@ vim/rplugin/
 touchbar/icons
 touchbar/.apikey
 touchbar/getloc
+scripts/.config
+scripts/.temp

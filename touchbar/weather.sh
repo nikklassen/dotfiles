@@ -1,8 +1,8 @@
 BASE="$(dirname $0)"
 PATH="/usr/local/bin/:$PATH"
 API_KEY=$(cat "$BASE/.apikey")
-data=$("$BASE/getloc" | jq -r "\"http://api.openweathermap.org/data/2.5/weather?lat=\\(.lat)&lon=\\(.long)&units=metric&appid=${API_KEY}\"" | xargs curl -s)
-temp=$(echo "$data" | jq -r '"\(.main.temp | round)°C"')
+LOC=($(cat "$BASE/.config/location"))
+temp=$(curl -s "http://api.openweathermap.org/data/2.5/weather?lat=${LOC[0]}&lon=${LOC[1]}&units=metric&appid=${API_KEY}" | jq -r '"\(.main.temp | round) °C"')
 weather_icon=$(echo "$data" | jq -r '.weather[0].icon')
 
 ICON_FILE="$BASE/icons/${weather_icon}.png"

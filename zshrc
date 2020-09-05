@@ -36,11 +36,17 @@ else
     export ZSH_THEME_GIT_PROMPT_DIRTY="\xF0\x9F\x92\xA9 "
 fi
 
+OMITTED_WORDCHARS="/="
 function _backward_kill_default_word() {
-  WORDCHARS="*?_-.[]~=&;!#$%^(){}<>/" zle backward-kill-word
+  WORDCHARS="$WORDCHARS$OMITTED_WORDCHARS" zle backward-kill-word
 }
 zle -N backward-kill-default-word _backward_kill_default_word
 bindkey '\ew' backward-kill-default-word
+function _kill_default_word() {
+  WORDCHARS="$WORDCHARS$OMITTED_WORDCHARS" zle kill-word
+}
+zle -N kill-default-word _kill_default_word
+bindkey '\ed' kill-default-word
 
 bindkey '^U' backward-kill-line
 
@@ -62,6 +68,7 @@ alias rc='$EDITOR $HOME/.zshrc'
 alias plz='sudo $(fc -ln -1)'
 # 256 color
 alias tmux='tmux -2'
+alias ta='tmux attach'
 
 alias dc='docker-compose'
 alias dcu='docker-compose up -d'
@@ -75,8 +82,8 @@ alias d='docker'
 alias dri='docker run --rm -it'
 
 function docker-upload () {
-    repo="$1"
-    last_image=$(docker images --format '{{ .Repository }}:{{ .Tag }}' | head -1)
+    local repo="$1"
+    local last_image=$(docker images --format '{{ .Repository }}:{{ .Tag }}' | head -1)
     echo "Uploading $last_image"
     docker tag "$last_image" "$repo/$last_image"
     docker push "$repo/$last_image"
@@ -118,6 +125,10 @@ function grc () {
     git reset HEAD $1 > /dev/null && git checkout $1
 }
 
+function gpnew() {
+    git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)"
+}
+
 function testport () {
     nc -v "$1" "$2" < /dev/null
 }
@@ -148,12 +159,10 @@ auto-ls-after-cd() {
 add-zsh-hook chpwd auto-ls-after-cd
 
 function virtualenv_info(){
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        venv=$(basename ${VIRTUAL_ENV##*/})
-    else
-        venv=''
+    if [[ -z "$VIRTUAL_ENV" ]]; then
+        return
     fi
-    [[ -n "$venv" ]] && echo "($venv) "
+    echo "($(basename ${VIRTUAL_ENV##*/})) "
 }
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -161,8 +170,12 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 local VENV="\$(virtualenv_info)";
 PS1="${VENV}$PS1"
 
+# Exclude slashes from the default definition of WORDCHARS omz sets this to
+# empty, so we can't just remove the one character. Also omits = for flags.
+export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
+
 # Load z
-[ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
+[ -f /usr/local/bin/z.sh ] && source /usr/local/bin/z.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
