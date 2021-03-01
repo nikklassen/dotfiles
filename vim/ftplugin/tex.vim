@@ -1,3 +1,5 @@
+let g:tex_flavor='latex'
+
 let g:ycm_min_num_of_chars_for_completion = 99
 nmap <buffer> <leader>f gqip
 

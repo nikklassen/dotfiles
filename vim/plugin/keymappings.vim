@@ -1,18 +1,11 @@
 map Y y$
 
-nmap \<CR>   mrO<ESC>`r
-imap \<CR>   <ESC>o
-
 " Reindent whole file
 nmap \=      mrgg=G`r
 
-" Replace word under cursor with last yanked
-nmap <leader>r      viw"0p
-nmap <leader>R      V"0p
+nmap <C-S> <cmd>w<CR>
 
-nmap <C-S> :w<CR>
-
-nnoremap <silent> <space> @=(foldlevel('.') ? 'za' : "\<space>")<CR>
+nnoremap <silent> <expr> <space> foldlevel('.') ? 'za' : '<space>'
 
 vnoremap <          <gv
 vnoremap <leader><  <
@@ -24,11 +17,10 @@ nnoremap gp `[v`]
 
 nnoremap <Left>     gT
 nnoremap <Right>    gt
-nnoremap <silent> <Up>   :if len(getqflist()) \| cprevious \| else \| lprevious \| endif<CR>
-nnoremap <silent> <Down> :if len(getqflist()) \| cnext \| else \| lnext \| endif<CR>
 
-nnoremap [q        :cprevious<CR>
-nnoremap ]q        :cnext<CR>
+nnoremap <F4> :cnext<CR>
+" Shift F4
+nnoremap <F16> :cprevious<CR>
 
 nnoremap <M-Down>   ddp
 nnoremap <M-Up>     ddkP
@@ -36,9 +28,8 @@ nnoremap <M-Up>     ddkP
 vnoremap <M-Down>   dpgv
 vnoremap <M-Up>     dkPgv
 
-nmap <leader>v      :tabe $MYVIMRC<CR>
-nmap <leader>vn      :tabe $XDG_CONFIG_HOME/nvim/nvim.vim<CR>
-exec "nmap <leader>vp :tabe " . g:PLUGINS_FILE . "<CR>"
+nmap <leader>v  <cmd>exe 'tabe ' . stdpath('config') . '/init.lua'<CR>
+nmap <leader>vp <cmd>exe 'tabe ' . stdpath('config') . '/lua/plugins.lua'<CR>
 
 nnoremap <M-h> <C-W>h
 nnoremap <M-j> <C-W>j
@@ -51,7 +42,7 @@ set pastetoggle=<F5>
 noremap <F10> 1z=
 
 " build
-nnoremap <leader>m :w \| make<CR>
+nnoremap <leader>m <cmd>w \| make<CR>
 
 function! ExtendedHome()
     let column = col('.')
@@ -62,18 +53,17 @@ function! ExtendedHome()
 endfunction
 
 " Smart home
-noremap <silent> <D-Left> :call ExtendedHome()<CR>
+noremap <silent> <D-Left> <cmd>call ExtendedHome()<CR>
 
 " 'Home' and 'End' for insert mode
-inoremap <silent> <C-a> <C-O>:call ExtendedHome()<CR>
-inoremap <C-e> <C-O>A
+inoremap <silent> <C-a> <cmd>call ExtendedHome()<CR>
+inoremap <expr> <C-e> pumvisible() ? '<C-e>' : '<C-O>A'
 
 cnoremap <C-A> <Home>
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
 
 noremap <leader>c :cd %:p:h<CR><CR>
-noremap <leader>p :!open -a Skim '%:p:r.pdf'<CR><CR>
 
 " Search for the currently selected text
 vnoremap // "sy/<C-R>s<CR>
@@ -89,12 +79,12 @@ function! ReplaceCurrentWord()
     call setline('.', new_line)
 endfunction
 
-nnoremap <leader>s :call ReplaceCurrentWord()<CR>
+nnoremap <leader>s <cmd>call ReplaceCurrentWord()<CR>
 
-vnoremap <silent> <C-S> :sort<CR>
+vnoremap <silent> <C-S> <cmd>'<,'>sort<CR>
 
 " Run selected lines
-vnoremap <silent> <f2> :<c-u>exe join(getline("'<","'>"), "\n")<cr>
+vnoremap <silent> <f2> <cmd>exe join(getline("'<","'>"), "\n")<cr>
 
 function! NumberToggle()
     if(&relativenumber == 1)
@@ -104,6 +94,8 @@ function! NumberToggle()
     endif
 endfunc
 
-noremap <silent> <f3> :call NumberToggle()
+noremap <silent> <f3> <cmd>call NumberToggle()<CR>
 
 nnoremap <BS> <c-^>
+
+nnoremap ZA <cmd>wqa<CR>

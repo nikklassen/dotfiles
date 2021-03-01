@@ -52,3 +52,4 @@ export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
+source "$HOME/.cargo/env"
