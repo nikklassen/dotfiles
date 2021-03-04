@@ -32,7 +32,7 @@ function M.on_attach(client, bufnr)
         ]], false)
     end
     if client.resolved_capabilities.document_range_formatting then
-        buf_set_keymap('n', '==', '<cmd>lua local linenr = vim.api.nvim_win_get_cursor(0)[1]; vim.lsp.buf.range_formatting(nil, {linenr, 0}, {linenr + 1, 0})<CR>', opts)
+        buf_set_keymap('n', '==', [[<cmd>lua local linenr = vim.fn.line('.'); vim.lsp.buf.range_formatting(nil, {linenr, 0}, {linenr + 1, 0})<CR>]], opts)
         buf_set_keymap('v', '=', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
     end
 

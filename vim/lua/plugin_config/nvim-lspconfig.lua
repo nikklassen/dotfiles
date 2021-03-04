@@ -1,5 +1,24 @@
 local lsp_utils = require('lsp/utils')
 
+function _G.go_organize_imports_sync(timeout_ms)
+    local context = { source = { organizeImports = true } }
+    vim.validate { context = { context, 't', true } }
+    local params = vim.lsp.util.make_range_params()
+    params.context = context
+
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
+    if not result then return end
+    result = result[1].result
+    if not result then return end
+    local edit = result[1].edit
+    vim.lsp.util.apply_workspace_edit(edit)
+end
+
+local function on_attach_gopls(client, bufnr)
+    vim.cmd([[au BufWritePre <buffer> lua go_organize_imports_sync(1000)]])
+    return lsp_utils.on_attach(client, bufnr)
+end
+
 function RegisterNvimLSP()
     if vim.fn.has('nvim-0.5') ~= 1 then
         return
@@ -8,19 +27,19 @@ function RegisterNvimLSP()
     local nvim_lsp = require('lspconfig')
 
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        virtual_text = true,
-        signs = true,
-        update_in_insert = true,
-    }
+        vim.lsp.diagnostic.on_publish_diagnostics, {
+            underline = true,
+            virtual_text = true,
+            signs = true,
+            update_in_insert = true,
+        }
     )
 
     local capabilities = lsp_utils.snippet_capabilities()
 
     -- Use a loop to conveniently both setup defined servers
     -- and map buffer local keybindings when the language server attaches
-    local servers = {'jsonls', 'vimls', 'gopls'}
+    local servers = {'jsonls', 'vimls'}
     for _, lsp in ipairs(servers) do
         nvim_lsp[lsp].setup {
             on_attach = lsp_utils.on_attach,
@@ -30,6 +49,14 @@ function RegisterNvimLSP()
             }
         }
     end
+
+    nvim_lsp.gopls.setup {
+        on_attach = on_attach_gopls,
+        capabilities = capabilities,
+        init_options = {
+            usePlaceholders = true
+        }
+    }
 
     local sumneko_root_path = vim.env.HOME .. '/lua-language-server'
     local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"

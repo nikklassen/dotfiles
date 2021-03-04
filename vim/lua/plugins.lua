@@ -83,6 +83,11 @@ plug('hrsh7th/nvim-compe')
 plug('hrsh7th/vim-vsnip')
 plug('hrsh7th/vim-vsnip-integ')
 
+plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+
+plug('RishabhRD/popfix')
+plug('RishabhRD/nvim-lsputils')
+
 if vim.fn.has('win32') == 0 then
     plug('tpope/vim-eunuch')
 end

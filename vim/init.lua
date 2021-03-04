@@ -48,6 +48,8 @@ vim.o.concealcursor = 'n'
 -- hide concealed text completely unless replacement character is defined
 vim.o.conceallevel=2
 
+vim.wo.foldlevel = 99
+
 vim.o.path = '.,/usr/include,,'
 
 vim.o.hidden = true
