@@ -44,13 +44,21 @@ function M.configure()
     }
 
     nvim_lsp.jsonls.setup{
-        cmd = { "vscode-json-languageserver", "--stdio" },
         on_attach = lsp_utils.on_attach,
         capabilities = capabilities,
         init_options = {
             provideFormatter = true,
         },
     }
+
+    nvim_lsp.tsserver.setup {
+        on_attach = lsp_utils.on_attach,
+        capabilities = capabilities,
+        init_options = {
+            usePlaceholders = true
+        }
+    }
+
 
     nvim_lsp.vimls.setup {
         on_attach = lsp_utils.on_attach,
