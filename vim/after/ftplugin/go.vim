@@ -1,3 +1,3 @@
 setlocal ts=2
+" setlocal listchars=trail:-,nbsp:+
 setlocal nolist
-setlocal listchars=trail:-,nbsp:+

@@ -10,12 +10,12 @@ plug('Raimondi/delimitMate')
 
 plug('embear/vim-localvimrc')
 plug('scrooloose/nerdtree', {on = {'NERDTreeToggle', 'NERDTreeFind'}})
-plug('tomasr/molokai')
+-- plug('tomasr/molokai')
+plug('joshdick/onedark.vim')
 plug('tpope/vim-fugitive')
 plug('tpope/vim-surround')
 plug('tpope/vim-repeat')
 plug('tpope/vim-commentary')
-plug('vim-scripts/argtextobj.vim')
 plug('whiteinge/diffconflicts', {on = {'DiffConflicts'}})
 plug('vim-scripts/ReplaceWithRegister')
 
@@ -25,14 +25,9 @@ plug('junegunn/fzf.vim')
 -- Load ag.vim after fzf so that fzf's Ag command is overridden
 plug('rking/ag.vim')
 
-plug('machakann/vim-highlightedyank')
-
 ---------------------
 -- Language plugins -
 ---------------------
-
--- JSON
-plug('elzr/vim-json', {['for'] = 'json'})
 
 -- JS/TS
 plug('leafgarland/typescript-vim', {['for'] = 'typescript'})
@@ -84,6 +79,8 @@ plug('hrsh7th/vim-vsnip')
 plug('hrsh7th/vim-vsnip-integ')
 
 plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+plug('nvim-treesitter/playground')
+plug('nvim-treesitter/nvim-treesitter-textobjects')
 
 plug('RishabhRD/popfix')
 plug('RishabhRD/nvim-lsputils')

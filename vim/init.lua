@@ -3,7 +3,9 @@ vim.o.compatible = false
 vim.g.python_host_prog = '/usr/bin/python'
 vim.g.python3_host_prog = '/usr/bin/python3'
 
-require'plugins'
+require'nikklassen.plugins'
+require'nikklassen.keymappings'
+require'nikklassen.utils'
 
 -- Better command-line completion
 vim.o.wildmode = 'list:longest,full'
@@ -11,7 +13,7 @@ vim.o.wildmode = 'list:longest,full'
 vim.o.wildignore = '*.o,*.pyc,*.hi'
 
 -- Completion settings
-vim.o.completeopt = 'menuone,noinsert,noselect'
+vim.o.completeopt = 'menuone,noselect'
 vim.o.shortmess = vim.o.shortmess .. 'c'
 
 -- Show partial commands in the last line of the screen
@@ -39,6 +41,7 @@ vim.o.cmdheight=2
 
 -- Display line numbers on the left
 vim.wo.relativenumber = true
+vim.wo.number = true
 
 -- Shorter timeout for escape keys
 vim.o.tm=250
@@ -47,8 +50,6 @@ vim.o.tm=250
 vim.o.concealcursor = 'n'
 -- hide concealed text completely unless replacement character is defined
 vim.o.conceallevel=2
-
-vim.wo.foldlevel = 99
 
 vim.o.path = '.,/usr/include,,'
 
@@ -61,8 +62,8 @@ vim.o.mouse = 'a'
 --------------------------------------------------------------
 -- Indentation options
 --------------------------------------------------------------
-vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
 vim.o.tabstop = 2
 
 vim.o.expandtab = true
@@ -80,32 +81,49 @@ vim.cmd('command! -nargs=* -complete=shellcmd R new | setlocal buftype=nofile bu
 -- View Settings
 --------------------------------------------------------------
 
-local function PersistViewForFile()
-    return vim.fn.expand('%:t') ~= '' and string.find(vim.fn.expand('%:p'), 'fugitive://') == nil
+local function should_persist_view()
+    local dir = vim.fn.expand('%:p')
+    return (
+      vim.fn.expand('%:t') ~= '' and
+      dir:find('fugitive://') == nil and
+      dir:find('term://') == nil
+    )
 end
 
-local function SaveViewSettings()
-    if PersistViewForFile() then
+function _G.save_view_settings()
+    if should_persist_view() then
         vim.cmd('mkview!')
     end
 end
 
-local function LoadViewSettings()
-    if PersistViewForFile() then
-        vim.cmd('silent loadview')
+function _G.load_view_settings()
+    if should_persist_view() then
+        vim.cmd('silent! loadview')
     end
 end
 
-if vim.fn.has('nvim') == 0 then
-    vim.cmd('au BufWinLeave * lua SaveViewSettings()')
-    vim.cmd('au BufWinEnter * lua LoadViewSettings()')
+vim.api.nvim_exec([[
+augroup remember_folds
+	au!
+	au BufWinLeave * lua save_view_settings()
+	au BufWinEnter * lua load_view_settings()
+augroup END
+]], false)
 
-    -- Hold onto marks for the last ten files
-    vim.o.viminfo = "'10"
-else
-    -- Jump to the last position on load
-    vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif]])
+-- Jump to the last position on load
+vim.cmd([[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif]])
+
+vim.wo.foldminlines = 4
+vim.wo.foldnestmax = 3
+vim.o.foldopen = 'block,hor,mark,percent,quickfix,search,tag,undo,jump'
+
+function _G.adjust_qf_height(minheight, maxheight)
+    local height = math.max(math.min(vim.fn.line('$'), maxheight), minheight)
+    vim.api.nvim_win_set_height(height)
 end
+
+-- Keep the quickfix window small when there aren't many lines
+vim.cmd('au FileType qf call v:lua.adjust_qf_height(3, 10)')
 
 --------------------------------------------------------------
 -- Colour settings
@@ -114,40 +132,36 @@ end
 vim.cmd('hi Pmenu ctermbg=Blue')
 vim.cmd('hi clear Conceal')
 
+-- vim.g.rehash256 = 1
+-- vim.cmd('colorscheme molokai')
+vim.cmd('colorscheme onedark')
 vim.o.background = 'dark'
-vim.g.rehash256 = 1
-vim.cmd('colorscheme molokai')
+vim.o.termguicolors = true
 
-vim.api.nvim_exec([[
-function! GitSL()
-    if exists('fugitive#head')
+vim.cmd([[au TextYankPost * lua vim.highlight.on_yank { timeout = 500 }]])
+
+function _G.git_sl()
+    if vim.fn.exists('fugitive#head') then
         return ''
-    endif
+    end
 
-    let head = fugitive#head()
-    if head != ''
-        return ' @ ' . head
-    endif
+    local head = vim.fn['fugitive#head']()
+    if head ~= '' then
+        return ' @ ' .. head
+    end
     return ''
-endfunction
-]], false)
+end
 
 -- clear the statusline for when vimrc is reloaded
 vim.o.statusline = table.concat({
     '[%n] ',         -- buffer number
     '%<%.99f',       -- file name
-    '%{GitSL()} ',
+    '%{v:lua.git_sl()} ',
     '%h%m%r%w%q',    -- flags
     '%=',            -- right align
     '%y ',           -- file type
     '%-8( %l,%c %)', -- offset
 })
-
--- Keep the quickfix window small when there aren't many lines
-vim.cmd('au FileType qf call AdjustWindowHeight(3, 10)')
-local function AdjustWindowHeight(minheight, maxheight)
-    vim.cmd('exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"')
-end
 
 vim.api.nvim_exec([[
 tnoremap <M-h> <C-\><C-n><C-w>h
@@ -188,8 +202,16 @@ local function isModuleAvailable(name)
 end
 
 for _, plugin in ipairs(vim.g.plugs_order) do
-    local plugin_path = 'plugin_config.' .. plugin:gsub([[%.]], '_')
-    if isModuleAvailable(plugin_path) then
-        require(plugin_path)
+  local plugin_path = 'nikklassen.plugin_config.' .. plugin:gsub([[%.]], '_')
+  if isModuleAvailable(plugin_path) then
+    local mod = require(plugin_path)
+    if type(mod) ~= 'table' then
+      vim.api.nvim_err_writeln(plugin .. ' is not a module')
+    else
+      local status, err = pcall(mod.configure)
+      if not status then
+        vim.api.nvim_err_writeln(string.format('failed to load %s config: %s', plugin , err))
+      end
     end
+  end
 end

@@ -1,0 +1,3 @@
+[
+    (literal_value)
+] @fold

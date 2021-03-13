@@ -29,7 +29,7 @@ vnoremap <M-Down>   dpgv
 vnoremap <M-Up>     dkPgv
 
 nmap <leader>v  <cmd>exe 'tabe ' . stdpath('config') . '/init.lua'<CR>
-nmap <leader>vp <cmd>exe 'tabe ' . stdpath('config') . '/lua/plugins.lua'<CR>
+nmap <leader>vp <cmd>exe 'tabe ' . stdpath('config') . '/lua/nikklassen/plugins.lua'<CR>
 
 nnoremap <M-h> <C-W>h
 nnoremap <M-j> <C-W>j
@@ -64,9 +64,6 @@ cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
 
 noremap <leader>c :cd %:p:h<CR><CR>
-
-" Search for the currently selected text
-vnoremap // "sy/<C-R>s<CR>
 
 function! ReplaceCurrentWord()
     let new_word = input('New word: ')

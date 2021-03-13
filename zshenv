@@ -37,6 +37,7 @@ export ZSH_HIGHLIGHT_MAXLENGTH=100
 export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type d"
+export FZF_DEFAULT_OPTS="--keep-right"
 export FZF_TMUX=0
 
 [[ -f /usr/libexec/java_home/ ]] && export JAVA_HOME="$(/usr/libexec/java_home/)"
@@ -53,3 +54,5 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
 source "$HOME/.cargo/env"
+
+export POWERLINE_CONFIG_COMMAND="$HOME/.local/bin/powerline-config"

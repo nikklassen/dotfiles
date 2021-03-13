@@ -1,12 +1,14 @@
-local lsp_utils = require('lsp/utils')
+local lsp_utils = require'nikklassen.lsp.utils'
 
-function _G.go_organize_imports_sync(timeout_ms)
+local M = {}
+
+function M.go_organize_imports_sync(timeout_ms)
     local context = { source = { organizeImports = true } }
     vim.validate { context = { context, 't', true } }
     local params = vim.lsp.util.make_range_params()
     params.context = context
 
-    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
+    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeout_ms)
     if not result then return end
     result = result[1].result
     if not result then return end
@@ -15,16 +17,12 @@ function _G.go_organize_imports_sync(timeout_ms)
 end
 
 local function on_attach_gopls(client, bufnr)
-    vim.cmd([[au BufWritePre <buffer> lua go_organize_imports_sync(1000)]])
+    vim.cmd([[au BufWritePre <buffer> lua require'nikklassen.plugin_config.nvim-lspconfig'.go_organize_imports_sync(1000)]])
     return lsp_utils.on_attach(client, bufnr)
 end
 
-function RegisterNvimLSP()
-    if vim.fn.has('nvim-0.5') ~= 1 then
-        return
-    end
-
-    local nvim_lsp = require('lspconfig')
+function M.configure()
+    local nvim_lsp = require'lspconfig'
 
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -37,21 +35,25 @@ function RegisterNvimLSP()
 
     local capabilities = lsp_utils.snippet_capabilities()
 
-    -- Use a loop to conveniently both setup defined servers
-    -- and map buffer local keybindings when the language server attaches
-    local servers = {'jsonls', 'vimls'}
-    for _, lsp in ipairs(servers) do
-        nvim_lsp[lsp].setup {
-            on_attach = lsp_utils.on_attach,
-            capabilities = capabilities,
-            init_options = {
-                usePlaceholders = true
-            }
-        }
-    end
-
     nvim_lsp.gopls.setup {
         on_attach = on_attach_gopls,
+        capabilities = capabilities,
+        init_options = {
+            usePlaceholders = true
+        }
+    }
+
+    nvim_lsp.jsonls.setup{
+        cmd = { "vscode-json-languageserver", "--stdio" },
+        on_attach = lsp_utils.on_attach,
+        capabilities = capabilities,
+        init_options = {
+            provideFormatter = true,
+        },
+    }
+
+    nvim_lsp.vimls.setup {
+        on_attach = lsp_utils.on_attach,
         capabilities = capabilities,
         init_options = {
             usePlaceholders = true
@@ -87,4 +89,4 @@ function RegisterNvimLSP()
     }
 end
 
-RegisterNvimLSP()
+return M
