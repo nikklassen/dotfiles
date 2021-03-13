@@ -13,7 +13,6 @@ which -s nvim 2>&1 > /dev/null
 if [[ $? == 1 ]]; then
     brew install neovim/neovim/neovim
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
-    ln -s ~/.vim $XDG_CONFIG_HOME/nvim
     sudo pip3 install neovim
 fi
 

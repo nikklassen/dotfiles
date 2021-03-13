@@ -1,20 +1,16 @@
-bpython
 build-essential
 clang
 cmake
 compizconfig-settings-manager
 curl
+fd
 fonts-inconsolata
 git
 gnome-tweak-tool
 htop
 jq
 nodejs
-openssh-client
-openssh-server
 pandoctexlive-latex-recommended
-python-dev
-python-pip
 python3-dev
 python3-pip
 silversearcher-ag
@@ -22,4 +18,3 @@ terminator
 texlive-fonts-recommended
 tmux
 tree
-vim

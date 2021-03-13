@@ -1,7 +1,6 @@
 tree
 ag
 wget
-python
 python3
 tmux
 nmap

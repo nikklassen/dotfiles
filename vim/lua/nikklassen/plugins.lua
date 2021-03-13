@@ -34,10 +34,6 @@ plug('leafgarland/typescript-vim', {['for'] = 'typescript'})
 plug('pangloss/vim-javascript', {['for'] = {'js', 'jsx'}})
 plug('mxw/vim-jsx', {['for'] = {'jsx'}})
 
--- Ruby
-plug('vim-ruby/vim-ruby', {['for'] = {'ruby', 'eruby'}})
-plug('tpope/vim-rails', {['for'] = {'ruby', 'eruby'}})
-
 -- JQ
 plug('vito-c/jq.vim', {['for'] = 'jq'})
 
@@ -52,16 +48,10 @@ plug('vim-pandoc/vim-pandoc', {['for'] = {'markdown', 'pandoc'}})
 plug('vim-pandoc/vim-pandoc-syntax', {['for'] = {'markdown', 'pandoc'}})
 plug('dhruvasagar/vim-table-mode', {['for'] = {'pandoc', 'markdown'}})
 
--- LaTeX
-plug('LaTeX-Box-Team/LaTeX-Box', {['for'] = 'tex'})
-
 -- HTML
 plug('mattn/emmet-vim', {['for'] = {'html', 'htmldjango', 'xml', 'eruby'}})
 plug('othree/xml.vim', {['for'] = {'xml', 'html', 'eruby'}})
 plug('othree/html5.vim', {['for'] = {'html', 'eruby'}})
-
--- Python
-plug('fs111/pydoc.vim', {['for'] = 'python'})
 
 -- Go
 plug('sebdah/vim-delve', {['for'] = 'go'})
