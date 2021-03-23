@@ -27,6 +27,8 @@ plug('junegunn/fzf.vim')
 -- Load ag.vim after fzf so that fzf's Ag command is overridden
 plug('rking/ag.vim')
 
+plug('ludovicchabant/vim-lawrencium')
+
 ---------------------
 -- Language plugins -
 ---------------------
@@ -70,6 +72,8 @@ plug('hrsh7th/nvim-compe')
 plug('hrsh7th/vim-vsnip')
 plug('hrsh7th/vim-vsnip-integ')
 
+plug('ray-x/lsp_signature.nvim')
+
 plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 plug('nvim-treesitter/playground')
 plug('nvim-treesitter/nvim-treesitter-textobjects')
@@ -87,8 +91,8 @@ require'nikklassen.utils'
 require'nikklassen.color'
 require'nikklassen.commands'
 require'nikklassen.keymappings'
-require'nikklassen.misc'
 require'nikklassen.options'
+require'nikklassen.statusline'
 require'nikklassen.view'
 
 local function isModuleAvailable(name)

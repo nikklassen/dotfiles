@@ -31,7 +31,7 @@ end
 --- jump to prev/next snippet's placeholder
 function _G.tab_complete()
   if vim.fn.pumvisible() == 1 then
-    return t '<C-n>'
+    return vim.fn['compe#confirm']({ select = true })
   elseif vim.fn.call('vsnip#available', {1}) == 1 then
     return t '<Plug>(vsnip-expand-or-jump)'
   elseif check_back_space() then
@@ -77,7 +77,7 @@ function M.configure()
     autocomplete = true;
     debug = false;
     min_length = 1;
-    preselect = 'always';
+    preselect = 'enable';
     throttle_time = 80;
     source_timeout = 200;
     incomplete_delay = 400;
@@ -87,11 +87,12 @@ function M.configure()
     documentation = true;
 
     source = {
+      vsnip = true;
+      nvim_lsp = true;
+
       path = false;
       buffer = false;
       calc = false;
-      vsnip = true;
-      nvim_lsp = true;
       nvim_lua = false;
       spell = false;
       tags = false;

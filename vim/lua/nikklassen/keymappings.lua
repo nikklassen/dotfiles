@@ -53,7 +53,7 @@ vnoremap('<M-Up>', 'dkPgv')
 
 local config_path = vim.fn.stdpath('config')
 nnoremap('<leader>v', '<cmd>tabe ' .. config_path .. '/init.lua<CR>')
-nnoremap('<leader>vp', '<cmd>tabe ' .. config_path .. '/lua/nikklassen/plugins.lua<CR>')
+nnoremap('<leader>vp', '<cmd>tabe ' .. config_path .. '/lua/nikklassen/plugin_config<CR>')
 
 nnoremap('<M-h>', '<C-W>h')
 nnoremap('<M-j>', '<C-W>j')
@@ -87,7 +87,7 @@ end
 
 nnoremap('<leader>s', '<cmd>lua require"nikklassen.keymappings".replace_current_word()<CR>')
 
-map('v', '<C-S>', "<cmd>'<,'>sort<CR>", { noremap = true, silent = true })
+map('v', '<C-S>', "<cmd>sort<CR>", { noremap = true, silent = true })
 
 local function run_lines()
   local selected_text = vim.fn.getline("'<", "'>")
