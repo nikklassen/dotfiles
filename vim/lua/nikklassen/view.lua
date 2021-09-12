@@ -36,7 +36,7 @@ vim.o.foldopen = 'block,hor,mark,percent,quickfix,search,tag,undo,jump'
 
 function _G.adjust_qf_height(minheight, maxheight)
     local height = math.max(math.min(vim.fn.line('$'), maxheight), minheight)
-    vim.api.nvim_win_set_height(height)
+    vim.api.nvim_win_set_height(0, height)
 end
 
 -- Keep the quickfix window small when there aren't many lines

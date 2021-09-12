@@ -9,6 +9,7 @@ function M.configure()
     vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>Buffers<CR>', opts)
 
     vim.g.fzf_layout = { up = '~40%' }
+    vim.g.fzf_preview_window = {}
 end
 
 return M

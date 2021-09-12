@@ -33,34 +33,26 @@ function M.configure()
         }
     )
 
-    local capabilities = lsp_utils.snippet_capabilities()
+    -- vim.lsp.set_log_level('debug')
 
-    nvim_lsp.gopls.setup {
+    local default_config = lsp_utils.default_config()
+
+    nvim_lsp.gopls.setup(vim.tbl_deep_extend('force', default_config, {
         on_attach = on_attach_gopls,
-        capabilities = capabilities,
-        init_options = {
-            usePlaceholders = true
-        }
-    }
+    }))
 
-    nvim_lsp.jsonls.setup{
-        on_attach = lsp_utils.on_attach,
-        capabilities = capabilities,
+    nvim_lsp.jsonls.setup(vim.tbl_deep_extend('force', default_config, {
         init_options = {
             provideFormatter = true,
         },
-    }
+    }))
 
-    nvim_lsp.tsserver.setup {
+    nvim_lsp.tsserver.setup(vim.tbl_deep_extend('force', default_config, {
         on_attach = function(client, bufnr)
             client.resolved_capabilities.document_formatting = false
             lsp_utils.on_attach(client, bufnr)
         end,
-        capabilities = capabilities,
-        init_options = {
-            usePlaceholders = true
-        }
-    }
+    }))
 
     nvim_lsp.diagnosticls.setup {
         on_attach = lsp_utils.on_attach,
@@ -120,18 +112,14 @@ function M.configure()
     }
 
 
-    nvim_lsp.vimls.setup {
-        on_attach = lsp_utils.on_attach,
-        capabilities = capabilities,
-        init_options = {
-            usePlaceholders = true
-        }
-    }
+    nvim_lsp.vimls.setup(default_config)
+
+    nvim_lsp.bashls.setup(default_config)
 
     local sumneko_root_path = vim.env.HOME .. '/lua-language-server'
-    local sumneko_binary = sumneko_root_path.."/bin/Linux/lua-language-server"
-    nvim_lsp.sumneko_lua.setup {
-        cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+    local sumneko_binary = sumneko_root_path..'/bin/Linux/lua-language-server'
+    nvim_lsp.sumneko_lua.setup(vim.tbl_deep_extend('force', default_config, {
+        cmd = {sumneko_binary, '-E', sumneko_root_path .. '/main.lua'},
         settings = {
             Lua = {
                 runtime = {
@@ -153,8 +141,7 @@ function M.configure()
                 },
             },
         },
-        on_attach = lsp_utils.on_attach,
-    }
+    }))
 end
 
 return M

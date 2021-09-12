@@ -4,6 +4,8 @@ local function plug(...)
     return vim.fn['plug#'](...)
 end
 
+vim.o.shell = '/bin/bash'
+
 vim.fn['plug#begin'](vim.fn.stdpath('config') .. '/plugged')
 
 plug('tpope/vim-sensible')
@@ -48,8 +50,8 @@ plug('chr4/nginx.vim')
 plug('rust-lang/rust.vim', {['for'] = 'rust'})
 
 -- Markdown
-plug('vim-pandoc/vim-pandoc', {['for'] = {'markdown', 'pandoc'}})
-plug('vim-pandoc/vim-pandoc-syntax', {['for'] = {'markdown', 'pandoc'}})
+-- plug('vim-pandoc/vim-pandoc', {['for'] = {'markdown', 'pandoc'}})
+-- plug('vim-pandoc/vim-pandoc-syntax', {['for'] = {'markdown', 'pandoc'}})
 plug('dhruvasagar/vim-table-mode', {['for'] = {'pandoc', 'markdown'}})
 
 -- HTML
@@ -68,9 +70,9 @@ plug('brettanomyces/nvim-editcommand')
 
 plug('neovim/nvim-lspconfig')
 
-plug('hrsh7th/nvim-compe')
+plug('hrsh7th/nvim-cmp')
+plug('hrsh7th/cmp-nvim-lsp')
 plug('hrsh7th/vim-vsnip')
-plug('hrsh7th/vim-vsnip-integ')
 
 plug('ray-x/lsp_signature.nvim')
 
@@ -78,8 +80,9 @@ plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 plug('nvim-treesitter/playground')
 plug('nvim-treesitter/nvim-treesitter-textobjects')
 
-plug('RishabhRD/popfix')
-plug('RishabhRD/nvim-lsputils')
+-- Not working with nightly
+-- plug('RishabhRD/popfix')
+-- plug('RishabhRD/nvim-lsputils')
 
 if vim.fn.has('win32') == 0 then
     plug('tpope/vim-eunuch')

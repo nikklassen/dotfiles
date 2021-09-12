@@ -107,4 +107,7 @@ nnoremap('ZA', '<cmd>wqa<CR>')
 return {
   replace_current_word = replace_current_word,
   run_lines = run_lines,
+  vnoremap = vnoremap,
+  tnoremap = tnoremap,
+  nnoremap = nnoremap,
 }

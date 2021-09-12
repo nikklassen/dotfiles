@@ -1,1 +1,1 @@
-au BufRead,BufNewFile *.json set filetype=json
+setlocal sw=2 sts=2 ts=2

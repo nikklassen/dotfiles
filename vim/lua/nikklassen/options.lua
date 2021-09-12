@@ -6,6 +6,7 @@ vim.o.wildignore = '*.o,*.pyc,*.hi'
 -- Completion settings
 vim.o.completeopt = 'menuone,noselect'
 vim.o.shortmess = vim.o.shortmess .. 'c'
+vim.o.pumheight = 10
 
 -- Show partial commands in the last line of the screen
 vim.o.showcmd = true
@@ -40,10 +41,8 @@ vim.wo.signcolumn = 'yes'
 -- Shorter timeout for escape keys
 vim.o.tm=250
 
--- conceal in insert (i), normal (n) and visual (v) modes
 vim.o.concealcursor = 'n'
--- hide concealed text completely unless replacement character is defined
-vim.o.conceallevel=2
+vim.o.conceallevel=0
 
 vim.o.path = '.,/usr/include,,'
 
@@ -56,10 +55,12 @@ vim.o.mouse = 'a'
 --------------------------------------------------------------
 -- Indentation options
 --------------------------------------------------------------
-vim.bo.shiftwidth = 2
-vim.bo.softtabstop = 2
-vim.bo.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.tabstop = 2
 
 vim.o.expandtab = true
 vim.o.shiftround = true
 vim.o.joinspaces = false
+
+vim.cmd('autocmd BufReadPost * if &diff | setlocal wrap | endif')

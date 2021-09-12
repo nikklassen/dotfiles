@@ -1,6 +1,6 @@
 export PAGER=less
-export LESS="-SR -# 0"
-if command -v nvim >/dev/null 2>&1; then
+export LESS="-FXSR -# 0"
+if which nvim >/dev/null 2>&1; then
     export EDITOR=nvim
 else
     export EDITOR=vim
@@ -10,7 +10,10 @@ fi
 PATH="./node_modules/.bin:$PATH"
 
 # Cargo
-[[ -f "$HOME/.cargo" ]] && PATH="$HOME/.cargo/bin:$PATH"
+if [[ -f "$HOME/.cargo" ]]; then
+  PATH="$HOME/.cargo/bin:$PATH"
+  source "$HOME/.cargo/env"
+fi
 
 PATH="/usr/texbin:$PATH"
 
@@ -37,14 +40,14 @@ export ZSH_HIGHLIGHT_MAXLENGTH=100
 export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type d"
-export FZF_DEFAULT_OPTS="--keep-right"
+export FZF_DEFAULT_OPTS="--keep-right --bind=home:first,end:last"
 export FZF_TMUX=0
 
 [[ -f /usr/libexec/java_home/ ]] && export JAVA_HOME="$(/usr/libexec/java_home/)"
 
 BOOT_EMIT_TARGET=no
 
-if command -v rustc >/dev/null 2>&1; then
+if which rustc >/dev/null 2>&1; then
     export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
 fi
 
@@ -53,6 +56,5 @@ export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
-source "$HOME/.cargo/env"
 
 export POWERLINE_CONFIG_COMMAND="$HOME/.local/bin/powerline-config"

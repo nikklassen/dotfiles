@@ -48,4 +48,6 @@ function M.attach(bufnr, lang)
   vim.cmd(string.format([[command! -buffer FoldFunctions lua require'nikklassen.bulk-folds'.toggle_by_query(%d, '%s', '@bulk_folds.functions')]], bufnr, lang))
 end
 
+function M.detach() end
+
 return M

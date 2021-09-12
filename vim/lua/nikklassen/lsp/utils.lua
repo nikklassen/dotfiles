@@ -1,11 +1,9 @@
-local compe_config = require'nikklassen.plugin_config.nvim-compe'
-
 local M = {}
 
 function M.snippet_capabilities()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-    return capabilities
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
+  return capabilities
 end
 
 function M.range_format_sync(options, start_pos, end_pos)
@@ -30,8 +28,6 @@ function M.on_attach(client, bufnr)
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    compe_config.set_keymap(bufnr)
 
     local opts = { noremap = true, silent = true }
     buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -79,12 +75,22 @@ function M.on_attach(client, bufnr)
         hi link LspReferenceWrite Underlined
 
         augroup lsp_document_highlight
-          au! * <buffer>
+        au! * <buffer>
           au CursorHold <buffer> lua vim.lsp.buf.document_highlight()
           au CursorMoved <buffer> lua vim.lsp.buf.clear_references()
         augroup END
         ]], false)
     end
+end
+
+function M.default_config()
+    return {
+        on_attach = M.on_attach,
+        capabilities = M.snippet_capabilities(),
+        init_options = {
+            usePlaceholders = true
+        },
+    }
 end
 
 return M
