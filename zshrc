@@ -69,6 +69,7 @@ alias plz='sudo $(fc -ln -1)'
 # 256 color
 alias tmux='tmux -2'
 alias ta='tmux attach'
+alias py-server="python3 -m http.server 3000"
 
 alias dc='docker-compose'
 alias dcu='docker-compose up -d'

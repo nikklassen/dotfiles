@@ -36,7 +36,7 @@ nmap <leader>pr :PrintPyVar<CR>
 
 let b:delimitMate_nesting_quotes = ['"']
 
-set tabstop=8
-set expandtab
-set softtabstop=4
-set shiftwidth=4
+setlocal tabstop=8
+setlocal expandtab
+setlocal softtabstop=4
+setlocal shiftwidth=4

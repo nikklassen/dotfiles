@@ -4,13 +4,6 @@ local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-function _G.escape_completion()
-  if vim.fn.pumvisible() == 0 or vim.fn.complete_info()['selected'] == -1 then
-    return t '<Esc>'
-  end
-  return t '<C-e>'
-end
-
 function _G.confirm_completion()
   if vim.fn.pumvisible() == 0 then
     return t '<Plug>delimitMateCR'
@@ -60,7 +53,6 @@ function M.set_keymap(bufnr)
   }
   buf_set_keymap('i', '<C-Space>', 'compe#complete()', opts)
   buf_set_keymap('i', '<C-e>', 'compe#close("<C-e>")', opts)
-  buf_set_keymap('i', '<Esc>', 'v:lua.escape_completion()', opts)
 
   buf_set_keymap('i', '<CR>', 'v:lua.confirm_completion()', opts)
   buf_set_keymap('i', '<C-y>', 'compe#confirm("<C-y>")', opts)

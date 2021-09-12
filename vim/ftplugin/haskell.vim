@@ -1,6 +1,6 @@
 setlocal omnifunc=necoghc#omnifunc
 setlocal keywordprg=hoogle
-set tabstop=8
+setlocal tabstop=8
 autocmd BufNewFile,BufRead *.hs normal zR
 hi Conceal ctermbg=NONE
 
