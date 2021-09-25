@@ -51,8 +51,6 @@ if which rustc >/dev/null 2>&1; then
     export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
 fi
 
-export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
-
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local

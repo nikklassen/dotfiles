@@ -54,67 +54,73 @@ function M.configure()
         end,
     }))
 
-    nvim_lsp.diagnosticls.setup {
-        on_attach = lsp_utils.on_attach,
-        filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc' },
-        init_options = {
-            linters = {
-                eslint = {
-                    command = 'eslint_d',
-                    rootPatterns = { '.git' },
-                    debounce = 100,
-                    args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
-                    sourceName = 'eslint_d',
-                    parseJson = {
-                        errorsRoot = '[0].messages',
-                        line = 'line',
-                        column = 'column',
-                        endLine = 'endLine',
-                        endColumn = 'endColumn',
-                        message = '[eslint] ${message} [${ruleId}]',
-                        security = 'severity'
+    if vim.fn.executable('diagnostic-languageserver') == 1 then
+        nvim_lsp.diagnosticls.setup {
+            on_attach = lsp_utils.on_attach,
+            filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc'},
+            init_options = {
+                linters = {
+                    eslint = {
+                        command = 'eslint_d',
+                        rootPatterns = { '.git' },
+                        debounce = 100,
+                        args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
+                        sourceName = 'eslint_d',
+                        parseJson = {
+                            errorsRoot = '[0].messages',
+                            line = 'line',
+                            column = 'column',
+                            endLine = 'endLine',
+                            endColumn = 'endColumn',
+                            message = '[eslint] ${message} [${ruleId}]',
+                            security = 'severity'
+                        },
+                        securities = {
+                            [2] = 'error',
+                            [1] = 'warning'
+                        }
                     },
-                    securities = {
-                        [2] = 'error',
-                        [1] = 'warning'
+                },
+                filetypes = {
+                    javascript = 'eslint',
+                    javascriptreact = 'eslint',
+                    typescript = 'eslint',
+                    typescriptreact = 'eslint',
+                },
+                formatters = {
+                    eslint_d = {
+                        command = 'eslint_d',
+                        args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
+                        rootPatterns = { '.git' },
+                    },
+                    prettier = {
+                        command = 'prettier',
+                        args = { '--stdin-filepath', '%filename' }
                     }
                 },
-            },
-            filetypes = {
-                javascript = 'eslint',
-                javascriptreact = 'eslint',
-                typescript = 'eslint',
-                typescriptreact = 'eslint',
-            },
-            formatters = {
-                eslint_d = {
-                    command = 'eslint_d',
-                    args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
-                    rootPatterns = { '.git' },
-                },
-                prettier = {
-                    command = 'prettier',
-                    args = { '--stdin-filepath', '%filename' }
+                formatFiletypes = {
+                    css = 'prettier',
+                    javascript = 'eslint_d',
+                    javascriptreact = 'eslint_d',
+                    scss = 'prettier',
+                    less = 'prettier',
+                    typescript = 'eslint_d',
+                    typescriptreact = 'eslint_d',
+                    json = 'prettier',
+                    markdown = 'prettier',
                 }
-            },
-            formatFiletypes = {
-                css = 'prettier',
-                javascript = 'eslint_d',
-                javascriptreact = 'eslint_d',
-                scss = 'prettier',
-                less = 'prettier',
-                typescript = 'eslint_d',
-                typescriptreact = 'eslint_d',
-                json = 'prettier',
-                markdown = 'prettier',
             }
         }
-    }
+    end
 
 
-    nvim_lsp.vimls.setup(default_config)
+    if vim.fn.executable('vim-language-server') == 1 then
+        nvim_lsp.vimls.setup(default_config)
+    end
 
-    nvim_lsp.bashls.setup(default_config)
+    if vim.fn.executable('bash-language-server') == 1 then
+        nvim_lsp.bashls.setup(default_config)
+    end
 
     local sumneko_root_path = vim.env.HOME .. '/lua-language-server'
     local sumneko_binary = sumneko_root_path..'/bin/Linux/lua-language-server'
