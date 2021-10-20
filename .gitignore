@@ -8,6 +8,7 @@ vim/plugged
 vim/spell
 vim/.nrepl-history
 vim/rplugin/
+tmux/plugins
 touchbar/icons
 touchbar/.apikey
 touchbar/getloc
