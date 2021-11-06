@@ -2,22 +2,38 @@ local lsp_utils = require'nikklassen.lsp.utils'
 
 local M = {}
 
-function M.go_organize_imports_sync(timeout_ms)
-    local context = { source = { organizeImports = true } }
-    vim.validate { context = { context, 't', true } }
+function M.goimports(timeout_ms)
+    local context = { only = { "source.organizeImports" } }
+    vim.validate { context = { context, "t", true } }
+
     local params = vim.lsp.util.make_range_params()
     params.context = context
 
-    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeout_ms)
-    if not result or not result[1] then return end
-    result = result[1].result
-    if not result or not result[1] then return end
-    local edit = result[1].edit
-    vim.lsp.util.apply_workspace_edit(edit)
+    -- See the implementation of the textDocument/codeAction callback
+    -- (lua/vim/lsp/handler.lua) for how to do this properly.
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
+    if not result or next(result) == nil then return end
+    local actions = result[1].result
+    if not actions then return end
+    local action = actions[1]
+
+    -- textDocument/codeAction can return either Command[] or CodeAction[]. If it
+    -- is a CodeAction, it can have either an edit, a command or both. Edits
+    -- should be executed first.
+    if action.edit or type(action.command) == "table" then
+      if action.edit then
+        vim.lsp.util.apply_workspace_edit(action.edit)
+      end
+      if type(action.command) == "table" then
+        vim.lsp.buf.execute_command(action.command)
+      end
+    else
+      vim.lsp.buf.execute_command(action)
+    end
 end
 
 local function on_attach_gopls(client, bufnr)
-    vim.cmd([[au BufWritePre <buffer> lua require'nikklassen.plugin_config.nvim-lspconfig'.go_organize_imports_sync(1000)]])
+    vim.cmd([[au BufWritePre <buffer> lua require'nikklassen.plugin_config.nvim-lspconfig'.goimports(1000)]])
     return lsp_utils.on_attach(client, bufnr)
 end
 
@@ -39,6 +55,14 @@ function M.configure()
 
     nvim_lsp.gopls.setup(vim.tbl_deep_extend('force', default_config, {
         on_attach = on_attach_gopls,
+        settings = {
+            gopls = {
+                analyses = {
+                    unusedparams = true,
+                },
+                staticcheck = true,
+            },
+        },
     }))
 
     nvim_lsp.jsonls.setup(vim.tbl_deep_extend('force', default_config, {
