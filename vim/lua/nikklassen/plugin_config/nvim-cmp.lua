@@ -8,7 +8,7 @@ local t = function(str)
 end
 
 local escape_completion = function()
-  if vim.fn.pumvisible() == 0 or vim.fn.complete_info()['selected'] == -1 then
+  if not cmp.visible() or cmp.get_selected_entry() == nil then
     vim.fn.feedkeys(t('<Esc>'), 'n')
   else
     cmp.close()
@@ -16,9 +16,9 @@ local escape_completion = function()
 end
 
 local confirm_completion = function (fallback)
-  if vim.fn.pumvisible() == 0 then
+  if not cmp.visible() then
     vim.fn.feedkeys(t('<Plug>delimitMateCR'), '')
-  elseif vim.fn.complete_info()['selected'] ~= -1 then
+  elseif cmp.get_selected_entry() ~= nil then
     cmp.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = false,
@@ -39,7 +39,7 @@ end
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
 local tab_complete = function(fallback)
-  if vim.fn.pumvisible() == 1 then
+  if cmp.visible() then
     cmp.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
@@ -54,7 +54,7 @@ local tab_complete = function(fallback)
 end
 
 local s_tab_complete = function ()
-  if vim.fn.pumvisible() == 1 then
+  if cmp.visible() then
     vim.fn.feedkeys(t('<C-p>'), 'n')
   elseif vim.fn['vsnip#jumpable']() == 1 then
     vim.fn.feedkeys(t('<Plug>(vsnip-jump-prev)'), '')

@@ -70,8 +70,8 @@ plug('brettanomyces/nvim-editcommand')
 
 plug('neovim/nvim-lspconfig')
 
-plug('hrsh7th/nvim-cmp')
-plug('hrsh7th/cmp-nvim-lsp')
+plug('hrsh7th/nvim-cmp', {branch = 'main'})
+plug('hrsh7th/cmp-nvim-lsp', {branch = 'main'})
 plug('hrsh7th/vim-vsnip')
 
 plug('ray-x/lsp_signature.nvim')
