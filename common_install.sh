@@ -10,15 +10,7 @@ symlink() {
 }
 export symlink
 
-git submodule update --recursive --init
-
-# Setup oh-my-zsh
-OMZ_MODULE=.git/modules/zsh/oh-my-zsh-sparse
-symlink $PWD/.omz.sparse-checkout $OMZ_MODULE/info/sparse-checkout
-git config -f $OMZ_MODULE/config core.sparsecheckout true
-
-# Clean up each subdirectory's working tree to only use the sparse checkout
-git submodule foreach 'git read-tree -m -u HEAD'
+git submodule update --recursive --init --remote
 
 link_home() {
     if [[ ! -L $HOME/.$1 || -n $FORCE ]]; then

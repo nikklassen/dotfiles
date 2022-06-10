@@ -63,4 +63,4 @@ vim.o.expandtab = true
 vim.o.shiftround = true
 vim.o.joinspaces = false
 
-vim.cmd('autocmd BufReadPost * if &diff | setlocal wrap | endif')
+vim.o.diffopt = vim.o.diffopt .. ',followwrap'

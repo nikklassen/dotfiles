@@ -3,7 +3,6 @@ vim.cmd('hi clear Conceal')
 
 -- vim.g.rehash256 = 1
 -- vim.cmd('colorscheme molokai')
-vim.cmd('colorscheme onedark')
 vim.o.background = 'dark'
 vim.o.termguicolors = true
 

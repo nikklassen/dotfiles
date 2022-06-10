@@ -8,33 +8,18 @@ compinit -C -d "$HOME/.zcompdump"
 autoload -U add-zsh-hook
 autoload -U zmv
 
-multisrc() {
-    for f in $@;
-    do source $f
-    done
-}
-
 return_code="%?"
 
 # Souce other scripts
 pushd "$HOME/.zsh" > /dev/null
 
-multisrc omz.zsh syntax-highlighting/zsh-syntax-highlighting.zsh
+source omz.zsh
 
 if [[ $(uname) == 'Darwin' ]]; then
     source ./macos.zsh
-else
-    source ./ubuntu.zsh
 fi
 
 popd > /dev/null
-
-if [[ PROMPT_SIMPLE ]]; then
-    export ZSH_THEME_GIT_PROMPT_DIRTY="%{[31m%}X%{[00m%}"
-else
-    # Poop emoji, gets overwritten if it's in zshenv
-    export ZSH_THEME_GIT_PROMPT_DIRTY="\xF0\x9F\x92\xA9 "
-fi
 
 OMITTED_WORDCHARS="/="
 function _backward_kill_default_word() {
@@ -51,7 +36,12 @@ bindkey '\ed' kill-default-word
 bindkey '^U' backward-kill-line
 
 vim-none-command-line () {
-  local EDITOR="$EDITOR -u NONE"
+  if [[ -f ~/.vim/vimrc.command-line ]]; then
+    local VIMRC="~/.vim/vimrc.command-line"
+  else
+    local VIMRC="NONE"
+  fi
+  local EDITOR="$EDITOR -u $VIMRC"
   edit-command-line
 }
 zle -N vim-none-command-line
@@ -60,27 +50,13 @@ bindkey '^X^E' vim-none-command-line
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
 
-alias lls="ls -lAh"
 alias rsync="rsync -h --progress"
-alias stf="sudo tail -f"
 alias pyg='pygmentize -f 256 -O style=monokai'
-alias rc='$EDITOR $HOME/.zshrc'
 alias plz='sudo $(fc -ln -1)'
-# 256 color
-alias tmux='tmux -2'
-alias ta='tmux attach'
 alias py-server="python3 -m http.server 3000"
-
-alias dc='docker-compose'
-alias dcu='docker-compose up -d'
-alias dcd='docker-compose down'
-alias dclg='docker-compose logs -f'
-alias dctf='docker-compose logs -f --tail="100"'
-alias dcr='docker-compose restart'
-alias dcru='docker-compose run'
-alias dcri='docker-compose run --rm -it'
-alias d='docker'
-alias dri='docker run --rm -it'
+alias cat="bat"
+# undo oh-my-zsh
+unalias rm
 
 function docker-upload () {
     local repo="$1"
@@ -99,12 +75,8 @@ function dccs() {
 
 command -v nvim >/dev/null 2>&1 && alias vim=nvim && alias vi=nvim
 
-alias gdl='git clone --depth 1'
-
 alias -g NV='--no-verify'
 alias -g LO='$(eval `fc -ln -1`)'
-alias -g NE='2> /dev/null'
-alias -g NUL='> /dev/null 2>&1'
 
 alias youtube-mp3='youtube-dl -x --audio-format mp3'
 
@@ -113,26 +85,13 @@ mkcd () {
     cd "$*"
 }
 
-function gbc () {
-    git branch $1 && git checkout $1
-}
-
-function gbdd () {
-    git branch -D $1
-    git push origin :$1 --no-verify
-}
-
-function grc () {
-    git reset HEAD $1 > /dev/null && git checkout $1
-}
-
-function gpnew() {
-    git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)"
-}
 
 function testport () {
     nc -v "$1" "$2" < /dev/null
 }
+
+# From https://unix.stackexchange.com/a/187256
+alias urldecode='sed "s@+@ @g;s@%@\\\\x@g" | xargs -0 printf "%b"'
 
 HISTFILE=$HOME/.zhistory
 HISTSIZE=SAVEHIST=10000

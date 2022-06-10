@@ -1,12 +1,19 @@
+local utils = require'nikklassen.utils'
+
 local M = {}
 
 function M.snippet_capabilities()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
-  return capabilities
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    if utils.isModuleAvailable('cmp_nvim_lsp') then
+        capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
+    end
+    if utils.isModuleAvailable('coq') then
+        capabilities = require'coq'.lsp_ensure_capabilities(capabilities)
+    end
+    return capabilities
 end
 
-function M.range_format_sync(options, start_pos, end_pos)
+local function range_format_sync(options, start_pos, end_pos)
     vim.validate { options = {options, 't', true} }
     local sts = vim.bo.softtabstop;
     options = vim.tbl_extend('keep', options or {}, {
@@ -20,66 +27,108 @@ function M.range_format_sync(options, start_pos, end_pos)
     local _, formatting_result = next(result)
     result = formatting_result.result
     if not result then return end
-    vim.lsp.util.apply_text_edits(result)
+    vim.lsp.util.apply_text_edits(result, 0, 'utf-8')
+end
+
+local function preview_location_callback(err, result, _)
+  if err ~= nil then
+      print('failed to get location:', err)
+      return nil
+  end
+  if result == nil or vim.tbl_isempty(result) then
+    return nil
+  end
+  if vim.tbl_islist(result) then
+    vim.lsp.util.preview_location(result[1])
+  else
+    vim.lsp.util.preview_location(result)
+  end
+end
+
+function M.peek_definition()
+  local params = vim.lsp.util.make_position_params()
+  return vim.lsp.buf_request(0, 'textDocument/typeDefinition', params, preview_location_callback)
 end
 
 function M.on_attach(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    local opts = { noremap = true, silent = true }
-    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
     -- Shift F12
-    buf_set_keymap('n', '<F24>', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<F24>', vim.lsp.buf.references, opts)
 
-    buf_set_keymap('n', '<Up>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', '<Down>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    vim.keymap.set('n', '<Up>', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', '<Down>', vim.diagnostic.goto_next, opts)
 
-    if client.resolved_capabilities.declaration then
-        buf_set_keymap('n', '<c-]>', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    if client.server_capabilities.declarationProvider then
+        vim.keymap.set('n', '<c-]>', vim.lsp.buf.declaration, opts)
     end
-    if client.resolved_capabilities.document_formatting then
-        buf_set_keymap('n', '<leader>=', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-        vim.api.nvim_exec([[
-        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
-        ]], false)
+    if client.server_capabilities.documentFormattingProvider then
+        if vim.lsp.formatexpr then -- Neovim v0.6.0+ only.
+            buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr')
+        else
+            vim.keymap.set('n', '<leader>=', vim.lsp.buf.formatting, opts)
+        end
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format {
+                    timeout_ms = 1000
+                }
+            end
+        })
     end
-    if client.resolved_capabilities.document_range_formatting then
-        buf_set_keymap('n', '==', '<cmd>lua local linenr = vim.fn.line("."); vim.lsp.buf.range_formatting(nil, {linenr, 0}, {linenr + 1, 0})<CR>', opts)
-        buf_set_keymap('v', '=', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+    if client.server_capabilities.documentRangeFormattingProvider then
+        if vim.lsp.formatexpr then -- Neovim v0.6.0+ only.
+            buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr')
+        else
+            vim.keymap.set('n', '==', function()
+                local linenr = vim.fn.line(".")
+                vim.lsp.buf.range_formatting(nil, {linenr, 0}, {linenr + 1, 0})
+            end, opts)
+            vim.keymap.set('v', '=', vim.lsp.buf.range_formatting, opts)
+        end
         -- Currently just for jsonls
-        if not client.resolved_capabilities.document_formatting then
-            vim.api.nvim_exec([[
-            autocmd BufWritePre <buffer> lua require'nikklassen.lsp.utils'.range_format_sync({},{0,0},{vim.fn.line("$"),0})
-            ]], false)
+        if not client.server_capabilities.documentFormattingProvider then
+            vim.api.nvim_create_autocmd('BufWritePre', {
+                buffer = bufnr,
+                callback = function() range_format_sync({},{0,0},{vim.fn.line("$"),0}) end
+            })
         end
     end
 
-    if client.resolved_capabilities.signature_help then
-        buf_set_keymap('i', '<M-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    if client.server_capabilities.signatureHelpProvider then
+        vim.keymap.set('i', '<M-k>', vim.lsp.buf.signature_help, opts)
     end
 
-    if client.resolved_capabilities.code_action then
-        buf_set_keymap('n', '<C-.>', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    if client.server_capabilities.codeActionProvider then
+        vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, opts)
     end
 
     -- Set autocommands conditional on server_capabilities
-    if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_exec([[
-        hi link LspReferenceRead Underlined
-        hi link LspReferenceText Normal
-        hi link LspReferenceWrite Underlined
-
-        augroup lsp_document_highlight
-        au! * <buffer>
-          au CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-          au CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-        augroup END
-        ]], false)
+    if client.server_capabilities.documentHighlightProvider then
+        vim.api.nvim_set_hl(0, 'LspReferenceRead', { link = 'Underlined', default = true })
+        vim.api.nvim_set_hl(0, 'LspReferenceText', { link = 'Normal', default = true })
+        vim.api.nvim_set_hl(0, 'LspReferenceWrite', { link = 'Underlined', default = true })
+        local lsp_document_highlight_ag = vim.api.nvim_create_augroup('lsp_document_highlight', {
+            clear = true,
+        })
+        vim.api.nvim_create_autocmd('CursorHold', {
+            group = lsp_document_highlight_ag,
+            buffer = bufnr,
+            callback = vim.lsp.buf.document_highlight,
+        })
+        vim.api.nvim_create_autocmd('CursorMoved', {
+            group = lsp_document_highlight_ag,
+            buffer = bufnr,
+            callback = vim.lsp.buf.clear_references,
+        })
     end
 end
 

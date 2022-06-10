@@ -1,78 +1,67 @@
-local map = vim.api.nvim_set_keymap
-local vnoremap = function(lhs, rhs)
-  map('v', lhs, rhs, { noremap = true })
-end
-local tnoremap = function(lhs, rhs)
-  map('t', lhs, rhs, { noremap = true })
-end
-local nnoremap = function(lhs, rhs)
-  map('n', lhs, rhs, { noremap = true })
-end
-
 -- Search for the currently selected text
-vnoremap('//', '"sy/<C-r>s<CR>')
+vim.keymap.set('v', '//', '"sy/<C-r>s<CR>')
 
-tnoremap('<M-h>', '<C-\\><C-n><C-w>h')
-tnoremap('<M-j>', '<C-\\><C-n><C-w>j')
-tnoremap('<M-k>', '<C-\\><C-n><C-w>k')
-tnoremap('<M-l>', '<C-\\><C-n><C-w>l')
+vim.keymap.set('t', '<M-h>', '<C-\\><C-n><C-w>h')
+vim.keymap.set('t', '<M-j>', '<C-\\><C-n><C-w>j')
+vim.keymap.set('t', '<M-k>', '<C-\\><C-n><C-w>k')
+vim.keymap.set('t', '<M-l>', '<C-\\><C-n><C-w>l')
 
-nnoremap('Y', 'y$')
+vim.keymap.set('n', 'Y', 'y$')
 
 -- Reindent whole file
-nnoremap('<leader>=', 'mrgg=G`r')
+vim.keymap.set('n', '<leader>=', 'mrgg=G`r')
 
-nnoremap('<C-S>', '<cmd>w<CR>')
+vim.keymap.set('n', '<C-S>', '<cmd>w<CR>')
 
-map('n', '<space>', 'foldlevel(".") ? "za" : "<space>"', {
+vim.keymap.set('n', '<space>', 'foldlevel(".") ? "za" : "<space>"', {
   silent = true,
   expr = true,
-  noremap = true,
 })
 
-vnoremap('<', '<gv')
-vnoremap('<leader><', '<')
+vim.keymap.set('v', '<', '<gv')
+vim.keymap.set('v', '<leader><', '<')
 
-vnoremap('>', '>gv')
-vnoremap('<leader>>', '>')
+vim.keymap.set('v', '>', '>gv')
+vim.keymap.set('v', '<leader>>', '>')
 
-nnoremap('gp', '`[v`]')
+vim.keymap.set('n', 'gp', '`[v`]')
 
-nnoremap('<Left>', 'gT')
-nnoremap('<Right>', 'gt')
+vim.keymap.set('n', '<Left>', 'gT')
+vim.keymap.set('n', '<Right>', 'gt')
 
-nnoremap('<F4>', '<cmd>cnext<CR>')
+vim.keymap.set('n', '<F4>', '<cmd>cnext<CR>')
 -- Shift F4
-nnoremap('<F16>', '<cmd>cprevious<CR>')
+vim.keymap.set('n', '<F16>', '<cmd>cprevious<CR>')
 
-nnoremap('<M-Down>', 'ddp')
-nnoremap('<M-Up>', 'ddkP')
+vim.keymap.set('n', '<M-Down>', 'ddp')
+vim.keymap.set('n', '<M-Up>', 'ddkP')
 
-vnoremap('<M-Down>', 'dpgv')
-vnoremap('<M-Up>', 'dkPgv')
+vim.keymap.set('v', '<M-Down>', 'dpgv')
+vim.keymap.set('v', '<M-Up>', 'dkPgv')
 
 local config_path = vim.fn.stdpath('config')
-nnoremap('<leader>v', '<cmd>tabe ' .. config_path .. '/init.lua<CR>')
-nnoremap('<leader>vp', '<cmd>tabe ' .. config_path .. '/lua/nikklassen/plugin_config<CR>')
+vim.keymap.set('n', '<leader>v', '<cmd>tabe ' .. config_path .. '/init.lua<CR>')
+vim.keymap.set('n', '<leader>vp', '<cmd>tabe ' .. config_path .. '/lua/nikklassen/plugin_config<CR>')
 
-nnoremap('<M-h>', '<C-W>h')
-nnoremap('<M-j>', '<C-W>j')
-nnoremap('<M-k>', '<C-W>k')
-nnoremap('<M-l>', '<C-W>l')
-nnoremap('<M-c>', '<C-w>c')
+vim.keymap.set('n', '<M-h>', '<C-W>h')
+vim.keymap.set('n', '<M-j>', '<C-W>j')
+vim.keymap.set('n', '<M-k>', '<C-W>k')
+vim.keymap.set('n', '<M-l>', '<C-W>l')
+vim.keymap.set('n', '<M-c>', '<C-w>c')
 
 vim.o.pastetoggle = '<F5>'
 
-nnoremap('<F10>', '1z=')
+vim.keymap.set('n', '<F10>', '1z=')
 
 -- build
-nnoremap('<leader>m', '<cmd>w | make<CR>')
+vim.keymap.set('n', '<leader>m', '<cmd>w | make<CR>')
 
-map('c', '<C-A>', '<Home>', {})
-map('c', '<M-b>', '<S-Left>', {})
-map('c', '<M-f>', '<S-Right>', {})
+vim.keymap.set('c', '<C-A>', '<Home>', {})
+vim.keymap.set('c', '<M-b>', '<S-Left>', {})
+vim.keymap.set('c', '<M-f>', '<S-Right>', {})
+vim.keymap.set('c', '<C-k>', '<C-\\>e(strpart(getcmdline(), 0, getcmdpos() - 1))<CR>')
 
-nnoremap('<leader>c', '<cmd>cd expand("%:p:h")<CR>')
+vim.keymap.set('n', '<leader>c', '<cmd>cd expand("%:p:h")<CR>')
 
 local function replace_current_word()
     local new_word = vim.fn.input('New word: ')
@@ -85,9 +74,9 @@ local function replace_current_word()
     vim.api.nvim_set_current_line(new_line)
 end
 
-nnoremap('<leader>s', '<cmd>lua require"nikklassen.keymappings".replace_current_word()<CR>')
+vim.keymap.set('n', '<leader>s', replace_current_word)
 
-map('v', '<C-S>', "<cmd>sort<CR>", { noremap = true, silent = true })
+vim.keymap.set('v', '<C-S>', ":'<,'>sort<CR>", { silent = true })
 
 local function run_lines()
   local selected_text = vim.fn.getline("'<", "'>")
@@ -95,19 +84,10 @@ local function run_lines()
 end
 
 -- Run selected lines
-map('v', '<f2>', '<cmd>lua require"nikklassen.keymappings".run_lines()<cr>', {
-  noremap = true,
-  silent = true,
-})
+vim.keymap.set('v', '<f2>', run_lines, { silent = true })
 
-nnoremap('<BS>', '<c-^>')
+vim.keymap.set('n', '<BS>', '<c-^>')
 
-nnoremap('ZA', '<cmd>wqa<CR>')
+vim.keymap.set('n', 'ZA', '<cmd>wqa<CR>')
 
-return {
-  replace_current_word = replace_current_word,
-  run_lines = run_lines,
-  vnoremap = vnoremap,
-  tnoremap = tnoremap,
-  nnoremap = nnoremap,
-}
+vim.keymap.set('v', 'Y', '<cmd>OSCYank<CR>')

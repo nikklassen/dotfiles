@@ -10,23 +10,14 @@ fi
 PATH="./node_modules/.bin:$PATH"
 
 # Cargo
-if [[ -f "$HOME/.cargo" ]]; then
+if [[ -d "$HOME/.cargo" ]]; then
   PATH="$HOME/.cargo/bin:$PATH"
-  source "$HOME/.cargo/env"
 fi
 
 PATH="/usr/texbin:$PATH"
 
 # Homebrew path
-PATH="/usr/local/bin:/usr/local/sbin:$PATH"
-
-# rvm
-[[ -f "$HOME/.rvm" ]] && PATH="$PATH:$HOME/.rvm/bin"
-
-# For security the local directory should be at the end
-export PATH="$PATH:."
-
-export PYTHONSTARTUP=~/.pystartup
+# PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 [[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -45,8 +36,6 @@ export FZF_TMUX=0
 
 [[ -f /usr/libexec/java_home/ ]] && export JAVA_HOME="$(/usr/libexec/java_home/)"
 
-BOOT_EMIT_TARGET=no
-
 if which rustc >/dev/null 2>&1; then
     export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
 fi
@@ -56,3 +45,6 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
 
 export POWERLINE_CONFIG_COMMAND="$HOME/.local/bin/powerline-config"
+
+# For security the local directory should be at the end
+export PATH="$PATH:."

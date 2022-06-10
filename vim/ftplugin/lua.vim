@@ -1,1 +1,1 @@
-set sw=4 ts=4
+setlocal sw=4 ts=4

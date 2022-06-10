@@ -1,0 +1,2 @@
+source ~/.local/share/nvim/plugged/vim-sensible/plugin/sensible.vim
+set ft=zsh

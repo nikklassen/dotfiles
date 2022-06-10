@@ -2,7 +2,7 @@ local lsp_utils = require'nikklassen.lsp.utils'
 
 local M = {}
 
-function M.goimports(timeout_ms)
+local function goimports(timeout_ms)
     local context = { only = { "source.organizeImports" } }
     vim.validate { context = { context, "t", true } }
 
@@ -22,7 +22,7 @@ function M.goimports(timeout_ms)
     -- should be executed first.
     if action.edit or type(action.command) == "table" then
       if action.edit then
-        vim.lsp.util.apply_workspace_edit(action.edit)
+        vim.lsp.util.apply_workspace_edit(action.edit, 'utf-8')
       end
       if type(action.command) == "table" then
         vim.lsp.buf.execute_command(action.command)
@@ -33,7 +33,12 @@ function M.goimports(timeout_ms)
 end
 
 local function on_attach_gopls(client, bufnr)
-    vim.cmd([[au BufWritePre <buffer> lua require'nikklassen.plugin_config.nvim-lspconfig'.goimports(1000)]])
+    vim.api.nvim_create_autocmd('BufWritePre', {
+        buffer = bufnr,
+        callback = function()
+            goimports(1000)
+        end,
+    })
     return lsp_utils.on_attach(client, bufnr)
 end
 
@@ -54,6 +59,7 @@ function M.configure()
     local default_config = lsp_utils.default_config()
 
     nvim_lsp.gopls.setup(vim.tbl_deep_extend('force', default_config, {
+        autostart = false,
         on_attach = on_attach_gopls,
         settings = {
             gopls = {
@@ -73,7 +79,7 @@ function M.configure()
 
     nvim_lsp.tsserver.setup(vim.tbl_deep_extend('force', default_config, {
         on_attach = function(client, bufnr)
-            client.resolved_capabilities.document_formatting = false
+            client.server_capabilities.documentFormattingProvider = false
             lsp_utils.on_attach(client, bufnr)
         end,
     }))
@@ -105,7 +111,7 @@ function M.configure()
                 },
                 diagnostics = {
                     -- Get the language server to recognize the `vim` global
-                    globals = {'vim'},
+                    globals = {'vim', 'use_rocks'},
                 },
                 workspace = {
                     -- Make the server aware of Neovim runtime files

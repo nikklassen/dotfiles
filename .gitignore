@@ -2,12 +2,12 @@
 *.swp
 .DS_Store
 *.orig
+vim/.nrepl-history
+vim/plugin/packer_compiled.lua
+vim/rplugin/
+vim/spell
 vim/tags
 vim/view
-vim/plugged
-vim/spell
-vim/.nrepl-history
-vim/rplugin/
 tmux/plugins
 touchbar/icons
 touchbar/.apikey

@@ -1,18 +1,21 @@
-    ignore = dirty
+	ignore = dirty
 [submodule "zsh/oh-my-zsh-sparse"]
-    path = zsh/oh-my-zsh-sparse
-    url = https://github.com/robbyrussell/oh-my-zsh.git
-    branch = master
+	path = zsh/omz
+	url = https://github.com/robbyrussell/oh-my-zsh.git
+	branch = master
 [submodule "zsh/syntax-highlighting"]
-    path = zsh/syntax-highlighting
-    url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-    branch = master
+	path = zsh/omz-custom/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+	branch = master
 [submodule "zsh/zsh-async"]
 	path = zsh/zsh-async
 	url = https://github.com/mafredri/zsh-async
+	branch = master
 [submodule "z"]
 	path = z
 	url = https://github.com/rupa/z
+	branch = master
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+	branch = master
