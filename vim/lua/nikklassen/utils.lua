@@ -5,6 +5,16 @@ function _G.dump(...)
   print(unpack(objects))
 end
 
+function M.tbl_list_extend(tbl1, tbl2)
+    if tbl2 == nil then
+        return
+    end
+    for _, value in ipairs(tbl2) do
+        tbl1[#tbl1+1] = value
+    end
+    return tbl1
+end
+
 function M.isModuleAvailable(name)
   if package.loaded[name] then
     return true

@@ -12,7 +12,7 @@ local function goimports(timeout_ms)
     -- See the implementation of the textDocument/codeAction callback
     -- (lua/vim/lsp/handler.lua) for how to do this properly.
     local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
-    if not result or next(result) == nil then return end
+    if not result or result[1] == nil then return end
     if result[1] == nil then return end
     local actions = result[1].result
     if not actions then return end
@@ -46,21 +46,32 @@ end
 function M.configure()
     local nvim_lsp = require'lspconfig'
 
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics, {
-            underline = true,
-            virtual_text = true,
-            signs = true,
-            -- update_in_insert = true,
-            update_in_insert = false,
-        }
-    )
+    vim.diagnostic.config({
+        virtual_text = false,
+        signs = true,
+        update_in_insert = false,
+        underline = true,
+        severity_sort = true,
+        float = {
+            focusable = false,
+            style = 'minimal',
+            border = 'rounded',
+            source = 'always',
+            header = '',
+            prefix = '',
+        },
+    })
 
     -- vim.lsp.set_log_level('debug')
 
     local default_config = lsp_utils.default_config()
 
+    local autostart_gopls = true
+    if vim.g.gopls_autostart_disable ~= nil then
+        autostart_gopls = not vim.g.gopls_autostart_disable
+    end
     nvim_lsp.gopls.setup(vim.tbl_deep_extend('force', default_config, {
+        autostart = autostart_gopls,
         on_attach = on_attach_gopls,
         settings = {
             gopls = {
@@ -75,6 +86,19 @@ function M.configure()
     nvim_lsp.jsonls.setup(vim.tbl_deep_extend('force', default_config, {
         init_options = {
             provideFormatter = true,
+        },
+        settings = {
+            json = {
+                schemas = {
+                    {
+                        fileMatch = '*.fhir.json',
+                        url = 'https://hl7.org/fhir/r4/fhir.schema.json',
+                    },
+                },
+                validate = {
+                    enable = true,
+                },
+            },
         },
     }))
 
@@ -108,32 +132,37 @@ function M.configure()
         nvim_lsp.pyright.setup(default_config)
     end
 
-    local sumneko_root_path = vim.env.HOME .. '/lua-language-server'
-    local sumneko_binary = sumneko_root_path..'/bin/Linux/lua-language-server'
-    nvim_lsp.sumneko_lua.setup(vim.tbl_deep_extend('force', default_config, {
-        cmd = {sumneko_binary, '-E', sumneko_root_path .. '/main.lua'},
-        settings = {
-            Lua = {
-                runtime = {
-                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                    version = 'LuaJIT',
-                    -- Setup your lua path
-                    path = vim.split(package.path, ';'),
-                },
-                diagnostics = {
-                    -- Get the language server to recognize the `vim` global
-                    globals = {'vim', 'use_rocks'},
-                },
-                workspace = {
-                    -- Make the server aware of Neovim runtime files
-                    library = {
-                        [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                        [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+    if vim.fn.executable('pyright') == 1 then
+        nvim_lsp.pyright.setup(vim.tbl_deep_extend('force', default_config, {
+            autostart = false,
+        }))
+    end
+
+    if vim.fn.executable('lua-language-server') == 1 then
+        nvim_lsp.lua_ls.setup(vim.tbl_deep_extend('force', default_config, {
+            settings = {
+                Lua = {
+                    runtime = {
+                        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                        version = 'LuaJIT',
+                        -- Setup your lua path
+                        -- path = vim.split(package.path, ';'),
                     },
+                    diagnostics = {
+                        -- Get the language server to recognize the `vim` global
+                        globals = {'vim', 'use_rocks'},
+                    },
+                    workspace = {
+                        -- Make the server aware of Neovim runtime files
+                        library = vim.api.nvim_get_runtime_file('', true),
+                    },
+                    telemetry = {
+                        enable = false,
+                    }
                 },
             },
-        },
-    }))
+        }))
+    end
 end
 
 return M

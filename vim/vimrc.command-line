@@ -1,2 +1,14 @@
 source ~/.local/share/nvim/site/pack/packer/start/vim-sensible/plugin/sensible.vim
 set ft=zsh
+
+set noloadplugins
+runtime PACK plugin/sensible.vim
+runtime PACK lua/nvim-autopairs.lua
+
+set ft=zsh
+
+lua <<EOF
+require("nvim-autopairs").setup({
+    enable_check_bracket_line = false,
+})
+EOF

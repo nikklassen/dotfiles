@@ -52,6 +52,10 @@ vim.o.list = true
 
 vim.o.mouse = 'a'
 
+vim.o.spelloptions = 'camel'
+
+vim.o.updatetime = 1000
+
 --------------------------------------------------------------
 -- Indentation options
 --------------------------------------------------------------
@@ -64,3 +68,8 @@ vim.o.shiftround = true
 vim.o.joinspaces = false
 
 vim.o.diffopt = vim.o.diffopt .. ',followwrap'
+
+-- Disable health checks for languages I don't care about
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0

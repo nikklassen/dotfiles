@@ -1,5 +1,3 @@
-local utils = require'nikklassen.utils'
-
 local packer_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 local packer_did_bootstrap = false
 if vim.fn.isdirectory(packer_install_path) == 0 then
@@ -22,19 +20,18 @@ packer.startup(function (use)
 
     use 'tpope/vim-sensible'
 
-    use {'Raimondi/delimitMate', config = function() require'nikklassen.plugin_config.delimitMate'.configure() end}
-
     use {'embear/vim-localvimrc', config = function() require'nikklassen.plugin_config.vim-localvimrc'.configure() end}
     use {
-        'scrooloose/nerdtree',
+        'preservim/nerdtree',
         opt = true,
         cmd = {'NERDTreeToggle', 'NERDTreeFind'},
+        keys = '<leader>nf',
         config = function() require'nikklassen.plugin_config.nerdtree'.configure() end,
     }
 
-    use {'joshdick/onedark.vim', config = [[vim.cmd('colorscheme onedark')]]}
+    use {'navarasu/onedark.nvim', config = function () require'nikklassen.plugin_config.onedark'.configure() end}
     use 'tpope/vim-fugitive'
-    use 'tpope/vim-surround'
+    -- use 'tpope/vim-surround'
     use 'tpope/vim-repeat'
     use 'tpope/vim-commentary'
     use 'tpope/vim-abolish'
@@ -47,7 +44,7 @@ packer.startup(function (use)
         config = function () require 'nikklassen.plugin_config.fzf_lua'.configure() end,
     }
 
-    use {'rking/ag.vim', config = function() require'nikklassen.plugin_config.ag_vim'.configure() end}
+    use 'jremmen/vim-ripgrep'
 
     use 'ludovicchabant/vim-lawrencium'
 
@@ -74,10 +71,13 @@ packer.startup(function (use)
     use {'othree/html5.vim', ft = {'html', 'eruby'}}
 
     -- Go
+    use 'mfussenegger/nvim-dap'
+    use 'leoluz/nvim-dap-go'
+    -- (optional) for TUI support
     use {
-        'sebdah/vim-delve',
-        ft = 'go',
-        config = function() require'nikklassen.plugin_config.vim-delve'.configure() end,
+        'rcarriga/nvim-dap-ui',
+        requires = {'mfussenegger/nvim-dap', 'leoluz/nvim-dap-go'},
+        config = function() require'nikklassen.plugin_config.nvim-dap'.configure() end,
     }
 
     -------------------
@@ -86,9 +86,18 @@ packer.startup(function (use)
 
     use {'brettanomyces/nvim-editcommand', config = function() require'nikklassen.plugin_config.nvim-editcommand'.configure() end}
 
-    use {'neovim/nvim-lspconfig', config = function() require'nikklassen.plugin_config.nvim-lspconfig'.configure() end}
+    use {
+        'nvim-lua/lsp-status.nvim',
+        config = function() require'nikklassen.plugin_config.lsp-status'.configure() end,
+    }
+    use {
+        'neovim/nvim-lspconfig',
+        config = function() require'nikklassen.plugin_config.nvim-lspconfig'.configure() end,
+        after = {'lsp-status.nvim'},
+    }
 
-    use {'hrsh7th/nvim-cmp', branch = 'main', config = function() require'nikklassen.plugin_config.nvim-cmp'.configure() end}
+    -- use {'Raimondi/delimitMate', config = function() require'nikklassen.plugin_config.delimitMate'.configure() end}
+    use {'windwp/nvim-autopairs', config = function() require'nikklassen.plugin_config.nvim-autopairs'.configure() end}
     use {'hrsh7th/cmp-nvim-lsp', branch = 'main'}
     use {
         'hrsh7th/cmp-vsnip',
@@ -97,21 +106,33 @@ packer.startup(function (use)
     }
     use 'hrsh7th/vim-vsnip'
     use {'hrsh7th/cmp-nvim-lsp-signature-help', branch = 'main'}
+    use {'onsails/lspkind.nvim'}
+    use {
+        'hrsh7th/nvim-cmp',
+        branch = 'main',
+        config = function() require'nikklassen.plugin_config.nvim-cmp'.configure() end,
+        after = {'nvim-autopairs'}
+    }
+
     -- VSCode plugin, imported just for the snippets
     use 'golang/vscode-go'
 
-    -- Coq, alternative to nvim-cmp, but doesn't work as well
-    -- plug('ms-jpq/coq_nvim', {branch = 'coq'})
-    -- plug('ms-jpq/coq.artifacts', {branch= 'artifacts'})
-
-    use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function() require'nikklassen.plugin_config.nvim-treesitter'.configure() end}
     use {
-        'nvim-treesitter/playground',
-        requires = {'nvim-treesitter/nvim-treesitter'}
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate',
     }
     use {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        requires = {'nvim-treesitter/nvim-treesitter'}
+        config = function()
+            require'nikklassen.plugin_config.nvim-treesitter'.configure()
+        end,
+        after = {'nvim-treesitter'}
+    }
+    use 'nvim-treesitter/playground'
+    use {'kylechui/nvim-surround', config = function() require('nvim-surround').setup({}) end}
+    use {
+        'stevearc/aerial.nvim',
+        config = function() require'nikklassen.plugin_config.aerial'.configure() end,
     }
 
     use {'ojroques/vim-oscyank', branch = 'main'}
@@ -125,11 +146,9 @@ packer.startup(function (use)
 
     use 'nvim-lua/plenary.nvim'
 
-    if utils.isModuleAvailable('local') then
-        local local_config = require'local'
-        if local_config.packer_startup ~= nil then
-            local_config.packer_startup(use)
-        end
+    local vimrc_local = vim.fn.expand('~') .. '/.vimrc.local.lua'
+    if vim.fn.filereadable(vimrc_local) == 1 then
+        dofile(vimrc_local).startup(use)
     end
 
     -- Automatically set up your configuration after cloning packer.nvim
@@ -138,4 +157,3 @@ packer.startup(function (use)
         packer.sync()
     end
 end)
-

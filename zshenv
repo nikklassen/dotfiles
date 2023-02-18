@@ -1,5 +1,7 @@
 export PAGER=less
 export LESS="-FXSR -# 0"
+
+PATH="$HOME/src/neovim/bin:$PATH"
 if which nvim >/dev/null 2>&1; then
     export EDITOR=nvim
 else

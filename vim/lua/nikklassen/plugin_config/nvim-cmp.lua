@@ -2,6 +2,8 @@ local cmp = require'cmp'
 local types = require'cmp.types'
 local compare = require'cmp.config.compare'
 local utils = require'nikklassen.utils'
+local cmp_autopairs = require'nvim-autopairs.completion.cmp'
+local lspkind = require'lspkind'
 
 local M = {}
 
@@ -14,26 +16,20 @@ local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-local escape_completion = function()
-    if not cmp.visible() or cmp.get_selected_entry() == nil then
-        vim.fn.feedkeys(t('<Esc>'), 'n')
-    else
-        cmp.close()
-    end
-end
-
-local confirm_completion = function (fallback)
-    if not cmp.visible() then
-        vim.fn.feedkeys(t('<Plug>delimitMateCR'), '')
-    elseif cmp.get_selected_entry() ~= nil then
-        cmp.confirm({
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = false,
-        })
-    else
-        cmp.close()
+local function confirm_completion(fallback)
+    if cmp.get_selected_entry() == nil then
+        if cmp.visible() then
+            cmp.close()
+        end
+        -- vim.schedule(fallback)
+        print('falling back')
         fallback()
+        return
     end
+    cmp.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = false,
+    })
 end
 
 local function check_back_space ()
@@ -74,6 +70,7 @@ local function dump_entry(e)
         id = e.id,
         offset = e:get_offset(),
         sortText = e.completion_item.sortText,
+        completionItem = e.completion_item,
     })
 end
 
@@ -109,9 +106,8 @@ function M.configure()
         mapping = {
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-e>'] = cmp.mapping.close(),
-            ['<Esc>'] = escape_completion,
 
-            ['<CR>'] = confirm_completion,
+            ['<CR>'] = cmp.mapping(confirm_completion, {'i', 's'}),
             ['<C-y>'] = cmp.mapping.confirm('<C-y>'),
 
             ['<Tab>'] = cmp.mapping(tab_complete, {'i', 's'}),
@@ -119,19 +115,9 @@ function M.configure()
 
             ['<Down>'] = cmp.mapping({
                 i = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
-                c = function(fallback)
-                    cmp.close()
-                    vim.schedule(cmp.suspend())
-                    fallback()
-                end,
             }),
             ['<Up>'] = cmp.mapping({
                 i = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
-                c = function(fallback)
-                    cmp.close()
-                    vim.schedule(cmp.suspend())
-                    fallback()
-                end,
             }),
         },
 
@@ -140,9 +126,9 @@ function M.configure()
                 vim.tbl_get(local_cmp, 'setup', 'sorting', 'comparators') or {},
                 {
                     -- M.debug_compare,
-                    compare.score,
-                    compare.order,
                     compare.sort_text,
+                    -- compare.score,
+                    compare.order,
                     M.response_index,
                     -- compare.offset,
                     -- compare.exact,
@@ -153,54 +139,24 @@ function M.configure()
         },
 
         formatting = {
-            format = function(entry, vim_item)
-                if #vim_item.word > 50 then
-                    vim_item.abbr = vim_item.word:sub(0, 50) .. '...'
-                end
-                vim_item.menu = entry.completion_item.detail
-                if entry:get_completion_item().dependency then
-                    vim_item.menu = (vim_item.menu or '') .. ' ' .. entry:get_completion_item().dependency
-                end
-                return vim_item
-            end,
+            format = lspkind.cmp_format({
+                mode = 'symbol',
+                maxwidth = 50,
+            }),
         },
 
         sources = cmp.config.sources({
             { name = 'nvim_lsp' },
-            -- { name = 'nvim_lsp_signature_help' },
-        }, {
-            -- { name = 'vsnip' },
-            -- { name = 'omni' },
+            { name = 'nvim_lsp_signature_help' },
         }),
-
-        -- completion = {
-        --     autocomplete = false,
-        -- },
     }
-
-    -- TODO: try using custom autocompletion
-    -- vim.api.nvim_create_autocmd(
-    --     {"TextChangedI", "TextChangedP"},
-    --     {
-    --         callback = function()
-    --             local line = vim.api.nvim_get_current_line()
-    --             local cursor = vim.api.nvim_win_get_cursor(0)[2]
-
-    --             local current = string.sub(line, cursor, cursor + 1)
-    --             -- if current == "." or current == "," or current == " " then
-    --             if current == "," or current == " " then
-    --                 require('cmp').close()
-    --             end
-
-    --             local before_line = string.sub(line, 1, cursor + 1)
-    --             -- local after_line = string.sub(line, cursor + 1, -1)
-    --             if not string.match(before_line, '^%s+$') then
-    --                 require('cmp').complete()
-    --             end
-    --         end,
-    --         pattern = "*"
-    --     }
-    -- )
+    local cmp_autopairs_on_done = cmp_autopairs.on_confirm_done()
+    cmp.event:on('confirm_done', function (evt)
+        local status, err = pcall(cmp_autopairs_on_done, evt)
+        if not status then
+            print(err)
+        end
+    end)
 end
 
 return M
