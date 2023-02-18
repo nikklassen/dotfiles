@@ -13,6 +13,7 @@ local function goimports(timeout_ms)
     -- (lua/vim/lsp/handler.lua) for how to do this properly.
     local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
     if not result or next(result) == nil then return end
+    if result[1] == nil then return end
     local actions = result[1].result
     if not actions then return end
     local action = actions[1]
@@ -50,7 +51,8 @@ function M.configure()
             underline = true,
             virtual_text = true,
             signs = true,
-            update_in_insert = true,
+            -- update_in_insert = true,
+            update_in_insert = false,
         }
     )
 
@@ -59,7 +61,6 @@ function M.configure()
     local default_config = lsp_utils.default_config()
 
     nvim_lsp.gopls.setup(vim.tbl_deep_extend('force', default_config, {
-        autostart = false,
         on_attach = on_attach_gopls,
         settings = {
             gopls = {
@@ -95,6 +96,16 @@ function M.configure()
 
     if vim.fn.executable('bash-language-server') == 1 then
         nvim_lsp.bashls.setup(default_config)
+    end
+
+    if vim.fn.executable('rustup') == 1 then
+        nvim_lsp.rust_analyzer.setup(vim.tbl_deep_extend('force', default_config, {
+            cmd = {'rustup', 'run', 'nightly', 'rust-analyzer'}
+        }))
+    end
+
+    if vim.fn.executable('pyright') == 1 then
+        nvim_lsp.pyright.setup(default_config)
     end
 
     local sumneko_root_path = vim.env.HOME .. '/lua-language-server'

@@ -142,3 +142,7 @@ export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

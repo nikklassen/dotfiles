@@ -90,7 +90,11 @@ packer.startup(function (use)
 
     use {'hrsh7th/nvim-cmp', branch = 'main', config = function() require'nikklassen.plugin_config.nvim-cmp'.configure() end}
     use {'hrsh7th/cmp-nvim-lsp', branch = 'main'}
-    use {'hrsh7th/cmp-vsnip', branch = 'main'}
+    use {
+        'hrsh7th/cmp-vsnip',
+        branch = 'main',
+        requires = {'hrsh7th/nvim-cmp'},
+    }
     use 'hrsh7th/vim-vsnip'
     use {'hrsh7th/cmp-nvim-lsp-signature-help', branch = 'main'}
     -- VSCode plugin, imported just for the snippets
@@ -101,8 +105,14 @@ packer.startup(function (use)
     -- plug('ms-jpq/coq.artifacts', {branch= 'artifacts'})
 
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function() require'nikklassen.plugin_config.nvim-treesitter'.configure() end}
-    use 'nvim-treesitter/playground'
-    use 'nvim-treesitter/nvim-treesitter-textobjects'
+    use {
+        'nvim-treesitter/playground',
+        requires = {'nvim-treesitter/nvim-treesitter'}
+    }
+    use {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        requires = {'nvim-treesitter/nvim-treesitter'}
+    }
 
     use {'ojroques/vim-oscyank', branch = 'main'}
 
