@@ -2,7 +2,7 @@
 
 which -s brew 2>&1 > /dev/null
 if [[ $? == 1 ]]; then
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 brew update
 while read -r line; do
@@ -11,7 +11,7 @@ done < mac_packages.txt
 
 which -s nvim 2>&1 > /dev/null
 if [[ $? == 1 ]]; then
-    brew install neovim/neovim/neovim
+    brew install neovim
     mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
     sudo pip3 install neovim
 fi

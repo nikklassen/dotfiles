@@ -35,16 +35,6 @@ defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\\U21a9"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 
-# Disable Notification Center and remove the menu bar icon
-launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
-
-# Menu bar: hide the Volume and User icons
-for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
-    defaults write "${domain}" dontAutoLoad -array \
-        "/System/Library/CoreServices/Menu Extras/Volume.menu" \
-        "/System/Library/CoreServices/Menu Extras/User.menu"
-done
-
 # Stop iTunes from responding to the keyboard media keys
 launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
 
@@ -53,31 +43,11 @@ launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/nul
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
 
-###############################################################################
-# SSD-specific tweaks                                                         #
-###############################################################################
-
-if [[ -z $(diskutil info disk0 | grep "Solid State.*Yes") ]]; then
-    # Disable hibernation (speeds up entering sleep mode)
-    sudo pmset -a hibernatemode 0
-
-    # Remove the sleep image file to save disk space
-    sudo rm /private/var/vm/sleepimage
-    # Create a zero-byte file instead…
-    sudo touch /private/var/vm/sleepimage
-    # …and make sure it can’t be rewritten
-    sudo chflags uchg /private/var/vm/sleepimage
-
-    # Disable the sudden motion sensor as it’s not useful for SSDs
-    sudo pmset -a sms 0
-fi
-
 # Finder: show path bar
 defaults write com.apple.finder ShowPathbar -bool true
 
 # Finder: show status bar
 defaults write com.apple.finder ShowStatusBar -bool true
-
 
 # Finder: show all filename extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -85,6 +55,3 @@ defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 # Top right screen corner → Sleep
 defaults write com.apple.dock wvous-tr-corner -int 10
 defaults write com.apple.dock wvous-tr-modifier -int 0
-
-sudo ifconfig lo0 alias 127.0.0.2 up
-sudo ifconfig lo0 alias 127.0.0.3 up
