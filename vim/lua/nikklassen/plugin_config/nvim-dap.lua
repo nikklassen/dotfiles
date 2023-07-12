@@ -1,22 +1,20 @@
-local dapgo = require'dap-go'
-local dapui = require'dapui'
-local dap = require'dap'
+local dapui = require 'dapui'
+local dap = require 'dap'
 
 local M = {}
 
 function M.configure()
-    dapgo.setup()
     dapui.setup()
 
     -- Stop sign with a square in it, nf-cod-stop_circle
-    vim.fn.sign_define('DapBreakpoint', {text='\u{eba5}', texthl='Error'})
+    vim.fn.sign_define('DapBreakpoint', { text = '\u{eba5}', texthl = 'Error' })
 
     dap.adapters.delve = {
         type = "server",
         port = "${port}",
         executable = {
             command = 'dlv',
-            args = {'dap', '-l', '127.0.0.1:${port}', '--check-go-version=false'},
+            args = { 'dap', '-l', '127.0.0.1:${port}', '--check-go-version=false' },
         },
         initialize_timeout_sec = 10,
     }
@@ -33,11 +31,16 @@ function M.configure()
         dap.hover(vim.fn.input('Expression: '))
     end)
     vim.keymap.set('n', '<F5>', dap.continue)
-    vim.keymap.set('n', '<S-F5>', dap.close)
+    -- <S-F5>
+    vim.keymap.set('n', '<F17>', function()
+        dapui.close()
+        dap.close()
+    end)
     vim.keymap.set('n', '<F9>', dap.toggle_breakpoint)
     vim.keymap.set('n', '<F10>', dap.step_over)
     vim.keymap.set('n', '<F11>', dap.step_into)
-    vim.keymap.set('n', '<F12>', dap.step_out)
+    -- <S-F11>
+    vim.keymap.set('n', '<F23>', dap.step_out)
 end
 
 return M

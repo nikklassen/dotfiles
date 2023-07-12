@@ -72,13 +72,14 @@ local function goto_diagnostic_options()
 end
 
 function M.on_attach(client, bufnr)
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
     if utils.isModuleAvailable('lsp-status') then
         require 'lsp-status'.on_attach(client, bufnr)
     end
+    if utils.isModuleAvailable('lsp_signature') then
+        require 'lsp_signature'.on_attach({}, bufnr)
+    end
 
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
     local opts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -128,8 +129,8 @@ function M.on_attach(client, bufnr)
         autoformat = true
     end
     if client.server_capabilities.documentFormattingProvider then
-        if vim.lsp.formatexpr then -- Neovim v0.6.0+ only.
-            buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr')
+        if vim.lsp.formatexpr then
+            vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
         else
             vim.keymap.set('n', '<leader>=', vim.lsp.buf.formatting, opts)
         end
@@ -145,8 +146,8 @@ function M.on_attach(client, bufnr)
         end
     end
     if client.server_capabilities.documentRangeFormattingProvider then
-        if vim.lsp.formatexpr then -- Neovim v0.6.0+ only.
-            buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr')
+        if vim.lsp.formatexpr then
+            vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
         else
             vim.keymap.set('n', '==', function()
                 local linenr = vim.fn.line(".")

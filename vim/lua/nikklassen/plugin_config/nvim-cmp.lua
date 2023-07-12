@@ -55,7 +55,7 @@ local tab_complete = function(fallback)
     end
 end
 
-local s_tab_complete = function ()
+local s_tab_complete = function()
     if cmp.visible() then
         vim.fn.feedkeys(t('<C-p>'), 'n')
     elseif vim.fn['vsnip#jumpable']() == 1 then
@@ -103,15 +103,32 @@ function M.configure()
             end,
         },
 
+        experimental = {
+            ghost_text = true,
+        },
+
         mapping = {
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-e>'] = cmp.mapping.close(),
 
-            ['<CR>'] = cmp.mapping(confirm_completion, {'i', 's'}),
-            ['<C-y>'] = cmp.mapping.confirm('<C-y>'),
+            ['<CR>'] = cmp.mapping.confirm({
+                select = true,
+                behavior = cmp.ConfirmBehavior.Replace,
+            }),
+            ['<C-y>'] = cmp.mapping.confirm({
+                select = true,
+                behavior = cmp.ConfirmBehavior.Replace,
+            }),
 
-            ['<Tab>'] = cmp.mapping(tab_complete, {'i', 's'}),
-            ['<S-Tab>'] = cmp.mapping(s_tab_complete, {'i', 's'}),
+            ['<Tab>'] = cmp.mapping(tab_complete, { 'i', 's' }),
+            ['<S-Tab>'] = cmp.mapping(s_tab_complete, { 'i', 's' }),
+
+            ['<C-N>'] = cmp.mapping({
+                i = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
+            }),
+            ['<C-p>'] = cmp.mapping({
+                i = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
+            }),
 
             ['<Down>'] = cmp.mapping({
                 i = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
@@ -128,8 +145,8 @@ function M.configure()
                     -- M.debug_compare,
                     compare.sort_text,
                     -- compare.score,
-                    compare.order,
-                    M.response_index,
+                    -- compare.order,
+                    -- M.response_index,
                     -- compare.offset,
                     -- compare.exact,
                     -- compare.kind,
@@ -142,16 +159,18 @@ function M.configure()
             format = lspkind.cmp_format({
                 mode = 'symbol',
                 maxwidth = 50,
+                menu = {
+                    nvim_lsp = '[LSP]',
+                },
             }),
         },
 
         sources = cmp.config.sources({
             { name = 'nvim_lsp' },
-            { name = 'nvim_lsp_signature_help' },
         }),
     }
     local cmp_autopairs_on_done = cmp_autopairs.on_confirm_done()
-    cmp.event:on('confirm_done', function (evt)
+    cmp.event:on('confirm_done', function(evt)
         local status, err = pcall(cmp_autopairs_on_done, evt)
         if not status then
             print(err)

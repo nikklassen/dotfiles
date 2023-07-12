@@ -1,2 +1,2 @@
-run-shell "powerline-daemon -q --replace"
-source "$HOME/.local/lib/python3.8/site-packages/powerline/bindings/tmux/powerline.conf"
+run-shell "powerline-daemon -q --replace; tmux set-environment -g SITE_PACKAGES \"$(python3 -m site --user-site)\""
+source-file "$HOME/.tmux/powerline.tmux"

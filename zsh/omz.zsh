@@ -4,15 +4,20 @@ export ZSH_CUSTOM="$HOME/.zsh/omz-custom"
 export ZSH_THEME=dpoggi
 
 plugins=(
-  git
-  git-ext
+  common-aliases
+  debian
   docker
   docker-compose
-  debian
+  encode64
+  extract
+  git
+  git-ext
   tmux
+  you-should-use
   zsh-syntax-highlighting
-  common-aliases
 )
+
+export YSU_IGNORED_ALIASES=("vi" "vim")
 
 # tmux config
 export ZSH_TMUX_FIXTERM=1

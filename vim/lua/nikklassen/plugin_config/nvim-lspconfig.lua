@@ -44,7 +44,7 @@ local function on_attach_gopls(client, bufnr)
 end
 
 function M.configure()
-    local nvim_lsp = require'lspconfig'
+    local nvim_lsp = require 'lspconfig'
 
     vim.diagnostic.config({
         virtual_text = false,
@@ -91,7 +91,7 @@ function M.configure()
             json = {
                 schemas = {
                     {
-                        fileMatch = '*.fhir.json',
+                        fileMatch = { '*.fhir.json' },
                         url = 'https://hl7.org/fhir/r4/fhir.schema.json',
                     },
                 },
@@ -124,12 +124,8 @@ function M.configure()
 
     if vim.fn.executable('rustup') == 1 then
         nvim_lsp.rust_analyzer.setup(vim.tbl_deep_extend('force', default_config, {
-            cmd = {'rustup', 'run', 'nightly', 'rust-analyzer'}
+            cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' }
         }))
-    end
-
-    if vim.fn.executable('pyright') == 1 then
-        nvim_lsp.pyright.setup(default_config)
     end
 
     if vim.fn.executable('pyright') == 1 then
@@ -150,7 +146,7 @@ function M.configure()
                     },
                     diagnostics = {
                         -- Get the language server to recognize the `vim` global
-                        globals = {'vim', 'use_rocks'},
+                        globals = { 'vim', 'use_rocks' },
                     },
                     workspace = {
                         -- Make the server aware of Neovim runtime files

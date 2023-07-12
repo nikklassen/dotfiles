@@ -3,7 +3,6 @@ clang
 cmake
 compizconfig-settings-manager
 curl
-fd
 fonts-inconsolata
 git
 gnome-tweak-tool
@@ -18,3 +17,4 @@ terminator
 texlive-fonts-recommended
 tmux
 tree
+fd-find

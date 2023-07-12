@@ -54,9 +54,13 @@ alias rsync="rsync -h --progress"
 alias pyg='pygmentize -f 256 -O style=monokai'
 alias plz='sudo $(fc -ln -1)'
 alias py-server="python3 -m http.server 3000"
-alias cat="bat"
+alias python=python3
+alias pip=pip3
+
+alias cat="bat -p"
 # undo oh-my-zsh
 unalias rm
+unalias cp
 
 function docker-upload () {
     local repo="$1"
@@ -79,12 +83,6 @@ alias -g NV='--no-verify'
 alias -g LO='$(eval `fc -ln -1`)'
 
 alias youtube-mp3='youtube-dl -x --audio-format mp3'
-
-mkcd () {
-    mkdir -p "$*"
-    cd "$*"
-}
-
 
 function testport () {
     nc -v "$1" "$2" < /dev/null
@@ -152,3 +150,7 @@ fi
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+zle -C complete-file complete-word _generic
+zstyle ':completion:complete-file::::' completer _files
+bindkey '^X\t' complete-file

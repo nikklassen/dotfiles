@@ -9,7 +9,7 @@
 	branch = master
 [submodule "zsh/zsh-async"]
 	path = zsh/zsh-async
-	url = https://github.com/mafredri/zsh-async
+	url = https://github.com/mafredri/zsh-async.git
 	branch = master
 [submodule "z"]
 	path = z
@@ -19,3 +19,6 @@
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
 	branch = master
+[submodule "zsh/omz-custom/plugins/you-should-use"]
+	path = zsh/omz-custom/plugins/you-should-use
+	url = https://github.com/MichaelAquilina/zsh-you-should-use.git
