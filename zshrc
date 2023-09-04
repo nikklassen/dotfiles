@@ -136,6 +136,11 @@ export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 [ -f /usr/local/bin/z.sh ] && source /usr/local/bin/z.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Installed by apt
+if [[ -d /usr/share/doc/fzf ]]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  source /usr/share/doc/fzf/examples/completion.zsh
+fi
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 

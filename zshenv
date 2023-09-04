@@ -11,6 +11,8 @@ fi
 # Node modules
 PATH="./node_modules/.bin:$PATH"
 
+export PATH="$HOME/go/bin:$PATH"
+
 # Cargo
 if [[ -d "$HOME/.cargo" ]]; then
   PATH="$HOME/.cargo/bin:$PATH"

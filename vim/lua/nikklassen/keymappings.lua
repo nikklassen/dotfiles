@@ -49,8 +49,6 @@ vim.keymap.set('n', '<M-k>', '<C-W>k')
 vim.keymap.set('n', '<M-l>', '<C-W>l')
 vim.keymap.set('n', '<M-c>', '<C-w>c')
 
-vim.o.pastetoggle = '<F5>'
-
 vim.keymap.set('n', '<F10>', '1z=')
 
 -- build
