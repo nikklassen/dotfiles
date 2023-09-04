@@ -2,47 +2,6 @@ local lsp_utils = require'nikklassen.lsp.utils'
 
 local M = {}
 
-local function goimports(timeout_ms)
-    local context = { only = { "source.organizeImports" } }
-    vim.validate { context = { context, "t", true } }
-
-    local params = vim.lsp.util.make_range_params()
-    params.context = context
-
-    -- See the implementation of the textDocument/codeAction callback
-    -- (lua/vim/lsp/handler.lua) for how to do this properly.
-    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
-    if not result or result[1] == nil then return end
-    if result[1] == nil then return end
-    local actions = result[1].result
-    if not actions then return end
-    local action = actions[1]
-
-    -- textDocument/codeAction can return either Command[] or CodeAction[]. If it
-    -- is a CodeAction, it can have either an edit, a command or both. Edits
-    -- should be executed first.
-    if action.edit or type(action.command) == "table" then
-      if action.edit then
-        vim.lsp.util.apply_workspace_edit(action.edit, 'utf-8')
-      end
-      if type(action.command) == "table" then
-        vim.lsp.buf.execute_command(action.command)
-      end
-    else
-      vim.lsp.buf.execute_command(action)
-    end
-end
-
-local function on_attach_gopls(client, bufnr)
-    vim.api.nvim_create_autocmd('BufWritePre', {
-        buffer = bufnr,
-        callback = function()
-            goimports(1000)
-        end,
-    })
-    return lsp_utils.on_attach(client, bufnr)
-end
-
 function M.configure()
     local nvim_lsp = require 'lspconfig'
 
@@ -72,7 +31,6 @@ function M.configure()
     end
     nvim_lsp.gopls.setup(vim.tbl_deep_extend('force', default_config, {
         autostart = autostart_gopls,
-        on_attach = on_attach_gopls,
         settings = {
             gopls = {
                 analyses = {
@@ -91,7 +49,7 @@ function M.configure()
             json = {
                 schemas = {
                     {
-                        fileMatch = { '*.fhir.json' },
+                        fileMatch = { '*\\.fhir\\.json' },
                         url = 'https://hl7.org/fhir/r4/fhir.schema.json',
                     },
                 },

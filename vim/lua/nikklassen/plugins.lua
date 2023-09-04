@@ -155,6 +155,10 @@ packer.startup(function(use)
     end
 
     use 'nvim-lua/plenary.nvim'
+    use {
+        'rgroli/other.nvim',
+        config = function() require'nikklassen.plugin_config.other_nvim'.configure() end,
+    }
 
     local vimrc_local = vim.fn.expand('~') .. '/.vimrc.local.lua'
     if vim.fn.filereadable(vimrc_local) == 1 then

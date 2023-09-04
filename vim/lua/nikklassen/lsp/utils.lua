@@ -71,6 +71,37 @@ local function goto_diagnostic_options()
     return nil
 end
 
+local function goimports(timeout_ms)
+    local context = { only = { "source.organizeImports" } }
+    vim.validate { context = { context, "t", true } }
+
+    local params = vim.lsp.util.make_range_params()
+    params.context = context
+
+    -- See the implementation of the textDocument/codeAction callback
+    -- (lua/vim/lsp/handler.lua) for how to do this properly.
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
+    if not result or result[1] == nil then return end
+    if result[1] == nil then return end
+    local actions = result[1].result
+    if not actions then return end
+    local action = actions[1]
+
+    -- textDocument/codeAction can return either Command[] or CodeAction[]. If it
+    -- is a CodeAction, it can have either an edit, a command or both. Edits
+    -- should be executed first.
+    if action.edit or type(action.command) == "table" then
+        if action.edit then
+            vim.lsp.util.apply_workspace_edit(action.edit, 'utf-8')
+        end
+        if type(action.command) == "table" then
+            vim.lsp.buf.execute_command(action.command)
+        end
+    else
+        vim.lsp.buf.execute_command(action)
+    end
+end
+
 function M.on_attach(client, bufnr)
     if utils.isModuleAvailable('lsp-status') then
         require 'lsp-status'.on_attach(client, bufnr)
@@ -110,6 +141,7 @@ function M.on_attach(client, bufnr)
         vim.diagnostic.goto_next(goto_opts)
     end, opts)
     vim.api.nvim_create_autocmd('CursorHold', {
+        group = lsp_augroup,
         buffer = bufnr,
         callback = function()
             vim.diagnostic.open_float({
@@ -129,36 +161,32 @@ function M.on_attach(client, bufnr)
         autoformat = true
     end
     if client.server_capabilities.documentFormattingProvider then
-        if vim.lsp.formatexpr then
-            vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
-        else
-            vim.keymap.set('n', '<leader>=', vim.lsp.buf.formatting, opts)
-        end
+        vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
+
         if autoformat then
             vim.api.nvim_create_autocmd('BufWritePre', {
+                group = lsp_augroup,
                 buffer = bufnr,
                 callback = function()
                     vim.lsp.buf.format {
                         timeout_ms = 1000
                     }
+                    if client.name == 'gopls' then
+                        vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+                        -- goimports(1000)
+                    end
                 end
             })
         end
     end
     if client.server_capabilities.documentRangeFormattingProvider then
-        if vim.lsp.formatexpr then
-            vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
-        else
-            vim.keymap.set('n', '==', function()
-                local linenr = vim.fn.line(".")
-                vim.lsp.buf.range_formatting(nil, { linenr, 0 }, { linenr + 1, 0 })
-            end, opts)
-            vim.keymap.set('v', '=', vim.lsp.buf.range_formatting, opts)
-        end
+        vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
+
         -- Currently just for jsonls
         if not client.server_capabilities.documentFormattingProvider then
             if autoformat then
                 vim.api.nvim_create_autocmd('BufWritePre', {
+                    group = lsp_augroup,
                     buffer = bufnr,
                     callback = function() range_format_sync({}, { 0, 0 }, { vim.fn.line("$"), 0 }) end
                 })
@@ -179,16 +207,13 @@ function M.on_attach(client, bufnr)
         vim.api.nvim_set_hl(0, 'LspReferenceRead', { link = 'Underlined', default = true })
         vim.api.nvim_set_hl(0, 'LspReferenceText', { link = 'Normal', default = true })
         vim.api.nvim_set_hl(0, 'LspReferenceWrite', { link = 'Underlined', default = true })
-        local lsp_document_highlight_ag = vim.api.nvim_create_augroup('lsp_document_highlight', {
-            clear = true,
-        })
         vim.api.nvim_create_autocmd('CursorHold', {
-            group = lsp_document_highlight_ag,
+            group = lsp_augroup,
             buffer = bufnr,
             callback = vim.lsp.buf.document_highlight,
         })
         vim.api.nvim_create_autocmd('CursorMoved', {
-            group = lsp_document_highlight_ag,
+            group = lsp_augroup,
             buffer = bufnr,
             callback = vim.lsp.buf.clear_references,
         })

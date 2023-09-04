@@ -22,6 +22,9 @@ export YSU_IGNORED_ALIASES=("vi" "vim")
 # tmux config
 export ZSH_TMUX_FIXTERM=1
 
+# Disable bracketed paste
+export DISABLE_MAGIC_FUNCTIONS=true
+
 # Remove information unnecessary when using the Neovim terminal
 if [[ $NVIM == 1 ]]; then
      PROMPT="${PROMPT/$\(git_prompt_info\)/}"

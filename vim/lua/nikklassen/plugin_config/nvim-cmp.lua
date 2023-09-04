@@ -16,22 +16,6 @@ local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-local function confirm_completion(fallback)
-    if cmp.get_selected_entry() == nil then
-        if cmp.visible() then
-            cmp.close()
-        end
-        -- vim.schedule(fallback)
-        print('falling back')
-        fallback()
-        return
-    end
-    cmp.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = false,
-    })
-end
-
 local function check_back_space ()
     local col = vim.fn.col('.') - 1
     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')

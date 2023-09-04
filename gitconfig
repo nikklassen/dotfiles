@@ -21,7 +21,5 @@
 	rebase = true
 [rebase]
 	autoStash = true
-[url "git@github.com:"]
+[url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
-[url "git@github.com"]
-	insteadOf = https://github.com
