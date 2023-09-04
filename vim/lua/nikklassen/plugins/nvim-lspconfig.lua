@@ -1,26 +1,24 @@
 return {
     {
+        'nvim-lua/lsp-status.nvim',
+        config = function()
+            local lsp_status = require('lsp-status')
+            lsp_status.config {
+                current_function = false,
+                show_filename = false,
+                indicator_errors = 'E',
+                indicator_warnings = 'W',
+                indicator_info = 'i',
+                indicator_hint = '?',
+                indicator_ok = 'Ok',
+                status_symbol = '',
+            }
+            lsp_status.register_progress()
+        end,
+    },
+    {
         'neovim/nvim-lspconfig',
         event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            {
-                'nvim-lua/lsp-status.nvim',
-                config = function()
-                    local lsp_status = require('lsp-status')
-                    lsp_status.config {
-                        current_function = false,
-                        show_filename = false,
-                        indicator_errors = 'E',
-                        indicator_warnings = 'W',
-                        indicator_info = 'i',
-                        indicator_hint = '?',
-                        indicator_ok = 'Ok',
-                        status_symbol = '',
-                    }
-                    lsp_status.register_progress()
-                end,
-            },
-        },
         opts = {
             debug = false,
 
