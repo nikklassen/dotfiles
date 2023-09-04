@@ -1,3 +1,4 @@
+export ZSH="$HOME/.oh-my-zsh"
 export ZSH_CUSTOM="$HOME/.zsh/omz-custom"
 
 export ZSH_THEME=dpoggi
