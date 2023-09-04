@@ -1,5 +1,4 @@
 local utils = require 'nikklassen.utils'
-local ts = require 'nvim-treesitter'
 local lsp_status
 if utils.isModuleAvailable('lsp-status') then
     lsp_status = require 'lsp-status'.status
@@ -17,7 +16,7 @@ local function git_sl()
 end
 
 local function lsp_sl()
-    local clients = vim.lsp.get_clients({
+    local clients = vim.lsp.get_active_clients({
         bufnr = 0,
     })
     if vim.tbl_isempty(clients) then
@@ -33,19 +32,19 @@ local function lsp_sl()
     return lsps
 end
 
-function _G.statusline()
+function _G.nikklassen_statusline()
     return table.concat({
-        '[%n] ', -- buffer number
+        '[%n] ',   -- buffer number
         '%<%.99f', -- file name
         git_sl(),
         ' ',
         '%h%m%r%w%q', -- flags
-        '%=', -- right align
+        '%=',         -- right align
         lsp_sl(),
         ' ',
-        '%y ', -- file type
+        '%y ',           -- file type
         '%-8( %l,%c %)', -- offset
     })
 end
 
-vim.o.statusline = '%!v:lua.statusline()'
+vim.o.statusline = '%!v:lua.nikklassen_statusline()'
