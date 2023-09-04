@@ -155,7 +155,7 @@ function M.on_attach(client, bufnr)
     end
     local autoformat = vim.tbl_get(client.config, 'settings', 'autoformat')
     if type(autoformat) == 'table' then
-        autoformat = autoformat[vim.fn.getbufvar(bufnr, '&filetype')]
+        autoformat = autoformat[vim.bo[bufnr].filetype]
     end
     if autoformat == nil then
         autoformat = true

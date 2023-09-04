@@ -1,9 +1,14 @@
 # initialization completions
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-# Load and run compinit
-autoload -U compinit
-compinit -C -d "$HOME/.zcompdump"
+if [[ ! -d ~/.oh-my-zsh ]]; then
+  autoload -Uz compinit
+  if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+  else
+    compinit -C
+  fi
+fi
 
 autoload -U add-zsh-hook
 autoload -U zmv
@@ -59,8 +64,8 @@ alias pip=pip3
 
 alias cat="bat -p"
 # undo oh-my-zsh
-unalias rm
-unalias cp
+unalias rm cp \G
+alias -g G="| rg"
 
 function docker-upload () {
     local repo="$1"
@@ -151,10 +156,6 @@ if [[ -x dircolors ]]; then
     eval "$(dircolors -b)"
   fi
 fi
-
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 zle -C complete-file complete-word _generic
 zstyle ':completion:complete-file::::' completer _files

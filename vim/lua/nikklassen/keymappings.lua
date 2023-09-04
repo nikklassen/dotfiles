@@ -14,8 +14,8 @@ vim.keymap.set('n', '<leader>=', 'mrgg=G`r')
 vim.keymap.set('n', '<C-S>', '<cmd>w<CR>')
 
 vim.keymap.set('n', '<space>', 'foldlevel(".") ? "za" : "<space>"', {
-  silent = true,
-  expr = true,
+    silent = true,
+    expr = true,
 })
 
 vim.keymap.set('v', '<', '<gv')
@@ -59,6 +59,8 @@ vim.keymap.set('c', '<M-b>', '<S-Left>', {})
 vim.keymap.set('c', '<M-f>', '<S-Right>', {})
 vim.keymap.set('c', '<C-k>', '<C-\\>e(strpart(getcmdline(), 0, getcmdpos() - 1))<CR>')
 
+vim.o.cedit = '<C-x>'
+
 vim.keymap.set('n', '<leader>c', '<cmd>cd expand("%:p:h")<CR>')
 
 local function replace_current_word()
@@ -68,6 +70,7 @@ local function replace_current_word()
     end
 
     local w = vim.fn.expand('<cword>')
+    --- @cast w string
     local new_line = vim.api.nvim_get_current_line():gsub(w, new_word)
     vim.api.nvim_set_current_line(new_line)
 end
@@ -77,8 +80,9 @@ vim.keymap.set('n', '<leader>s', replace_current_word)
 vim.keymap.set('v', '<C-S>', ":'<,'>sort<CR>", { silent = true })
 
 local function run_lines()
-  local selected_text = vim.fn.getline("'<", "'>")
-  vim.api.nvim_exec(selected_text, false)
+    local selected_text = vim.fn.getline("'<", "'>")
+    --- @cast selected_text []string
+    vim.api.nvim_exec2(table.concat(selected_text, '\n'), {})
 end
 
 -- Run selected lines

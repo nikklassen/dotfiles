@@ -27,6 +27,7 @@ function M.configure()
             'go',
             'gomod',
             'html',
+            'java',
             'javascript',
             'json',
             'latex',

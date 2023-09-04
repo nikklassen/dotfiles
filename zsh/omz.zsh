@@ -1,7 +1,9 @@
-export ZSH="$HOME/.zsh/omz"
 export ZSH_CUSTOM="$HOME/.zsh/omz-custom"
 
 export ZSH_THEME=dpoggi
+
+export NVM_DIR="$HOME/.config/nvm"
+zstyle ':omz:plugins:nvm' lazy yes
 
 plugins=(
   common-aliases
@@ -12,6 +14,7 @@ plugins=(
   extract
   git
   git-ext
+  nvm
   tmux
   you-should-use
   zsh-syntax-highlighting
@@ -31,4 +34,4 @@ if [[ $NVIM == 1 ]]; then
      RPS1=''
 fi
 
-source $ZSH/oh-my-zsh.sh
+source ~/.oh-my-zsh/oh-my-zsh.sh

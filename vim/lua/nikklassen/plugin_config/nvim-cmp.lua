@@ -1,22 +1,22 @@
-local cmp = require'cmp'
-local types = require'cmp.types'
-local compare = require'cmp.config.compare'
-local utils = require'nikklassen.utils'
-local cmp_autopairs = require'nvim-autopairs.completion.cmp'
-local lspkind = require'lspkind'
+local cmp = require 'cmp'
+local types = require 'cmp.types'
+local compare = require 'cmp.config.compare'
+local utils = require 'nikklassen.utils'
+local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+local lspkind = require 'lspkind'
 
 local M = {}
 
 local local_cmp = {}
 if utils.isModuleAvailable('local.nvim-cmp') then
-    local_cmp = require'local.nvim-cmp'
+    local_cmp = require 'local.nvim-cmp'
 end
 
 local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-local function check_back_space ()
+local function check_back_space()
     local col = vim.fn.col('.') - 1
     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 end
@@ -125,17 +125,7 @@ function M.configure()
         sorting = {
             comparators = vim.list_extend(
                 vim.tbl_get(local_cmp, 'setup', 'sorting', 'comparators') or {},
-                {
-                    -- M.debug_compare,
-                    compare.sort_text,
-                    -- compare.score,
-                    -- compare.order,
-                    -- M.response_index,
-                    -- compare.offset,
-                    -- compare.exact,
-                    -- compare.kind,
-                    -- compare.length,
-                }
+                { compare.sort_text }
             ),
         },
 
@@ -143,15 +133,25 @@ function M.configure()
             format = lspkind.cmp_format({
                 mode = 'symbol',
                 maxwidth = 50,
-                menu = {
-                    nvim_lsp = '[LSP]',
-                },
+                preset = 'codicons',
+                before = function(entry, vim_item)
+                    local ci = entry.completion_item
+                    vim_item.abbr = ci.label
+                    if ci.labelDetails then
+                        vim_item.abbr = vim_item.abbr .. ci.labelDetails.detail
+                        vim_item.menu = ci.labelDetails.description
+                    end
+                    return vim_item
+                end,
             }),
         },
 
-        sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-        }),
+        sources = cmp.config.sources(vim.list_extend(
+            vim.tbl_get(local_cmp, 'setup', 'sources') or {},
+            {
+                { name = 'nvim_lsp' },
+            }
+        )),
     }
     local cmp_autopairs_on_done = cmp_autopairs.on_confirm_done()
     cmp.event:on('confirm_done', function(evt)

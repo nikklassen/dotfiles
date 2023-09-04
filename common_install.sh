@@ -10,7 +10,7 @@ symlink() {
 }
 export symlink
 
-git submodule update --recursive --init --remote
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 link_home() {
     if [[ ! -L $HOME/.$1 || -n $FORCE ]]; then

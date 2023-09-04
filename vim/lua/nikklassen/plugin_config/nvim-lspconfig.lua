@@ -1,4 +1,4 @@
-local lsp_utils = require'nikklassen.lsp.utils'
+local lsp_utils = require 'nikklassen.lsp.utils'
 
 local M = {}
 
