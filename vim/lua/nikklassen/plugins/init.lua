@@ -85,16 +85,6 @@ return {
     },
 
     {
-        'neovim/nvim-lspconfig',
-        config = function() require 'nikklassen.plugin_config.nvim-lspconfig'.configure() end,
-        dependencies = {
-            {
-                'nvim-lua/lsp-status.nvim',
-                config = function() require 'nikklassen.plugin_config.lsp-status'.configure() end,
-            },
-        },
-    },
-    {
         'windwp/nvim-autopairs',
         config = function() require 'nikklassen.plugin_config.nvim-autopairs'.configure() end,
     },

@@ -5,14 +5,14 @@ local M = {}
 
 function M.capabilities()
     local capabilities
-    if utils.isModuleAvailable('cmp_nvim_lsp') then
+    if utils.has_plugin('cmp_nvim_lsp') then
         capabilities = require 'cmp_nvim_lsp'.default_capabilities()
-    elseif utils.isModuleAvailable('coq') then
+    elseif utils.has_plugin('coq') then
         capabilities = require 'coq'.lsp_ensure_capabilities(capabilities)
     else
         capabilities = vim.lsp.protocol.make_client_capabilities()
     end
-    if utils.isModuleAvailable('lsp-status') then
+    if utils.has_plugin('lsp-status') then
         capabilities = vim.tbl_extend('keep', capabilities, require 'lsp-status'.capabilities)
     end
     return capabilities
@@ -103,10 +103,10 @@ local function goimports(timeout_ms)
 end
 
 function M.on_attach(client, bufnr)
-    if utils.isModuleAvailable('lsp-status') then
+    if utils.has_plugin('lsp-status') then
         require 'lsp-status'.on_attach(client, bufnr)
     end
-    if utils.isModuleAvailable('lsp_signature') then
+    if utils.has_plugin('lsp_signature') then
         require 'lsp_signature'.on_attach({}, bufnr)
     end
 

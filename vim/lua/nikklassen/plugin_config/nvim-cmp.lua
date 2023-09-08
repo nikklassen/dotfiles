@@ -1,15 +1,14 @@
 local cmp = require 'cmp'
 local types = require 'cmp.types'
 local compare = require 'cmp.config.compare'
-local utils = require 'nikklassen.utils'
 local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
 local lspkind = require 'lspkind'
 
 local M = {}
 
-local local_cmp = {}
-if utils.isModuleAvailable('local.nvim-cmp') then
-    local_cmp = require 'local.nvim-cmp'
+local ok, local_cmp = pcall(require, 'local.nvim-cmp')
+if not ok then
+    local_cmp = {}
 end
 
 local t = function(str)

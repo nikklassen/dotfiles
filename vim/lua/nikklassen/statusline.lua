@@ -1,6 +1,6 @@
 local utils = require 'nikklassen.utils'
 local lsp_status
-if utils.isModuleAvailable('lsp-status') then
+if utils.has_plugin('lsp-status') then
     lsp_status = require 'lsp-status'.status
 end
 
