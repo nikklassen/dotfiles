@@ -6,11 +6,6 @@ local lspkind = require 'lspkind'
 
 local M = {}
 
-local ok, local_cmp = pcall(require, 'local.nvim-cmp')
-if not ok then
-    local_cmp = {}
-end
-
 local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -78,7 +73,7 @@ function M.response_index(e1, e2)
     end
 end
 
-function M.configure()
+function M.setup(opts)
     cmp.setup {
         snippet = {
             expand = function(args)
@@ -123,7 +118,7 @@ function M.configure()
 
         sorting = {
             comparators = vim.list_extend(
-                vim.tbl_get(local_cmp, 'setup', 'sorting', 'comparators') or {},
+                vim.tbl_get(opts, 'sorting', 'comparators') or {},
                 { compare.sort_text }
             ),
         },
@@ -146,7 +141,7 @@ function M.configure()
         },
 
         sources = cmp.config.sources(vim.list_extend(
-            vim.tbl_get(local_cmp, 'setup', 'sources') or {},
+            vim.tbl_get(opts, 'sources') or {},
             {
                 { name = 'nvim_lsp' },
             }

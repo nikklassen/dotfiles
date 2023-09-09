@@ -92,16 +92,20 @@ return {
         'hrsh7th/nvim-cmp',
         branch = 'main',
         event = "InsertEnter",
-        config = function() require 'nikklassen.plugin_config.nvim-cmp'.configure() end,
+        opts = {},
+        main = 'nikklassen.plugin_config.nvim-cmp',
         dependencies = {
-            { 'hrsh7th/cmp-nvim-lsp', branch = 'main' },
+            {
+                'hrsh7th/cmp-nvim-lsp',
+                branch = 'main',
+            },
             {
                 'hrsh7th/cmp-vsnip',
                 branch = 'main',
             },
             'hrsh7th/vim-vsnip',
             'ray-x/lsp_signature.nvim',
-            { 'onsails/lspkind.nvim' },
+            'onsails/lspkind.nvim',
             -- VSCode plugin, imported just for the snippets
             {
                 'golang/vscode-go',
