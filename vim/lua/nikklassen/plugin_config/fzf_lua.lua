@@ -14,7 +14,7 @@ local function files()
     })
 end
 
-function M.configure()
+function M.setup()
     local opts = { silent = true }
     vim.keymap.set('n', '<c-p>', files, opts)
     vim.keymap.set('n', '<C-S-P>', fzf.commands, opts)

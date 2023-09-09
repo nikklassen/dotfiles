@@ -1,13 +1,16 @@
 return {
 
-    'tpope/vim-sensible',
     {
-        'navarasu/onedark.nvim',
+        'tpope/vim-sensible',
         lazy = false,
-        priority = 1000,
-        config = function() require 'nikklassen.plugin_config.onedark'.configure() end,
+        priority = 1001,
     },
-    'tpope/vim-fugitive',
+    {
+        'tpope/vim-fugitive',
+        cond = function()
+            return not vim.tbl_isempty(vim.fs.find({ '.git' }, { upward = true }))
+        end,
+    },
     'tpope/vim-repeat',
     'tpope/vim-commentary',
     'tpope/vim-abolish',
@@ -20,7 +23,8 @@ return {
     {
         'ibhagwan/fzf-lua',
         dependencies = { 'junegunn/fzf', build = './install --bin' },
-        config = function() require 'nikklassen.plugin_config.fzf_lua'.configure() end,
+        opts = {},
+        main = 'nikklassen.plugin_config.fzf_lua',
     },
 
     {
@@ -28,7 +32,12 @@ return {
         cmd = 'Rg',
     },
 
-    'ludovicchabant/vim-lawrencium',
+    {
+        'ludovicchabant/vim-lawrencium',
+        cond = function()
+            return not vim.tbl_isempty(vim.fs.find({ '.hg' }, { upward = true }))
+        end,
+    },
 
     ---------------------
     -- Language plugins -
@@ -44,27 +53,11 @@ return {
     {
         'dhruvasagar/vim-table-mode',
         ft = { 'pandoc', 'markdown' },
-        config = function() require 'nikklassen.plugin_config.vim-table-mode'.configure() end,
-    },
-
-    -- Go
-    {
-        'mfussenegger/nvim-dap',
-        dependencies = {
-            {
-                'leoluz/nvim-dap-go',
-                ft = { 'go' },
-                main = 'dap-go',
-                config = function() require('dap-go').setup() end,
-            },
-            {
-                'rcarriga/nvim-dap-ui',
-                dependencies = {
-                    'mfussenegger/nvim-dap',
-                },
-                config = function() require 'nikklassen.plugin_config.nvim-dap'.configure() end,
-            },
-        },
+        config = function()
+            vim.g.table_mode_corner_corner = '+'
+            vim.g.table_mode_header_fillchar = '='
+            vim.g.table_mode_align_char = ':'
+        end,
     },
 
     -------------------
@@ -72,13 +65,9 @@ return {
     -------------------
 
     {
-        'windwp/nvim-autopairs',
-        config = function() require 'nikklassen.plugin_config.nvim-autopairs'.configure() end,
-    },
-    {
         'hrsh7th/nvim-cmp',
         branch = 'main',
-        event = "InsertEnter",
+        event = 'InsertEnter',
         opts = {},
         main = 'nikklassen.plugin_config.nvim-cmp',
         dependencies = {
@@ -112,8 +101,11 @@ return {
             },
         }
     },
-    { 'kylechui/nvim-surround', config = function() require('nvim-surround').setup({}) end },
-    { 'ojroques/vim-oscyank',   branch = 'main' },
+    {
+        'kylechui/nvim-surround',
+        opts = {},
+    },
+    { 'ojroques/vim-oscyank', branch = 'main' },
     {
         'tpope/vim-eunuch',
         cond = function() return vim.fn.has('win32') == 0 end,
@@ -128,16 +120,4 @@ return {
         config = function() require 'nikklassen.plugin_config.other_nvim'.configure() end,
         keys = { '<M-r>' },
     },
-
-    -- TODO
-    -- local vimrc_local = vim.fn.expand('~') .. '/.vimrc.local.lua'
-    -- if vim.fn.filereadable(vimrc_local) == 1 then
-    --     dofile(vimrc_local).startup(use)
-    -- end
 }
--- config = {
---     luarocks = {
---         python_cmd = 'python3'
---     }
--- },
--- })

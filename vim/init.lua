@@ -19,6 +19,7 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp:prepend(home .. '/.vim.local')
 
 require('lazy').setup('nikklassen.plugins')
 
@@ -28,10 +29,3 @@ require 'nikklassen.keymappings'
 require 'nikklassen.options'
 require 'nikklassen.statusline'
 require 'nikklassen.view'
-
-vim.opt.rtp:append(home .. '/.vim.local')
-
-local local_vimrc = home .. '/.vimrc.local'
-if vim.loop.fs_stat(local_vimrc) then
-    vim.cmd('source ' .. local_vimrc)
-end
