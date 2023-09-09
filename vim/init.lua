@@ -2,8 +2,10 @@ vim.o.compatible = false
 
 vim.o.shell = '/bin/bash'
 
-package.path = package.path .. ';' .. vim.fn.expand('~/.luarocks/share/lua/5.1/?.lua')
-package.cpath = package.cpath .. ';' .. vim.fn.expand('~/.luarocks/lib/lua/5.1/?.so')
+local home = vim.loop.os_getenv('HOME')
+
+package.path = package.path .. ';' .. home .. '/.luarocks/share/lua/5.1/?.lua'
+package.cpath = package.cpath .. ';' .. home .. '/.luarocks/lib/lua/5.1/?.so'
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -27,9 +29,9 @@ require 'nikklassen.options'
 require 'nikklassen.statusline'
 require 'nikklassen.view'
 
-vim.o.runtimepath = vim.o.runtimepath .. ',' .. vim.fn.expand('~/.vim.local')
+vim.opt.rtp:append(home .. '/.vim.local')
 
-local local_vimrc = vim.fn.expand('~/.vimrc.local')
-if vim.fn.filereadable(local_vimrc) == 1 then
+local local_vimrc = home .. '/.vimrc.local'
+if vim.loop.fs_stat(local_vimrc) then
     vim.cmd('source ' .. local_vimrc)
 end
