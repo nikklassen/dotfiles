@@ -47,11 +47,6 @@ return {
         config = function() require 'nikklassen.plugin_config.vim-table-mode'.configure() end,
     },
 
-    -- HTML
-    { 'mattn/emmet-vim',  ft = { 'html', 'htmldjango', 'xml', 'eruby' } },
-    { 'othree/xml.vim',   ft = { 'xml', 'html', 'eruby' } },
-    { 'othree/html5.vim', ft = { 'html', 'eruby' } },
-
     -- Go
     {
         'mfussenegger/nvim-dap',
@@ -75,14 +70,6 @@ return {
     -------------------
     -- Other plugins --
     -------------------
-
-    {
-        'brettanomyces/nvim-editcommand',
-        config = function()
-            require 'nikklassen.plugin_config.nvim-editcommand'
-                .configure()
-        end
-    },
 
     {
         'windwp/nvim-autopairs',
@@ -125,13 +112,8 @@ return {
             },
         }
     },
-    'nvim-treesitter/playground',
     { 'kylechui/nvim-surround', config = function() require('nvim-surround').setup({}) end },
     { 'ojroques/vim-oscyank',   branch = 'main' },
-
-    'RishabhRD/popfix',
-    'RishabhRD/nvim-lsputils',
-
     {
         'tpope/vim-eunuch',
         cond = function() return vim.fn.has('win32') == 0 end,
