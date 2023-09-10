@@ -21,13 +21,6 @@ return {
     'vim-scripts/ReplaceWithRegister',
 
     {
-        'ibhagwan/fzf-lua',
-        dependencies = { 'junegunn/fzf', build = './install --bin' },
-        opts = {},
-        main = 'nikklassen.plugin_config.fzf_lua',
-    },
-
-    {
         'jremmen/vim-ripgrep',
         cmd = 'Rg',
     },

@@ -25,7 +25,7 @@ PATH="/usr/texbin:$PATH"
 
 [[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
 
-[[ -d "$HOME/.local/bin" ]] && export PATH="$PATH:$HOME/.local/bin"
+[[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 
 [[ -d "/usr/local/go/bin" ]] && export PATH="$PATH:/usr/local/go/bin"
 
@@ -56,3 +56,4 @@ export TERMINFO="$HOME/.terminfo"
 
 # For security the local directory should be at the end
 export PATH="$PATH:."
+. "$HOME/.cargo/env"
