@@ -52,8 +52,6 @@ export SITE_PACKAGES="$(python3 -m site --user-site)"
 
 export POWERLINE_CONFIG_COMMAND="$HOME/.local/bin/powerline-config"
 
-export TERMINFO="$HOME/.terminfo"
-
 # For security the local directory should be at the end
 export PATH="$PATH:."
 . "$HOME/.cargo/env"

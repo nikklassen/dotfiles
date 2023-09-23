@@ -1,6 +1,7 @@
 return {
     {
         'nvim-lua/lsp-status.nvim',
+        event = 'LspAttach',
         config = function()
             local lsp_status = require('lsp-status')
             lsp_status.config {
@@ -18,7 +19,7 @@ return {
     },
     {
         'neovim/nvim-lspconfig',
-        event = { "BufReadPre", "BufNewFile" },
+        event = { 'BufReadPre', 'BufNewFile' },
         opts = {
             debug = false,
 
@@ -28,14 +29,6 @@ return {
                 update_in_insert = false,
                 underline = true,
                 severity_sort = true,
-                float = {
-                    focusable = false,
-                    style = 'minimal',
-                    border = 'rounded',
-                    source = 'always',
-                    header = '',
-                    prefix = '',
-                },
             },
 
             servers = {
@@ -76,19 +69,39 @@ return {
                 },
                 pyright = {},
                 lua_ls = {
-                    settings = {
-                        Lua = {
-                            workspace = {
-                                checkThirdParty = false,
-                                library = vim.api.nvim_get_runtime_file('', true),
-                            },
-                            completion = {
-                                callSnippet = "Replace",
-                            },
-                        },
-                    },
-                }
-            }
+                    on_init = function(client)
+                        local path = client.workspace_folders[1].name
+                        if not vim.uv.fs_stat(path .. '/.luarc.json') and not vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                            client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
+                                Lua = {
+                                    runtime = {
+                                        version = 'LuaJIT'
+                                    },
+                                    format = {
+                                        enable = true,
+                                        defaultConfig = {
+                                            indent_size = '4',
+                                            indent_style = 'space',
+                                        },
+                                    },
+                                    -- Make the server aware of Neovim runtime files
+                                    workspace = {
+                                        checkThirdParty = false,
+                                        library = vim.api.nvim_get_runtime_file("", true)
+                                    },
+                                    completion = {
+                                        callSnippet = "Replace",
+                                    },
+                                }
+                            })
+
+                            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+                        end
+                        return true
+                    end,
+
+                },
+            },
         },
         config = function(_, opts)
             local lsp_utils = require 'nikklassen.lsp.utils'
@@ -106,6 +119,35 @@ return {
                 server_config = vim.tbl_deep_extend('force', default_config, server_config)
                 nvim_lsp[server].setup(server_config)
             end
+        end,
+    },
+    {
+        "nvimdev/lspsaga.nvim",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        event = "LspAttach",
+        cmd = "Lspsaga",
+        config = function()
+            require("lspsaga").setup({
+                -- use enter to open file with finder
+                finder_action_keys = {
+                    open = "<CR>",
+                },
+                -- use enter to open file with definition preview
+                definition_action_keys = {
+                    edit = "<CR>",
+                },
+                code_action = {
+                    keys = {
+                        quit = { "q", "<esc>" },
+                    },
+                },
+                lightbulb = {
+                    virtual_text = false,
+                },
+            })
         end,
     },
 }

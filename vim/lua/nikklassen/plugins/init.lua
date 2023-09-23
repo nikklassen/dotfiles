@@ -1,5 +1,4 @@
 return {
-
     {
         'tpope/vim-sensible',
         lazy = false,
@@ -7,6 +6,7 @@ return {
     },
     {
         'tpope/vim-fugitive',
+        cmd = { 'G', 'Git' },
         cond = function()
             return not vim.tbl_isempty(vim.fs.find({ '.git' }, { upward = true }))
         end,
@@ -85,6 +85,7 @@ return {
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
+        event = { "BufReadPost", "BufNewFile" },
         dependencies = {
             {
                 'nvim-treesitter/nvim-treesitter-textobjects',
@@ -110,7 +111,12 @@ return {
     },
     {
         'rgroli/other.nvim',
-        config = function() require 'nikklassen.plugin_config.other_nvim'.configure() end,
         keys = { '<M-r>' },
+        opts = {
+            mappings = {
+                'golang'
+            },
+        },
+        main = 'nikklassen.plugin_config.other_nvim',
     },
 }

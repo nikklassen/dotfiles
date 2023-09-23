@@ -10,6 +10,10 @@ export NVM_DIR="$HOME/.config/nvm" && (
 ) && \. "$NVM_DIR/nvm.sh"
 nvm install node
 
+while read -r line; do
+  npm install -g "$line"
+done < npm_packages.txt
+
 sudo apt-get update
 
 while read -r line; do

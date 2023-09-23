@@ -1,8 +1,6 @@
 local cmp = require 'cmp'
 local types = require 'cmp.types'
 local compare = require 'cmp.config.compare'
-local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-local lspkind = require 'lspkind'
 
 local M = {}
 
@@ -59,40 +57,21 @@ function M.debug_compare(e1, e2)
     print(dump_entry(e2))
 end
 
-function M.response_index(e1, e2)
-    local ri1 = e1.completion_item.response_index
-    local ri2 = e2.completion_item.response_index
-    if ri1 == nil and ri2 == nil then
-        return nil
-    elseif ri1 == nil then
-        return true
-    elseif ri2 == nil then
-        return false
-    else
-        return ri1 < ri2
-    end
-end
-
 function M.setup(opts)
-    cmp.setup {
+    local defaults = {
         snippet = {
             expand = function(args)
                 vim.fn["vsnip#anonymous"](args.body)
             end,
         },
-
         experimental = {
             ghost_text = true,
         },
-
         mapping = {
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-e>'] = cmp.mapping.close(),
 
-            ['<CR>'] = cmp.mapping.confirm({
-                select = true,
-                behavior = cmp.ConfirmBehavior.Replace,
-            }),
+            ['<CR>'] = cmp.mapping.confirm(),
             ['<C-y>'] = cmp.mapping.confirm({
                 select = true,
                 behavior = cmp.ConfirmBehavior.Replace,
@@ -115,23 +94,18 @@ function M.setup(opts)
                 i = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
             }),
         },
-
         sorting = {
-            comparators = vim.list_extend(
-                vim.tbl_get(opts, 'sorting', 'comparators') or {},
-                { compare.sort_text }
-            ),
+            comparators = { compare.sort_text },
         },
-
         formatting = {
-            format = lspkind.cmp_format({
+            format = require 'lspkind'.cmp_format({
                 mode = 'symbol',
                 maxwidth = 50,
                 preset = 'codicons',
                 before = function(entry, vim_item)
                     local ci = entry.completion_item
-                    vim_item.abbr = ci.label
                     if ci.labelDetails then
+                        vim_item.abbr = string.gsub(vim_item.abbr, '~$', '')
                         vim_item.abbr = vim_item.abbr .. ci.labelDetails.detail
                         vim_item.menu = ci.labelDetails.description
                     end
@@ -139,21 +113,12 @@ function M.setup(opts)
                 end,
             }),
         },
-
-        sources = cmp.config.sources(vim.list_extend(
-            vim.tbl_get(opts, 'sources') or {},
-            {
-                { name = 'nvim_lsp' },
-            }
-        )),
+        sources = {
+            { name = 'nvim_lsp' },
+        },
     }
-    local cmp_autopairs_on_done = cmp_autopairs.on_confirm_done()
-    cmp.event:on('confirm_done', function(evt)
-        local status, err = pcall(cmp_autopairs_on_done, evt)
-        if not status then
-            print(err)
-        end
-    end)
+    cmp.setup(vim.tbl_deep_extend('force', defaults, opts))
+    cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done())
 end
 
 return M

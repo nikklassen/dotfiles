@@ -15,14 +15,6 @@ function M.tbl_list_extend(tbl1, tbl2)
     return tbl1
 end
 
-function M.has_plugin(plugin)
-    return M.get_plugin(plugin) ~= nil
-end
-
-function M.get_plugin(plugin)
-    return require('lazy.core.config').spec.plugins[plugin]
-end
-
 function M.string_split(inputstr, sep)
     if sep == nil then
         sep = "%s"
@@ -32,6 +24,16 @@ function M.string_split(inputstr, sep)
         table.insert(t, str)
     end
     return t
+end
+
+function M.lazy_require(module)
+    return setmetatable({}, {
+        __index = function(_, key)
+            return function(...)
+                return require(module)[key](...)
+            end
+        end
+    })
 end
 
 return M

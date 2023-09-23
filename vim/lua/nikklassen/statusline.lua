@@ -1,8 +1,4 @@
 local utils = require 'nikklassen.utils'
-local lsp_status
-if utils.has_plugin('lsp-status.nvim') then
-    lsp_status = require 'lsp-status'.status
-end
 
 local function git_sl()
     local ok, head = pcall(vim.fn.FugitiveHead)
@@ -16,7 +12,7 @@ local function git_sl()
 end
 
 local function lsp_sl()
-    local clients = vim.lsp.get_active_clients({
+    local clients = vim.lsp.get_clients({
         bufnr = 0,
     })
     if vim.tbl_isempty(clients) then
@@ -27,22 +23,22 @@ local function lsp_sl()
         lsps = '{' .. client.name .. '}'
     end
     if lsp_status ~= nil then
-        lsps = lsps .. ' ' .. lsp_status()
+        lsps = lsps .. ' ' .. require 'lsp-status'.status()
     end
     return lsps
 end
 
 function _G.nikklassen_statusline()
     return table.concat({
-        '[%n] ',   -- buffer number
+        '[%n] ', -- buffer number
         '%<%.99f', -- file name
         git_sl(),
         ' ',
         '%h%m%r%w%q', -- flags
-        '%=',         -- right align
+        '%=', -- right align
         lsp_sl(),
         ' ',
-        '%y ',           -- file type
+        '%y ', -- file type
         '%-8( %l,%c %)', -- offset
     })
 end

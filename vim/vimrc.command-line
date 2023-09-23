@@ -1,11 +1,9 @@
-source ~/.local/share/nvim/site/pack/packer/start/vim-sensible/plugin/sensible.vim
+source ~/.local/share/nvim/lazy/vim-sensible/plugin/sensible.vim
 set ft=zsh
+
+let &runtimepath .= ',' .. expand("~/.local/share/nvim/lazy/nvim-autopairs")
 
 set noloadplugins
-runtime PACK plugin/sensible.vim
-runtime PACK lua/nvim-autopairs.lua
-
-set ft=zsh
 
 lua <<EOF
 require("nvim-autopairs").setup({

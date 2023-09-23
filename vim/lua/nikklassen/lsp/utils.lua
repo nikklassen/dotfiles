@@ -1,20 +1,10 @@
 local utils = require 'nikklassen.utils'
-local dap = require 'dap'
 
 local M = {}
 
 function M.capabilities()
-    local capabilities
-    if utils.has_plugin('cmp_nvim_lsp') then
-        capabilities = require 'cmp_nvim_lsp'.default_capabilities()
-    elseif utils.has_plugin('coq') then
-        capabilities = require 'coq'.lsp_ensure_capabilities(capabilities)
-    else
-        capabilities = vim.lsp.protocol.make_client_capabilities()
-    end
-    if utils.has_plugin('lsp-status') then
-        capabilities = vim.tbl_extend('keep', capabilities, require 'lsp-status'.capabilities)
-    end
+    local capabilities = require 'cmp_nvim_lsp'.default_capabilities()
+    capabilities = vim.tbl_extend('keep', capabilities, require 'lsp-status'.capabilities)
     return capabilities
 end
 
@@ -33,26 +23,6 @@ local function range_format_sync(options, start_pos, end_pos)
     result = formatting_result.result
     if not result then return end
     vim.lsp.util.apply_text_edits(result, 0, 'utf-8')
-end
-
-local function preview_location_callback(err, result, _)
-    if err ~= nil then
-        print('failed to get location:', err)
-        return nil
-    end
-    if result == nil or vim.tbl_isempty(result) then
-        return nil
-    end
-    if vim.tbl_islist(result) then
-        vim.lsp.util.preview_location(result[1])
-    else
-        vim.lsp.util.preview_location(result)
-    end
-end
-
-function M.peek_definition()
-    local params = vim.lsp.util.make_position_params()
-    return vim.lsp.buf_request(0, 'textDocument/typeDefinition', params, preview_location_callback)
 end
 
 local function goto_diagnostic_options()
@@ -102,52 +72,73 @@ local function goimports(timeout_ms)
     end
 end
 
+local function show_diagnostics()
+    -- vim.diagnostic.open_float({
+    --     focusable = false
+    -- })
+    require('lspsaga.diagnostic.show'):show_diagnostics({ line = true, args = { '++unfocus' } })
+end
+
 function M.on_attach(client, bufnr)
-    if utils.has_plugin('lsp-status') then
-        require 'lsp-status'.on_attach(client, bufnr)
-    end
-    if utils.has_plugin('lsp_signature') then
-        require 'lsp_signature'.on_attach({}, bufnr)
-    end
+    require 'lsp-status'.on_attach(client, bufnr)
+    require 'lsp_signature'.on_attach({}, bufnr)
 
     vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
     local opts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', function()
-        if dap.session() ~= nil then
+        if require 'dap'.session() ~= nil then
             require('dap.ui.widgets').hover()
         else
-            vim.lsp.buf.hover()
+            -- vim.lsp.buf.hover()
+            require('lspsaga.hover'):render_hover_doc({})
         end
     end, opts)
     vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
     -- Shift F12
-    vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<F24>', vim.lsp.buf.references, opts)
+    -- vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<S-F12>', function()
+        require 'telescope.builtin'.lsp_references()
+    end, opts)
+    -- vim.keymap.set('n', '<F24>', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<F24>', function()
+        require 'telescope.builtin'.lsp_references()
+    end, opts)
 
     vim.keymap.set('n', '<Up>', function()
         local goto_opts = goto_diagnostic_options()
         if goto_opts == nil then
             return
         end
-        vim.diagnostic.goto_prev(goto_opts)
+        -- vim.diagnostic.goto_prev(goto_opts)
+        local d = vim.diagnostic.get_prev(goto_opts)
+        if d == nil then
+            return
+        end
+        vim.api.nvim_win_set_cursor(0, { d.lnum + 1, d.col })
+        show_diagnostics()
     end, opts)
     vim.keymap.set('n', '<Down>', function()
         local goto_opts = goto_diagnostic_options()
         if goto_opts == nil then
             return
         end
-        vim.diagnostic.goto_next(goto_opts)
+        -- vim.diagnostic.goto_next(goto_opts)
+        local d = vim.diagnostic.get_next(goto_opts)
+        if d == nil then
+            return
+        end
+        vim.api.nvim_win_set_cursor(0, { d.lnum + 1, d.col })
+        show_diagnostics()
     end, opts)
+    vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, opts)
+
+    local lsp_augroup = vim.api.nvim_create_augroup('lsp_buf_' .. bufnr, {})
     vim.api.nvim_create_autocmd('CursorHold', {
         group = lsp_augroup,
         buffer = bufnr,
-        callback = function()
-            vim.diagnostic.open_float({
-                focusable = false
-            })
-        end,
+        callback = show_diagnostics,
     })
 
     if client.server_capabilities.declarationProvider then
@@ -168,9 +159,12 @@ function M.on_attach(client, bufnr)
                 group = lsp_augroup,
                 buffer = bufnr,
                 callback = function()
+                    -- Prevent the view from jumping around, seems to just be an issue with LuaLS
+                    local v = vim.fn.winsaveview()
                     vim.lsp.buf.format {
                         timeout_ms = 1000
                     }
+                    vim.fn.winrestview(v)
                     if client.name == 'gopls' then
                         vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
                         -- goimports(1000)

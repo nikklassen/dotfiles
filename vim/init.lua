@@ -2,13 +2,13 @@ vim.o.compatible = false
 
 vim.o.shell = '/bin/bash'
 
-local home = vim.loop.os_getenv('HOME')
+local home = vim.env.HOME
 
 package.path = package.path .. ';' .. home .. '/.luarocks/share/lua/5.1/?.lua'
 package.cpath = package.cpath .. ';' .. home .. '/.luarocks/lib/lua/5.1/?.so'
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({
         "git",
         "clone",
@@ -19,9 +19,16 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
-vim.opt.rtp:prepend(home .. '/.vim.local')
 
-require('lazy').setup('nikklassen.plugins')
+require('lazy').setup('nikklassen.plugins', {
+    -- debug = true,
+    change_detection = {
+        notify = false,
+    },
+    checker = {
+        enabled = true,
+    },
+})
 
 require 'nikklassen.color'
 require 'nikklassen.commands'
