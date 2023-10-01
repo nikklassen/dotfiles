@@ -106,7 +106,9 @@ function M.setup(opts)
                     local ci = entry.completion_item
                     if ci.labelDetails then
                         vim_item.abbr = string.gsub(vim_item.abbr, '~$', '')
-                        vim_item.abbr = vim_item.abbr .. ci.labelDetails.detail
+                        if ci.labelDetails.detail then
+                            vim_item.abbr = vim_item.abbr .. ci.labelDetails.detail
+                        end
                         vim_item.menu = ci.labelDetails.description
                     end
                     return vim_item
@@ -115,6 +117,9 @@ function M.setup(opts)
         },
         sources = {
             { name = 'nvim_lsp' },
+        },
+        matching = {
+            disallow_partial_fuzzy_matching = false,
         },
     }
     cmp.setup(vim.tbl_deep_extend('force', defaults, opts))

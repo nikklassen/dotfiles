@@ -43,14 +43,11 @@ return {
                     },
                 },
                 jsonls = {
-                    init_options = {
-                        provideFormatter = true,
-                    },
                     settings = {
                         json = {
                             schemas = {
                                 {
-                                    fileMatch = { '*\\.fhir\\.json' },
+                                    fileMatch = { '*.fhir.json' },
                                     url = 'https://hl7.org/fhir/r4/fhir.schema.json',
                                 },
                             },

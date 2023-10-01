@@ -36,4 +36,27 @@ function M.lazy_require(module)
     })
 end
 
+local function get_key_mapping(keys, target)
+    for i, key in ipairs(keys) do
+        if key[1] == target[1] then
+            return i
+        end
+    end
+    return nil
+end
+
+function M.merge_keys(behaviour, dst, src)
+    for _, key in ipairs(src) do
+        local existing = get_key_mapping(dst, key)
+        if existing ~= nil then
+            if behaviour == 'force' then
+                dst[existing] = key
+            end
+        else
+            dst[#dst + 1] = key
+        end
+    end
+    return dst
+end
+
 return M

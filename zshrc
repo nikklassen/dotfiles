@@ -159,7 +159,7 @@ fi
 
 zle -C complete-file complete-word _generic
 zstyle ':completion:complete-file::::' completer _files
-bindkey '^X\t' complete-file
+bindkey '^X^F' complete-file
 
 if command direnv > /dev/null 2>&1; then
   eval "$(direnv hook zsh)"

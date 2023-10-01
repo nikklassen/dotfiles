@@ -93,3 +93,8 @@ vim.keymap.set('n', '<BS>', '<c-^>')
 vim.keymap.set('n', 'ZA', '<cmd>wqa<CR>')
 
 vim.keymap.set('v', 'Y', '<cmd>OSCYank<CR>')
+
+vim.cmd.cabbr { '<expr>', '%%', 'expand("%:p:h")' }
+
+vim.keymap.set('n', 'U', '<C-R>', { remap = false })
+vim.keymap.set('n', 'gU', 'U', { remap = false })

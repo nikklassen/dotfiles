@@ -28,7 +28,7 @@ return {
     {
         'ludovicchabant/vim-lawrencium',
         cond = function()
-            return not vim.tbl_isempty(vim.fs.find({ '.hg' }, { upward = true }))
+            return not vim.tbl_isempty(vim.fs.find('.hg', { upward = true }))
         end,
     },
 
@@ -93,6 +93,7 @@ return {
                     require 'nikklassen.plugin_config.nvim-treesitter'.configure()
                 end,
             },
+            'nvim-treesitter/playground'
         }
     },
     {

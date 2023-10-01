@@ -21,20 +21,28 @@ return {
                 },
             },
         },
-        keys = {
-            { '<c-p>' },
-            { '<c-s-p>',   utils.lazy_require('telescope.builtin').commands },
-            { '<leader>b', utils.lazy_require('telescope.builtin').buffers },
-            { '<leader>f', utils.lazy_require('telescope.builtin').lsp_document_symbols },
-            { '<leader>d', utils.lazy_require('nikklassen.telescope').directory_files },
-        },
+        keys = function(_, keys)
+            return utils.merge_keys('keep', keys or {}, {
+                { '<c-p>',   utils.lazy_require('nikklassen.telescope').files },
+                { '<c-s-p>', utils.lazy_require('telescope.builtin').commands },
+                { '<leader>b', function()
+                    require('telescope.builtin').buffers {
+                        sort_mru = true,
+                        ignore_current_buffer = true,
+                    }
+                end },
+                { '<leader>f', function()
+                    require('telescope.builtin').lsp_document_symbols {
+                        symbols = 'function'
+                    }
+                end },
+                { '<leader>d', utils.lazy_require('nikklassen.telescope').directory_files },
+            })
+        end,
         config = function(_, opts)
             local telescope = require 'telescope'
             telescope.setup(opts)
             telescope.load_extension('fzf')
-
-            local files = opts.files or require('nikklassen.telescope').files
-            vim.keymap.set('n', '<c-p>', files)
         end
     },
 }

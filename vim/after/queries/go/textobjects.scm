@@ -28,3 +28,25 @@
 
 (unary_expression "&" (composite_literal)) @struct
 (composite_literal) @struct
+
+;; assignments
+(short_var_declaration
+  left: (_) @assignment.lhs
+  right: (_) @assignment.rhs @assignment.inner) @assignment.outer
+(assignment_statement
+  left: (_) @assignment.lhs
+  right: (_) @assignment.rhs @assignment.inner) @assignment.outer
+(var_spec
+  name: (_) @assignment.lhs
+  value: (_) @assignment.rhs @assignment.inner)
+(var_spec
+  name: (_) @assignment.inner
+  type: (_))
+(var_spec) @assignment.outer
+(const_spec
+  name: (_) @assignment.lhs
+  value: (_) @assignment.rhs @assignment.inner)
+(const_spec
+  name: (_) @assignment.inner
+  type: (_))
+(const_spec) @assignment.outer
