@@ -17,6 +17,7 @@ plugins=(
   git-ext
   nvm
   tmux
+  urltools
   you-should-use
   zsh-syntax-highlighting
 )

@@ -98,3 +98,7 @@ vim.cmd.cabbr { '<expr>', '%%', 'expand("%:p:h")' }
 
 vim.keymap.set('n', 'U', '<C-R>', { remap = false })
 vim.keymap.set('n', 'gU', 'U', { remap = false })
+
+vim.keymap.set('n', '<leader>lu', function()
+    require("lazy").update()
+end, { desc = "Update Lazy plugins" })

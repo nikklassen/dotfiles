@@ -60,7 +60,9 @@ return {
                 tsserver = {},
                 eslint = {},
                 vimls = {},
-                bashls = {},
+                bashls = {
+                    filetypes = { 'sh', 'zsh' },
+                },
                 rust_analyzer = {
                     cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' }
                 },

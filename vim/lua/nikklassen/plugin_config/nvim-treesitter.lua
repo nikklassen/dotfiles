@@ -23,6 +23,7 @@ function M.configure()
         ensure_installed = {
             'bash',
             'css',
+            'cpp',
             'dockerfile',
             'go',
             'gomod',

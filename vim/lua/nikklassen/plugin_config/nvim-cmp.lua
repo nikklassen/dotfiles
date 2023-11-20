@@ -95,7 +95,18 @@ function M.setup(opts)
             }),
         },
         sorting = {
-            comparators = { compare.sort_text },
+            comparators = {
+                compare.offset,
+                compare.exact,
+                -- compare.scopes,
+                compare.score,
+                compare.recently_used,
+                compare.locality,
+                compare.kind,
+                -- compare.sort_text,
+                compare.length,
+                compare.order,
+            },
         },
         formatting = {
             format = require 'lspkind'.cmp_format({

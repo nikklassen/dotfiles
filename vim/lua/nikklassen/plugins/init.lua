@@ -1,3 +1,5 @@
+local utils = require 'nikklassen.utils'
+
 return {
     {
         'tpope/vim-sensible',
@@ -8,7 +10,7 @@ return {
         'tpope/vim-fugitive',
         cmd = { 'G', 'Git' },
         cond = function()
-            return not vim.tbl_isempty(vim.fs.find({ '.git' }, { upward = true }))
+            return utils.is_cwd_readable() and not vim.tbl_isempty(vim.fs.find('.git', { upward = true }))
         end,
     },
     'tpope/vim-repeat',
@@ -28,7 +30,7 @@ return {
     {
         'ludovicchabant/vim-lawrencium',
         cond = function()
-            return not vim.tbl_isempty(vim.fs.find('.hg', { upward = true }))
+            return utils.is_cwd_readable() and not vim.tbl_isempty(vim.fs.find('.hg', { upward = true }))
         end,
     },
 
@@ -37,7 +39,7 @@ return {
     ---------------------
 
     -- JQ
-    { 'vito-c/jq.vim',      ft = 'jq' },
+    { 'vito-c/jq.vim' },
 
     -- Rust
     { 'rust-lang/rust.vim', ft = 'rust' },

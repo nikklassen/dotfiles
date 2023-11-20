@@ -59,4 +59,12 @@ function M.merge_keys(behaviour, dst, src)
     return dst
 end
 
+function M.is_cwd_readable()
+    local cwd, err = vim.uv.cwd()
+    if err then
+        return false
+    end
+    return vim.fn.isdirectory(cwd) == 1
+end
+
 return M

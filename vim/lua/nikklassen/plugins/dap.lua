@@ -2,6 +2,7 @@ return {
     {
         'mfussenegger/nvim-dap',
         cmd = { 'DBG' },
+        keys = { '<F9>', '<F5>', '<S-F5>' },
         dependencies = {
             {
                 'leoluz/nvim-dap-go',

@@ -93,9 +93,6 @@ function testport () {
     nc -v "$1" "$2" < /dev/null
 }
 
-# From https://unix.stackexchange.com/a/187256
-alias urldecode='sed "s@+@ @g;s@%@\\\\x@g" | xargs -0 printf "%b"'
-
 HISTFILE=$HOME/.zhistory
 HISTSIZE=SAVEHIST=10000
 setopt APPEND_HISTORY
