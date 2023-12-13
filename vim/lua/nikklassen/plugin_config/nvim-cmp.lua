@@ -24,20 +24,20 @@ local tab_complete = function(fallback)
         })
     elseif check_back_space() then
         vim.fn.feedkeys(t('<Tab>'), 'n')
-    elseif vim.fn['vsnip#available'](1) == 1 then
-        vim.fn.feedkeys(t('<Plug>(vsnip-expand-or-jump)'), '')
+    elseif vim.snippet.jumpable(1) == 1 then
+        vim.snippet.jump(1)
     else
         fallback()
     end
 end
 
-local s_tab_complete = function()
+local s_tab_complete = function(fallback)
     if cmp.visible() then
-        vim.fn.feedkeys(t('<C-p>'), 'n')
-    elseif vim.fn['vsnip#jumpable']() == 1 then
-        vim.fn.feedkeys(t('<Plug>(vsnip-jump-prev)'), '')
+        cmp.select_prev_item()
+    elseif vim.snippet.jumpable( -1) == 1 then
+        vim.snippet.jump( -1)
     else
-        vim.fn.feedkeys(t('<S-Tab>'), 'n')
+        fallback()
     end
 end
 
@@ -61,11 +61,8 @@ function M.setup(opts)
     local defaults = {
         snippet = {
             expand = function(args)
-                vim.fn["vsnip#anonymous"](args.body)
+                vim.snippet.expand(args.body)
             end,
-        },
-        experimental = {
-            ghost_text = true,
         },
         mapping = {
             ['<C-Space>'] = cmp.mapping.complete(),

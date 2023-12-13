@@ -44,17 +44,6 @@ return {
     -- Rust
     { 'rust-lang/rust.vim', ft = 'rust' },
 
-    -- Markdown
-    {
-        'dhruvasagar/vim-table-mode',
-        ft = { 'pandoc', 'markdown' },
-        config = function()
-            vim.g.table_mode_corner_corner = '+'
-            vim.g.table_mode_header_fillchar = '='
-            vim.g.table_mode_align_char = ':'
-        end,
-    },
-
     -------------------
     -- Other plugins --
     -------------------
@@ -102,7 +91,6 @@ return {
         'kylechui/nvim-surround',
         opts = {},
     },
-    { 'ojroques/vim-oscyank', branch = 'main' },
     {
         'tpope/vim-eunuch',
         cond = function() return vim.fn.has('win32') == 0 end,
