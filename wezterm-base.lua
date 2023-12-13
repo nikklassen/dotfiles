@@ -6,6 +6,7 @@ config.color_scheme = 'Molokai'
 config.font_size = 12
 
 config.hide_tab_bar_if_only_one_tab = true
+config.warn_about_missing_glyphs = false
 
 -- Use the defaults as a base
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
@@ -32,6 +33,16 @@ config.keys = {
                 wezterm.open_with(url)
             end),
         },
+    },
+    {
+        key = 'PageUp',
+        mods = 'SHIFT',
+        action = wezterm.action.DisableDefaultAssignment,
+    },
+    {
+        key = 'PageDown',
+        mods = 'SHIFT',
+        action = wezterm.action.DisableDefaultAssignment,
     },
 }
 
