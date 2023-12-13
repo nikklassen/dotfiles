@@ -29,3 +29,5 @@ sudo mkdir -p /usr/local/etc/profile.d/
 sudo ln -s $FORCE $PWD/z/z.sh /usr/local/etc/profile.d/z.sh
 sudo mkdir -p /usr/local/man/man1/
 sudo ln -s $FORCE $PWD/z/z.1 /usr/local/man/man1/z.1
+
+source zsh/wezterm.zsh
