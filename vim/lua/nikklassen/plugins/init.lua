@@ -95,7 +95,6 @@ return {
         'tpope/vim-eunuch',
         cond = function() return vim.fn.has('win32') == 0 end,
     },
-
     {
         'nvim-lua/plenary.nvim',
         lazy = true,

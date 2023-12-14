@@ -41,35 +41,24 @@ local function goto_diagnostic_options()
     return nil
 end
 
-local function goimports(timeout_ms)
-    local context = { only = { "source.organizeImports" } }
-    vim.validate { context = { context, "t", true } }
-
+local function goimports()
     local params = vim.lsp.util.make_range_params()
-    params.context = context
-
-    -- See the implementation of the textDocument/codeAction callback
-    -- (lua/vim/lsp/handler.lua) for how to do this properly.
-    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
-    if not result or result[1] == nil then return end
-    if result[1] == nil then return end
-    local actions = result[1].result
-    if not actions then return end
-    local action = actions[1]
-
-    -- textDocument/codeAction can return either Command[] or CodeAction[]. If it
-    -- is a CodeAction, it can have either an edit, a command or both. Edits
-    -- should be executed first.
-    if action.edit or type(action.command) == "table" then
-        if action.edit then
-            vim.lsp.util.apply_workspace_edit(action.edit, 'utf-8')
+    params.context = { only = { "source.organizeImports" } }
+    -- buf_request_sync defaults to a 1000ms timeout. Depending on your
+    -- machine and codebase, you may want longer. Add an additional
+    -- argument after params if you find that you have to write the file
+    -- twice for changes to be saved.
+    -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
+    for cid, res in pairs(result or {}) do
+        for _, r in pairs(res.result or {}) do
+            if r.edit then
+                local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+                vim.lsp.util.apply_workspace_edit(r.edit, enc)
+            end
         end
-        if type(action.command) == "table" then
-            vim.lsp.buf.execute_command(action.command)
-        end
-    else
-        vim.lsp.buf.execute_command(action)
     end
+    vim.lsp.buf.format({ async = false })
 end
 
 local function show_diagnostics()
@@ -132,7 +121,9 @@ function M.on_attach(client, bufnr)
         vim.api.nvim_win_set_cursor(0, { d.lnum + 1, d.col })
         show_diagnostics()
     end, opts)
-    vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<C-.>', function()
+        vim.lsp.buf.code_action()
+    end, { buffer = bufnr })
 
     local lsp_augroup = vim.api.nvim_create_augroup('lsp_buf_' .. bufnr, {})
     vim.api.nvim_create_autocmd('CursorHold', {
@@ -159,15 +150,15 @@ function M.on_attach(client, bufnr)
                 group = lsp_augroup,
                 buffer = bufnr,
                 callback = function()
-                    -- Prevent the view from jumping around, seems to just be an issue with LuaLS
-                    local v = vim.fn.winsaveview()
-                    vim.lsp.buf.format {
-                        timeout_ms = 1000
-                    }
-                    vim.fn.winrestview(v)
                     if client.name == 'gopls' then
-                        vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
-                        -- goimports(1000)
+                        goimports()
+                    else
+                        -- Prevent the view from jumping around, seems to just be an issue with LuaLS
+                        local v = vim.fn.winsaveview()
+                        vim.lsp.buf.format {
+                            timeout_ms = 1000
+                        }
+                        vim.fn.winrestview(v)
                     end
                 end
             })
