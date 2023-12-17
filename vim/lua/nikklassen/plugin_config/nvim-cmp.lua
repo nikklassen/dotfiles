@@ -24,7 +24,7 @@ local tab_complete = function(fallback)
         })
     elseif check_back_space() then
         vim.fn.feedkeys(t('<Tab>'), 'n')
-    elseif vim.snippet.jumpable(1) == 1 then
+    elseif vim.snippet.jumpable(1) then
         vim.snippet.jump(1)
     else
         fallback()
@@ -34,8 +34,8 @@ end
 local s_tab_complete = function(fallback)
     if cmp.visible() then
         cmp.select_prev_item()
-    elseif vim.snippet.jumpable( -1) == 1 then
-        vim.snippet.jump( -1)
+    elseif vim.snippet.jumpable(-1) then
+        vim.snippet.jump(-1)
     else
         fallback()
     end
@@ -49,6 +49,28 @@ local function dump_entry(e)
         completionItem = e.completion_item,
     })
 end
+
+local confirm = function(fallback)
+    if not cmp.visible() then
+        fallback()
+    end
+    local selected
+    local entry = cmp.get_selected_entry()
+    if entry ~= nil and entry.completion_item.additionalTextEdits == nil then
+        selected = entry.completion_item.textEdit.newText
+    end
+    if selected ~= nil then
+        local line = vim.fn.getline('.') -- @type string
+        if line:sub(- #selected) == selected then
+            cmp.close()
+            fallback()
+        end
+    end
+    if not cmp.confirm() then
+        fallback()
+    end
+end
+
 
 function M.debug_compare(e1, e2)
     print('e1')
@@ -68,7 +90,7 @@ function M.setup(opts)
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-e>'] = cmp.mapping.close(),
 
-            ['<CR>'] = cmp.mapping.confirm(),
+            ['<CR>'] = cmp.mapping(confirm, { 'i' }),
             ['<C-y>'] = cmp.mapping.confirm({
                 select = true,
                 behavior = cmp.ConfirmBehavior.Replace,

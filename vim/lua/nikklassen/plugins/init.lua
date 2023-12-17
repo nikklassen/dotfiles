@@ -66,11 +66,6 @@ return {
             'hrsh7th/vim-vsnip',
             'ray-x/lsp_signature.nvim',
             'onsails/lspkind.nvim',
-            -- VSCode plugin, imported just for the snippets
-            {
-                'golang/vscode-go',
-                ft = { 'go' }
-            },
         },
     },
     {
