@@ -22,10 +22,10 @@ local tab_complete = function(fallback)
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         })
-    elseif check_back_space() then
-        vim.fn.feedkeys(t('<Tab>'), 'n')
     elseif vim.snippet.jumpable(1) then
         vim.snippet.jump(1)
+    elseif check_back_space() then
+        vim.fn.feedkeys(t('<Tab>'), 'n')
     else
         fallback()
     end
@@ -34,8 +34,8 @@ end
 local s_tab_complete = function(fallback)
     if cmp.visible() then
         cmp.select_prev_item()
-    elseif vim.snippet.jumpable(-1) then
-        vim.snippet.jump(-1)
+    elseif vim.snippet.jumpable( -1) then
+        vim.snippet.jump( -1)
     else
         fallback()
     end
@@ -61,7 +61,7 @@ local confirm = function(fallback)
     end
     if selected ~= nil then
         local line = vim.fn.getline('.') -- @type string
-        if line:sub(- #selected) == selected then
+        if line:sub( -#selected) == selected then
             cmp.close()
             fallback()
         end
