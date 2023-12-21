@@ -12,6 +12,8 @@ export symlink
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux-plugins/tpm
+
 link_home() {
     if [[ ! -L $HOME/.$1 || -n $FORCE ]]; then
         symlink $PWD/$1 $HOME/.$1

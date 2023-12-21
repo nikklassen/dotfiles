@@ -69,7 +69,10 @@ return {
                 pyright = {},
                 lua_ls = {
                     on_init = function(client)
-                        local path = client.workspace_folders[1].name
+                        local path = ''
+                        if client.workspace_folders ~= nil then
+                            path = client.workspace_folders[1].name
+                        end
                         if not vim.uv.fs_stat(path .. '/.luarc.json') and not vim.uv.fs_stat(path .. '/.luarc.jsonc') then
                             client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
                                 Lua = {
