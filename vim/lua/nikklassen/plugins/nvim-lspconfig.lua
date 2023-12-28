@@ -41,6 +41,24 @@ return {
                             staticcheck = true,
                         },
                     },
+                    on_attach = function(client, bufnr)
+                        require('nikklassen.lsp.utils').on_attach(client, bufnr)
+                        local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+                        if lines ~= nil and #lines > 0 then
+                            if lines[1] == '//go:build js' then
+                                print("Setting GOARCH to wasm")
+                                client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
+                                    gopls = {
+                                        env = {
+                                            GOOS = 'js',
+                                            GOARCH = 'wasm',
+                                        },
+                                    },
+                                })
+                                client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+                            end
+                        end
+                    end
                 },
                 jsonls = {
                     settings = {
@@ -152,6 +170,7 @@ return {
                     virtual_text = false,
                 },
             })
+            vim.cmd('hi! link WinBar Normal')
         end,
     },
 }
