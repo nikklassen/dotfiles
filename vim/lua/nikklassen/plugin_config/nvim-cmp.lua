@@ -22,10 +22,12 @@ local tab_complete = function(fallback)
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         })
-    elseif vim.snippet.jumpable(1) then
-        vim.snippet.jump(1)
-    elseif check_back_space() then
-        vim.fn.feedkeys(t('<Tab>'), 'n')
+    elseif vim.fn['vsnip#available'](1) == 1 then
+        vim.fn.feedkeys(t('<Plug>(vsnip-expand-or-jump)'), '')
+        -- elseif vim.snippet.jumpable(1) then
+        --     vim.snippet.jump(1)
+        -- elseif check_back_space() then
+        --     vim.fn.feedkeys(t('<Tab>'), 'n')
     else
         fallback()
     end
@@ -34,8 +36,10 @@ end
 local s_tab_complete = function(fallback)
     if cmp.visible() then
         cmp.select_prev_item()
-    elseif vim.snippet.jumpable( -1) then
-        vim.snippet.jump( -1)
+    elseif vim.fn['vsnip#jumpable']() == 1 then
+        vim.fn.feedkeys(t('<Plug>(vsnip-jump-prev)'), '')
+        -- elseif vim.snippet.jumpable(-1) then
+        --     vim.snippet.jump(-1)
     else
         fallback()
     end
@@ -50,23 +54,28 @@ local function dump_entry(e)
     })
 end
 
-local confirm = function(fallback)
+local function cmpConfirm()
     if not cmp.visible() then
-        fallback()
+        return false
     end
     local selected
     local entry = cmp.get_selected_entry()
-    if entry ~= nil and entry.completion_item.additionalTextEdits == nil then
+    if entry ~= nil and entry.completion_item.textEdit ~= nil and entry.completion_item.additionalTextEdits == nil then
         selected = entry.completion_item.textEdit.newText
     end
     if selected ~= nil then
         local line = vim.fn.getline('.') -- @type string
-        if line:sub( -#selected) == selected then
+        if line:sub(- #selected) == selected then
             cmp.close()
-            fallback()
+            return false
         end
     end
-    if not cmp.confirm() then
+    cmp.confirm()
+    return true
+end
+
+local function confirm(fallback)
+    if not cmpConfirm() then
         fallback()
     end
 end
@@ -83,14 +92,15 @@ function M.setup(opts)
     local defaults = {
         snippet = {
             expand = function(args)
-                vim.snippet.expand(args.body)
+                -- vim.snippet.expand(args.body)
+                vim.fn["vsnip#anonymous"](args.body)
             end,
         },
         mapping = {
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-e>'] = cmp.mapping.close(),
 
-            ['<CR>'] = cmp.mapping(confirm, { 'i' }),
+            ['<CR>'] = cmp.mapping(confirm, { 'i', 's' }),
             ['<C-y>'] = cmp.mapping.confirm({
                 select = true,
                 behavior = cmp.ConfirmBehavior.Replace,

@@ -86,6 +86,17 @@ return {
                 },
                 pyright = {},
                 lua_ls = {
+                    settings = {
+                        Lua = {
+                            format = {
+                                enable = true,
+                                defaultConfig = {
+                                    indent_size = '2',
+                                    indent_style = 'space',
+                                },
+                            },
+                        },
+                    },
                     on_init = function(client)
                         local path = ''
                         if client.workspace_folders ~= nil then
@@ -96,13 +107,6 @@ return {
                                 Lua = {
                                     runtime = {
                                         version = 'LuaJIT'
-                                    },
-                                    format = {
-                                        enable = true,
-                                        defaultConfig = {
-                                            indent_size = '4',
-                                            indent_style = 'space',
-                                        },
                                     },
                                     -- Make the server aware of Neovim runtime files
                                     workspace = {
