@@ -1,0 +1,5 @@
+{
+  "common": {
+    "log_file": "~/.powerline.log"
+  }
+}

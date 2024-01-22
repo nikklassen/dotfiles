@@ -20,8 +20,8 @@ function M.configure()
         },
     }
     require 'nvim-treesitter.configs'.setup {
+        -- Parsers bundled with nvim are also always installed
         ensure_installed = {
-            'bash',
             'css',
             'cpp',
             'dockerfile',
@@ -32,16 +32,10 @@ function M.configure()
             'javascript',
             'json',
             'latex',
-            'lua',
-            'markdown',
-            'markdown_inline',
-            'python',
             'rust',
             'scss',
             'tsx',
             'typescript',
-            'vim',
-            'query',
             'yaml'
         },
         highlight = {
@@ -70,9 +64,10 @@ function M.configure()
                     ["if"] = "@function.inner",
                     ['ia'] = '@parameter.inner',
                     ['aa'] = '@parameter.outer',
-                    ['i:'] = '@element.inner',
-                    ['a:'] = '@element.outer',
-                    ['ao'] = '@struct',
+                    ['ii'] = '@field.inner',
+                    ['ai'] = '@field.outer',
+                    ['ic'] = '@class.inner',
+                    ['ac'] = '@class.outer',
                     ['i='] = '@assignment.rhs',
                     ['a='] = '@assignment.outer',
                 },
@@ -91,7 +86,7 @@ function M.configure()
         playground = {
             enable = true,
             disable = {},
-            updatetime = 25,        -- Debounced time for highlighting nodes in the playground from source code
+            updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
             persist_queries = false -- Whether the query persists across vim sessions
         }
     }

@@ -58,14 +58,17 @@ local function cmpConfirm()
     if not cmp.visible() then
         return false
     end
-    local selected
     local entry = cmp.get_selected_entry()
-    if entry ~= nil and entry.completion_item.textEdit ~= nil and entry.completion_item.additionalTextEdits == nil then
-        selected = entry.completion_item.textEdit.newText
+    if entry == nil then
+        return false
+    end
+    local selected
+    if vim.tbl_get(entry, 'completion_item', 'additionalTextEdits') == nil then
+        selected = vim.tbl_get(entry, 'completion_item', 'textEdit', 'newText')
     end
     if selected ~= nil then
         local line = vim.fn.getline('.') -- @type string
-        if line:sub(- #selected) == selected then
+        if line:sub( -#selected) == selected then
             cmp.close()
             return false
         end
@@ -140,9 +143,14 @@ function M.setup(opts)
         formatting = {
             format = require 'lspkind'.cmp_format({
                 mode = 'symbol',
-                maxwidth = 50,
+                maxwidth = 40,
                 preset = 'codicons',
                 before = function(entry, vim_item)
+                    local before = vim.tbl_get(opts, 'formatting', 'cmp_format', 'before')
+                    if before then
+                        before(entry, vim_item)
+                    end
+
                     local ci = entry.completion_item
                     if ci.labelDetails then
                         vim_item.abbr = string.gsub(vim_item.abbr, '~$', '')
@@ -153,6 +161,34 @@ function M.setup(opts)
                     end
                     return vim_item
                 end,
+                symbol_map = {
+                    Text = "󰉿",
+                    Method = "󰆧",
+                    Function = "󰊕",
+                    Constructor = "",
+                    Field = "󰜢",
+                    Variable = "󰀫",
+                    Class = "󰠱",
+                    Interface = "",
+                    Module = "󰅩",
+                    Property = "󰜢",
+                    Unit = "󰑭",
+                    Value = "󰎠",
+                    Enum = "",
+                    Keyword = "󰌋",
+                    Snippet = "",
+                    Color = "󰏘",
+                    File = "󰈙",
+                    Reference = "󰈇",
+                    Folder = "󰉋",
+                    EnumMember = "",
+                    Constant = "󰏿",
+                    Struct = "󰙅",
+                    Event = "",
+                    Operator = "󰆕",
+                    ML = "󱗿",
+                    TypeParameter = "",
+                },
             }),
         },
         sources = {

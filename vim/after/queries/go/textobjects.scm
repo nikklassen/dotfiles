@@ -1,18 +1,20 @@
 ;; extends
 
 (literal_value
-  "," @_element_start .
+  "," @_field_start .
   (keyed_element
       _
-      (_) @element.inner) @_element_end
-  (#make-range! "element.outer" @_element_start @_element_end))
+      (_) @field.inner) @_field_end
+  (#make-range! "field.outer" @_field_start @_field_end))
 
 (literal_value
   (keyed_element
       _
-      (_) @element.inner) @_element_start
-  . ","? @_element_end
-  (#make-range! "element.outer" @_element_start @_element_end))
+      (_) @field.inner) @_field_start
+  . ","? @_field_end
+  (#make-range! "field.outer" @_field_start @_field_end))
+
+(method_spec) @field.inner @field.outer
 
 (return_statement
   (expression_list

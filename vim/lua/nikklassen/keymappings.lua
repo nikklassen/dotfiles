@@ -11,7 +11,7 @@ vim.keymap.set('n', 'Y', 'y$')
 -- Reindent whole file
 vim.keymap.set('n', '<leader>=', 'mrgg=G`r')
 
-vim.keymap.set('n', '<C-S>', '<cmd>w<CR>')
+vim.keymap.set({ 'n', 'i' }, '<C-S>', '<cmd>w<CR>')
 
 vim.keymap.set('n', '<space>', 'foldlevel(".") ? "za" : "<space>"', {
     silent = true,
