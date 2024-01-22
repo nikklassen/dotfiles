@@ -31,6 +31,13 @@ require('lazy').setup('nikklassen.plugins', {
     checker = {
         enabled = true,
     },
+    performance = {
+        rtp = {
+            disabled_plugins = {
+                'matchit',
+            },
+        },
+    },
 })
 
 require 'nikklassen.color'
