@@ -1,3 +1,4 @@
+local utils = require('nikklassen.utils')
 return {
     {
         'nvim-lua/lsp-status.nvim',
@@ -102,7 +103,7 @@ return {
                         if client.workspace_folders ~= nil then
                             path = client.workspace_folders[1].name
                         end
-                        if not vim.uv.fs_stat(path .. '/.luarc.json') and not vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                        if not utils.uv.fs_stat(path .. '/.luarc.json') and not utils.uv.fs_stat(path .. '/.luarc.jsonc') then
                             client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
                                 Lua = {
                                     runtime = {

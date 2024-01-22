@@ -12,9 +12,14 @@ local function git_sl()
 end
 
 local function lsp_sl()
-    local clients = vim.lsp.get_clients({
-        bufnr = 0,
-    })
+    local clients
+    if vim.lsp.get_clients then
+        clients = vim.lsp.get_clients({
+            bufnr = 0,
+        })
+    else
+        clients = vim.lsp.get_active_clients()
+    end
     if vim.tbl_isempty(clients) then
         return ''
     end

@@ -8,7 +8,10 @@ package.path = package.path .. ';' .. home .. '/.luarocks/share/lua/5.1/?.lua'
 package.cpath = package.cpath .. ';' .. home .. '/.luarocks/lib/lua/5.1/?.so'
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.uv.fs_stat(lazypath) then
+
+local utils = require 'nikklassen.utils'
+
+if not utils.uv.fs_stat(lazypath) then
     vim.fn.system({
         "git",
         "clone",

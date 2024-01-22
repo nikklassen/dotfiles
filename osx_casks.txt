@@ -1,0 +1,4 @@
+bitwarden
+rectangle
+signal
+wezterm

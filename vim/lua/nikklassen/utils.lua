@@ -5,6 +5,12 @@ function _G.dump(...)
     print(unpack(objects))
 end
 
+if vim.uv then
+	M.uv = vim.uv
+else
+	M.uv = vim.loop
+end
+
 function M.tbl_list_extend(tbl1, tbl2)
     if tbl2 == nil then
         return
@@ -60,7 +66,7 @@ function M.merge_keys(behaviour, dst, src)
 end
 
 function M.is_cwd_readable()
-    local cwd, err = vim.uv.cwd()
+    local cwd, err = M.uv.cwd()
     if err then
         return false
     end
