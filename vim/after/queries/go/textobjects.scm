@@ -16,6 +16,16 @@
 
 (method_spec) @field.inner @field.outer
 
+(composite_literal
+  type: (slice_type)
+  body: (literal_value "," @_start . (literal_element) @field.inner)
+(#make-range! "field.outer" @_start @field.inner))
+
+(composite_literal
+  type: (slice_type)
+  body: (literal_value (literal_element) @field.inner . ","? @_end)
+(#make-range! "field.outer" @field.inner @_end))
+
 (return_statement
   (expression_list
     "," @_start .
