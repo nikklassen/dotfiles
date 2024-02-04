@@ -16,3 +16,4 @@ scripts/.config
 scripts/.temp
 .luarc.json
 vim/lazy-lock.json
+__pycache__
