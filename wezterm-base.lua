@@ -15,7 +15,7 @@ config.hyperlink_rules = wezterm.default_hyperlink_rules()
 -- the first matched regex group is captured in $1.
 table.insert(config.hyperlink_rules, {
     regex = [[\b(b|cl|go)/(\d+)\b]],
-    format = 'http://$1',
+    format = 'http://$1/$2',
 })
 
 config.keys = {
