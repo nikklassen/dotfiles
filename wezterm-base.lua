@@ -44,6 +44,17 @@ config.keys = {
         mods = 'SHIFT',
         action = wezterm.action.DisableDefaultAssignment,
     },
+    {
+        key = 'p',
+        mods = 'CTRL|SHIFT',
+        -- Send the escape sequence to make this work in tmux
+        action = wezterm.action.SendString '\x1b[80;6u',
+    },
+    {
+        key = 'P',
+        mods = 'CTRL|SHIFT|ALT',
+        action = wezterm.action.ActivateCommandPalette,
+    },
 }
 
 if #wezterm.default_wsl_domains() > 0 then
