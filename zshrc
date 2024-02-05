@@ -24,6 +24,8 @@ if [[ $(uname) == 'Darwin' ]]; then
     source ./macos.zsh
 fi
 
+source vcs.zsh
+
 popd > /dev/null
 
 OMITTED_WORDCHARS="/="
