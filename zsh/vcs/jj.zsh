@@ -15,13 +15,16 @@ declare -A jj_aliases=(
   [gm]="jj new @"
   [gsh]="jj show -r @-"
   [gc!]="jj squash"
-  [grb]="jj move"
+  [gci]="jj split -i"
+  [grb]="jj rebase"
   [gcmsg]="_jj_gcmsg"
   [gd]="jj show"
-  [hx]="jj log"
+  [glog]="jj log"
 
   # Don't know yet
   # [gclean]=""
 )
 
 register-vcs jj is-jj jj_aliases
+
+alias jjmv="jj move"

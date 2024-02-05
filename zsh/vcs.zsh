@@ -28,3 +28,5 @@ function register-vcs() {
 source vcs/git.zsh
 source vcs/hg.zsh
 source vcs/jj.zsh
+
+alias hx=glog

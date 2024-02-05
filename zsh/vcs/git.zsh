@@ -24,11 +24,12 @@ declare -A git_aliases=(
   [gsts]="git stash show --text"
   [grs]="git restore"
   [gc!]="$aliases[gc\!]"
+  [gci]="git commit -p"
   [grm]="git rm"
   [grbc]="$aliases[grbc]"
   [gcmsg]="_git_gcmsg"
   [gd]="git diff"
-  [hx]="glog"
+  [glog]="$aliases[glog]"
 )
 
 register-vcs git is-git git_aliases

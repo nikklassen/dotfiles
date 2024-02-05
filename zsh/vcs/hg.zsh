@@ -36,11 +36,12 @@ declare -A hg_aliases=(
   [gsts]='hg shelve -p'
   [grs]='hg revert'
   [gc!]='_hga'
+  [gci]="hg commit -i"
   [grm]='hg rm'
   [grbc]='hg rebase --continue'
   [gcmsg]="_hg_gcmsg"
   [gd]="hg diff"
-  [hx]="hg xl"
+  [glog]="hg xl"
 )
 
 alias hgra="hg revert --all"
