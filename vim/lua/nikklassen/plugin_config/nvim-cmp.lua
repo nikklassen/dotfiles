@@ -68,7 +68,7 @@ local function cmpConfirm()
     end
     if selected ~= nil then
         local line = vim.fn.getline('.') -- @type string
-        if line:sub( -#selected) == selected then
+        if line:sub(- #selected) == selected then
             cmp.close()
             return false
         end
@@ -127,7 +127,10 @@ function M.setup(opts)
             }),
         },
         sorting = {
+            priority_weight = 2,
             comparators = {
+                require("copilot_cmp.comparators").prioritize,
+
                 compare.offset,
                 compare.exact,
                 -- compare.scopes,
@@ -188,10 +191,12 @@ function M.setup(opts)
                     Operator = "󰆕",
                     ML = "󱗿",
                     TypeParameter = "",
+                    Copilot = "",
                 },
             }),
         },
         sources = {
+            { name = 'copilot' },
             { name = 'nvim_lsp' },
         },
         matching = {

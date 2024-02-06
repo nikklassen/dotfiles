@@ -184,7 +184,7 @@ function M.on_attach(client, bufnr)
     end
 
     if client.server_capabilities.codeActionProvider then
-        vim.keymap.set('n', '<C-.>', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', '<M-.>', vim.lsp.buf.code_action, opts)
     end
 
     -- Set autocommands conditional on server_capabilities

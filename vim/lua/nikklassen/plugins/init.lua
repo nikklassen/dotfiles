@@ -66,6 +66,36 @@ return {
             'hrsh7th/vim-vsnip',
             'ray-x/lsp_signature.nvim',
             'onsails/lspkind.nvim',
+            {
+                "zbirenbaum/copilot-cmp",
+                event = 'LspAttach',
+                config = function()
+                    local copilot_cmp = require('copilot_cmp')
+                    copilot_cmp.setup {}
+                    vim.api.nvim_create_autocmd("LspAttach", {
+                        callback = function(args)
+                            local client = vim.lsp.get_client_by_id(args.data.client_id)
+                            if client.name == "copilot" then
+                                copilot_cmp._on_insert_enter({})
+                            end
+                        end,
+                    })
+                    vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+                end,
+                dependencies = {
+                    {
+                        "zbirenbaum/copilot.lua",
+                        cmd = "Copilot",
+                        event = "InsertEnter",
+                        main = 'copilot',
+                        opts = {
+                            suggestion = { enabled = true, auto_trigger = false },
+                            panel = { enabled = false },
+                            copilot_node_command = vim.env.NVM_BIN .. "/node"
+                        },
+                    },
+                },
+            },
         },
     },
     {
