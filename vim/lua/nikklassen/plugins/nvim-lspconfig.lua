@@ -174,6 +174,15 @@ return {
                 lightbulb = {
                     virtual_text = false,
                 },
+                symbol_in_winbar = {
+                    ignore_patterns = { '%.md' }
+                },
+                outline = {
+                    keys = {
+                        toggle_or_jump = '<CR>'
+                    },
+                    win_position = 'left'
+                }
             })
             vim.cmd('hi! link WinBar Normal')
         end,
