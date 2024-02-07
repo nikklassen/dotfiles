@@ -91,6 +91,7 @@ return {
                         opts = {
                             suggestion = { enabled = true, auto_trigger = false },
                             panel = { enabled = false },
+                            copilot_node_command = 'node-lazy',
                         },
                     },
                 },
@@ -118,7 +119,7 @@ return {
     {
         'tpope/vim-eunuch',
         cond = function() return vim.fn.has('win32') == 0 end,
-        config = function ()
+        config = function()
             vim.g.eunuch_no_maps = true
         end,
     },

@@ -8,6 +8,8 @@ config.font_size = 12
 config.hide_tab_bar_if_only_one_tab = true
 config.warn_about_missing_glyphs = false
 
+config.audible_bell = 'Disabled'
+
 -- Use the defaults as a base
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
