@@ -167,5 +167,5 @@ if command direnv > /dev/null 2>&1; then
 fi
 
 if command jj > /dev/null 2>&1; then
-  source <(jj util completion --zsh)
+  source <(jj util completion zsh)
 fi
