@@ -5,7 +5,7 @@ function vcs-cmd() {
   local fn="$1"; shift
   for vcs detect in "${(@kv)vcs_detect}"; do
     if eval "$detect"; then
-      eval "${vcs_alias[${vcs}_${fn}]}" "$@"
+      eval "${vcs_alias[${vcs}_${fn}]}" "${@:q}"
       return $?
     fi
   done
