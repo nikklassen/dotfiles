@@ -68,7 +68,7 @@ local function cmpConfirm()
     end
     if selected ~= nil then
         local line = vim.fn.getline('.') -- @type string
-        if line:sub(- #selected) == selected then
+        if line:sub( -#selected) == selected then
             cmp.close()
             return false
         end

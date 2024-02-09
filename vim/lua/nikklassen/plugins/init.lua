@@ -91,7 +91,6 @@ return {
                         opts = {
                             suggestion = { enabled = true, auto_trigger = false },
                             panel = { enabled = false },
-                            copilot_node_command = vim.env.NVM_BIN .. "/node"
                         },
                     },
                 },
