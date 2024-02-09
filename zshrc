@@ -159,6 +159,7 @@ fi
 zle -C complete-files complete-word _generic
 bindkey '^X^F' complete-files
 bindkey '^X?' _complete_debug
+zstyle ':completion:*' accept-exact-dirs true
 
 if command direnv > /dev/null 2>&1; then
   eval "$(direnv hook zsh)"
