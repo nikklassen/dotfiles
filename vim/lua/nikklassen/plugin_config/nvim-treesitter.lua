@@ -32,8 +32,10 @@ function M.configure()
             'javascript',
             'json',
             'latex',
+            'proto',
             'rust',
             'scss',
+            'textproto',
             'tsx',
             'typescript',
             'yaml'
@@ -42,7 +44,7 @@ function M.configure()
             enable = true,
         },
         indent = {
-            disable = true
+            enable = false,
         },
         spell = {
             enable = true
@@ -87,7 +89,7 @@ function M.configure()
         playground = {
             enable = true,
             disable = {},
-            updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+            updatetime = 25,        -- Debounced time for highlighting nodes in the playground from source code
             persist_queries = false -- Whether the query persists across vim sessions
         }
     }

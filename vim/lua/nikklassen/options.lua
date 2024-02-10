@@ -4,7 +4,7 @@ vim.o.wildmode = 'list:longest,full'
 vim.o.wildignore = '*.o,*.pyc,*.hi'
 
 -- Completion settings
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = 'menu,menuone,noselect'
 vim.o.shortmess = vim.o.shortmess .. 'c'
 vim.o.pumheight = 10
 
@@ -31,7 +31,7 @@ vim.o.confirm = true
 
 -- Set the command window height to 2 lines, to avoid many cases of having to
 -- "press <Enter> to continue"
-vim.o.cmdheight=2
+vim.o.cmdheight = 2
 
 -- Display line numbers on the left
 vim.wo.relativenumber = true
@@ -39,10 +39,10 @@ vim.wo.number = true
 vim.wo.signcolumn = 'yes'
 
 -- Shorter timeout for escape keys
-vim.o.tm=250
+vim.o.tm = 250
 
 vim.o.concealcursor = 'n'
-vim.o.conceallevel=0
+vim.o.conceallevel = 0
 
 vim.o.path = '.,/usr/include,,'
 

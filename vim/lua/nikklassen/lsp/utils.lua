@@ -1,5 +1,3 @@
-local utils = require 'nikklassen.utils'
-
 local M = {}
 
 function M.capabilities()
@@ -41,7 +39,7 @@ local function goto_diagnostic_options()
     return nil
 end
 
-local function goimports()
+function M.goimports()
     local params = vim.lsp.util.make_range_params()
     params.context = { only = { "source.organizeImports" } }
     -- buf_request_sync defaults to a 1000ms timeout. Depending on your
@@ -151,7 +149,7 @@ function M.on_attach(client, bufnr)
                 buffer = bufnr,
                 callback = function()
                     if client.name == 'gopls' then
-                        goimports()
+                        M.goimports()
                     else
                         -- Prevent the view from jumping around, seems to just be an issue with LuaLS
                         local v = vim.fn.winsaveview()

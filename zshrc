@@ -164,3 +164,7 @@ zstyle ':completion:*' accept-exact-dirs true
 if command direnv > /dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 fi
+
+if command jj > /dev/null 2>&1; then
+  source <(jj util completion --zsh)
+fi

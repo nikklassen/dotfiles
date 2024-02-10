@@ -93,6 +93,7 @@ end
 
 function M.setup(opts)
     local defaults = {
+        preselect = cmp.PreselectMode.None,
         snippet = {
             expand = function(args)
                 -- vim.snippet.expand(args.body)

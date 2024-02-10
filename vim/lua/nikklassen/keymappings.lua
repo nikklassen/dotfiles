@@ -61,7 +61,7 @@ vim.keymap.set('c', '<C-k>', '<C-\\>e(strpart(getcmdline(), 0, getcmdpos() - 1))
 
 vim.o.cedit = '<C-x>'
 
-vim.keymap.set('n', '<leader>c', '<cmd>cd expand("%:p:h")<CR>')
+vim.keymap.set('n', '<leader>c', [[<cmd>exec 'cd ' .. expand('%:p:h')<CR>]])
 
 local function replace_current_word()
     local new_word = vim.fn.input('New word: ')
