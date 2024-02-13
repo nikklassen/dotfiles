@@ -1,5 +1,5 @@
 function is-jj() {
-  [[ -d .jj ]]
+  find-vcs-up .jj
 }
 
 function _jj_gcmsg() {

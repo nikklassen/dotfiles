@@ -25,6 +25,17 @@ function register-vcs() {
   done
 }
 
+function find-vcs-up() {
+  local path="$PWD"
+  while [[ -n "$path" ]]; do
+    if [[ -d "${path}/$1" ]]; then
+      return 0
+    fi
+    path="${path%/*}"
+  done
+  return 1
+}
+
 source vcs/git.zsh
 source vcs/hg.zsh
 source vcs/jj.zsh

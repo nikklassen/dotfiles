@@ -1,5 +1,5 @@
 function is-git() {
-  [[ -d .git && ! -d .jj ]]
+  find-vcs-up .git && ! find-vcs-up .jj
 }
 
 function _git_gcmsg() {

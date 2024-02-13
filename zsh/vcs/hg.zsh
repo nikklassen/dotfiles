@@ -1,7 +1,7 @@
 alias hg='chg'
 
 function is-hg() {
-  [[ -d $PWD/.hg || -d $PWD/../.hg ]]
+  find-vcs-up .hg
 }
 
 function _hga() {
