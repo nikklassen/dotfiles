@@ -92,6 +92,25 @@ function M.debug_compare(e1, e2)
 end
 
 function M.setup(opts)
+    local comparators = {
+        compare.offset,
+        compare.exact,
+        -- compare.scopes,
+        compare.score,
+        compare.recently_used,
+        compare.locality,
+        compare.kind,
+        -- compare.sort_text,
+        compare.length,
+        compare.order,
+    }
+    local sources = {
+        { name = 'nvim_lsp' },
+    }
+    if vim.env.NVIM_DISABLE_COPILOT ~= '1' then
+        table.insert(sources, 1, { name = 'copilot' })
+        table.insert(comparators, 1, require("copilot_cmp.comparators").prioritize)
+    end
     local defaults = {
         preselect = cmp.PreselectMode.None,
         snippet = {
@@ -129,20 +148,7 @@ function M.setup(opts)
         },
         sorting = {
             priority_weight = 2,
-            comparators = {
-                require("copilot_cmp.comparators").prioritize,
-
-                compare.offset,
-                compare.exact,
-                -- compare.scopes,
-                compare.score,
-                compare.recently_used,
-                compare.locality,
-                compare.kind,
-                -- compare.sort_text,
-                compare.length,
-                compare.order,
-            },
+            comparators = comparators,
         },
         formatting = {
             format = require 'lspkind'.cmp_format({
@@ -196,10 +202,7 @@ function M.setup(opts)
                 },
             }),
         },
-        sources = {
-            { name = 'copilot' },
-            { name = 'nvim_lsp' },
-        },
+        sources = sources,
         matching = {
             disallow_partial_fuzzy_matching = false,
         },

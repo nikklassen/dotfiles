@@ -69,6 +69,9 @@ return {
             {
                 "zbirenbaum/copilot-cmp",
                 event = 'LspAttach',
+                cond = function()
+                    return vim.env.NVIM_DISABLE_COPILOT ~= '1'
+                end,
                 config = function()
                     local copilot_cmp = require('copilot_cmp')
                     copilot_cmp.setup {}
@@ -86,6 +89,9 @@ return {
                     {
                         "zbirenbaum/copilot.lua",
                         cmd = "Copilot",
+                        cond = function()
+                            return vim.env.NVIM_DISABLE_COPILOT ~= '1'
+                        end,
                         event = "InsertEnter",
                         main = 'copilot',
                         opts = {
