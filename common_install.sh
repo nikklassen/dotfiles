@@ -35,4 +35,6 @@ sudo ln -s $FORCE $PWD/z/z.1 /usr/local/man/man1/z.1
 mkdir -p ~/.config/powerline/themes/tmux
 symlink $PWD/powerline/themes/tmux/default.json ~/.config/powerline/themes/tmux/default.json
 
+symlink $PWD/scripts/node-lazy ~/.local/bin/node-lazy
+
 source zsh/wezterm.zsh

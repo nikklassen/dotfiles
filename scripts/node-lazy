@@ -1,0 +1,5 @@
+#!/bin/sh
+if ! command nvm > /dev/null 2>&1; then
+  . "$NVM_DIR/nvm.sh"
+fi
+node "$@"
