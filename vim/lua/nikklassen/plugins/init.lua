@@ -118,6 +118,9 @@ return {
     {
         'tpope/vim-eunuch',
         cond = function() return vim.fn.has('win32') == 0 end,
+        config = function ()
+            vim.g.eunuch_no_maps = true
+        end,
     },
     {
         'nvim-lua/plenary.nvim',
