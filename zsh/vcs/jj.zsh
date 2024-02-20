@@ -18,8 +18,9 @@ declare -A jj_aliases=(
   [gci]="jj split -i"
   [grb]="jj rebase --destination"
   [gcmsg]="_jj_gcmsg"
-  [gd]="jj show"
+  [gd]="jj diff"
   [glog]="jj log"
+  [grs]="jj restore"
 
   # Don't know yet
   # [gclean]=""
