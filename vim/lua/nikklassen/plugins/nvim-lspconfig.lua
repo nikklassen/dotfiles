@@ -1,4 +1,34 @@
 local utils = require('nikklassen.utils')
+
+local function init_luals(client)
+    local path = ''
+    if client.workspace_folders ~= nil then
+        path = client.workspace_folders[1].name
+    end
+    if not utils.uv.fs_stat(path .. '/.luarc.json') and not utils.uv.fs_stat(path .. '/.luarc.jsonc') then
+        client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
+            Lua = {
+                runtime = {
+                    version = 'LuaJIT'
+                },
+                -- Make the server aware of Neovim runtime files
+                workspace = {
+                    checkThirdParty = false,
+                    library = vim.list_extend({
+                        vim.env.VIMRUNTIME,
+                    }, vim.api.nvim_get_runtime_file("", true)),
+                },
+                completion = {
+                    callSnippet = "Replace",
+                },
+            }
+        })
+
+        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+    end
+    return true
+end
+
 return {
     {
         'nvim-lua/lsp-status.nvim',
@@ -98,34 +128,7 @@ return {
                             },
                         },
                     },
-                    on_init = function(client)
-                        local path = ''
-                        if client.workspace_folders ~= nil then
-                            path = client.workspace_folders[1].name
-                        end
-                        if not utils.uv.fs_stat(path .. '/.luarc.json') and not utils.uv.fs_stat(path .. '/.luarc.jsonc') then
-                            client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
-                                Lua = {
-                                    runtime = {
-                                        version = 'LuaJIT'
-                                    },
-                                    -- Make the server aware of Neovim runtime files
-                                    workspace = {
-                                        checkThirdParty = false,
-                                        library = vim.list_extend({
-                                            vim.env.VIMRUNTIME,
-                                        }, vim.api.nvim_get_runtime_file("", true)),
-                                    },
-                                    completion = {
-                                        callSnippet = "Replace",
-                                    },
-                                }
-                            })
-
-                            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
-                        end
-                        return true
-                    end,
+                    on_init = init_luals,
 
                 },
             },
