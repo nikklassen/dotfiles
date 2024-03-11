@@ -38,6 +38,7 @@ declare -A hg_aliases=(
   [gc!]='_hga'
   [gci]="hg commit -i"
   [grm]='hg rm'
+  [hrb]='hg rebase'
   [grbc]='hg rebase --continue'
   [gcmsg]="_hg_gcmsg"
   [gd]="hg diff"
@@ -49,6 +50,5 @@ alias he="hg evolve --any"
 alias hx="hg xl"
 alias hhe="hg histedit"
 alias hhec="hg histedit --continue"
-alias hrb="hg rebase"
 
 register-vcs hg is-hg hg_aliases

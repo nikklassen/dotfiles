@@ -143,21 +143,12 @@ function M.on_attach(client, bufnr)
     if client.server_capabilities.documentFormattingProvider then
         vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
 
-        if autoformat then
+        if autoformat and client.name == 'gopls' then
             vim.api.nvim_create_autocmd('BufWritePre', {
                 group = lsp_augroup,
                 buffer = bufnr,
                 callback = function()
-                    if client.name == 'gopls' then
-                        M.goimports()
-                    else
-                        -- Prevent the view from jumping around, seems to just be an issue with LuaLS
-                        local v = vim.fn.winsaveview()
-                        vim.lsp.buf.format {
-                            timeout_ms = 1000
-                        }
-                        vim.fn.winrestview(v)
-                    end
+                    M.goimports()
                 end
             })
         end

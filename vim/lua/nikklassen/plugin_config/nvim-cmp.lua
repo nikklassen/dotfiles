@@ -92,21 +92,21 @@ function M.debug_compare(e1, e2)
 end
 
 function M.setup(opts)
-    local comparators = {
-        compare.offset,
-        compare.exact,
-        -- compare.scopes,
-        compare.score,
-        compare.recently_used,
-        compare.locality,
-        compare.kind,
-        -- compare.sort_text,
-        compare.length,
-        compare.order,
-    }
-    local sources = {
-        { name = 'nvim_lsp' },
-    }
+    local comparators = vim.tbl_get(opts, 'sorting', 'comparators') or {
+            compare.offset,
+            compare.exact,
+            -- compare.scopes,
+            compare.score,
+            compare.recently_used,
+            compare.locality,
+            compare.kind,
+            -- compare.sort_text,
+            compare.length,
+            compare.order,
+        }
+    local sources = vim.tbl_get(opts, 'sources') or {
+            { name = 'nvim_lsp' },
+        }
     if vim.env.NVIM_DISABLE_COPILOT ~= '1' then
         table.insert(sources, 1, { name = 'copilot' })
         table.insert(comparators, 1, require("copilot_cmp.comparators").prioritize)

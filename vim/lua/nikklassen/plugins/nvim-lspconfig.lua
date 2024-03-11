@@ -5,28 +5,24 @@ local function init_luals(client)
     if client.workspace_folders ~= nil then
         path = client.workspace_folders[1].name
     end
-    if not utils.uv.fs_stat(path .. '/.luarc.json') and not utils.uv.fs_stat(path .. '/.luarc.jsonc') then
-        client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
-            Lua = {
-                runtime = {
-                    version = 'LuaJIT'
-                },
-                -- Make the server aware of Neovim runtime files
-                workspace = {
-                    checkThirdParty = false,
-                    library = vim.list_extend({
-                        vim.env.VIMRUNTIME,
-                    }, vim.api.nvim_get_runtime_file("", true)),
-                },
-                completion = {
-                    callSnippet = "Replace",
-                },
-            }
-        })
-
-        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+    if utils.uv.fs_stat(path .. '/.luarc.json') or utils.uv.fs_stat(path .. '/.luarc.jsonc') then
+        return
     end
-    return true
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+        runtime = {
+            version = 'LuaJIT'
+        },
+        -- Make the server aware of Neovim runtime files
+        workspace = {
+            checkThirdParty = false,
+            library = vim.list_extend({
+                vim.env.VIMRUNTIME,
+            }, vim.api.nvim_get_runtime_file("", true)),
+        },
+        completion = {
+            callSnippet = "Replace",
+        }
+    })
 end
 
 return {
@@ -129,7 +125,6 @@ return {
                         },
                     },
                     on_init = init_luals,
-
                 },
             },
         },
@@ -191,3 +186,4 @@ return {
         end,
     },
 }
+

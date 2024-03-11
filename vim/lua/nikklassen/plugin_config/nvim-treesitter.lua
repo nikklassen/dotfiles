@@ -53,9 +53,9 @@ function M.configure()
             enable = true,
             keymaps = {
                 init_selection = "gnn",
-                node_incremental = "<M-Up>",
+                node_incremental = "v",
                 scope_incremental = "gns",
-                node_decremental = "<M-Down>",
+                node_decremental = "V",
             },
         },
         textobjects = {
@@ -89,7 +89,7 @@ function M.configure()
         playground = {
             enable = true,
             disable = {},
-            updatetime = 25,        -- Debounced time for highlighting nodes in the playground from source code
+            updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
             persist_queries = false -- Whether the query persists across vim sessions
         }
     }
