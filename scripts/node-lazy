@@ -1,5 +1,5 @@
 #!/bin/bash
-if ! command -v nvim >/dev/null 2>&1; then
+if ! command -v node >/dev/null 2>&1; then
   [[ -f "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
 fi
 exec node "$@"
