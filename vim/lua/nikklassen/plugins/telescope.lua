@@ -6,6 +6,20 @@ return {
         branch = '0.1.x',
         dependencies = {
             { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+            {
+                "ThePrimeagen/harpoon",
+                branch = "harpoon2",
+                dependencies = { "nvim-lua/plenary.nvim" },
+                config = function (_, opts)
+                    require('harpoon'):setup(opts)
+                    vim.api.nvim_create_autocmd('BufWritePost', {
+                        pattern = '*',
+                        callback = function ()
+                            require'harpoon':list():append()
+                        end,
+                    })
+                end,
+            },
         },
         opts = {
             defaults = {
@@ -37,6 +51,10 @@ return {
                     }
                 end },
                 { '<leader>d', utils.lazy_require('nikklassen.telescope').directory_files },
+                { '<leader>h', utils.lazy_require('nikklassen.telescope').harpoon },
+                { '<leader>ha', function()
+                    require'harpoon':list():append()
+                end},
             })
         end,
         config = function(_, opts)
