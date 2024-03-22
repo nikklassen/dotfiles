@@ -38,7 +38,10 @@ function M.lazy_require(module)
             return function(...)
                 return require(module)[key](...)
             end
-        end
+        end,
+        __call = function (...)
+          return require(module)(...)
+        end,
     })
 end
 
