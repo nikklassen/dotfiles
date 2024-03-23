@@ -29,5 +29,6 @@ declare -A jj_aliases=(
 register-vcs jj is-jj jj_aliases
 
 alias jjmv="jj move"
+alias jjd="jj describe -m"
 
 alias gpm="jj branch set main -r @- && gp"

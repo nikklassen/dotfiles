@@ -55,6 +55,9 @@ return {
                 { '<leader>ha', function()
                     require'harpoon':list():append()
                 end},
+                { '<leader>hc', function()
+                    require'harpoon':list():clear()
+                end},
             })
         end,
         config = function(_, opts)
