@@ -74,7 +74,7 @@ vim.keymap.set('n', '<leader>s', replace_current_word)
 vim.keymap.set('v', '<C-S>', ":'<,'>sort<CR>", { silent = true })
 
 local function run_lines()
-  local selected_text = vim.fn.getline("'<", "'>")
+  local selected_text = vim.fn.getline(vim.fn.line("'<"), vim.fn.line("'>"))
   --- @cast selected_text []string
   vim.api.nvim_exec2(table.concat(selected_text, '\n'), {})
 end
