@@ -29,9 +29,8 @@ vim.o.startofline = false
 -- dialogue asking if you wish to save changed files.
 vim.o.confirm = true
 
--- Set the command window height to 2 lines, to avoid many cases of having to
--- "press <Enter> to continue"
-vim.o.cmdheight = 2
+-- Hide status messages
+vim.o.cmdheight = 0
 
 -- Display line numbers on the left
 vim.wo.relativenumber = true

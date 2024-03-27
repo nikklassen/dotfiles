@@ -143,4 +143,10 @@ return {
         },
         main = 'nikklassen.plugin_config.other_nvim',
     },
+    {
+        'rcarriga/nvim-notify',
+        config = function()
+            vim.notify = require("notify")
+        end,
+    },
 }
