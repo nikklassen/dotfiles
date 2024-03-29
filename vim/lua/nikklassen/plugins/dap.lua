@@ -8,6 +8,7 @@ return {
                 'leoluz/nvim-dap-go',
                 ft = { 'go' },
                 main = 'dap-go',
+                config = true,
             },
             {
                 'rcarriga/nvim-dap-ui',
@@ -21,16 +22,6 @@ return {
 
                     -- Stop sign with a square in it, nf-cod-stop_circle
                     vim.fn.sign_define('DapBreakpoint', { text = '\u{eba5}', texthl = 'Error' })
-
-                    dap.adapters.delve = {
-                        type = "server",
-                        port = "${port}",
-                        executable = {
-                            command = 'dlv',
-                            args = { 'dap', '-l', '127.0.0.1:${port}', '--check-go-version=false' },
-                        },
-                        initialize_timeout_sec = 10,
-                    }
 
                     vim.api.nvim_create_user_command('DBG', dapui.toggle, { force = true })
 
