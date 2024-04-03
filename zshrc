@@ -56,6 +56,8 @@ bindkey '^X^E' vim-none-command-line
 
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
+bindkey '\e[1;3D' vi-backward-blank-word-end
+bindkey '\e[1;3C' vi-forward-blank-word-end
 
 alias rsync="rsync -h --progress"
 alias pyg='pygmentize -f 256 -O style=monokai'

@@ -1,5 +1,9 @@
 local utils = require 'nikklassen.utils'
 
+local function lsp_references()
+  require('telescope.builtin').lsp_references { show_line = false }
+end
+
 return {
   {
     'nvim-telescope/telescope.nvim',
@@ -50,6 +54,8 @@ return {
             symbols = 'function'
           }
         end },
+        { '<S-F12>', lsp_references },
+        { '<F24>', lsp_references },
         { '<leader>d', utils.lazy_require('nikklassen.telescope').directory_files },
         { '<leader>h', utils.lazy_require('nikklassen.telescope').harpoon },
         { '<leader>ha', function()
