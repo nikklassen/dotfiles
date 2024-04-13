@@ -1,0 +1,22 @@
+[user]
+name = "Nik Klassen"
+email = "nikklassen@users.noreply.github.com"
+
+[ui]
+
+merge-editor = "nvimdiff"
+
+[merge-tools.nvimdiff]
+
+# merge-args = [ "-c", "DiffConflicts", "$output", "$base", "$left", "$right" ]
+merge-args = ["-f", "-d", "$output", "-M",
+    "$left", "$base", "$right",
+    "-c", "wincmd J", "-c", "set modifiable",
+    "-c", "set write"]
+program = "nvim"
+merge-tool-edits-conflict-markers = true
+
+[template-aliases]
+
+'format_timestamp(timestamp)' = 'timestamp.ago()'
+'format_short_signature(signature)' = 'signature.username()'
