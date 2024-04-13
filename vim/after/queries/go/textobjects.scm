@@ -14,7 +14,7 @@
   . ","? @_field_end
   (#make-range! "field.outer" @_field_start @_field_end))
 
-(method_spec) @field.inner @field.outer
+(method_elem) @field.inner @field.outer
 
 (composite_literal
   type: (slice_type)
