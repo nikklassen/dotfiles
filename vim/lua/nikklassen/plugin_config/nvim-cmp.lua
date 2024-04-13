@@ -13,7 +13,7 @@ local tab_complete = function(fallback)
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     })
-  elseif vim.snippet.jumpable(1) then
+  elseif vim.snippet.active({ direction = 1 }) then
     vim.snippet.jump(1)
   else
     fallback()
@@ -23,7 +23,7 @@ end
 local s_tab_complete = function(fallback)
   if cmp.visible() then
     cmp.select_prev_item()
-  elseif vim.snippet.jumpable(-1) then
+  elseif vim.snippet.active({ direction = -1 }) then
     vim.snippet.jump(-1)
   else
     fallback()
