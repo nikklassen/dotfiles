@@ -1,15 +1,28 @@
 declare -A vcs_detect
 declare -A vcs_alias
 
-function vcs-cmd() {
-  local fn="$1"; shift
+function which-vcs() {
   for vcs detect in "${(@kv)vcs_detect}"; do
     if eval "$detect"; then
-      eval "${vcs_alias[${vcs}_${fn}]}" "${@:q}"
-      return $?
+      echo "$vcs"
+      return 0
     fi
   done
-  echo "no VCS deteccted"
+  cat >&2 <<< "no VCS detected"
+  return 1
+}
+
+function which-vcs-alias() {
+  local fn="$1"; shift
+  local vcs="$(which-vcs)"
+  echo "${vcs_alias[${vcs}_${fn}]}"
+}
+
+function vcs-cmd() {
+  local fn="$1"; shift
+  local alias="$(which-vcs-alias "$fn")"
+  eval "${alias}" "${@:q}"
+  return $?
 }
 
 function register-vcs() {

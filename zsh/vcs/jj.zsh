@@ -30,5 +30,10 @@ register-vcs jj is-jj jj_aliases
 
 alias jjmv="jj move"
 alias jjd="jj describe -m"
+alias jjn="jj next"
+alias jjne="jj next --edit"
+alias jjp="jj prev"
+alias jjpe="jj prev --edit"
+alias jjnw="jj new"
 
 alias gpm="jj branch set main -r @- && gp"
