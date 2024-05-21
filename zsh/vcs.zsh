@@ -15,14 +15,15 @@ function which-vcs() {
 function which-vcs-alias() {
   local fn="$1"; shift
   local vcs="$(which-vcs)"
+  [[ -z "$vcs" ]] && return 1
   echo "${vcs_alias[${vcs}_${fn}]}"
 }
 
 function vcs-cmd() {
   local fn="$1"; shift
   local alias="$(which-vcs-alias "$fn")"
+  [[ -z "$alias" ]] && return 1
   eval "${alias}" "${@:q}"
-  return $?
 }
 
 function register-vcs() {
