@@ -35,6 +35,10 @@ sudo ln -s $FORCE $PWD/z/z.1 /usr/local/man/man1/z.1
 mkdir -p ~/.config/powerline/themes/tmux
 symlink $PWD/powerline/themes/tmux/default.json ~/.config/powerline/themes/tmux/default.json
 
-symlink $PWD/scripts/node-lazy ~/.local/bin/node-lazy
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf install nodejs latest
+asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
+asdf install golang latest
 
 source zsh/wezterm.zsh

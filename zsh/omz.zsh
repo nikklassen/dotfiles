@@ -3,10 +3,8 @@ export ZSH_CUSTOM="$HOME/.zsh/omz-custom"
 
 export ZSH_THEME=dpoggi
 
-export NVM_DIR="$HOME/.config/nvm"
-zstyle ':omz:plugins:nvm' lazy yes
-
 plugins=(
+  asdf
   common-aliases
   debian
   docker
