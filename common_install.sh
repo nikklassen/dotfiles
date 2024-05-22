@@ -41,4 +41,7 @@ asdf install nodejs latest
 asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
 asdf install golang latest
 
+mkdir -p ~/.config/direnv
+ln -s $PWD/config/direnv/direnv.toml ~/.config/direnv/direnv.toml
+
 source zsh/wezterm.zsh

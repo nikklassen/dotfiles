@@ -4,6 +4,7 @@ clang
 cmake
 compizconfig-settings-manager
 curl
+direnv
 fd-find
 fonts-inconsolata
 fzf

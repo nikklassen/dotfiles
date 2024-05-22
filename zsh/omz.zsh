@@ -7,6 +7,7 @@ plugins=(
   asdf
   common-aliases
   debian
+  direnv
   docker
   docker-compose
   encode64
