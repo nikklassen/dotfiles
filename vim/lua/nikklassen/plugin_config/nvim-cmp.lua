@@ -8,13 +8,13 @@ local M = {}
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
 local tab_complete = function(fallback)
-  if cmp.visible() then
+  if vim.snippet.active({ direction = 1 }) then
+    vim.snippet.jump(1)
+  elseif cmp.visible() then
     cmp.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     })
-  elseif vim.snippet.active({ direction = 1 }) then
-    vim.snippet.jump(1)
   else
     fallback()
   end
@@ -53,7 +53,7 @@ local function cmpConfirm()
   end
   if selected ~= nil then
     local line = vim.fn.getline('.') -- @type string
-    if line:sub( -#selected) == selected then
+    if line:sub(- #selected) == selected then
       cmp.close()
       return false
     end
@@ -192,4 +192,3 @@ function M.setup(opts)
 end
 
 return M
-
