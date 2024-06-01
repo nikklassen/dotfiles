@@ -60,10 +60,14 @@ function M.goimports()
 end
 
 local function show_diagnostics()
-  -- vim.diagnostic.open_float({
-  --     focusable = false
-  -- })
-  require('lspsaga.diagnostic.show'):show_diagnostics({ line = true, args = { '++unfocus' } })
+  local ok, show = pcall(require, 'lspsaga.diagnostic.show')
+  if not ok then
+    vim.diagnostic.open_float({
+      focusable = false
+    })
+  else
+    show:show_diagnostics({ line = true, args = { '++unfocus' } })
+  end
 end
 
 function M.on_attach(client, bufnr)
@@ -78,8 +82,12 @@ function M.on_attach(client, bufnr)
     if require 'dap'.session() ~= nil then
       require('dap.ui.widgets').hover()
     else
-      vim.lsp.buf.hover()
-      -- require('lspsaga.hover'):render_hover_doc({})
+      local ok, hover = pcall(require, 'lspsaga.hover')
+      if not ok then
+        vim.lsp.buf.hover()
+      else
+        hover:render_hover_doc({})
+      end
     end
   end, opts)
   vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
