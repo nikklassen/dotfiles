@@ -11,6 +11,7 @@ declare -A jj_aliases=(
   [gst]="jj status"
   [gl]="jj git fetch"
   [gco]="jj edit"
+  [gcoh]="jj new -r 'trunk()'"
   [gp]="jj git push --all"
   [gm]="jj new @"
   [gsh]="jj show -r @-"
