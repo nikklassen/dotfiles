@@ -18,7 +18,7 @@ declare -A jj_aliases=(
   [gci]="jj split -i"
   [grb]="jj rebase --destination"
   [gcmsg]="_jj_gcmsg"
-  [gd]="jj show"
+  [gd]="jj diff"
   [glog]="jj log"
   [grs]="jj restore"
 
@@ -28,7 +28,7 @@ declare -A jj_aliases=(
 
 register-vcs jj is-jj jj_aliases
 
-alias jjmv="jj move"
+alias jjmv="jj squash"
 alias jjd="jj describe -m"
 alias jjn="jj next"
 alias jjne="jj next --edit"
