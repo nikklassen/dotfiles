@@ -36,10 +36,13 @@ mkdir -p ~/.config/powerline/themes/tmux
 symlink $PWD/powerline/themes/tmux/default.json ~/.config/powerline/themes/tmux/default.json
 
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+source ~/.asdf/asdf.sh
 asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 asdf install nodejs latest
+asdf global nodejs latest
 asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
 asdf install golang latest
+asdf global golang latest
 
 mkdir -p ~/.config/direnv
 ln -s $PWD/config/direnv/direnv.toml ~/.config/direnv/direnv.toml

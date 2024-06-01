@@ -14,7 +14,6 @@ plugins=(
   extract
   git
   git-ext
-  nvm
   tmux
   urltools
   you-should-use
