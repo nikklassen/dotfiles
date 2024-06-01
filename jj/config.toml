@@ -5,6 +5,7 @@ email = "nikklassen@users.noreply.github.com"
 [ui]
 
 merge-editor = "nvimdiff"
+diff.tool = ["delta"]
 
 [merge-tools.nvimdiff]
 

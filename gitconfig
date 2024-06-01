@@ -4,6 +4,7 @@
   sshCommand = ssh
 [merge]
 	tool = diffconflicts
+	conflictstyle = diff3
 [mergetool "diffconflicts"]
 	cmd = nvim -c DiffConflicts "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 [mergetool]
@@ -25,3 +26,13 @@
 	autoStash = true
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	light = false
+
+[diff]
+	colorMoved = default
