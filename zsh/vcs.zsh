@@ -33,6 +33,19 @@ function register-vcs() {
 
   vcs_detect[$name]="$detect"
 
+  add-vcs-overrides "$name" "$aliases"
+}
+
+function add-vcs-overrides() {
+  local name="$1"; shift
+  local aliases="$1"; shift
+
+  if [[ -z "${vcs_detect[$name]}" ]]; then
+    cat >&2 <<< "VCS $name is not registered"
+    return 1
+  fi
+
+
   for k v in "${(@kv)${(P)aliases}}"; do
     vcs_alias[${name}_${k}]="$v"
     alias "$k"="vcs-cmd $k"

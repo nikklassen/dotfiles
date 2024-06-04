@@ -61,3 +61,5 @@ if command -v nvim >/dev/null 2>&1; then
 else
     export EDITOR=vim
 fi
+
+export JJ_CONFIG="$HOME/.config/jj"

@@ -72,7 +72,6 @@ end
 
 function M.on_attach(client, bufnr)
   require 'lsp-status'.on_attach(client)
-  require 'lsp_signature'.on_attach({}, bufnr)
 
   vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -172,6 +171,7 @@ function M.on_attach(client, bufnr)
   end
 
   if client.server_capabilities.signatureHelpProvider then
+    require 'lsp_signature'.on_attach({}, bufnr)
     vim.keymap.set('i', '<M-k>', vim.lsp.buf.signature_help, opts)
   end
 

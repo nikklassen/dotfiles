@@ -13,14 +13,23 @@ return {
       return utils.is_cwd_readable() and not vim.tbl_isempty(vim.fs.find('.git', { upward = true }))
     end,
   },
+  {
+    'mhinz/vim-signify',
+    config = function()
+      vim.g.signify_number_highlight = 1
+      vim.g.signify_sign_change = '~'
+    end
+  },
   -- Abolish provides the :S command, and case coercion
   'tpope/vim-abolish',
   {
     'whiteinge/diffconflicts',
     cmd = { 'DiffConflicts' },
   },
-  'vim-scripts/ReplaceWithRegister',
-
+  {
+    'vim-scripts/ReplaceWithRegister',
+    dependencies = { 'tpope/vim-repeat' },
+  },
   {
     'jremmen/vim-ripgrep',
     cmd = 'Rg',
@@ -32,13 +41,6 @@ return {
       return utils.is_cwd_readable() and not vim.tbl_isempty(vim.fs.find('.hg', { upward = true }))
     end,
   },
-
-  ---------------------
-  -- Language plugins -
-  ---------------------
-
-  -- JQ
-  { 'vito-c/jq.vim' },
 
   -- Rust
   { 'rust-lang/rust.vim', ft = 'rust' },

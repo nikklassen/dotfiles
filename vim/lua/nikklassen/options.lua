@@ -34,7 +34,6 @@ vim.o.cmdheight = 0
 
 -- Display line numbers on the left
 vim.wo.relativenumber = true
-vim.wo.number = true
 vim.wo.signcolumn = 'yes'
 
 -- Shorter timeout for escape keys

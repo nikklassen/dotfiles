@@ -11,10 +11,6 @@
 	path = z
 	url = https://github.com/rupa/z
 	branch = master
-[submodule "tmux/plugins/tpm"]
-	path = tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
-	branch = master
 [submodule "zsh/omz-custom/plugins/you-should-use"]
 	path = zsh/omz-custom/plugins/you-should-use
 	url = https://github.com/MichaelAquilina/zsh-you-should-use.git

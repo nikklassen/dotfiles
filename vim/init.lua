@@ -12,32 +12,31 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 local utils = require 'nikklassen.utils'
 
 if not utils.uv.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
-        lazypath,
-    })
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup('nikklassen.plugins', {
-    -- debug = true,
-    change_detection = {
-        notify = false,
+  change_detection = {
+    notify = false,
+  },
+  checker = {
+    enabled = true,
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        'matchit',
+      },
     },
-    checker = {
-        enabled = true,
-    },
-    performance = {
-        rtp = {
-            disabled_plugins = {
-                'matchit',
-            },
-        },
-    },
+  },
 })
 
 require 'nikklassen.color'

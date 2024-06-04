@@ -24,7 +24,7 @@ local s_tab_complete = function(fallback)
   if cmp.visible() then
     cmp.select_prev_item()
   elseif vim.snippet.active({ direction = -1 }) then
-    vim.snippet.jump(-1)
+    vim.snippet.jump( -1)
   else
     fallback()
   end
@@ -53,7 +53,7 @@ local function cmpConfirm()
   end
   if selected ~= nil then
     local line = vim.fn.getline('.') -- @type string
-    if line:sub(- #selected) == selected then
+    if line:sub( -#selected) == selected then
       cmp.close()
       return false
     end
@@ -78,18 +78,18 @@ end
 
 function M.setup(opts)
   local comparators = vim.tbl_get(opts, 'sorting', 'comparators') or {
-    compare.offset,
-    compare.exact,
-    compare.score,
-    compare.recently_used,
-    compare.locality,
-    compare.kind,
-    compare.length,
-    compare.order,
-  }
+        compare.offset,
+        compare.exact,
+        compare.score,
+        compare.recently_used,
+        compare.locality,
+        compare.kind,
+        compare.length,
+        compare.order,
+      }
   local sources = vim.tbl_get(opts, 'sources') or {
-    { name = 'nvim_lsp' },
-  }
+        { name = 'nvim_lsp' },
+      }
   if vim.env.NVIM_DISABLE_COPILOT ~= '1' then
     table.insert(sources, 1, { name = 'copilot' })
     table.insert(comparators, 1, require("copilot_cmp.comparators").prioritize)

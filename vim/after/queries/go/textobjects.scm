@@ -40,3 +40,8 @@
 
 (unary_expression "&" (composite_literal)) @struct
 (composite_literal) @struct
+
+(
+ (comment)+
+ . (function_declaration)
+) @function.outer
