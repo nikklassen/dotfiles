@@ -22,6 +22,8 @@ declare -A jj_aliases=(
   [gd]="jj diff"
   [glog]="jj log"
   [grs]="jj restore"
+  [grhh]="jj abandon"
+  [grbm]="jj rebase --destination 'trunk()'"
 
   # Don't know yet
   # [gclean]=""

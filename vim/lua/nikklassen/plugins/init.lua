@@ -27,6 +27,36 @@ return {
     cmd = { 'DiffConflicts' },
   },
   {
+    "julienvincent/hunk.nvim",
+    cmd = { "DiffEditor" },
+    main = 'hunk',
+    opts = {
+      keys = {
+        tree = {
+          toggle_file = { '<Space>' }
+        },
+        diff = {
+          toggle_line = { '<Space>' }
+        }
+      },
+      hooks = {
+        on_diff_mount = function(context)
+          vim.keymap.set('n', '<Up>', '[c', {
+            buffer = context.buf
+          })
+          vim.keymap.set('n', '<Down>', ']c', {
+            buffer = context.buf
+          })
+          vim.cmd('normal ]c')
+        end,
+      },
+    },
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+  },
+  {
     'vim-scripts/ReplaceWithRegister',
     dependencies = { 'tpope/vim-repeat' },
   },

@@ -1,4 +1,6 @@
-local M = {}
+local M = {
+  DEBUG = vim.env.NK_LSP_DEBUG
+}
 
 function M.capabilities()
   local capabilities = require 'cmp_nvim_lsp'.default_capabilities()
@@ -39,7 +41,7 @@ local function goto_diagnostic_options()
   return nil
 end
 
-function M.goimports()
+function M.organize_imports_and_format()
   local params = vim.lsp.util.make_range_params()
   params.context = { only = { "source.organizeImports" } }
   -- buf_request_sync defaults to a 1000ms timeout. Depending on your
@@ -70,8 +72,80 @@ local function show_diagnostics()
   end
 end
 
+local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
+  if not client.server_capabilities.documentFormattingProvider then
+    return
+  end
+  vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
+
+  if not autoformat then
+    return
+  end
+
+  local supports_organize_imports = vim.tbl_contains(client.server_capabilities.codeActionProvider.codeActionKinds,
+    'source.organizeImports')
+  if supports_organize_imports then
+    vim.api.nvim_buf_create_user_command(bufnr, 'OrganizeImports', function()
+      M.organize_imports_and_format()
+    end, {})
+  end
+
+  vim.api.nvim_create_autocmd('BufWritePre', {
+    group = lsp_augroup,
+    buffer = bufnr,
+    callback = function()
+      if supports_organize_imports then
+        M.organize_imports_and_format()
+      else
+        vim.lsp.buf.format { bufnr = bufnr }
+      end
+    end
+  })
+end
+
+local function setup_range_formatting(client, bufnr, autoformat, lsp_augroup)
+  if not client.server_capabilities.documentRangeFormattingProvider then
+    return
+  end
+  vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
+
+  if client.server_capabilities.documentFormattingProvider or not autoformat then
+    return
+  end
+
+  -- Currently just for jsonls
+  vim.api.nvim_create_autocmd('BufWritePre', {
+    group = lsp_augroup,
+    buffer = bufnr,
+    callback = function() range_format_sync({}, { 0, 0 }, { vim.fn.line("$"), 0 }) end
+  })
+end
+
+---Setups up formatting exprs and autocommands
+---@param client vim.lsp.Client
+---@param bufnr number
+---@param lsp_augroup number
+local function setup_formatting(client, bufnr, lsp_augroup)
+  local autoformat = vim.tbl_get(client.config, 'settings', 'autoformat')
+  if type(autoformat) == 'table' then
+    autoformat = autoformat[vim.bo[bufnr].filetype]
+  end
+  if autoformat == nil then
+    autoformat = true
+  end
+  setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
+  setup_range_formatting(client, bufnr, autoformat, lsp_augroup)
+end
+
+---Configures LSP client for this buffer
+---@param client vim.lsp.Client
+---@param bufnr number
 function M.on_attach(client, bufnr)
   require 'lsp-status'.on_attach(client)
+
+  if M.DEBUG then
+    vim.lsp.set_log_level('DEBUG')
+  end
 
   vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -131,44 +205,8 @@ function M.on_attach(client, bufnr)
   if client.server_capabilities.declarationProvider then
     vim.keymap.set('n', '<c-]>', vim.lsp.buf.declaration, opts)
   end
-  local autoformat = vim.tbl_get(client.config, 'settings', 'autoformat')
-  if type(autoformat) == 'table' then
-    autoformat = autoformat[vim.bo[bufnr].filetype]
-  end
-  if autoformat == nil then
-    autoformat = true
-  end
-  if client.server_capabilities.documentFormattingProvider then
-    vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
 
-    if autoformat then
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        group = lsp_augroup,
-        buffer = bufnr,
-        callback = function()
-          if client.name == 'gopls' then
-            M.goimports()
-          else
-            vim.lsp.buf.format { bufnr = bufnr }
-          end
-        end
-      })
-    end
-  end
-  if client.server_capabilities.documentRangeFormattingProvider then
-    vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
-
-    -- Currently just for jsonls
-    if not client.server_capabilities.documentFormattingProvider then
-      if autoformat then
-        vim.api.nvim_create_autocmd('BufWritePre', {
-          group = lsp_augroup,
-          buffer = bufnr,
-          callback = function() range_format_sync({}, { 0, 0 }, { vim.fn.line("$"), 0 }) end
-        })
-      end
-    end
-  end
+  setup_formatting(client, bufnr, lsp_augroup)
 
   if client.server_capabilities.signatureHelpProvider then
     require 'lsp_signature'.on_attach({}, bufnr)

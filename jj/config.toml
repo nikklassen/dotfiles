@@ -5,8 +5,22 @@ email = "nikklassen@users.noreply.github.com"
 [ui]
 
 merge-editor = "nvimdiff"
-diff.format = "git"
+# diff.format = "git"
 diff.tool = ["delta"]
+
+# diff-editor = "diffedit3"
+# diff-editor = ":builtin"
+diff-editor = "hunk"
+
+[merge-tools.diffedit3]
+
+merge-args = ["-N", "-p", "17376-17380", "$left", "$right", "$output"]
+edit-args = ["-N", "-p", "17376-17380", "$left", "$right", "$output"]
+
+[merge-tools.hunk]
+
+program = "nvim"
+edit-args = ["-c", "DiffEditor $left $right $output"]
 
 [merge-tools.nvimdiff]
 

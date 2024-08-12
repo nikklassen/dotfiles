@@ -30,6 +30,7 @@ declare -A git_aliases=(
   [gcmsg]="_git_gcmsg"
   [gd]="git diff"
   [glog]="$aliases[glog]"
+  [grbm]="git rebase \$(git_main_branch)"
 )
 
 register-vcs git is-git git_aliases

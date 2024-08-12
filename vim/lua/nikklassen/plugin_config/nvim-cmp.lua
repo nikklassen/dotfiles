@@ -33,9 +33,11 @@ end
 local function dump_entry(e)
   return vim.inspect({
     id = e.id,
+    score = e.score,
     offset = e:get_offset(),
     sortText = e.completion_item.sortText,
-    completionItem = e.completion_item,
+    completion_score = e.completion_item.score,
+    -- completionItem = e.completion_item,
   })
 end
 
@@ -69,24 +71,49 @@ local function confirm(fallback)
 end
 
 
-function M.debug_compare(e1, e2)
-  print('e1')
-  print(dump_entry(e1))
-  print('e2')
-  print(dump_entry(e2))
+---@param f file* A file
+function M.debug_compare(f)
+  return function(e1, e2)
+    f:write('e1\n')
+    f:write(dump_entry(e1) .. '\n')
+    f:write('e2\n')
+    f:write(dump_entry(e2) .. '\n')
+    f:flush()
+  end
+end
+
+local function score(e1, e2)
+  local ci_score1 = vim.tbl_get(e1, 'completion_item', 'score')
+  local ci_score2 = vim.tbl_get(e2, 'completion_item', 'score')
+  if ci_score1 ~= nil and ci_score2 ~= nil then
+    -- Non-standard scoring that some LSPs expose
+    local diff = ci_score2 - ci_score1
+    if diff < 0 then
+      return true
+    elseif diff > 0 then
+      return false
+    end
+  end
+  return compare.score(e1, e2)
 end
 
 function M.setup(opts)
-  local comparators = vim.tbl_get(opts, 'sorting', 'comparators') or {
-        compare.offset,
-        compare.exact,
-        compare.score,
-        compare.recently_used,
-        compare.locality,
-        compare.kind,
-        compare.length,
-        compare.order,
-      }
+  local default_comparators = {
+    compare.offset,
+    compare.exact,
+    -- compare.score,
+    score,
+    compare.recently_used,
+    compare.locality,
+    compare.kind,
+    compare.length,
+    compare.order,
+  }
+  if require('nikklassen.lsp.utils').DEBUG then
+    local lsp_log = assert(io.open('/tmp/nvim-cmp.log', 'w'))
+    table.insert(default_comparators, M.debug_compare(lsp_log))
+  end
+  local comparators = vim.tbl_get(opts, 'sorting', 'comparators') or default_comparators
   local sources = vim.tbl_get(opts, 'sources') or {
         { name = 'nvim_lsp' },
       }
