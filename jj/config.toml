@@ -6,11 +6,14 @@ email = "nikklassen@users.noreply.github.com"
 
 merge-editor = "nvimdiff"
 # diff.format = "git"
-diff.tool = ["delta"]
+diff.tool = ["sh", "-c", "delta $left $right; exit 0"]
 
 # diff-editor = "diffedit3"
 # diff-editor = ":builtin"
 diff-editor = "hunk"
+
+# diff.format = "git"
+pager = ["less", "-FRX", "--quit-if-one-screen"]
 
 [merge-tools.diffedit3]
 
@@ -31,6 +34,10 @@ merge-args = ["-f", "-d", "$output", "-M",
     "-c", "set write"]
 program = "nvim"
 merge-tool-edits-conflict-markers = true
+
+# [merge-tools.delta]
+#
+# merge-args = ["$left", "$right", "--paging", "always"]
 
 [template-aliases]
 

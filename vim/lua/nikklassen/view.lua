@@ -1,22 +1,17 @@
-local function should_persist_view()
-  local dir = vim.fn.expand('%:p')
-  return (
-    vim.fn.expand('%:t') ~= '' and
-    dir:find('fugitive://') == nil and
-    dir:find('term://') == nil
-    )
+local function should_persist_view(fname)
+  return fname ~= '' and vim.fn.filereadable(fname) == 1
 end
 
 vim.opt.viewoptions:remove('curdir')
 
-local function save_view_settings()
-  if should_persist_view() then
+local function save_view_settings(ev)
+  if should_persist_view(ev.file) then
     vim.cmd('mkview!')
   end
 end
 
-local function load_view_settings()
-  if should_persist_view() then
+local function load_view_settings(ev)
+  if should_persist_view(ev.file) then
     vim.cmd('silent! loadview')
   end
 end
@@ -61,3 +56,13 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function() adjust_qf_height(3, 10) end,
 })
 
+local function zoom()
+  local height = vim.api.nvim_win_get_height(0)
+  if height >= vim.o.lines - 3 then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-W>=', true, false, true), 'm', true)
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-W>_<C-W>|', true, false, true), 'm', true)
+  end
+end
+
+vim.keymap.set('n', '<C-W>z', zoom)

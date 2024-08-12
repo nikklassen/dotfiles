@@ -18,10 +18,15 @@ return {
     config = function()
       vim.g.signify_number_highlight = 1
       vim.g.signify_sign_change = '~'
-    end
+    end,
+    event = 'VeryLazy'
   },
   -- Abolish provides the :S command, and case coercion
-  'tpope/vim-abolish',
+  {
+    'tpope/vim-abolish',
+    cmd = 'S',
+    keys = { 'cr' }
+  },
   {
     'whiteinge/diffconflicts',
     cmd = { 'DiffConflicts' },
@@ -59,6 +64,7 @@ return {
   {
     'vim-scripts/ReplaceWithRegister',
     dependencies = { 'tpope/vim-repeat' },
+    keys = { 'gr' }
   },
   {
     'jremmen/vim-ripgrep',
@@ -70,6 +76,7 @@ return {
     cond = function()
       return utils.is_cwd_readable() and not vim.tbl_isempty(vim.fs.find('.hg', { upward = true }))
     end,
+    cmd = { 'Hg' }
   },
 
   -- Rust
@@ -90,11 +97,6 @@ return {
         'hrsh7th/cmp-nvim-lsp',
         branch = 'main',
       },
-      {
-        'hrsh7th/cmp-vsnip',
-        branch = 'main',
-      },
-      'hrsh7th/vim-vsnip',
       'ray-x/lsp_signature.nvim',
       'onsails/lspkind.nvim',
       {
@@ -150,6 +152,7 @@ return {
   {
     'kylechui/nvim-surround',
     opts = {},
+    event = "InsertEnter"
   },
   {
     'tpope/vim-eunuch',
@@ -157,6 +160,7 @@ return {
     config = function()
       vim.g.eunuch_no_maps = true
     end,
+    cmd = { 'Move', 'Rename', 'Copy', 'Remove' }
   },
   {
     'nvim-lua/plenary.nvim',

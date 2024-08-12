@@ -78,6 +78,8 @@ function jj_prompt_info() {
 function git_or_jj_prompt_info() {
   if is-jj; then
     jj_prompt_info
+  elif is-hg; then
+    echo "${ZSH_THEME_GIT_PROMPT_PREFIX}hg${ZSH_THEME_GIT_PROMPT_SUFFIX}"
   else
     git_prompt_info
   fi

@@ -82,8 +82,8 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
     return
   end
 
-  local supports_organize_imports = vim.tbl_contains(client.server_capabilities.codeActionProvider.codeActionKinds,
-    'source.organizeImports')
+  local code_actions = vim.tbl_get(client, 'server_capabilities', 'codeActionProvider', 'codeActionKinds') or {}
+  local supports_organize_imports = vim.tbl_contains(code_actions, 'source.organizeImports')
   if supports_organize_imports then
     vim.api.nvim_buf_create_user_command(bufnr, 'OrganizeImports', function()
       M.organize_imports_and_format()
@@ -246,3 +246,4 @@ function M.default_config()
 end
 
 return M
+

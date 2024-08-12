@@ -18,4 +18,3 @@ vim.api.nvim_create_user_command('R', 'new | setlocal buftype=nofile bufhidden=h
   complete = 'shellcmd',
 })
 vim.api.nvim_create_user_command('Vterm', 'vertical belowright split | term', {})
-

@@ -26,8 +26,10 @@ vim.keymap.set('v', '<leader>>', '>')
 
 vim.keymap.set('n', 'gp', '`[v`]')
 
-vim.keymap.set('n', '<Left>', 'gT')
-vim.keymap.set('n', '<Right>', 'gt')
+-- vim.keymap.set('n', '<Left>', 'gT')
+-- vim.keymap.set('n', '<Right>', 'gt')
+vim.keymap.set('n', '<Left>', '<cmd>bp<CR>')
+vim.keymap.set('n', '<Right>', '<cmd>bn<CR>')
 
 vim.keymap.set('n', '<F4>', '<cmd>cnext<CR>')
 -- Shift F4

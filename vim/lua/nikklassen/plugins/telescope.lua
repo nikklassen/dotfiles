@@ -16,11 +16,9 @@ return {
         layout_strategy = 'vertical',
         mappings = {
           i = {
-            ["<esc>"] = function(opts)
-              require('telescope.actions').close(opts)
-            end,
-            ["<C-a>"] = function() vim.cmd('normal! I') end,
-            ["<C-e>"] = function() vim.cmd('normal! A') end,
+            ["<esc>"] = 'close',
+            ["<C-a>"] = { '<Home>', type = 'command' },
+            ["<C-e>"] = { '<End>', type = 'command' }
           },
         },
       },

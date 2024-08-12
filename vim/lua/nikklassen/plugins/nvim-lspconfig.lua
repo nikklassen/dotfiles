@@ -102,7 +102,7 @@ return {
             },
           },
         },
-        tsserver = {},
+        ts_ls = {},
         eslint = {},
         vimls = {},
         bashls = {
@@ -145,45 +145,6 @@ return {
         server_config = vim.tbl_deep_extend('force', default_config, server_config)
         nvim_lsp[server].setup(server_config)
       end
-    end,
-  },
-  {
-    "nvimdev/lspsaga.nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    event = "LspAttach",
-    cmd = "Lspsaga",
-    config = function()
-      require("lspsaga").setup({
-        -- use enter to open file with finder
-        finder_action_keys = {
-          open = "<CR>",
-        },
-        -- use enter to open file with definition preview
-        definition_action_keys = {
-          edit = "<CR>",
-        },
-        code_action = {
-          keys = {
-            quit = { "q", "<esc>" },
-          },
-        },
-        lightbulb = {
-          virtual_text = false,
-        },
-        symbol_in_winbar = {
-          ignore_patterns = { '%.md' }
-        },
-        outline = {
-          keys = {
-            toggle_or_jump = '<CR>'
-          },
-          win_position = 'left'
-        },
-      })
-      vim.cmd('hi! link WinBar Normal')
     end,
   },
 }
