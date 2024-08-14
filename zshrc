@@ -168,3 +168,6 @@ fi
 if command jj > /dev/null 2>&1; then
   source <(jj util completion zsh)
 fi
+
+# Needs to run after asdf
+export PATH="$(go env GOPATH)/bin:$PATH"

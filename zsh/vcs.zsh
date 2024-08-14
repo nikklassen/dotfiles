@@ -83,3 +83,4 @@ function git_or_jj_prompt_info() {
   fi
 }
 PS1="${PS1//git_prompt_info/git_or_jj_prompt_info}"
+_omz_register_handler _omz_git_prompt_info

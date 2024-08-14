@@ -9,8 +9,6 @@ export LESS="-FXSR -# 0"
 # Node modules
 PATH="./node_modules/.bin:$PATH"
 
-export PATH="$HOME/go/bin:$PATH"
-
 # Cargo
 if [[ -d "$HOME/.cargo" ]]; then
   PATH="$HOME/.cargo/bin:$PATH"
@@ -24,8 +22,6 @@ PATH="/usr/texbin:$PATH"
 [[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
 
 [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
-
-[[ -d "/usr/local/go/bin" ]] && export PATH="$PATH:/usr/local/go/bin"
 
 [[ -d "$HOME/.luarocks" ]] && export PATH="$PATH:$HOME/.luarocks/bin"
 
