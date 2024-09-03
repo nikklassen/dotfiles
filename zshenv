@@ -17,7 +17,7 @@ fi
 PATH="/usr/texbin:$PATH"
 
 # Homebrew path
-# PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+PATH="/opt/homebrew/bin:$PATH"
 
 [[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
 

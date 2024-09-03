@@ -66,7 +66,9 @@ alias py-server="python3 -m http.server 3000"
 alias python=python3
 alias pip=pip3
 
-alias cat="bat -p"
+if which bat >/dev/null 2>&1; then
+  alias cat="bat -p"
+fi
 # undo oh-my-zsh
 unalias rm cp \G
 alias -g G="| rg"

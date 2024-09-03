@@ -1,9 +1,12 @@
+bat
 fd
+git-delta
 gnu-sed
 gnu-time
+jj
 md5sha1sum
 nmap
-python3
 ripgrep
+tmux
 tree
 wget

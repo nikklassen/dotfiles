@@ -10,9 +10,13 @@ symlink() {
 }
 export symlink
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux-plugins/tpm
+if [[ ! -d ~/.tmux-plugins/tpm ]]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux-plugins/tpm
+fi
 
 link_home() {
     if [[ ! -L $HOME/.$1 || -n $FORCE ]]; then
