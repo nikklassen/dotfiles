@@ -1,4 +1,5 @@
 #!/bin/zsh
+. "${DOTFILES_DIR}/installers/asdf_plugins.sh"
 
 which -s brew 2>&1 > /dev/null
 if [[ $? == 1 ]]; then
@@ -25,3 +26,9 @@ if [[ ! -d $ITERM_DIR ]]; then
     mkdir $ITERM_DIR
     ln -s $PWD/iterm.plist $ITERM_DIR/com.googlecode.iterm2.plist
 fi
+
+asdf::update_plugins
+
+while read -r line; do
+  npm install -g "$line"
+done < package_lists/npm.txt

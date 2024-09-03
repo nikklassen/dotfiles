@@ -64,23 +64,6 @@ symlink --sudo "z/z.1" "/usr/local/man/man1/z.1"
 
 symlink "powerline/themes/tmux/default.json" "${XDG_CONFIG_HOME?}/powerline/themes/tmux/default.json" 
 
-"${DOTFILES_DIR?}/update_asdf.sh"
-
-existing_plugins=($(asdf plugin list))
-
-typeset -A plugins=(
-  ["nodejs"]="https://github.com/asdf-vm/asdf-nodejs.git"
-  ["golang"]="https://github.com/asdf-community/asdf-golang.git"
-  ["rust"]="https://github.com/asdf-community/asdf-rust.git"
-)
-for plugin url in "${(@kv)plugins}"; do
-  if [[ ${existing_plugins[(ie)${plugin}]} > ${#existing_plugins} ]]; then
-    asdf plugin add "$plugin" "$url"
-    asdf install "$plugin" latest
-    asdf set -u "$plugin" latest
-  fi
-done
-
 symlink "config/direnv/direnv.toml" "${XDG_CONFIG_HOME?}/direnv/direnv.toml"
 
 source zsh/wezterm.zsh

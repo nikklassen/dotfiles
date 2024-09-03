@@ -165,6 +165,7 @@ zstyle ':completion:*' accept-exact-dirs true
 
 # Needs to run after asdf
 export PATH="$(go env GOPATH)/bin:$PATH"
+export PATH="$(npm config get prefix)/bin:$PATH"
 
 function osc52() {
   local input

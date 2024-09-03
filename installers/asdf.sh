@@ -1,5 +1,5 @@
-#!/bin/bash
-main() {
+#!/bin/zsh
+function asdf::update() {
   echo "Checking for asdf updates"
   ASDF_REPO="https://github.com/asdf-vm/asdf.git"
   local latest_version="$(
@@ -16,9 +16,10 @@ main() {
   echo "New version: ${latest_version}"
   TMP="/tmp/asdf-${latest_version}-linux-amd64.tar.gz"
   wget -O "$TMP" "https://github.com/asdf-vm/asdf/releases/download/${latest_version}/asdf-${latest_version}-linux-amd64.tar.gz"
+  if $?; then
+    return 1
+  fi
   echo "Extracting to /usr/local/bin"
   sudo tar --extract --gunzip --directory=/usr/local/bin -f "$TMP"
   rm "$TMP"
 }
-
-main
