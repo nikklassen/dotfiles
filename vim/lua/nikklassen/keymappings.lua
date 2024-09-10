@@ -11,7 +11,7 @@ vim.keymap.set('n', 'Y', 'y$')
 -- Reindent whole file
 vim.keymap.set('n', '<leader>=', 'mrgg=G`r')
 
-vim.keymap.set({ 'n', 'i' }, '<C-S>', '<cmd>w<CR>')
+vim.keymap.set({ 'n' }, '<C-S>', '<cmd>w<CR>')
 
 vim.keymap.set('n', '<space>', 'foldlevel(".") ? "za" : "<space>"', {
   silent = true,
@@ -72,8 +72,6 @@ local function replace_current_word()
 end
 
 vim.keymap.set('n', '<leader>s', replace_current_word)
-
-vim.keymap.set('v', '<C-S>', ":'<,'>sort<CR>", { silent = true })
 
 local function run_lines()
   local selected_text = vim.fn.getline(vim.fn.line("'<"), vim.fn.line("'>"))

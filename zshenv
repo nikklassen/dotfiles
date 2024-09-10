@@ -42,6 +42,8 @@ fi
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
 
 export SITE_PACKAGES="$(python3 -m site --user-site)"

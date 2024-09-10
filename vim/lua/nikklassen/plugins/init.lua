@@ -26,8 +26,13 @@ return {
   -- Abolish provides the :S command, and case coercion
   {
     'tpope/vim-abolish',
-    cmd = 'S',
-    keys = { 'cr' }
+    cmd = { 'S' },
+    keys = {
+      { 'ga', '<Plug>(abolish-coerce-word)', mode = { 'n' }, desc = 'coerce word' },
+    },
+    init = function()
+      vim.g.abolish_no_mappings = 1
+    end,
   },
   {
     'whiteinge/diffconflicts',
@@ -82,8 +87,12 @@ return {
   -- },
   {
     'echasnovski/mini.operators',
-    keys = { 'gr', 'gx', 'g=', 'gs', 'gm' },
-    config = true,
+    keys = { 'cr', 'gx', 'g=', 'gs', 'gm' },
+    opts = {
+      replace = {
+        prefix = 'cr'
+      },
+    },
   },
   {
     'jremmen/vim-ripgrep',

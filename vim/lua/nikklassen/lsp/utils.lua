@@ -151,6 +151,7 @@ function M.on_attach(client, bufnr)
     end
   end, opts)
   vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 
   local next_diagnostic = function()
     local goto_opts = goto_diagnostic_options()
