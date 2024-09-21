@@ -209,7 +209,10 @@ function M.on_attach(client, bufnr)
   setup_formatting(client, bufnr, lsp_augroup)
 
   if client.server_capabilities.signatureHelpProvider then
-    require 'lsp_signature'.on_attach({}, bufnr)
+    local lsp_signature, err = pcall(require, 'lsp_signature')
+    if err == nil then
+      lsp_signature.on_attach({}, bufnr)
+    end
     vim.keymap.set('i', '<M-k>', vim.lsp.buf.signature_help, opts)
   end
 
@@ -238,7 +241,7 @@ end
 function M.default_config()
   return {
     on_attach = M.on_attach,
-    capabilities = M.capabilities(),
+    -- capabilities = M.capabilities(),
     init_options = {
       usePlaceholders = true
     },
@@ -246,4 +249,3 @@ function M.default_config()
 end
 
 return M
-

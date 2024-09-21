@@ -7,6 +7,10 @@ function _jj_gcmsg() {
   jj describe -m "$msg"; jj new
 }
 
+function _jj_gd() {
+  jj diff --git "$@" | delta
+}
+
 declare -A jj_aliases=(
   [gst]="jj status"
   [gl]="jj git fetch"
@@ -19,7 +23,7 @@ declare -A jj_aliases=(
   [gci]="jj split -i"
   [grb]="jj rebase --destination"
   [gcmsg]="_jj_gcmsg"
-  [gd]="jj diff"
+  [gd]="_jj_gd"
   [glog]="jj log"
   [grs]="jj restore"
   [grhh]="jj abandon"

@@ -8,13 +8,13 @@ local M = {}
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
 local tab_complete = function(fallback)
-  if vim.snippet.active({ direction = 1 }) then
-    vim.snippet.jump(1)
-  elseif cmp.visible() then
+  if cmp.visible() then
     cmp.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     })
+  elseif vim.snippet.active({ direction = 1 }) then
+    vim.snippet.jump(1)
   else
     fallback()
   end
@@ -162,20 +162,21 @@ function M.setup(opts)
         mode = 'symbol',
         maxwidth = 40,
         preset = 'codicons',
+        show_labelDetails = true,
         before = function(entry, vim_item)
           local before = vim.tbl_get(opts, 'formatting', 'cmp_format', 'before')
           if before then
             before(entry, vim_item)
           end
 
-          local ci = entry.completion_item
-          if ci.labelDetails then
-            vim_item.abbr = string.gsub(vim_item.abbr, '~$', '')
-            if ci.labelDetails.detail then
-              vim_item.abbr = vim_item.abbr .. ci.labelDetails.detail
-            end
-            vim_item.menu = ci.labelDetails.description
-          end
+          -- local ci = entry.completion_item
+          -- if ci.labelDetails then
+          --   vim_item.abbr = string.gsub(vim_item.abbr, '~$', '')
+          --   if ci.labelDetails.detail then
+          --     vim_item.abbr = vim_item.abbr .. ci.labelDetails.detail
+          --   end
+          --   vim_item.menu = ci.labelDetails.description
+          -- end
           return vim_item
         end,
         symbol_map = {

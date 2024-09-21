@@ -4,6 +4,35 @@ local function lsp_references()
   require('telescope.builtin').lsp_references { show_line = false }
 end
 
+local function vcs_files()
+  if vim.tbl_isempty(vim.fs.find('.jj', { upward = true })) then
+    require("telescope.builtin").git_files()
+    return
+  end
+  local previewers = require("telescope.previewers")
+  local pickers = require("telescope.pickers")
+  local sorters = require("telescope.sorters")
+  local finders = require("telescope.finders")
+  pickers
+      .new({}, {
+        results_title = "Modified in current branch",
+        finder = finders.new_oneshot_job({ 'sh', '-c', 'jj diff -s | sed -n "/^[MA] / s///p"' }, {}),
+        sorter = sorters.get_fuzzy_file(),
+        previewer = previewers.new_termopen_previewer({
+          get_command = function(entry)
+            return {
+              'jj',
+              'diff',
+              '--git',
+              '--no-pager',
+              entry.value,
+            }
+          end,
+        }),
+      })
+      :find()
+end
+
 return {
   {
     'nvim-telescope/telescope.nvim',
@@ -39,9 +68,10 @@ return {
             symbols = 'function'
           }
         end },
-        { '<S-F12>',   lsp_references },
-        { '<F24>',     lsp_references },
-        { '<leader>d', utils.lazy_require('nikklassen.telescope').directory_files },
+        { '<leader>gf', vcs_files },
+        { '<S-F12>',    lsp_references },
+        { '<F24>',      lsp_references },
+        { '<leader>d',  utils.lazy_require('nikklassen.telescope').directory_files },
       })
     end,
     config = function(_, opts)
