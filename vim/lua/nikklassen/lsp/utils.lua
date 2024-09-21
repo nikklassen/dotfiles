@@ -42,7 +42,7 @@ local function goto_diagnostic_options()
 end
 
 function M.organize_imports_and_format()
-  local params = vim.lsp.util.make_range_params()
+  local params = vim.lsp.util.make_range_params(nil, 'utf-8')
   params.context = { only = { "source.organizeImports" } }
   -- buf_request_sync defaults to a 1000ms timeout. Depending on your
   -- machine and codebase, you may want longer. Add an additional

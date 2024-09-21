@@ -41,12 +41,16 @@ symlink $PWD/powerline/themes/tmux/default.json ~/.config/powerline/themes/tmux/
 
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
 source ~/.asdf/asdf.sh
-asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-asdf install nodejs latest
-asdf global nodejs latest
-asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
-asdf install golang latest
-asdf global golang latest
+typeset -A plugins=(
+  ["nodejs"]="https://github.com/asdf-vm/asdf-nodejs.git"
+  ["golang"]="https://github.com/asdf-community/asdf-golang.git"
+  ["rust"]="https://github.com/asdf-community/asdf-rust.git"
+)
+for plugin url in "${(@kv)plugins}"; do
+  asdf plugin add "$plugin" "$url"
+  asdf install "$plugin" latest
+  asdf global "$plugin" latest
+done
 
 mkdir -p ~/.config/direnv
 ln -s $PWD/config/direnv/direnv.toml ~/.config/direnv/direnv.toml

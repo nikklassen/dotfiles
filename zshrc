@@ -179,7 +179,7 @@ function osc52() {
     echo "No input provided" >&2
     return 1
   elif [[ "$1" == - ]]; then
-    read input
+    input="$(cat)"
   else
     input="$1"
   fi
