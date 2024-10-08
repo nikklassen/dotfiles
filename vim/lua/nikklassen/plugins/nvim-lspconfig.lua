@@ -108,9 +108,9 @@ return {
         bashls = {
           filetypes = { 'sh', 'zsh' },
         },
-        rust_analyzer = {
-          cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' }
-        },
+        -- rust_analyzer = {
+        --   cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' }
+        -- },
         pyright = {},
         lua_ls = {
           settings = {

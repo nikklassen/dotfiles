@@ -50,8 +50,6 @@ export POWERLINE_CONFIG_COMMAND="$HOME/.local/bin/powerline-config"
 
 # For security the local directory should be at the end
 export PATH="$PATH:."
-[[ -d $HOME/.cargo ]] && . "$HOME/.cargo/env"
-
 if command -v nvim >/dev/null 2>&1; then
     export EDITOR=nvim
 else

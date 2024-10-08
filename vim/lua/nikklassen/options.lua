@@ -4,7 +4,7 @@ vim.o.wildmode = 'list:longest,full'
 vim.o.wildignore = '*.o,*.pyc,*.hi'
 
 -- Completion settings
-vim.o.completeopt = 'menu,menuone,noselect'
+vim.o.completeopt = 'menu,menuone,noinsert,fuzzy'
 vim.o.shortmess = vim.o.shortmess .. 'c'
 vim.o.pumheight = 10
 

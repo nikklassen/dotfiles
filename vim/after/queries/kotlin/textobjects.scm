@@ -12,3 +12,10 @@
 
 (property_declaration _ _ ["*=" "+=" "-=" "="] _ @assignment.rhs) @assignment.outer
 (assignment _ ["*=" "+=" "-=" "="] _ @assignment.rhs) @assignment.outer
+
+(value_argument) @parameter.inner
+(value_arguments
+  (value_argument) @_start
+  . ","? @_end
+  (#make-range! "parameter.outer" @_start @_end))
+

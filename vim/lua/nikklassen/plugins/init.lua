@@ -93,9 +93,10 @@ return {
     -- dependencies = 'rafamadriz/friendly-snippets',
 
     -- use a release tag to download pre-built binaries
-    version = 'v0.*',
+    -- version = 'v0.*',
     -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-    -- build = 'cargo build --release',
+    build = 'cargo build --release',
+    -- enabled = false,
 
     opts = {
       highlight = {
@@ -109,16 +110,20 @@ return {
       nerd_font_variant = 'normal',
 
       -- experimental auto-brackets support
-      accept = { auto_brackets = { enabled = true } },
+      accept = {
+        auto_brackets = {
+          enabled = true,
+          blocked_filetypes = { 'kotlin' },
+        },
+      },
 
       -- experimental signature help support
       trigger = { signature_help = { enabled = true } },
 
       keymap = {
-        select_prev = { '<Up>', '<C-j>' },
-        select_next = { '<Down>', '<C-k>' },
-      }
-    }
+        accept = { '<Tab>', '<CR>' },
+      },
+    },
   },
   {
     'hrsh7th/nvim-cmp',
