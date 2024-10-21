@@ -14,7 +14,9 @@ return {
     end,
   },
   {
-    'mhinz/vim-signify',
+    -- 'mhinz/vim-signify',
+    'vim-signify',
+    url = 'https://github.com/eyvind/vim-signify',
     config = function()
       vim.g.signify_number_highlight = 1
       vim.g.signify_sign_change = '~'
@@ -58,8 +60,11 @@ return {
     },
     dependencies = {
       'MunifTanjim/nui.nvim',
-      'nvim-tree/nvim-web-devicons',
     },
+  },
+  {
+    'nvim-tree/nvim-web-devicons',
+    lazy = true,
   },
   {
     'vim-scripts/ReplaceWithRegister',
@@ -96,16 +101,19 @@ return {
   -------------------
 
   {
+    'saghen/blink.compat',
+    version = '*',
+    opts = {
+      impersonate_nvim_cmp = true,
+      debug = true,
+    },
+  },
+  {
     'saghen/blink.cmp',
     lazy = false, -- lazy loading handled internally
-    -- optional: provides snippets for the snippet source
-    -- dependencies = 'rafamadriz/friendly-snippets',
 
-    -- use a release tag to download pre-built binaries
-    -- version = 'v0.*',
-    -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-    build = 'cargo build --release',
-    -- enabled = false,
+    version = 'v0.*',
+    -- build = 'cargo build --release',
 
     opts = {
       highlight = {
@@ -127,10 +135,11 @@ return {
       },
 
       -- experimental signature help support
-      trigger = { signature_help = { enabled = true } },
+      -- trigger = { signature_help = { enabled = true } },
 
       keymap = {
-        accept = { '<Tab>', '<CR>' },
+        preset = 'super-tab',
+        ['<C-y>'] = { 'select_and_accept' },
       },
     },
   },
@@ -228,8 +237,14 @@ return {
   {
     'rcarriga/nvim-notify',
     config = function()
-      vim.notify = require("notify")
+      vim.notify = require('notify')
     end,
+    opts = {
+      timeout = 3000,
+      render = "compact",
+      stages = "fade",
+      top_down = false,
+    }
   },
   {
     'ii14/neorepl.nvim',

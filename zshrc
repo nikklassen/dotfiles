@@ -172,3 +172,21 @@ fi
 
 # Needs to run after asdf
 export PATH="$(go env GOPATH)/bin:$PATH"
+
+function osc52() {
+  local input
+  if [[ -z "$1" ]]; then
+    echo "No input provided" >&2
+    return 1
+  elif [[ "$1" == - ]]; then
+    read input
+  else
+    input="$1"
+  fi
+
+  if [[ -n "$TMUX" ]]; then
+    printf "\033P\033]52;c;$(printf "%s" "$input" | base64)\a\033\\\\"
+  else
+    printf "\033]52;c;$(printf "%s" "$input" | base64)\a"
+  fi
+}

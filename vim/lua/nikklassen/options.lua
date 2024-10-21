@@ -4,7 +4,10 @@ vim.o.wildmode = 'list:longest,full'
 vim.o.wildignore = '*.o,*.pyc,*.hi'
 
 -- Completion settings
-vim.o.completeopt = 'menu,menuone,noinsert,fuzzy'
+vim.o.completeopt = 'menu,menuone,noinsert'
+if vim.fn.has("nvim-0.11.0") == 1 then
+  vim.o.completeopt = vim.o.completeopt .. ',fuzzy'
+end
 vim.o.shortmess = vim.o.shortmess .. 'c'
 vim.o.pumheight = 10
 
@@ -73,3 +76,19 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 
 vim.g.netrw_altfile = 1
+
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = function()
+    end,
+    ['*'] = function()
+    end,
+  },
+}
+
+vim.o.tildeop = true

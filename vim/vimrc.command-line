@@ -1,7 +1,10 @@
 source ~/.local/share/nvim/lazy/vim-sensible/plugin/sensible.vim
 set ft=zsh
 
-let &runtimepath .= ',' .. expand("~/.local/share/nvim/lazy/nvim-autopairs")
+let &runtimepath .=
+      \ ',' ..
+      \ stdpath("data") .. "/lazy/nvim-autopairs" .. ',' ..
+      \ stdpath("data") .. "/lazy/nvim-surround"
 
 set noloadplugins
 
@@ -9,4 +12,19 @@ lua <<EOF
 require("nvim-autopairs").setup({
     enable_check_bracket_line = false,
 })
+require('nvim-surround').setup {}
+
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = function()
+    end,
+    ['*'] = function()
+    end,
+  },
+}
 EOF
