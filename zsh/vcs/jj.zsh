@@ -43,4 +43,4 @@ alias jjp="jj prev"
 alias jjpe="jj prev --edit"
 alias jjnw="jj new"
 
-alias gpm="jj branch set main -r @- && gp"
+alias gpm="jj bookmark set main -r @- && gp"

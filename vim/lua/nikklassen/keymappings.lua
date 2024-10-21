@@ -100,3 +100,5 @@ vim.keymap.set('n', '<leader>lu', function()
 end, { desc = "Update Lazy plugins" })
 
 vim.cmd.abbreviate('reutrn', 'return')
+
+vim.keymap.set('n', '<leader>yf', function() vim.fn.setreg('', vim.fn.getreg('%')) end)

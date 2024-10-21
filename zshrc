@@ -95,6 +95,7 @@ alias -g LO='$(eval `fc -ln -1`)'
 
 alias youtube-mp3='youtube-dl -x --audio-format mp3'
 command -v wslview >/dev/null 2>&1 && alias v=wslview
+alias http="noglob http"
 
 function testport () {
     nc -v "$1" "$2" < /dev/null

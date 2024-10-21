@@ -64,7 +64,16 @@ return {
   {
     'vim-scripts/ReplaceWithRegister',
     dependencies = { 'tpope/vim-repeat' },
-    keys = { 'gr' }
+    keys = { 'gr' },
+    config = function()
+      -- Neovim defaults that conflict with ReplaceWithRegister
+      if vim.fn.maparg('gri', 'n') ~= '' then
+        vim.keymap.del('n', 'gri')
+      end
+      if vim.fn.maparg('gra', 'n') ~= '' then
+        vim.keymap.del('n', 'gra')
+      end
+    end,
   },
   {
     'jremmen/vim-ripgrep',
