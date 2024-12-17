@@ -76,4 +76,17 @@ function M.is_cwd_readable()
   return vim.fn.isdirectory(cwd) == 1
 end
 
+function string:starts_with(prefix)
+  return self:sub(1, #prefix) == prefix
+end
+
+function M.wrap_notify_on_error(f)
+  return function(...)
+    local ok, err = pcall(f, ...)
+    if not ok then
+      vim.notify(err, vim.log.levels.ERROR)
+    end
+  end
+end
+
 return M
