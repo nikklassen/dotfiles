@@ -141,6 +141,10 @@ return {
           selection = 'auto_insert',
         },
 
+        menu = {
+          auto_show = true,
+        },
+
         accept = {
           auto_brackets = {
             enabled = true,

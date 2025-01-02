@@ -152,7 +152,7 @@ function M.on_attach(client, bufnr)
   end, opts)
   vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
 
-  vim.keymap.set('n', '<Up>', function()
+  local next_diagnostic = function()
     local goto_opts = goto_diagnostic_options()
     if goto_opts == nil then
       return
@@ -164,8 +164,10 @@ function M.on_attach(client, bufnr)
     end
     vim.api.nvim_win_set_cursor(0, { d.lnum + 1, d.col })
     show_diagnostics()
-  end, opts)
-  vim.keymap.set('n', '<Down>', function()
+  end
+  vim.keymap.set('n', '<Up>', next_diagnostic, opts)
+  vim.keymap.set('n', ']d', next_diagnostic, opts)
+  local prev_diagnostic = function()
     local goto_opts = goto_diagnostic_options()
     if goto_opts == nil then
       return
@@ -177,7 +179,9 @@ function M.on_attach(client, bufnr)
     end
     vim.api.nvim_win_set_cursor(0, { d.lnum + 1, d.col })
     show_diagnostics()
-  end, opts)
+  end
+  vim.keymap.set('n', '<Down>', prev_diagnostic, opts)
+  vim.keymap.set('n', '[d', prev_diagnostic, opts)
   vim.keymap.set('n', '<C-.>', function()
     vim.lsp.buf.code_action()
   end, { buffer = bufnr })
