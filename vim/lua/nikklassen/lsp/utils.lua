@@ -73,12 +73,7 @@ local function show_diagnostics()
 end
 
 local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
-  if not client.server_capabilities.documentFormattingProvider then
-    return
-  end
-  vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
-
-  if not autoformat then
+  if not client.server_capabilities.documentFormattingProvider or not autoformat then
     return
   end
 
@@ -104,12 +99,7 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
 end
 
 local function setup_range_formatting(client, bufnr, autoformat, lsp_augroup)
-  if not client.server_capabilities.documentRangeFormattingProvider then
-    return
-  end
-  vim.bo[bufnr].formatexpr = 'v:lua.vim.lsp.formatexpr'
-
-  if client.server_capabilities.documentFormattingProvider or not autoformat then
+  if not client.server_capabilities.documentRangeFormattingProvider or client.server_capabilities.documentFormattingProvider or not autoformat then
     return
   end
 
@@ -147,10 +137,7 @@ function M.on_attach(client, bufnr)
     vim.lsp.set_log_level('DEBUG')
   end
 
-  vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
   local opts = { noremap = true, silent = true, buffer = bufnr }
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
   vim.keymap.set('n', 'K', function()
     if require 'dap'.session() ~= nil then
       require('dap.ui.widgets').hover()
@@ -202,13 +189,9 @@ function M.on_attach(client, bufnr)
     callback = show_diagnostics,
   })
 
-  if client.server_capabilities.declarationProvider then
-    vim.keymap.set('n', '<c-]>', vim.lsp.buf.declaration, opts)
-  end
-
   setup_formatting(client, bufnr, lsp_augroup)
 
-  if client.server_capabilities.signatureHelpProvider then
+  if client.supports_method('textDocument/signatureHelp') then
     local lsp_signature, err = pcall(require, 'lsp_signature')
     if err == nil then
       lsp_signature.on_attach({}, bufnr)
@@ -216,22 +199,23 @@ function M.on_attach(client, bufnr)
     vim.keymap.set('i', '<M-k>', vim.lsp.buf.signature_help, opts)
   end
 
-  if client.server_capabilities.codeActionProvider then
+  if client.supports_method('textDocument/codeAction') then
     vim.keymap.set('n', '<M-.>', vim.lsp.buf.code_action, opts)
   end
 
   -- Set autocommands conditional on server_capabilities
-  if client.server_capabilities.documentHighlightProvider then
+  if client.supports_method('textDocument/documentHighlight', { bufnr = bufnr }) then
     vim.api.nvim_set_hl(0, 'LspReferenceRead', { link = 'Underlined', default = true })
     vim.api.nvim_set_hl(0, 'LspReferenceText', { link = 'Normal', default = true })
     vim.api.nvim_set_hl(0, 'LspReferenceWrite', { link = 'Underlined', default = true })
+    local lsp_highlight_augroup = vim.api.nvim_create_augroup('lsp_highlight_buf_' .. bufnr, {})
     vim.api.nvim_create_autocmd('CursorHold', {
-      group = lsp_augroup,
+      group = lsp_highlight_augroup,
       buffer = bufnr,
       callback = vim.lsp.buf.document_highlight,
     })
     vim.api.nvim_create_autocmd('CursorMoved', {
-      group = lsp_augroup,
+      group = lsp_highlight_augroup,
       buffer = bufnr,
       callback = vim.lsp.buf.clear_references,
     })
