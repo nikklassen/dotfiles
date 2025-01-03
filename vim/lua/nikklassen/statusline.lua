@@ -11,6 +11,14 @@ local function git_sl()
   return ''
 end
 
+vim.api.nvim_create_autocmd('LspProgress', {
+  pattern = '*',
+  callback = function()
+    lsp_status = { os.time(), vim.lsp.status() }
+    vim.cmd.redrawstatus()
+  end,
+})
+
 local function lsp_sl()
   local clients
   if vim.lsp.get_clients then
@@ -27,12 +35,13 @@ local function lsp_sl()
   for _, client in ipairs(clients) do
     lsps = '{' .. client.name .. '}'
   end
-  local new_status = vim.lsp.status()
-  if new_status ~= '' then
-    lsp_status = new_status
-  end
   if lsp_status ~= nil then
-    lsps = lsps .. ' ' .. lsp_status
+    local since_update = os.time() - lsp_status[1]
+    if since_update > 1 then
+      lsp_status = nil
+    else
+      lsps = lsps .. ' ' .. lsp_status[2]
+    end
   end
   return lsps
 end

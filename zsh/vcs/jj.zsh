@@ -45,6 +45,6 @@ alias jjpe="jj prev --edit"
 alias jjnw="jj new"
 alias jjbs="jj bookmark set"
 alias jjbm="jj bookmark move"
-alias glsb="gl -b 'submitted()'"
+alias jjbd="jj bookmark delete"
 
 alias gpm="jj bookmark set main -r @- && gp"

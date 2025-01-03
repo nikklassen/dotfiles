@@ -56,9 +56,9 @@ function M.configure()
       enable = true,
       keymaps = {
         init_selection = "gnn",
-        node_incremental = "v",
+        node_incremental = "gn)",
         scope_incremental = "gns",
-        node_decremental = "V",
+        node_decremental = "gn(",
       },
     },
     textobjects = {

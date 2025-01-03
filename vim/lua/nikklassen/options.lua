@@ -76,19 +76,3 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 
 vim.g.netrw_altfile = 1
-
-vim.g.clipboard = {
-  name = 'OSC 52',
-  copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-  },
-  paste = {
-    ['+'] = function()
-    end,
-    ['*'] = function()
-    end,
-  },
-}
-
-vim.o.tildeop = true
