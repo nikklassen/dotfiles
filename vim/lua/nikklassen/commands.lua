@@ -26,3 +26,8 @@ local function go_test()
 end
 
 vim.api.nvim_create_user_command('GoTest', go_test, {})
+
+vim.api.nvim_create_autocmd('LspProgress', {
+  pattern = '*',
+  command = 'redrawstatus',
+})

@@ -138,8 +138,6 @@ end
 ---@param client vim.lsp.Client
 ---@param bufnr number
 function M.on_attach(client, bufnr)
-  require 'lsp-status'.on_attach(client)
-
   if M.DEBUG then
     vim.lsp.set_log_level('DEBUG')
   end

@@ -27,10 +27,13 @@ local function lsp_sl()
   for _, client in ipairs(clients) do
     lsps = '{' .. client.name .. '}'
   end
-  if lsp_status == nil then
-    lsp_status = require 'lsp-status'
+  local new_status = vim.lsp.status()
+  if new_status ~= '' then
+    lsp_status = new_status
   end
-  lsps = lsps .. ' ' .. lsp_status.status()
+  if lsp_status ~= nil then
+    lsps = lsps .. ' ' .. lsp_status
+  end
   return lsps
 end
 
