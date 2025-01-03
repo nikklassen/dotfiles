@@ -121,6 +121,19 @@ local function setup_formatting(client, bufnr, lsp_augroup)
   setup_range_formatting(client, bufnr, autoformat, lsp_augroup)
 end
 
+local function nvim_v0_11_polyfill(client, opts)
+  if client.supports_method('textDocument/signatureHelp') then
+    vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, opts)
+  end
+  if client.supports_method('textDocument/codeAction') then
+    vim.keymap.set({ 'n', 'v' }, 'gra', vim.lsp.buf.code_action, opts)
+  end
+  vim.keymap.set('n', 'grn', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', 'grr', vim.lsp.buf.references, opts)
+  vim.keymap.set('n', 'gri', vim.lsp.buf.implementation, opts)
+  vim.keymap.set('n', 'gO', vim.lsp.buf.document_symbol, opts)
+end
+
 ---Configures LSP client for this buffer
 ---@param client vim.lsp.Client
 ---@param bufnr number
@@ -144,7 +157,6 @@ function M.on_attach(client, bufnr)
       end
     end
   end, opts)
-  vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 
   local next_diagnostic = function()
@@ -177,9 +189,6 @@ function M.on_attach(client, bufnr)
   end
   vim.keymap.set('n', '<Down>', prev_diagnostic, opts)
   vim.keymap.set('n', '[d', prev_diagnostic, opts)
-  vim.keymap.set('n', '<C-.>', function()
-    vim.lsp.buf.code_action()
-  end, { buffer = bufnr })
 
   local lsp_augroup = vim.api.nvim_create_augroup('lsp_buf_' .. bufnr, {})
   vim.api.nvim_create_autocmd('CursorHold', {
@@ -195,12 +204,10 @@ function M.on_attach(client, bufnr)
     if err == nil then
       lsp_signature.on_attach({}, bufnr)
     end
-    vim.keymap.set('i', '<M-k>', vim.lsp.buf.signature_help, opts)
   end
 
-  if client.supports_method('textDocument/codeAction') then
-    vim.keymap.set('n', '<M-.>', vim.lsp.buf.code_action, opts)
-  end
+  -- TODO: delete when nvim 0.11 is stable
+  nvim_v0_11_polyfill(client, opts)
 
   -- Set autocommands conditional on server_capabilities
   if client.supports_method('textDocument/documentHighlight', { bufnr = bufnr }) then
