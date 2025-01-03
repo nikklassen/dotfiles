@@ -71,26 +71,12 @@ return {
     'nvim-tree/nvim-web-devicons',
     lazy = true,
   },
-  -- {
-  --   'vim-scripts/ReplaceWithRegister',
-  --   dependencies = { 'tpope/vim-repeat' },
-  --   keys = { 'gr' },
-  --   config = function()
-  --     -- Neovim defaults that conflict with ReplaceWithRegister
-  --     if vim.fn.maparg('gri', 'n') ~= '' then
-  --       vim.keymap.del('n', 'gri')
-  --     end
-  --     if vim.fn.maparg('gra', 'n') ~= '' then
-  --       vim.keymap.del('n', 'gra')
-  --     end
-  --   end,
-  -- },
   {
     'echasnovski/mini.operators',
     keys = { 'cr', 'gx', 'g=', 'gs', 'gm' },
     opts = {
       replace = {
-        prefix = 'cr'
+        prefix = 'cr',
       },
     },
   },
@@ -184,5 +170,20 @@ return {
   },
   {
     'gregorias/coop.nvim',
+  },
+  {
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    -- Optional dependencies
+    -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+    lazy = false,
+  },
+  {
+    'phelipetls/jsonpath.nvim',
+    ft = { 'json' },
   },
 }

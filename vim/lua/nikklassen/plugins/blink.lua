@@ -40,14 +40,16 @@ return {
             components = {
               kind_icon = {
                 text = function(ctx)
-                  if ctx.item.source_id == 'copilot' then
-                    return '' .. ctx.icon_gap
+                  local lsp_icon = require('nikklassen.plugin_config.blink').lsp_icons[ctx.item.source_id]
+                  if lsp_icon ~= nil then
+                    return lsp_icon.text .. ctx.icon_gap
                   end
                   return require('blink.cmp.config.completion.menu').default.draw.components.kind_icon.text(ctx)
                 end,
                 highlight = function(ctx)
-                  if ctx.item.source_id == 'copilot' then
-                    return 'CmpItemKindCopilot'
+                  local lsp_icon = require('nikklassen.plugin_config.blink').lsp_icons[ctx.item.source_id]
+                  if lsp_icon ~= nil and lsp_icon.highlight ~= '' then
+                    return lsp_icon.highlight
                   end
                   return require('blink.cmp.config.completion.menu').default.draw.components.kind_icon.highlight(ctx)
                 end,
@@ -59,7 +61,7 @@ return {
         accept = {
           auto_brackets = {
             enabled = true,
-            -- blocked_filetypes = { 'kotlin' },
+            blocked_filetypes = { 'kotlin' },
           },
         },
       },

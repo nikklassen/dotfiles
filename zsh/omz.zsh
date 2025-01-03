@@ -7,7 +7,6 @@ plugins=(
   asdf
   common-aliases
   debian
-  direnv
   docker
   docker-compose
   encode64
@@ -19,6 +18,9 @@ plugins=(
   you-should-use
   zsh-syntax-highlighting
 )
+if command -v direnv >/dev/null 2>&1; then
+  plugins+=(direnv)
+fi
 
 export YSU_IGNORED_ALIASES=("vi" "vim")
 

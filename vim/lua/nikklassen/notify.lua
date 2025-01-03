@@ -9,7 +9,7 @@ local function event_loop()
   while true do
     local event = M._queue:pop()
     event()
-    uv.sleep(100)
+    uv.sleep(200)
   end
 end
 

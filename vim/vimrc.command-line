@@ -1,3 +1,4 @@
+
 source ~/.local/share/nvim/lazy/vim-sensible/plugin/sensible.vim
 set ft=zsh
 

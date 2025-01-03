@@ -60,3 +60,6 @@ else
 fi
 
 export JJ_CONFIG="$HOME/.config/jj"
+
+# Workaround for nvim + tmux issues
+export COLORTERM=1
