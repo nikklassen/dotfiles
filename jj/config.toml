@@ -42,4 +42,4 @@ merge-tool-edits-conflict-markers = true
 [template-aliases]
 
 'format_timestamp(timestamp)' = 'timestamp.ago()'
-'format_short_signature(signature)' = 'signature.username()'
+'format_short_signature(signature)' = 'signature.email().local()'
