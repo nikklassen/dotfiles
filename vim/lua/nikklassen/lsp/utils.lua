@@ -2,12 +2,6 @@ local M = {
   DEBUG = vim.env.NK_LSP_DEBUG
 }
 
-function M.capabilities()
-  local capabilities = require 'cmp_nvim_lsp'.default_capabilities()
-  capabilities = vim.tbl_extend('keep', capabilities, require 'lsp-status'.capabilities)
-  return capabilities
-end
-
 local function range_format_sync(options, start_pos, end_pos)
   vim.validate { options = { options, 't', true } }
   local sts = vim.bo.softtabstop;
@@ -230,7 +224,7 @@ end
 function M.default_config()
   return {
     on_attach = M.on_attach,
-    -- capabilities = M.capabilities(),
+    capabilities = require('blink.cmp').get_lsp_capabilities(),
     init_options = {
       usePlaceholders = true
     },
