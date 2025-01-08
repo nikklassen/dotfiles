@@ -140,14 +140,13 @@ return {
         -- useful for when your theme doesn't support blink.cmp
         -- will be removed in a future release, assuming themes add support
         use_nvim_cmp_as_default = true,
-        -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- adjusts spacing to ensure icons are aligned
-        nerd_font_variant = 'normal',
       },
 
       completion = {
         list = {
-          selection = 'auto_insert',
+          selection = {
+            preselect = false,
+          },
         },
 
         menu = {
@@ -165,6 +164,10 @@ return {
       keymap = {
         preset = 'super-tab',
         ['<C-y>'] = { 'select_and_accept' },
+      },
+
+      signature = {
+        enabled = true,
       },
     },
     -- allows extending the providers array elsewhere in your config
