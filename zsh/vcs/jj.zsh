@@ -28,6 +28,7 @@ declare -A jj_aliases=(
   [grs]="jj restore"
   [grhh]="jj abandon"
   [grbm]="jj rebase --destination 'trunk()'"
+  [gf]="jj git fetch"
 
   # Don't know yet
   # [gclean]=""
