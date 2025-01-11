@@ -36,6 +36,24 @@ return {
 
         menu = {
           auto_show = true,
+          draw = {
+            components = {
+              kind_icon = {
+                text = function(ctx)
+                  if ctx.item.source_id == 'copilot' then
+                    return '' .. ctx.icon_gap
+                  end
+                  return require('blink.cmp.config.completion.menu').default.draw.components.kind_icon.text(ctx)
+                end,
+                highlight = function(ctx)
+                  if ctx.item.source_id == 'copilot' then
+                    return 'CmpItemKindCopilot'
+                  end
+                  return require('blink.cmp.config.completion.menu').default.draw.components.kind_icon.highlight(ctx)
+                end,
+              }
+            }
+          }
         },
 
         accept = {
