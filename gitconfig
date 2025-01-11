@@ -39,3 +39,5 @@
 	colorMoved = default
 [init]
 	defaultBranch = main
+[tag]
+	sort = -version:refname

@@ -39,7 +39,12 @@ sudo ln -s $FORCE $PWD/z/z.1 /usr/local/man/man1/z.1
 mkdir -p ~/.config/powerline/themes/tmux
 symlink $PWD/powerline/themes/tmux/default.json ~/.config/powerline/themes/tmux/default.json
 
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+ASDF_REPO="https://github.com/asdf-vm/asdf.git"
+git clone --depth 1 "${ASDF_REPO}" ~/.asdf --branch "$(
+  git ls-remote --tags --sort -version:refname "${ASDF_REPO}" | \
+    head -1 | \
+    sed -E 's!.*refs/tags/(v([0-9]+\.)*[0-9]+).*!\1!'
+)"
 source ~/.asdf/asdf.sh
 typeset -A plugins=(
   ["nodejs"]="https://github.com/asdf-vm/asdf-nodejs.git"
