@@ -133,7 +133,7 @@ return {
             local lsputil = require 'lspconfig.util'
             return lsputil.root_pattern('.sqls-config.yml')(start)
           end
-        }
+        },
       },
     },
     config = function(_, opts)

@@ -33,10 +33,12 @@ return {
           copilot = {
             name = 'copilot',
             module = 'blink.compat.source',
+
+            score_offset = 3,
           }
         }
       }
     },
     opts_extend = { 'sources.default' }
-  }
+  },
 }

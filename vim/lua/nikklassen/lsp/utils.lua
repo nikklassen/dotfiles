@@ -35,20 +35,32 @@ local function goto_diagnostic_options()
   return nil
 end
 
-function M.organize_imports_and_format()
-  local params = vim.lsp.util.make_range_params(nil, 'utf-8')
-  params.context = { only = { "source.organizeImports" } }
-  -- buf_request_sync defaults to a 1000ms timeout. Depending on your
-  -- machine and codebase, you may want longer. Add an additional
-  -- argument after params if you find that you have to write the file
-  -- twice for changes to be saved.
-  -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-  local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
-  for cid, res in pairs(result or {}) do
-    for _, r in pairs(res.result or {}) do
-      if r.edit then
-        local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
-        vim.lsp.util.apply_workspace_edit(r.edit, enc)
+---@param client_name string
+---@param bufnr number
+function M.organize_imports_and_format(client_name, bufnr)
+  if client_name == 'ts_ls' then
+    local command = {
+      command = '_typescript.organizeImports',
+      arguments = { vim.fn.expand('%:p') },
+    }
+    vim.lsp.get_clients({
+      name = 'ts_ls'
+    })[1]:exec_cmd(command, { bufnr = bufnr })
+  else
+    local params = vim.lsp.util.make_range_params(nil, 'utf-8')
+    params.context = { only = { "source.organizeImports" } }
+    -- buf_request_sync defaults to a 1000ms timeout. Depending on your
+    -- machine and codebase, you may want longer. Add an additional
+    -- argument after params if you find that you have to write the file
+    -- twice for changes to be saved.
+    -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+    local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params)
+    for cid, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+          vim.lsp.util.apply_workspace_edit(r.edit, enc)
+        end
       end
     end
   end
@@ -66,16 +78,20 @@ local function show_diagnostics()
   end
 end
 
+---@param client vim.lsp.Client
+---@param bufnr number
+---@param autoformat boolean
+---@param lsp_augroup number
 local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
   if not client.server_capabilities.documentFormattingProvider or not autoformat then
     return
   end
 
   local code_actions = vim.tbl_get(client, 'server_capabilities', 'codeActionProvider', 'codeActionKinds') or {}
-  local supports_organize_imports = vim.tbl_contains(code_actions, 'source.organizeImports')
+  local supports_organize_imports = vim.tbl_contains(code_actions, 'source.organizeImports') or client.name == 'ts_ls'
   if supports_organize_imports then
     vim.api.nvim_buf_create_user_command(bufnr, 'OrganizeImports', function()
-      M.organize_imports_and_format()
+      M.organize_imports_and_format(client.name, bufnr)
     end, {})
   end
 
@@ -84,7 +100,7 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
     buffer = bufnr,
     callback = function()
       if supports_organize_imports then
-        M.organize_imports_and_format()
+        M.organize_imports_and_format(client.name, bufnr)
       else
         vim.lsp.buf.format { bufnr = bufnr }
       end
@@ -188,7 +204,7 @@ function M.on_attach(client, bufnr)
   vim.keymap.set('n', '<Down>', prev_diagnostic, opts)
   vim.keymap.set('n', '[d', prev_diagnostic, opts)
 
-  local lsp_augroup = vim.api.nvim_create_augroup('lsp_buf_' .. bufnr, {})
+  local lsp_augroup = vim.api.nvim_create_augroup('lsp_buf_' .. bufnr .. '_' .. client.name, {})
   vim.api.nvim_create_autocmd('CursorHold', {
     group = lsp_augroup,
     buffer = bufnr,
