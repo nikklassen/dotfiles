@@ -67,7 +67,7 @@ alias python=python3
 alias pip=pip3
 
 if which bat >/dev/null 2>&1; then
-  alias cat="bat -p"
+  alias cat="bat -p --wrap character"
 fi
 # undo oh-my-zsh
 unalias rm cp \G
