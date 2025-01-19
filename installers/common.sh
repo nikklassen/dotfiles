@@ -14,8 +14,8 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-if [[ ! -d ~/.tmux-plugins/tpm ]]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux-plugins/tpm
+if [[ ! -d "${XDG_CACHE_HOME?}/tmux-plugins/tpm" ]]; then
+  git clone https://github.com/tmux-plugins/tpm "${XDG_CACHE_HOME?}/tmux-plugins/tpm"
 fi
 
 link_home() {
@@ -35,10 +35,11 @@ sudo ln -s $FORCE $PWD/z/z.sh /usr/local/etc/profile.d/z.sh
 sudo mkdir -p /usr/local/man/man1/
 sudo ln -s $FORCE $PWD/z/z.1 /usr/local/man/man1/z.1
 
-mkdir -p ~/.config/powerline/themes/tmux
-symlink $PWD/powerline/themes/tmux/default.json ~/.config/powerline/themes/tmux/default.json
+mkdir -p "${XDG_CONFIG_HOME?}/powerline/themes/tmux"
+symlink "${DOTFILES_DIR?}/powerline/themes/tmux/default.json" "${XDG_CONFIG_HOME?}/powerline/themes/tmux/default.json"
 
-"$(dirname "$0")/update_asdf.sh"
+"${DOTFILES_DIR?}/update_asdf.sh"
+
 typeset -A plugins=(
   ["nodejs"]="https://github.com/asdf-vm/asdf-nodejs.git"
   ["golang"]="https://github.com/asdf-community/asdf-golang.git"

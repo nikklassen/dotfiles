@@ -61,3 +61,5 @@ export JJ_CONFIG="$HOME/.config/jj"
 
 # Workaround for nvim + tmux issues
 export COLORTERM=1
+
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
