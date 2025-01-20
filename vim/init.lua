@@ -2,6 +2,9 @@ vim.o.compatible = false
 
 vim.o.shell = '/bin/bash'
 
+-- Must be set before loading lazy
+vim.g.mapleader = ' '
+
 local home = vim.env.HOME
 
 package.path = package.path .. ';' .. home .. '/.luarocks/share/lua/5.1/?.lua'

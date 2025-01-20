@@ -1,3 +1,5 @@
+vim.keymap.set({ 'n' }, '\\', ':')
+
 -- Search for the currently selected text
 vim.keymap.set('v', '//', '"sy/<C-r>s<CR>')
 
@@ -13,10 +15,10 @@ vim.keymap.set('n', '<leader>=', 'mrgg=G`r')
 
 vim.keymap.set({ 'n' }, '<C-S>', '<cmd>w<CR>')
 
-vim.keymap.set('n', '<space>', 'foldlevel(".") ? "za" : "<space>"', {
-  silent = true,
-  expr = true,
-})
+-- vim.keymap.set('n', '<space>', 'foldlevel(".") ? "za" : "<space>"', {
+--   silent = true,
+--   expr = true,
+-- })
 
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '<leader><', '<')
