@@ -38,6 +38,7 @@ function M.configure()
       'python',
       'rust',
       'scss',
+      'svelte',
       'textproto',
       'tsx',
       'typescript',
@@ -94,7 +95,7 @@ function M.configure()
     playground = {
       enable = true,
       disable = {},
-      updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+      updatetime = 25,        -- Debounced time for highlighting nodes in the playground from source code
       persist_queries = false -- Whether the query persists across vim sessions
     },
   }
