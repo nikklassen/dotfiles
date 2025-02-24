@@ -8,10 +8,10 @@ fi
 brew update
 while read -r line; do
     brew install "$line"
-done < osx_packages.txt
+done < package_lists/brew.txt
 while read -r line; do
     brew install --cask "$line"
-done < osx_casks.txt
+done < package_lists/brew_casks.txt
 
 which -s nvim 2>&1 > /dev/null
 if [[ $? == 1 ]]; then
