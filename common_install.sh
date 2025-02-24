@@ -27,9 +27,8 @@ link_home() {
 link_home zshrc
 link_home zshenv
 link_home zsh
-link_home tmux.conf
-link_home tmux
 link_home gitconfig
+symlink "${XDG_CONFIG_HOME}/tmux/tmux.conf" tmux/tmux.conf
 
 sudo mkdir -p /usr/local/etc/profile.d/
 sudo ln -s $FORCE $PWD/z/z.sh /usr/local/etc/profile.d/z.sh

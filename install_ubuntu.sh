@@ -21,3 +21,7 @@ ln -sf /usr/bin/batcat ~/.local/bin/bat
 ln -sf "$(which fdfind)" ~/.local/bin/fd
 mkdir -p $HOME/.config/jj
 ln -sf "${DOTFILES_DIR}/jj/config.toml" $HOME/.config/jj/config.toml
+
+while read -r line; do
+  pipx install "$line"
+done < pipx_packages.txt
