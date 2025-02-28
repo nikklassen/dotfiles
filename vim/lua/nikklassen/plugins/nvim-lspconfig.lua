@@ -106,6 +106,7 @@ return {
         eslint = {},
         svelte = {},
         vimls = {},
+        cssls = {},
         bashls = {
           filetypes = { 'sh', 'zsh' },
         },
