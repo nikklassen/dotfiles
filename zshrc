@@ -187,3 +187,5 @@ function osc52() {
     printf "\033]52;c;$(printf "%s" "$input" | base64)\a"
   fi
 }
+
+compdef _files delta

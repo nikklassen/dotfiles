@@ -114,8 +114,9 @@ return {
   },
   {
     'kylechui/nvim-surround',
-    opts = {},
-    event = "InsertEnter"
+    opts = require('nikklassen.plugin_config.nvim-surround'),
+    event = "InsertEnter",
+    keys = { 'ds', 'ys' }
   },
   {
     'tpope/vim-eunuch',
