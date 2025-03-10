@@ -1,57 +1,38 @@
----@param n TSNode
----@param type string
----@return TSNode | nil
-local function child_with_type(n, type)
-  if n == nil then
-    return nil
-  end
-  for child, _ in n:iter_children() do
-    if child:type() == type then
-      return child
-    end
-  end
-  return nil
-end
-
 return {
   surrounds = {
     y = {
       add = function()
         local user_input = require('nvim-surround.config').get_input('Enter type: ')
         if user_input then
-          return { { user_input .. '<' }, { '>' } }
+          local delims = type_delims[vim.bo.filetype]
+          if vim.bo.filetype == 'go' then
+            delims = { '[', ']' }
+          else
+            delims = { '<', '>' }
+          end
+          return { { user_input .. delims[1] }, { delims[2] } }
         end
       end,
       delete = function()
-        local n = vim.treesitter.get_node()
-        local type_arguments
-        while true do
-          if n == nil then
-            return
-          end
-          if n:type() == 'user_type' then
-            type_arguments = child_with_type(n, 'type_arguments')
-            if type_arguments ~= nil then
-              break
-            end
-          end
-          n = n:parent()
+        local shared = require("nvim-treesitter.textobjects.shared")
+        local _, outer_textobject = shared.textobject_at_point('@type.outer', 'textobjects', nil, nil,
+          { lookahead = false, lookbehind = false })
+        if outer_textobject == nil then
+          return nil
         end
-        if n == nil or type_arguments == nil then
-          return
+        local _, inner_textobject = shared.textobject_at_point('@type.inner', 'textobjects', nil, nil,
+          { lookahead = false, lookbehind = false })
+        if inner_textobject == nil then
+          return nil
         end
-        local n_start_row, n_start_col, _ = n:start()
-        local n_end_row, n_end_col, _ = n:end_()
-        local args_start_row, args_start_col, _ = type_arguments:start()
-        local args_end_row, args_end_col, _ = type_arguments:end_()
         return {
           left = {
-            first_pos = { n_start_row + 1, n_start_col + 1 },
-            last_pos = { args_start_row + 1, args_start_col + 1 },
+            first_pos = { outer_textobject[1] + 1, outer_textobject[2] + 1 },
+            last_pos = { inner_textobject[1] + 1, inner_textobject[2] + 1 },
           },
           right = {
-            first_pos = { args_end_row + 1, args_end_col },
-            last_pos = { n_end_row + 1, n_end_col },
+            first_pos = { inner_textobject[3] + 1, inner_textobject[4] },
+            last_pos = { outer_textobject[3] + 1, outer_textobject[4] },
           },
         }
       end,

@@ -45,3 +45,5 @@
  (comment)+
  . (function_declaration)
 ) @function.outer
+
+(generic_type type: (_) type_arguments: (_) @type.inner) @type.outer

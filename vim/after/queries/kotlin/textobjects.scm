@@ -19,3 +19,4 @@
   . ","? @_end
   (#make-range! "parameter.outer" @_start @_end))
 
+(user_type (_) (type_arguments) @type.inner) @type.outer
