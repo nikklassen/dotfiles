@@ -67,7 +67,26 @@ function M.organize_imports_and_format(client_name, bufnr)
   vim.lsp.buf.format()
 end
 
+local function current_line_has_float()
+  local cur_window_id = vim.api.nvim_get_current_win()
+  local cur_winline = vim.fn.screenrow()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local config = vim.api.nvim_win_get_config(win)
+    if config.relative == '' or cur_window_id ~= config.win then
+      goto continue
+    end
+    if config.relative == 'win' and config.row == cur_winline then
+      return true
+    end
+    ::continue::
+  end
+  return false
+end
+
 local function show_diagnostics()
+  if current_line_has_float() then
+    return
+  end
   local ok, show = pcall(require, 'lspsaga.diagnostic.show')
   if not ok then
     vim.diagnostic.open_float({
