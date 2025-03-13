@@ -173,10 +173,6 @@ end
 ---@param client vim.lsp.Client
 ---@param bufnr number
 function M.on_attach(client, bufnr)
-  if M.DEBUG then
-    vim.lsp.set_log_level('DEBUG')
-  end
-
   local opts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'K', function()
     if require 'dap'.session() ~= nil then
@@ -265,9 +261,6 @@ function M.default_config()
   return {
     on_attach = M.on_attach,
     capabilities = require('blink.cmp').get_lsp_capabilities(),
-    init_options = {
-      usePlaceholders = true
-    },
   }
 end
 

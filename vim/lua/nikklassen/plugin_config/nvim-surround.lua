@@ -4,7 +4,7 @@ return {
       add = function()
         local user_input = require('nvim-surround.config').get_input('Enter type: ')
         if user_input then
-          local delims = type_delims[vim.bo.filetype]
+          local delims
           if vim.bo.filetype == 'go' then
             delims = { '[', ']' }
           else

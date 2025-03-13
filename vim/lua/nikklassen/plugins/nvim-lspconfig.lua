@@ -1,4 +1,4 @@
-local utils = require('nikklassen.utils')
+local lsp_utils = require('nikklassen.lsp.utils')
 
 local function init_luals(client)
   local path = ''
@@ -26,29 +26,11 @@ local function init_luals(client)
 end
 
 return {
-  -- {
-  --   'nvim-lua/lsp-status.nvim',
-  --   event = 'LspAttach',
-  --   config = function()
-  --     local lsp_status = require('lsp-status')
-  --     lsp_status.config {
-  --       current_function = false,
-  --       show_filename = false,
-  --       indicator_errors = 'E',
-  --       indicator_warnings = 'W',
-  --       indicator_info = 'i',
-  --       indicator_hint = '?',
-  --       indicator_ok = 'Ok',
-  --       status_symbol = '',
-  --     }
-  --     lsp_status.register_progress()
-  --   end,
-  -- },
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
-      debug = false,
+      debug = lsp_utils.DEBUG,
 
       diagnostics = {
         virtual_text = false,
@@ -60,6 +42,9 @@ return {
 
       servers = {
         gopls = {
+          init_options = {
+            usePlaceholders = true,
+          },
           settings = {
             gopls = {
               analyses = {
@@ -69,7 +54,7 @@ return {
             },
           },
           on_attach = function(client, bufnr)
-            require('nikklassen.lsp.utils').on_attach(client, bufnr)
+            lsp_utils.on_attach(client, bufnr)
             local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
             if lines ~= nil and #lines > 0 then
               if lines[1] == '//go:build js' then
@@ -82,9 +67,9 @@ return {
                     },
                   },
                 })
-                client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
               end
             end
+            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
           end
         },
         jsonls = {
@@ -102,7 +87,26 @@ return {
             },
           },
         },
-        ts_ls = {},
+        ts_ls = {
+          init_options = {
+            preferences = {
+              quotePreference = 'single',
+              importModuleSpecifierPreference = 'project-relative'
+            },
+          },
+          on_attach = function(client, bufnr)
+            lsp_utils.on_attach(client, bufnr)
+            client.notify("workspace/didChangeConfiguration", {
+              settings = {
+                typescript = {
+                  format = {
+                    semicolons = 'remove',
+                  },
+                },
+              },
+            })
+          end,
+        },
         eslint = {},
         svelte = {},
         vimls = {},
@@ -138,7 +142,6 @@ return {
       },
     },
     config = function(_, opts)
-      local lsp_utils = require 'nikklassen.lsp.utils'
       local nvim_lsp = require 'lspconfig'
 
       vim.diagnostic.config(opts.diagnostics)
