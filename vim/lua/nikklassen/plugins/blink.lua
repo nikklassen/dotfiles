@@ -59,6 +59,13 @@ return {
       signature = {
         enabled = true,
       },
+
+      cmdline = {
+        keymap = {
+          preset = 'cmdline',
+          ['<C-e>'] = { 'cancel', 'fallback' },
+        },
+      },
     },
     -- allows extending the providers array elsewhere in your config
     -- without having to redefine it
