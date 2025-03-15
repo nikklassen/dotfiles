@@ -1,12 +1,33 @@
 #!/bin/zsh
 
+if [[ -z "$DOTFILES_DIR" ]]; then
+  cat >&2 <<< 'DOTFILES_DIR must be set, consider running the main install script instead'
+  exit 1
+fi
+
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}"
+
 FORCE=''
 if [[ $1 == '-f' ]]; then
     FORCE=-f
 fi
 
 symlink() {
-    ln -s $FORCE $@
+    local admin=''
+    if [[ "$1" == "--sudo" ]]; then
+      admin='sudo'
+      shift
+    fi
+    local from="${DOTFILES_DIR?}/$1"
+    local to="$2"
+    if [[ "$(readlink "$to")" == "$(realpath "$from")" ]]; then
+      return
+    fi
+    local dir="$(dirname "$to")"
+    if [[ ! -d "$dir" ]]; then
+      sudo mkdir -p "$dir"
+    fi
+    sudo ln -s $FORCE "$from" "$to"
 }
 export symlink
 
@@ -14,13 +35,13 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-if [[ ! -d "${XDG_CACHE_HOME?}/tmux-plugins/tpm" ]]; then
-  git clone https://github.com/tmux-plugins/tpm "${XDG_CACHE_HOME?}/tmux-plugins/tpm"
+if [[ ! -d "${CACHE?}/tmux-plugins/tpm" ]]; then
+  git clone https://github.com/tmux-plugins/tpm "${CACHE?}/tmux-plugins/tpm"
 fi
 
 link_home() {
     if [[ ! -L $HOME/.$1 || -n $FORCE ]]; then
-        symlink $PWD/$1 $HOME/.$1
+        symlink $1 $HOME/.$1
     fi
 }
 
@@ -28,17 +49,17 @@ link_home zshrc
 link_home zshenv
 link_home zsh
 link_home gitconfig
-symlink "${XDG_CONFIG_HOME}/tmux/tmux.conf" tmux/tmux.conf
+symlink "tmux/tmux.conf" "${XDG_CONFIG_HOME?}/tmux/tmux.conf" 
 
-sudo mkdir -p /usr/local/etc/profile.d/
-sudo ln -s $FORCE $PWD/z/z.sh /usr/local/etc/profile.d/z.sh
-sudo mkdir -p /usr/local/man/man1/
-sudo ln -s $FORCE $PWD/z/z.1 /usr/local/man/man1/z.1
+symlink --sudo "z/z.sh" "/usr/local/etc/profile.d/z.sh"
+symlink --sudo "z/z.1" "/usr/local/man/man1/z.1"
 
-mkdir -p "${XDG_CONFIG_HOME?}/powerline/themes/tmux"
-symlink "${DOTFILES_DIR?}/powerline/themes/tmux/default.json" "${XDG_CONFIG_HOME?}/powerline/themes/tmux/default.json"
+symlink "powerline/themes/tmux/default.json" "${XDG_CONFIG_HOME?}/powerline/themes/tmux/default.json" 
 
+echo "Installing asdf"
 "${DOTFILES_DIR?}/update_asdf.sh"
+
+existing_plugins=($(asdf plugin list))
 
 typeset -A plugins=(
   ["nodejs"]="https://github.com/asdf-vm/asdf-nodejs.git"
@@ -46,12 +67,13 @@ typeset -A plugins=(
   ["rust"]="https://github.com/asdf-community/asdf-rust.git"
 )
 for plugin url in "${(@kv)plugins}"; do
-  asdf plugin add "$plugin" "$url"
-  asdf install "$plugin" latest
-  asdf global "$plugin" latest
+  if [[ ${existing_plugins[(ie)${plugin}]} > ${#existing_plugins} ]]; then
+    asdf plugin add "$plugin" "$url"
+    asdf install "$plugin" latest
+    asdf set -u "$plugin" latest
+  fi
 done
 
-mkdir -p ~/.config/direnv
-ln -s $PWD/config/direnv/direnv.toml ~/.config/direnv/direnv.toml
+symlink "config/direnv/direnv.toml" "${XDG_CONFIG_HOME?}/direnv/direnv.toml"
 
 source zsh/wezterm.zsh
