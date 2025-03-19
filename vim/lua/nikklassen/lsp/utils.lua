@@ -69,7 +69,7 @@ end
 
 local function current_line_has_float()
   local cur_window_id = vim.api.nvim_get_current_win()
-  local cur_winline = vim.fn.screenrow()
+  local cur_winline = vim.fn.winline()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     local config = vim.api.nvim_win_get_config(win)
     if config.relative == '' or cur_window_id ~= config.win then
