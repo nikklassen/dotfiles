@@ -27,6 +27,17 @@ end
 
 return {
   {
+    'nvimtools/none-ls.nvim',
+    event = 'VeryLazy',
+    main = 'null-ls',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = function(_, opts)
+      local kt_null_ls = require('nikklassen.lsp.kt-null-ls')
+      opts.sources = { kt_null_ls }
+      return opts
+    end,
+  },
+  {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
