@@ -36,13 +36,11 @@ declare -A jj_aliases=(
 
 register-vcs jj is-jj jj_aliases
 
-alias jjmv="jj squash"
-alias jjd="jj describe -m"
-alias jjn="jj next"
+alias jjmv="echo 'use jjsq'"
+alias jjd="echo 'use jjdmsg'"
 alias jjne="jj next --edit"
-alias jjp="jj prev"
 alias jjpe="jj prev --edit"
-alias jjnw="jj new"
+alias jjnw="echo 'use jjn'"
 alias jjbs="jj bookmark set"
 alias jjbm="jj bookmark move"
 alias jjbd="jj bookmark delete"

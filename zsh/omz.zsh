@@ -13,6 +13,7 @@ plugins=(
   extract
   git
   git-ext
+  jj
   tmux
   urltools
   you-should-use
@@ -35,5 +36,7 @@ if [[ $NVIM == 1 ]]; then
      PROMPT="${PROMPT/$\(git_prompt_info\)/}"
      RPS1=''
 fi
+
+zstyle :omz:plugins:jj ignore-working-copy yes
 
 source ~/.oh-my-zsh/oh-my-zsh.sh

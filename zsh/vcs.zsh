@@ -70,9 +70,8 @@ source vcs/jj.zsh
 alias hx=glog
 
 function jj_prompt_info() {
-  local template='coalesce(self.branches().map(|b| b.name()), self.change_id().shortest(3))'
-  local commit_info="$(jj --no-pager log --no-graph -r @ -T "$template" 2> /dev/null)"
-  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${commit_info:gs/%/%%}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+  local commit_info="$(jj_prompt_template 'self.change_id().shortest(3)')"
+  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${commit_info}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
 function git_or_jj_prompt_info() {
