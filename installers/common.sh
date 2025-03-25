@@ -23,6 +23,13 @@ symlink() {
     if [[ "$(readlink "$to")" == "$(realpath "$from")" ]]; then
       return
     fi
+    if [[ -z "$FORCE" && -L "$to" ]]; then
+      echo "Cannot link $to exists, but refers to $(readlink "$to")"
+      return
+    elif [[ -z "$FORCE" && -f "$to" ]]; then
+      echo "Cannot link $to because it already exists"
+      return
+    fi
     local dir="$(dirname "$to")"
     if [[ ! -d "$dir" ]]; then
       sudo mkdir -p "$dir"
