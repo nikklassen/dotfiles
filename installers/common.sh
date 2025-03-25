@@ -63,7 +63,6 @@ symlink --sudo "z/z.1" "/usr/local/man/man1/z.1"
 
 symlink "powerline/themes/tmux/default.json" "${XDG_CONFIG_HOME?}/powerline/themes/tmux/default.json" 
 
-echo "Installing asdf"
 "${DOTFILES_DIR?}/update_asdf.sh"
 
 existing_plugins=($(asdf plugin list))

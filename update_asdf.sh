@@ -1,5 +1,6 @@
 #!/bin/bash
 main() {
+  echo "Checking for asdf updates"
   ASDF_REPO="https://github.com/asdf-vm/asdf.git"
   local latest_version="$(
     git ls-remote --tags --sort -version:refname "${ASDF_REPO}" | \
@@ -12,6 +13,7 @@ main() {
     return
   fi
 
+  echo "New version: ${latest_version}"
   TMP="/tmp/asdf-${latest_version}-linux-amd64.tar.gz"
   wget -O "$TMP" "https://github.com/asdf-vm/asdf/releases/download/${latest_version}/asdf-${latest_version}-linux-amd64.tar.gz"
   echo "Extracting to /usr/local/bin"
