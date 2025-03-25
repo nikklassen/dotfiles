@@ -183,7 +183,7 @@ return {
     -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
     lazy = false,
     keys = {
-      { '<leader>o', '<cmd>edit expand("%:h")', desc = 'Edit current file\'s directory with oil' },
+      { '<leader>o', '<cmd>execute "edit " .. expand("%:h")<CR>', desc = 'Edit current file\'s directory with oil' },
     },
   },
   {
