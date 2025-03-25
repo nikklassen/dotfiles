@@ -1,3 +1,5 @@
+local ms = vim.lsp.protocol.Methods
+
 local M = {
   DEBUG = vim.env.NK_LSP_DEBUG
 }
@@ -18,26 +20,41 @@ local function goto_diagnostic_options()
   return nil
 end
 
----@param client_name string
+---@param client lsp.Client
 ---@param bufnr number
-function M.organize_imports_and_format(client_name, bufnr)
-  if client_name == 'ts_ls' then
+function M.organize_imports_and_format(client, bufnr)
+  if client.name == 'ts_ls' then
     local command = {
       command = '_typescript.organizeImports',
       arguments = { vim.fn.expand('%:p') },
     }
-    vim.lsp.get_clients({
-      name = 'ts_ls'
-    })[1]:exec_cmd(command, { bufnr = bufnr })
+    client:exec_cmd(command, { bufnr = bufnr })
   else
-    vim.lsp.buf.code_action({
-      context = {
-        only = { "source.organizeImports" }
-      },
-      apply = true,
-    })
+    local params = vim.lsp.util.make_range_params(nil, client.offset_encoding) ---@type table
+    params.context = { only = { "source.organizeImports" } }
+    -- buf_request_sync defaults to a 1000ms timeout. Depending on your
+    -- machine and codebase, you may want longer. Add an additional
+    -- argument after params if you find that you have to write the file
+    -- twice for changes to be saved.
+    -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+    local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params)
+    for cid, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          local encoding = 'utf-16'
+          local client_for_edit = vim.lsp.get_client_by_id(cid)
+          if client_for_edit then
+            encoding = client_for_edit.offset_encoding
+          end
+          vim.lsp.util.apply_workspace_edit(r.edit, encoding)
+        end
+      end
+    end
   end
-  vim.lsp.buf.format()
+  vim.lsp.buf.format {
+    id = client.id,
+    bufnr = bufnr,
+  }
 end
 
 local function current_line_has_float()
@@ -56,7 +73,7 @@ local function current_line_has_float()
   return false
 end
 
----@param d vim.Diagnostic?
+---@param d Diagnostic?
 local function jump_to_diagnostic(d)
   if d == nil then
     return
@@ -69,7 +86,7 @@ local function jump_to_diagnostic(d)
 end
 
 
----@param client vim.lsp.Client
+---@param client lsp.Client
 ---@param bufnr number
 ---@param autoformat boolean
 ---@param lsp_augroup number
@@ -82,7 +99,7 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
   local supports_organize_imports = vim.tbl_contains(code_actions, 'source.organizeImports') or client.name == 'ts_ls'
   if supports_organize_imports then
     vim.api.nvim_buf_create_user_command(bufnr, 'OrganizeImports', function()
-      M.organize_imports_and_format(client.name, bufnr)
+      M.organize_imports_and_format(client, bufnr)
     end, {})
   end
 
@@ -91,7 +108,7 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
     buffer = bufnr,
     callback = function()
       if supports_organize_imports then
-        M.organize_imports_and_format(client.name, bufnr)
+        M.organize_imports_and_format(client, bufnr)
       else
         vim.lsp.buf.format { bufnr = bufnr }
       end
@@ -100,7 +117,7 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
 end
 
 ---Setups up formatting exprs and autocommands
----@param client vim.lsp.Client
+---@param client lsp.Client
 ---@param bufnr number
 ---@param lsp_augroup number
 local function setup_formatting(client, bufnr, lsp_augroup)
@@ -115,7 +132,7 @@ local function setup_formatting(client, bufnr, lsp_augroup)
 end
 
 ---Configures LSP client for this buffer
----@param client vim.lsp.Client
+---@param client lsp.Client
 ---@param bufnr number
 function M.on_attach(client, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -151,7 +168,7 @@ function M.on_attach(client, bufnr)
 
   setup_formatting(client, bufnr, lsp_augroup)
 
-  if client:supports_method('textDocument/signatureHelp', bufnr) then
+  if client:supports_method(ms.textDocument_signatureHelp, bufnr) then
     local lsp_signature, err = pcall(require, 'lsp_signature')
     if err == nil then
       lsp_signature.on_attach({}, bufnr)
@@ -159,7 +176,7 @@ function M.on_attach(client, bufnr)
   end
 
   -- Set autocommands conditional on server_capabilities
-  if client:supports_method('textDocument/documentHighlight', bufnr) then
+  if client:supports_method(ms.textDocument_documentHighlight, bufnr) then
     vim.api.nvim_set_hl(0, 'LspReferenceRead', { link = 'Underlined', default = true })
     vim.api.nvim_set_hl(0, 'LspReferenceText', { link = 'Normal', default = true })
     vim.api.nvim_set_hl(0, 'LspReferenceWrite', { link = 'Underlined', default = true })

@@ -1,3 +1,4 @@
+local ms = vim.lsp.protocol.Methods
 local lsp_utils = require('nikklassen.lsp.utils')
 
 local function init_luals(client)
@@ -65,7 +66,8 @@ return {
               },
               staticcheck = true,
               gofumpt = true,
-              semanticTokens = true,
+              -- Doesn't highlight properties yet
+              -- semanticTokens = true,
               usePlaceholders = true,
             },
           },
@@ -164,31 +166,31 @@ return {
         vim.lsp.set_log_level('debug')
       end
 
-      vim.lsp.handlers['client/registerCapability'] = (function(overridden)
-            return function(err, res, ctx)
-              print('registerCapability called')
-              dump(res)
-              dump(ctx)
-              local result = overridden(err, res, ctx)
-              local client = vim.lsp.get_client_by_id(ctx.client_id)
-              if not client then
-                return
-              end
-              lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
-              return result
-            end
-          end)(vim.lsp.handlers['client/registerCapability'])
+      vim.lsp.handlers[ms.client_registerCapability] = (function(overridden)
+        return function(err, res, ctx)
+          print('registerCapability called')
+          dump(res)
+          dump(ctx)
+          local result = overridden(err, res, ctx)
+          local client = vim.lsp.get_client_by_id(ctx.client_id)
+          if not client then
+            return
+          end
+          lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
+          return result
+        end
+      end)(vim.lsp.handlers[ms.client_registerCapability])
 
-          vim.api.nvim_create_autocmd('LspAttach', {
-            pattern = '*',
-            callback = function(ev)
-              local client = vim.lsp.get_client_by_id(ev.data.client_id)
-              if not client then
-                return
-              end
-              lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
-            end,
-          })
+      vim.api.nvim_create_autocmd('LspAttach', {
+        pattern = '*',
+        callback = function(ev)
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if not client then
+            return
+          end
+          lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
+        end,
+      })
 
       local default_capabilities = require('blink.cmp').get_lsp_capabilities()
 
