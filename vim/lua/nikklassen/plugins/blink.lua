@@ -1,19 +1,9 @@
 return {
-  -- {
-  --   'saghen/blink.compat',
-  --   version = '*',
-  --   lazy = true,
-  --   opts = {
-  --     impersonate_nvim_cmp = true,
-  --     debug = true,
-  --   },
-  -- },
   {
     'saghen/blink.cmp',
     lazy = false, -- lazy loading handled internally
 
     version = 'v1.*',
-    -- build = 'cargo build --release',
 
     opts = {
       sources = {
