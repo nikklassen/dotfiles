@@ -1,23 +1,24 @@
 return {
-  {
-    'saghen/blink.compat',
-    version = '*',
-    lazy = true,
-    opts = {
-      impersonate_nvim_cmp = true,
-      debug = true,
-    },
-  },
+  -- {
+  --   'saghen/blink.compat',
+  --   version = '*',
+  --   lazy = true,
+  --   opts = {
+  --     impersonate_nvim_cmp = true,
+  --     debug = true,
+  --   },
+  -- },
   {
     'saghen/blink.cmp',
     lazy = false, -- lazy loading handled internally
 
-    version = 'v0.*',
+    version = 'v1.*',
     -- build = 'cargo build --release',
 
     opts = {
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        -- default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'path' },
       },
 
       appearance = {
@@ -61,6 +62,7 @@ return {
       },
 
       cmdline = {
+        enabled = false,
         keymap = {
           preset = 'cmdline',
           ['<C-e>'] = { 'cancel', 'fallback' },
