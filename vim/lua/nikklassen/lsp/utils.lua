@@ -2,23 +2,6 @@ local M = {
   DEBUG = vim.env.NK_LSP_DEBUG
 }
 
-local function range_format_sync(options, start_pos, end_pos)
-  vim.validate { options = { options, 't', true } }
-  local sts = vim.bo.softtabstop;
-  options = vim.tbl_extend('keep', options or {}, {
-    tabSize = (sts > 0 and sts) or (sts < 0 and vim.bo.shiftwidth) or vim.bo.tabstop,
-    insertSpaces = vim.bo.expandtab,
-  })
-  local params = vim.lsp.util.make_given_range_params(start_pos, end_pos)
-  params.options = options
-  local result = vim.lsp.buf_request_sync(0, 'textDocument/rangeFormatting', params, 1000)
-  if not result or vim.tbl_isempty(result) then return end
-  local _, formatting_result = next(result)
-  result = formatting_result.result
-  if not result then return end
-  vim.lsp.util.apply_text_edits(result, 0, 'utf-8')
-end
-
 local function goto_diagnostic_options()
   local severities = {
     vim.diagnostic.severity.ERROR,
@@ -47,22 +30,12 @@ function M.organize_imports_and_format(client_name, bufnr)
       name = 'ts_ls'
     })[1]:exec_cmd(command, { bufnr = bufnr })
   else
-    local params = vim.lsp.util.make_range_params(nil, 'utf-8')
-    params.context = { only = { "source.organizeImports" } }
-    -- buf_request_sync defaults to a 1000ms timeout. Depending on your
-    -- machine and codebase, you may want longer. Add an additional
-    -- argument after params if you find that you have to write the file
-    -- twice for changes to be saved.
-    -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-    local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params)
-    for cid, res in pairs(result or {}) do
-      for _, r in pairs(res.result or {}) do
-        if r.edit then
-          local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
-          vim.lsp.util.apply_workspace_edit(r.edit, enc)
-        end
-      end
-    end
+    vim.lsp.buf.code_action({
+      context = {
+        only = { "source.organizeImports" }
+      },
+      apply = true,
+    })
   end
   vim.lsp.buf.format()
 end
@@ -83,19 +56,18 @@ local function current_line_has_float()
   return false
 end
 
-local function show_diagnostics()
-  if current_line_has_float() then
+---@param d vim.Diagnostic?
+local function jump_to_diagnostic(d)
+  if d == nil then
     return
   end
-  local ok, show = pcall(require, 'lspsaga.diagnostic.show')
-  if not ok then
-    vim.diagnostic.open_float({
-      focusable = false
-    })
-  else
-    show:show_diagnostics({ line = true, args = { '++unfocus' } })
+  local opts = { diagnostic = d }
+  if not current_line_has_float() then
+    opts.float = { focusable = false }
   end
+  vim.diagnostic.jump(opts)
 end
+
 
 ---@param client vim.lsp.Client
 ---@param bufnr number
@@ -127,19 +99,6 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
   })
 end
 
-local function setup_range_formatting(client, bufnr, autoformat, lsp_augroup)
-  if not client.server_capabilities.documentRangeFormattingProvider or client.server_capabilities.documentFormattingProvider or not autoformat then
-    return
-  end
-
-  -- Currently just for jsonls
-  vim.api.nvim_create_autocmd('BufWritePre', {
-    group = lsp_augroup,
-    buffer = bufnr,
-    callback = function() range_format_sync({}, { 0, 0 }, { vim.fn.line("$"), 0 }) end
-  })
-end
-
 ---Setups up formatting exprs and autocommands
 ---@param client vim.lsp.Client
 ---@param bufnr number
@@ -153,20 +112,6 @@ local function setup_formatting(client, bufnr, lsp_augroup)
     autoformat = true
   end
   setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
-  setup_range_formatting(client, bufnr, autoformat, lsp_augroup)
-end
-
-local function nvim_v0_11_polyfill(client, opts)
-  if client.supports_method('textDocument/signatureHelp') then
-    vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help, opts)
-  end
-  if client.supports_method('textDocument/codeAction') then
-    vim.keymap.set({ 'n', 'v' }, 'gra', vim.lsp.buf.code_action, opts)
-  end
-  vim.keymap.set('n', 'grn', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', 'grr', vim.lsp.buf.references, opts)
-  vim.keymap.set('n', 'gri', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', 'gO', vim.lsp.buf.document_symbol, opts)
 end
 
 ---Configures LSP client for this buffer
@@ -178,12 +123,7 @@ function M.on_attach(client, bufnr)
     if require 'dap'.session() ~= nil then
       require('dap.ui.widgets').hover()
     else
-      local ok, hover = pcall(require, 'lspsaga.hover')
-      if not ok then
-        vim.lsp.buf.hover()
-      else
-        hover:render_hover_doc({})
-      end
+      vim.lsp.buf.hover()
     end
   end, opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -193,13 +133,7 @@ function M.on_attach(client, bufnr)
     if goto_opts == nil then
       return
     end
-    -- vim.diagnostic.goto_prev(goto_opts)
-    local d = vim.diagnostic.get_prev(goto_opts)
-    if d == nil then
-      return
-    end
-    vim.api.nvim_win_set_cursor(0, { d.lnum + 1, d.col })
-    show_diagnostics()
+    jump_to_diagnostic(vim.diagnostic.get_prev(goto_opts))
   end
   vim.keymap.set('n', '<Up>', next_diagnostic, opts)
   vim.keymap.set('n', ']d', next_diagnostic, opts)
@@ -208,43 +142,29 @@ function M.on_attach(client, bufnr)
     if goto_opts == nil then
       return
     end
-    -- vim.diagnostic.goto_next(goto_opts)
-    local d = vim.diagnostic.get_next(goto_opts)
-    if d == nil then
-      return
-    end
-    vim.api.nvim_win_set_cursor(0, { d.lnum + 1, d.col })
-    show_diagnostics()
+    jump_to_diagnostic(vim.diagnostic.get_next(goto_opts))
   end
   vim.keymap.set('n', '<Down>', prev_diagnostic, opts)
   vim.keymap.set('n', '[d', prev_diagnostic, opts)
 
   local lsp_augroup = vim.api.nvim_create_augroup('lsp_buf_' .. bufnr .. '_' .. client.name, {})
-  vim.api.nvim_create_autocmd('CursorHold', {
-    group = lsp_augroup,
-    buffer = bufnr,
-    callback = show_diagnostics,
-  })
 
   setup_formatting(client, bufnr, lsp_augroup)
 
-  if client.supports_method('textDocument/signatureHelp') then
+  if client:supports_method('textDocument/signatureHelp', bufnr) then
     local lsp_signature, err = pcall(require, 'lsp_signature')
     if err == nil then
       lsp_signature.on_attach({}, bufnr)
     end
   end
 
-  -- TODO: delete when nvim 0.11 is stable
-  nvim_v0_11_polyfill(client, opts)
-
   -- Set autocommands conditional on server_capabilities
-  if client.supports_method('textDocument/documentHighlight', { bufnr = bufnr }) then
+  if client:supports_method('textDocument/documentHighlight', bufnr) then
     vim.api.nvim_set_hl(0, 'LspReferenceRead', { link = 'Underlined', default = true })
     vim.api.nvim_set_hl(0, 'LspReferenceText', { link = 'Normal', default = true })
     vim.api.nvim_set_hl(0, 'LspReferenceWrite', { link = 'Underlined', default = true })
     local lsp_highlight_augroup = vim.api.nvim_create_augroup('lsp_highlight_buf_' .. bufnr, {})
-    vim.api.nvim_create_autocmd('CursorHold', {
+    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
       group = lsp_highlight_augroup,
       buffer = bufnr,
       callback = vim.lsp.buf.document_highlight,
@@ -255,13 +175,6 @@ function M.on_attach(client, bufnr)
       callback = vim.lsp.buf.clear_references,
     })
   end
-end
-
-function M.default_config()
-  return {
-    on_attach = M.on_attach,
-    capabilities = require('blink.cmp').get_lsp_capabilities(),
-  }
 end
 
 return M

@@ -5,7 +5,7 @@ local function init_luals(client)
   if client.workspace_folders ~= nil then
     path = client.workspace_folders[1].name
   end
-  if path ~= vim.fn.stdpath('config') and (vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc')) then
+  if path ~= vim.fn.stdpath('config') and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
     return
   end
   client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
@@ -44,7 +44,7 @@ return {
       debug = lsp_utils.DEBUG,
 
       diagnostics = {
-        virtual_text = false,
+        virtual_lines = true,
         signs = true,
         update_in_insert = false,
         underline = true,
@@ -60,12 +60,16 @@ return {
             gopls = {
               analyses = {
                 unusedparams = true,
+                unusedwrite = true,
+                nilness = true,
               },
               staticcheck = true,
+              gofumpt = true,
+              semanticTokens = true,
+              usePlaceholders = true,
             },
           },
           on_attach = function(client, bufnr)
-            lsp_utils.on_attach(client, bufnr)
             local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
             if lines ~= nil and #lines > 0 then
               if lines[1] == '//go:build js' then
@@ -105,8 +109,7 @@ return {
               importModuleSpecifierPreference = 'project-relative'
             },
           },
-          on_attach = function(client, bufnr)
-            lsp_utils.on_attach(client, bufnr)
+          on_attach = function(client)
             client.notify("workspace/didChangeConfiguration", {
               settings = {
                 typescript = {
@@ -156,16 +159,43 @@ return {
       local nvim_lsp = require 'lspconfig'
 
       vim.diagnostic.config(opts.diagnostics)
-      vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {})
 
       if opts.debug then
         vim.lsp.set_log_level('debug')
       end
 
-      local default_config = lsp_utils.default_config()
+      vim.lsp.handlers['client/registerCapability'] = (function(overridden)
+            return function(err, res, ctx)
+              print('registerCapability called')
+              dump(res)
+              dump(ctx)
+              local result = overridden(err, res, ctx)
+              local client = vim.lsp.get_client_by_id(ctx.client_id)
+              if not client then
+                return
+              end
+              lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
+              return result
+            end
+          end)(vim.lsp.handlers['client/registerCapability'])
+
+          vim.api.nvim_create_autocmd('LspAttach', {
+            pattern = '*',
+            callback = function(ev)
+              local client = vim.lsp.get_client_by_id(ev.data.client_id)
+              if not client then
+                return
+              end
+              lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
+            end,
+          })
+
+      local default_capabilities = require('blink.cmp').get_lsp_capabilities()
 
       for server, server_config in pairs(opts.servers) do
-        server_config = vim.tbl_deep_extend('force', default_config, server_config)
+        server_config = vim.tbl_deep_extend('force', {
+          capabilities = default_capabilities,
+        }, server_config)
         nvim_lsp[server].setup(server_config)
       end
     end,
