@@ -23,7 +23,8 @@ declare -A git_aliases=(
   [gstl]="git stash list"
   [gsts]="git stash show --text"
   [grs]="git restore"
-  [gc!]="$aliases[gc\!]"
+  [gc]="$aliases[gc]"
+  [gc!]="$aliases[gc!]"
   [gci]="git commit -p"
   [grm]="git rm"
   [grbc]="$aliases[grbc]"
@@ -31,6 +32,8 @@ declare -A git_aliases=(
   [gd]="git diff"
   [glog]="$aliases[glog]"
   [grbm]="git rebase \$(git_main_branch)"
+  [gf]="$aliases[gf]"
+  [gcoh]="gco HEAD"
 )
 
 register-vcs git is-git git_aliases

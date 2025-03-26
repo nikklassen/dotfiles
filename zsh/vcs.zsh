@@ -22,7 +22,10 @@ function which-vcs-alias() {
 function vcs-cmd() {
   local fn="$1"; shift
   local alias="$(which-vcs-alias "$fn")"
-  [[ -z "$alias" ]] && return 1
+  if [[ -z "$alias" ]]; then
+    echo "No command \"$fn\" defined for $(which-vcs)"
+    return 1
+  fi
   eval "${alias}" "${@:q}"
 }
 
