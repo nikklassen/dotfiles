@@ -45,7 +45,7 @@ return {
       debug = lsp_utils.DEBUG,
 
       diagnostics = {
-        virtual_lines = true,
+        virtual_lines = { current_line = true },
         signs = true,
         update_in_insert = false,
         underline = true,

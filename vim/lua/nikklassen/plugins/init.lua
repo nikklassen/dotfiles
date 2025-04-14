@@ -156,6 +156,9 @@ return {
     'ii14/neorepl.nvim',
     cmd = { 'Repl' },
     config = function()
+      require('neorepl').config({
+        lang = 'lua'
+      })
       vim.api.nvim_create_user_command('Repl', function()
         -- create a new split for the repl
         vim.cmd('split')
