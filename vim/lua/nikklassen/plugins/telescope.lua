@@ -77,7 +77,8 @@ end
 return {
   {
     'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
+    -- No new releases since 2024, but fixes exist on master
+    -- branch = '0.1.x',
     dependencies = {
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
@@ -113,6 +114,7 @@ return {
         { '<S-F12>',    lsp_references },
         { '<F24>',      lsp_references },
         { '<leader>d',  utils.lazy_require('nikklassen.telescope').directory_files },
+        { '<C-T>',      builtin.lsp_dynamic_workspace_symbols },
       })
     end,
     config = function(_, opts)
