@@ -19,14 +19,6 @@ vim.api.nvim_create_user_command('R', 'new | setlocal buftype=nofile bufhidden=h
 })
 vim.api.nvim_create_user_command('Vterm', 'vertical belowright split | term', {})
 
-local function go_test()
-  local test_name = vim.fn.expand('<cword>')
-  local dir_name = vim.fn.expand('%:.:h')
-  vim.system({ 'tmux', 'send', '-t', ':.!', string.format([[go test -test.run="%s" "./%s"\n]], test_name, dir_name) })
-end
-
-vim.api.nvim_create_user_command('GoTest', go_test, {})
-
 vim.api.nvim_create_autocmd('LspProgress', {
   pattern = '*',
   command = 'redrawstatus',
