@@ -52,6 +52,9 @@ return {
         }
       },
       hooks = {
+        on_tree_mount = function()
+          vim.bo.ft = 'hunk'
+        end,
         on_diff_mount = function(context)
           vim.keymap.set('n', '<Up>', '[c', {
             buffer = context.buf
@@ -196,6 +199,8 @@ return {
   {
     "m4xshen/hardtime.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
-    opts = {}
+    opts = {
+      disabled_filetypes = { 'qf', 'NvimTree', 'lazy', 'hunk' },
+    },
   },
 }
