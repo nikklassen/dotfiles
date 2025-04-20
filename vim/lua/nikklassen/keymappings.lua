@@ -126,3 +126,39 @@ vim.keymap.set('n', '<C-l>', function()
   require('notify').dismiss()
   vim.cmd('normal! <C-L>')
 end, { remap = false })
+
+-- All the ways to start a search, with a description
+local mark_search_keys = {
+  ['/'] = 'Search forward',
+  ['?'] = 'Search backward',
+  ['*'] = 'Search current word (forward)',
+  ['#'] = 'Search current word (backward)',
+  ['g*'] = 'Search current word (forward, not whole word)',
+  ['g#'] = 'Search current word (backward, not whole word)',
+}
+
+-- Before starting the search, set a mark `s`
+for key, desc in pairs(mark_search_keys) do
+  vim.keymap.set('n', key, 'ms' .. key, { desc = desc })
+end
+
+-- Clear search highlight when jumping back to beginning
+vim.keymap.set('n', "'s", function()
+  vim.cmd("normal! 's")
+  vim.cmd.nohlsearch()
+end)
+
+-- Add multiline movements to the jump list
+vim.keymap.set('n', 'j', function()
+  if vim.v.count > 0 then
+    return "m'" .. vim.v.count .. 'j'
+  end
+  return 'j'
+end, { expr = true })
+
+vim.keymap.set('n', 'k', function()
+  if vim.v.count > 0 then
+    return "m'" .. vim.v.count .. 'k'
+  end
+  return 'k'
+end, { expr = true })
