@@ -146,7 +146,9 @@ export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 # Load z
 [ -f /usr/local/bin/z.sh ] && source /usr/local/bin/z.sh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if command fzf > /dev/null 2>&1; then
+	source <(fzf --zsh)	
+fi
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 

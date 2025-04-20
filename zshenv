@@ -46,7 +46,9 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
 
-export SITE_PACKAGES="$(python3 -m site --user-site)"
+if which python >/dev/null 2>&1; then 
+	export SITE_PACKAGES="$(python -m site --user-site)"
+fi
 
 # For security the local directory should be at the end
 export PATH="$PATH:."
