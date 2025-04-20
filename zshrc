@@ -146,8 +146,8 @@ export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 # Load z
 [ -f /usr/local/bin/z.sh ] && source /usr/local/bin/z.sh
 
-if command fzf > /dev/null 2>&1; then
-	source <(fzf --zsh)	
+if command fzf --version > /dev/null 2>&1; then
+  source <(fzf --zsh)
 fi
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -164,10 +164,6 @@ zle -C complete-files complete-word _generic
 bindkey '^X^F' complete-files
 bindkey '^X?' _complete_debug
 zstyle ':completion:*' accept-exact-dirs true
-
-if command jj > /dev/null 2>&1; then
-  source <(jj util completion zsh)
-fi
 
 # Needs to run after asdf
 export PATH="$(go env GOPATH)/bin:$PATH"
