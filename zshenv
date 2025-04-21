@@ -28,6 +28,7 @@ PATH="/opt/homebrew/bin:$PATH"
 # Undocumented feature that stops zsh-syntax-highlight after a certain length
 export ZSH_HIGHLIGHT_MAXLENGTH=100
 
+export PATH="$PATH:$HOME/.fzf/bin"
 export FZF_DEFAULT_COMMAND="fd --type f"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type d"
