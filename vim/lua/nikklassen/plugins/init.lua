@@ -201,6 +201,15 @@ return {
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {
       disabled_filetypes = { 'qf', 'NvimTree', 'lazy', 'hunk' },
+      hints = {
+        ["d%$"] = nil,
+        ["[^g]d%$"] = {
+          message = function()
+            return "Use D instead of d$"
+          end,
+          length = 3,
+        },
+      },
     },
   },
 }
