@@ -43,3 +43,7 @@ merge-tool-edits-conflict-markers = true
 
 'format_timestamp(timestamp)' = 'timestamp.ago()'
 'format_short_signature(signature)' = 'signature.email().local()'
+
+[snapshot]
+
+auto-update-stale = true
