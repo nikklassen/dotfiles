@@ -18,10 +18,10 @@ local function init_luals(client)
       checkThirdParty = false,
       library = vim.list_extend({
         vim.env.VIMRUNTIME,
-      }, vim.api.nvim_get_runtime_file("", true)),
+      }, vim.api.nvim_get_runtime_file('', true)),
     },
     completion = {
-      callSnippet = "Replace",
+      callSnippet = 'Replace',
     }
   })
 end
@@ -52,6 +52,10 @@ return {
         severity_sort = true,
       },
 
+      inlay_hints = {
+        enabled = true,
+      },
+
       servers = {
         gopls = {
           init_options = {
@@ -75,7 +79,7 @@ return {
             local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
             if lines ~= nil and #lines > 0 then
               if lines[1] == '//go:build js' then
-                print("Setting GOARCH to wasm")
+                print('Setting GOARCH to wasm')
                 client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
                   gopls = {
                     env = {
@@ -86,7 +90,7 @@ return {
                 })
               end
             end
-            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+            client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
           end
         },
         jsonls = {
@@ -112,7 +116,7 @@ return {
             },
           },
           on_attach = function(client)
-            client.notify("workspace/didChangeConfiguration", {
+            client.notify('workspace/didChangeConfiguration', {
               settings = {
                 typescript = {
                   format = {
@@ -142,14 +146,20 @@ return {
                 defaultConfig = {
                   indent_size = '2',
                   indent_style = 'space',
+                  quote_style = 'single',
                 },
+              },
+              hint = {
+                enable = true,
+                arrayIndex = 'Disable',
+                paramName = 'Literal',
               },
             },
           },
           on_init = init_luals,
         },
         sqls = {
-          cmd = { "sqls", "-config", ".sqls-config.yml" },
+          cmd = { 'sqls', '-config', '.sqls-config.yml' },
           root_dir = function(start)
             local lsputil = require 'lspconfig.util'
             return lsputil.root_pattern('.sqls-config.yml')(start)
@@ -167,16 +177,19 @@ return {
       end
 
       vim.lsp.handlers[ms.client_registerCapability] = (function(overridden)
-        return function(err, res, ctx)
-          local result = overridden(err, res, ctx)
-          local client = vim.lsp.get_client_by_id(ctx.client_id)
-          if not client then
-            return
-          end
-          lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
-          return result
-        end
-      end)(vim.lsp.handlers[ms.client_registerCapability])
+            return function(err, res, ctx)
+              print('registerCapability called')
+              dump(res)
+              dump(ctx)
+              local result = overridden(err, res, ctx)
+              local client = vim.lsp.get_client_by_id(ctx.client_id)
+              if not client then
+                return
+              end
+              lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
+              return result
+            end
+          end)(vim.lsp.handlers[ms.client_registerCapability])
 
       vim.api.nvim_create_autocmd('LspAttach', {
         pattern = '*',

@@ -31,13 +31,13 @@ function M.organize_imports_and_format(client, bufnr)
     client:exec_cmd(command, { bufnr = bufnr })
   else
     local params = vim.lsp.util.make_range_params(nil, client.offset_encoding) ---@type table
-    params.context = { only = { "source.organizeImports" } }
+    params.context = { only = { 'source.organizeImports' } }
     -- buf_request_sync defaults to a 1000ms timeout. Depending on your
     -- machine and codebase, you may want longer. Add an additional
     -- argument after params if you find that you have to write the file
     -- twice for changes to be saved.
     -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-    local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params)
+    local result = vim.lsp.buf_request_sync(bufnr, 'textDocument/codeAction', params)
     for cid, res in pairs(result or {}) do
       for _, r in pairs(res.result or {}) do
         if r.edit then
@@ -193,15 +193,19 @@ function M.on_attach(client, bufnr)
     })
   end
 
-  if client.name == "svelte" then
-    vim.api.nvim_create_autocmd("BufWritePost", {
-      pattern = { "*.js", "*.ts" },
-      group = vim.api.nvim_create_augroup("svelte_ondidchangetsorjsfile", { clear = true }),
+  if client.name == 'svelte' then
+    vim.api.nvim_create_autocmd('BufWritePost', {
+      pattern = { '*.js', '*.ts' },
+      group = vim.api.nvim_create_augroup('svelte_ondidchangetsorjsfile', { clear = true }),
       callback = function(ctx)
         -- Here use ctx.match instead of ctx.file
-        client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+        client.notify('$/onDidChangeTsOrJsFile', { uri = ctx.match })
       end,
     })
+  end
+
+  if client:supports_method(ms.textDocument_inlayHint, bufnr) then
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
   end
 end
 
