@@ -13,16 +13,15 @@ return {
     },
   },
   {
-    'saghen/blink.cmp',
-    dependencies = {
-      {
-        'fang2hou/blink-copilot',
-        opts = {
-          max_completions = 1,
-          max_attempts = 2,
-        },
-      },
+    'fang2hou/blink-copilot',
+    lazy = true,
+    opts = {
+      max_completions = 1,
+      max_attempts = 2,
     },
+  },
+  {
+    'saghen/blink.cmp',
     opts = {
       sources = {
         default = { 'copilot' },

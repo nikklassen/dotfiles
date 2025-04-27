@@ -39,6 +39,10 @@ return {
     cmd = { 'DiffConflicts' },
   },
   {
+    'MunifTanjim/nui.nvim',
+    lazy = true,
+  },
+  {
     "julienvincent/hunk.nvim",
     cmd = { "DiffEditor" },
     main = 'hunk',
@@ -65,9 +69,6 @@ return {
           vim.cmd('normal ]c')
         end,
       },
-    },
-    dependencies = {
-      'MunifTanjim/nui.nvim',
     },
   },
   {
@@ -103,17 +104,15 @@ return {
   -- Other plugins --
   -------------------
   {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    config = function()
+      require 'nikklassen.plugin_config.nvim-treesitter'.configure()
+    end,
+  },
+  {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     event = { "BufReadPost", "BufNewFile" },
-    dependencies = {
-      {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        config = function()
-          require 'nikklassen.plugin_config.nvim-treesitter'.configure()
-        end,
-      },
-    },
   },
   {
     'kylechui/nvim-surround',
@@ -183,9 +182,6 @@ return {
     ---@module 'oil'
     ---@type oil.SetupOpts
     opts = {},
-    -- Optional dependencies
-    -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
-    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
     -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
     lazy = false,
     keys = {
@@ -198,7 +194,6 @@ return {
   },
   {
     "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim" },
     opts = {
       disabled_filetypes = { 'qf', 'NvimTree', 'lazy', 'hunk' },
       hints = {

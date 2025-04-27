@@ -28,6 +28,6 @@ return {
       "vue",
       "xml",
     },
-    config = true,
+    opts = {},
   },
 }
