@@ -16,9 +16,15 @@ local function init_luals(client)
     -- Make the server aware of Neovim runtime files
     workspace = {
       checkThirdParty = false,
-      library = vim.list_extend({
+      -- library = vim.list_extend({
+      --   vim.env.VIMRUNTIME,
+      -- }, vim.api.nvim_get_runtime_file('', true)),
+      library = {
         vim.env.VIMRUNTIME,
-      }, vim.api.nvim_get_runtime_file('', true)),
+        vim.fn.stdpath('data') .. '/lazy/TODO',
+        vim.fn.stdpath('config') .. '/lua',
+        vim.env.PWD,
+      },
     },
     completion = {
       callSnippet = 'Replace',

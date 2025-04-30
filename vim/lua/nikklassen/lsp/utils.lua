@@ -20,7 +20,7 @@ local function goto_diagnostic_options()
   return nil
 end
 
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr number
 function M.organize_imports_and_format(client, bufnr)
   if client.name == 'ts_ls' then
@@ -73,7 +73,7 @@ local function current_line_has_float()
   return false
 end
 
----@param d Diagnostic?
+---@param d vim.Diagnostic?
 local function jump_to_diagnostic(d)
   if d == nil then
     return
@@ -86,7 +86,7 @@ local function jump_to_diagnostic(d)
 end
 
 
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr number
 ---@param autoformat boolean
 ---@param lsp_augroup number
@@ -117,7 +117,7 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
 end
 
 ---Setups up formatting exprs and autocommands
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr number
 ---@param lsp_augroup number
 local function setup_formatting(client, bufnr, lsp_augroup)
@@ -132,7 +132,7 @@ local function setup_formatting(client, bufnr, lsp_augroup)
 end
 
 ---Configures LSP client for this buffer
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr number
 function M.on_attach(client, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -199,12 +199,16 @@ function M.on_attach(client, bufnr)
       group = vim.api.nvim_create_augroup('svelte_ondidchangetsorjsfile', { clear = true }),
       callback = function(ctx)
         -- Here use ctx.match instead of ctx.file
-        client.notify('$/onDidChangeTsOrJsFile', { uri = ctx.match })
+        client:notify('$/onDidChangeTsOrJsFile' --[[ @as vim.lsp.protocol.Method.ClientToServer.Notification ]],
+          { uri = ctx.match })
       end,
     })
   end
 
-  if client:supports_method(ms.textDocument_inlayHint, bufnr) then
+  local disabled_inlay_hint_file_types = vim.tbl_get(client.config, 'settings', 'inlay_hints', 'disabled_file_types') or
+      {}
+  local disable_inlay_hints = vim.tbl_contains(disabled_inlay_hint_file_types, vim.bo[bufnr].filetype)
+  if not disable_inlay_hints and client:supports_method(ms.textDocument_inlayHint, bufnr) then
     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
   end
 end

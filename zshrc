@@ -187,4 +187,19 @@ function osc52() {
 
 compdef _files delta
 
+function dec2hex() {
+  python -c 'import sys; print(f"{int(sys.argv[1]):x}")' "$1"
+}
+
+function hex2dec() {
+  python -c 'import sys; print(int(sys.argv[1], 16))' "$1"
+}
+
+function fzf-history-widget-accept() {
+  fzf-history-widget
+  zle accept-line
+}
+zle     -N     fzf-history-widget-accept
+bindkey '^X^R' fzf-history-widget-accept
+
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local

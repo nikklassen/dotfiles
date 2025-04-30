@@ -21,12 +21,27 @@ function M.tbl_list_extend(tbl1, tbl2)
   return tbl1
 end
 
+---Finds an element of a list matching a predicate
+---@generic T
+---@param pred fun(e: T): boolean
+---@param tbl T[]
+---@return T | nil
+---@return boolean
+function M.list_find(pred, tbl)
+  for _, e in ipairs(tbl) do
+    if pred(e) then
+      return e, true
+    end
+  end
+  return nil, false
+end
+
 function M.string_split(inputstr, sep)
   if sep == nil then
-    sep = "%s"
+    sep = '%s'
   end
   local t = {}
-  for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
+  for str in string.gmatch(inputstr, '([^' .. sep .. ']+)') do
     table.insert(t, str)
   end
   return t

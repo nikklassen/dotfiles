@@ -43,8 +43,8 @@ return {
     lazy = true,
   },
   {
-    "julienvincent/hunk.nvim",
-    cmd = { "DiffEditor" },
+    'julienvincent/hunk.nvim',
+    cmd = { 'DiffEditor' },
     main = 'hunk',
     opts = {
       keys = {
@@ -77,7 +77,13 @@ return {
   },
   {
     'echasnovski/mini.operators',
-    keys = { 'cr', 'gx', 'g=', 'gs', 'gm' },
+    keys = {
+      { 'cr', mode = { 'n', 'v' } },
+      { 'gx', mode = { 'n', 'v' } },
+      { 'g=', mode = { 'n', 'v' } },
+      { 'gs', mode = { 'n', 'v' } },
+      { 'gm', mode = { 'n', 'v' } },
+    },
     opts = {
       replace = {
         prefix = 'cr',
@@ -112,12 +118,12 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    event = { "BufReadPost", "BufNewFile" },
+    event = { 'BufReadPost', 'BufNewFile' },
   },
   {
     'kylechui/nvim-surround',
     opts = require('nikklassen.plugin_config.nvim-surround'),
-    event = "InsertEnter",
+    event = 'InsertEnter',
     keys = { 'ds', 'ys' }
   },
   {
@@ -149,8 +155,8 @@ return {
     end,
     opts = {
       timeout = 3000,
-      render = "compact",
-      stages = "fade",
+      render = 'compact',
+      stages = 'fade',
       top_down = false,
     },
   },
@@ -193,14 +199,14 @@ return {
     ft = { 'json' },
   },
   {
-    "m4xshen/hardtime.nvim",
+    'm4xshen/hardtime.nvim',
     opts = {
       disabled_filetypes = { 'qf', 'NvimTree', 'lazy', 'hunk' },
       hints = {
-        ["d%$"] = nil,
-        ["[^g]d%$"] = {
+        ['d%$'] = nil,
+        ['[^g]d%$'] = {
           message = function()
-            return "Use D instead of d$"
+            return 'Use D instead of d$'
           end,
           length = 3,
         },

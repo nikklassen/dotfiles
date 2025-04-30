@@ -28,7 +28,7 @@ edit-args = ["-c", "DiffEditor $left $right $output"]
 [merge-tools.nvimdiff]
 
 # merge-args = [ "-c", "DiffConflicts", "$output", "$base", "$left", "$right" ]
-merge-args = ["-f", "-d", "$output", "-M",
+merge-args = ["-u", "NONE", "-f", "-d", "$output", "-M",
     "$left", "$base", "$right",
     "-c", "wincmd J", "-c", "set modifiable",
     "-c", "set write"]
