@@ -55,6 +55,7 @@ link_home() {
 link_home zshrc
 link_home zshenv
 link_home zsh
+link_home zprofile
 link_home gitconfig
 symlink "tmux/tmux.conf" "${XDG_CONFIG_HOME?}/tmux/tmux.conf" 
 

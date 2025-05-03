@@ -150,8 +150,6 @@ if command fzf --version > /dev/null 2>&1; then
   source <(fzf --zsh)
 fi
 
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
 if [[ -x dircolors ]]; then
   if [[ -r ~/.dircolors ]]; then
     eval "$(dircolors -b ~/.dircolors)"
@@ -187,3 +185,5 @@ function osc52() {
 }
 
 compdef _files delta
+
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
