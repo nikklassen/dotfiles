@@ -4,8 +4,9 @@ end
 
 return {
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
+    'zbirenbaum/copilot.lua',
+    cmd = 'Copilot',
+    event = { 'InsertEnter' },
     main = 'copilot',
     opts = {
       suggestion = { enabled = false, auto_trigger = false },
