@@ -18,3 +18,4 @@ scripts/.temp
 vim/lazy-lock.json
 __pycache__
 *.egg-info
+.venv
