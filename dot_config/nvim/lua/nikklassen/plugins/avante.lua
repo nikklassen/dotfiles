@@ -29,7 +29,10 @@ return {
   },
   {
     'yetone/avante.nvim',
-    event = 'VeryLazy',
+    keys = {
+      '<leader>aa',
+      '<leader>ae',
+    },
     version = false,
     build = 'make',
     opts = {

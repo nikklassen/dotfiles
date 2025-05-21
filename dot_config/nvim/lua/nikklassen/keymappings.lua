@@ -105,7 +105,10 @@ end, { desc = 'Update Lazy plugins' })
 
 vim.cmd.abbreviate('reutrn', 'return')
 
-vim.keymap.set('n', '<leader>yf', function() vim.fn.setreg('+', vim.fn.getreg('%')) end)
+-- "yank filename"
+vim.keymap.set('n', '<leader>yf', function() vim.fn.setreg('"', vim.fn.getreg('%')) end)
+-- "yank to clipboard"
+vim.keymap.set('n', '<leader>yc', function() vim.fn.setreg('+', vim.fn.getreg('"')) end)
 
 vim.keymap.set('n', '<Del>', 'ciw', { remap = false })
 

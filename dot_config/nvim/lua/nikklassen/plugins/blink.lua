@@ -59,13 +59,13 @@ return {
         },
       },
 
-      fuzzy = {
-        sorts = {
-          -- Blink default is reversed, sort_text seems better for Go. May need to customize this per language
-          'sort_text',
-          'score',
-        },
-      },
+      -- fuzzy = {
+      --   sorts = {
+      --     -- Blink default is reversed, sort_text seems better for Go. May need to customize this per language
+      --     'sort_text',
+      --     'score',
+      --   },
+      -- },
     },
     -- allows extending the providers array elsewhere in your config
     -- without having to redefine it

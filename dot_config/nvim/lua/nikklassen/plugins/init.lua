@@ -48,6 +48,10 @@ return {
     main = 'hunk',
     opts = {
       keys = {
+        global = {
+          -- "hunk accept"
+          accept = { '<leader>ha' },
+        },
         tree = {
           toggle_file = { '<Space>' }
         },
@@ -202,6 +206,10 @@ return {
     'm4xshen/hardtime.nvim',
     opts = {
       disabled_filetypes = { 'qf', 'NvimTree', 'lazy', 'hunk' },
+      disabled_keys = {
+        ['<Up>'] = false,
+        ['<Down>'] = false,
+      },
       hints = {
         ['d%$'] = nil,
         ['[^g]d%$'] = {

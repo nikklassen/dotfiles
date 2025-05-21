@@ -89,7 +89,8 @@ return {
           i = {
             ["<esc>"] = 'close',
             ["<C-a>"] = { '<Home>', type = 'command' },
-            ["<C-e>"] = { '<End>', type = 'command' }
+            ["<C-e>"] = { '<End>', type = 'command' },
+            ['<C-o>'] = { '<esc>', type = 'command', opts = { remap = false } },
           },
         },
       },
