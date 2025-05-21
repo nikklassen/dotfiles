@@ -7,7 +7,7 @@ from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request as GoogleRequest
 from httpie.plugins import AuthPlugin
 from requests.auth import AuthBase
-from requests import Request
+from requests import PreparedRequest
 from pathlib import Path
 from datetime import datetime, timedelta
 
@@ -40,10 +40,14 @@ class GoogleAuth(AuthBase):
         'expiry': (datetime.now() + timedelta(seconds=3600)).isoformat(),
       }, f)
 
-  def __call__(self, r: Request) -> Request:
+  def __call__(self, r: PreparedRequest) -> PreparedRequest:
     token, project = self._load_token()
     r.headers['Authorization'] = f'Bearer {token}'
-    r.headers['x-goog-user-project'] = project
+    for k in r.headers.keys():
+      if k.lower() == 'x-goog-user-project':
+        break
+    else:
+      r.headers['x-goog-user-project'] = project
     return r
 
 
