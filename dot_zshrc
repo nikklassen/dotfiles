@@ -14,8 +14,6 @@ if [[ ! -d "$ZSH" ]]; then
   fi
 fi
 
-fpath=("$HOME/.local/share/zsh-async" $fpath)
-autoload -Uz async && async
 autoload -U add-zsh-hook
 autoload -U zmv
 
@@ -103,6 +101,10 @@ alias -g LO='$(eval `fc -ln -1`)'
 alias youtube-mp3='youtube-dl -x --audio-format mp3'
 command -v wslview >/dev/null 2>&1 && alias v=wslview
 alias http="noglob http"
+
+alias cm="chezmoi"
+alias cmd="chezmoi diff"
+alias cma="chezmoi apply"
 
 function testport () {
     nc -v "$1" "$2" < /dev/null

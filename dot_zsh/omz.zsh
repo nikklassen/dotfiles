@@ -6,6 +6,7 @@ export ZSH_THEME=dpoggi
 
 plugins=(
   asdf
+  chezmoi
   common-aliases
   debian
   docker

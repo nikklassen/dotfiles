@@ -4,15 +4,24 @@
     exact = true
     stripComponents = 1
     refreshPeriod = "168h"
+
 [".local/share/omz-custom/plugins/you-should-use"]
   type = 'archive'
   url = 'https://github.com/MichaelAquilina/zsh-you-should-use/archive/master.tar.gz'
   exact = true
   stripComponents = 1
   refreshPeriod = '168h'
+
 [".local/share/omz-custom/plugins/zsh-syntax-highlighting"]
   type = 'archive'
   url = 'https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz'
   exact = true
   stripComponents = 1
   refreshPeriod = '168h'
+
+[".local/share/omz-custom/plugins/zsh-async"]
+    type = "archive"
+    url = "https://github.com/mafredri/zsh-async/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
