@@ -28,6 +28,7 @@ function M.configure()
       'go',
       'gomod',
       'html',
+      'http',
       'java',
       'javascript',
       'jq',
@@ -56,10 +57,10 @@ function M.configure()
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = "gnn",
-        node_incremental = "gn)",
-        scope_incremental = "gns",
-        node_decremental = "gn(",
+        init_selection = 'gnn',
+        node_incremental = 'gn)',
+        scope_incremental = 'gns',
+        node_decremental = 'gn(',
       },
     },
     textobjects = {
@@ -67,8 +68,8 @@ function M.configure()
         enable = true,
         -- include_surrounding_whitespace = true,
         keymaps = {
-          ["af"] = "@function.outer",
-          ["if"] = "@function.inner",
+          ['af'] = '@function.outer',
+          ['if'] = '@function.inner',
           ['ia'] = '@parameter.inner',
           ['aa'] = '@parameter.outer',
           ['ii'] = '@field.inner',
@@ -85,10 +86,10 @@ function M.configure()
         enable = true,
         set_jumps = true, -- whether to set jumps in the jumplist
         goto_next_start = {
-          ["]m"] = "@function.outer",
+          [']m'] = '@function.outer',
         },
         goto_previous_start = {
-          ["[m"] = "@function.outer",
+          ['[m'] = '@function.outer',
         },
       },
     },
