@@ -1,4 +1,4 @@
-if vim.env.NVIM_DISABLE_COPILOT == '1' and vim.env.NVIM_ENABLE_AVANTE != '1' then
+if vim.env.NVIM_DISABLE_COPILOT == '1' and vim.env.NVIM_ENABLE_AVANTE ~= '1' then
   return {}
 end
 
@@ -33,11 +33,12 @@ return {
     version = false,
     build = 'make',
     opts = {
-      -- provider = 'ollama',
       provider = 'copilot',
-      ollama = {
-        -- model = 'qwq:32b',
-        model = 'codeqwen:7b-chat',
+      providers = {
+        ollama = {
+          -- model = 'qwq:32b',
+          model = 'codeqwen:7b-chat',
+        },
       },
       -- cursor_applying_provider = 'ollama',
       behaviour = {
