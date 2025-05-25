@@ -25,51 +25,51 @@ config.hyperlink_rules = wezterm.default_hyperlink_rules()
 -- make task numbers clickable
 -- the first matched regex group is captured in $1.
 table.insert(config.hyperlink_rules, {
-    regex = [[\b(b|cl|go)/(\d+)\b]],
-    format = 'http://$1/$2',
+  regex = [[\b(b|cl|go)/(\d+)\b]],
+  format = 'http://$1/$2',
 })
 
 config.keys = {
-    {
-        key = 'U',
-        mods = 'CTRL|SHIFT',
-        action = wezterm.action.QuickSelectArgs {
-            label = 'open url',
-            patterns = {
-                'https?://\\S+',
-            },
-            action = wezterm.action_callback(function(window, pane)
-                local url = window:get_selection_text_for_pane(pane)
-                wezterm.log_info('opening: ' .. url)
-                wezterm.open_with(url)
-            end),
-        },
+  {
+    key = 'U',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.QuickSelectArgs {
+      label = 'open url',
+      patterns = {
+        'https?://\\S+',
+      },
+      action = wezterm.action_callback(function(window, pane)
+        local url = window:get_selection_text_for_pane(pane)
+        wezterm.log_info('opening: ' .. url)
+        wezterm.open_with(url)
+      end),
     },
-    {
-        key = 'PageUp',
-        mods = 'SHIFT',
-        action = wezterm.action.DisableDefaultAssignment,
-    },
-    {
-        key = 'PageDown',
-        mods = 'SHIFT',
-        action = wezterm.action.DisableDefaultAssignment,
-    },
-    {
-        key = 'p',
-        mods = 'CTRL|SHIFT',
-        -- Send the escape sequence to make this work in tmux
-        action = wezterm.action.SendString '\x1b[80;6u',
-    },
-    {
-        key = 'P',
-        mods = 'CTRL|SHIFT|ALT',
-        action = wezterm.action.ActivateCommandPalette,
-    },
+  },
+  {
+    key = 'PageUp',
+    mods = 'SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = 'PageDown',
+    mods = 'SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = 'p',
+    mods = 'CTRL|SHIFT',
+    -- Send the escape sequence to make this work in tmux
+    action = wezterm.action.SendString '\x1b[80;6u',
+  },
+  {
+    key = 'P',
+    mods = 'CTRL|SHIFT|ALT',
+    action = wezterm.action.ActivateCommandPalette,
+  },
 }
 
 if #wezterm.default_wsl_domains() > 0 then
-    config.default_domain = 'WSL:Ubuntu'
+  config.default_domain = 'WSL:Ubuntu'
 end
 
 return config
