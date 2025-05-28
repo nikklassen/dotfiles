@@ -3,6 +3,10 @@ vim.keymap.set({ 'n' }, '\\', ':')
 -- Search for the currently selected text
 vim.keymap.set('v', '//', '"sy/<C-r>s<CR>')
 
+-- <C-\><C-n> goes to normal mode from anywhere
+vim.keymap.set('x', 'z/', '<C-\\><C-n>`</\\%V', { desc = 'Search forward within visual selection' })
+vim.keymap.set('x', 'z?', '<C-\\><C-n>`>?\\%V', { desc = 'Search backward within visual selection' })
+
 vim.keymap.set('t', '<M-h>', '<C-\\><C-n><C-w>h')
 vim.keymap.set('t', '<M-j>', '<C-\\><C-n><C-w>j')
 vim.keymap.set('t', '<M-k>', '<C-\\><C-n><C-w>k')
@@ -96,8 +100,8 @@ vim.keymap.set('n', 'U', '<C-R>', { remap = false })
 vim.keymap.set('n', 'gU', 'U', { remap = false })
 
 vim.keymap.set('n', '<leader>lu', function()
-  require("lazy").update()
-end, { desc = "Update Lazy plugins" })
+  require('lazy').update()
+end, { desc = 'Update Lazy plugins' })
 
 vim.cmd.abbreviate('reutrn', 'return')
 
