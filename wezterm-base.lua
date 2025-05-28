@@ -17,6 +17,8 @@ config.window_padding = {
   bottom = 0,
 }
 
+config.term = 'wezterm'
+
 -- Use the defaults as a base
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
 
