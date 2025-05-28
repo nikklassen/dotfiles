@@ -183,9 +183,6 @@ return {
 
       vim.lsp.handlers[ms.client_registerCapability] = (function(overridden)
             return function(err, res, ctx)
-              print('registerCapability called')
-              dump(res)
-              dump(ctx)
               local result = overridden(err, res, ctx)
               local client = vim.lsp.get_client_by_id(ctx.client_id)
               if not client then
