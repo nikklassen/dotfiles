@@ -6,7 +6,7 @@ email = "nikklassen@users.noreply.github.com"
 
 merge-editor = "nvimdiff"
 # diff.format = "git"
-diff.tool = ["sh", "-c", "delta $left $right; exit 0"]
+diff.tool = "delta"
 
 # diff-editor = "diffedit3"
 # diff-editor = ":builtin"
@@ -14,6 +14,9 @@ diff-editor = "hunk"
 
 # diff.format = "git"
 pager = ["less", "-FRX", "--quit-if-one-screen"]
+
+[merge-tools.delta]
+diff-expected-exit-codes = [0, 1]
 
 [merge-tools.diffedit3]
 
@@ -47,3 +50,7 @@ merge-tool-edits-conflict-markers = true
 [snapshot]
 
 auto-update-stale = true
+
+[revsets]
+bookmark.set = '@'
+bookmark.delete = '@'
