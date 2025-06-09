@@ -213,4 +213,21 @@ return {
       },
     },
   },
+  {
+    'coder/claudecode.nvim',
+    cmd = {
+      'ClaudeCode',
+      'ClaudeCodeSend',
+    },
+    keys = {
+      { '<leader>as', '<cmd>ClaudeCodeSend<cr>', mode = 'v', desc = 'Send to Claude' },
+    },
+    -- config = true,
+    opts = {
+      -- log_level = 'debug',
+      terminal = {
+        provider = 'native'
+      }
+    },
+  }
 }

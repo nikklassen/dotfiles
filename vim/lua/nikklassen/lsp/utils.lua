@@ -135,6 +135,12 @@ end
 ---@param client vim.lsp.Client
 ---@param bufnr number
 function M.on_attach(client, bufnr)
+  local filename = vim.api.nvim_buf_get_name(bufnr)
+  if filename:find('Claude Code') and filename:match('%(proposed%)$') then
+    client:stop()
+    return
+  end
+
   local opts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'K', function()
     if require 'dap'.session() ~= nil then
