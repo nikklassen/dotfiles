@@ -40,6 +40,7 @@ function M.configure()
       'rust',
       'scss',
       'svelte',
+      'sql',
       'textproto',
       'tsx',
       'typescript',
