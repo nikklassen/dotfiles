@@ -1,0 +1,1 @@
+--locked --bin jj jj-cli

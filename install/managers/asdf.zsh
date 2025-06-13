@@ -1,5 +1,6 @@
 #!/bin/zsh
-function asdf::update_plugins() {
+
+function install() {
   local existing_plugins=($(asdf plugin list))
 
   typeset -A plugins=(
