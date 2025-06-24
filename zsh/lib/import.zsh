@@ -35,7 +35,7 @@ function import::source() {
       file="$file.sh"
     else
       echo "Error: File '$file' not found" >&2
-      return 1
+      exit 1
     fi
   fi
 
