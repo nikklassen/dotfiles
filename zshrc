@@ -150,6 +150,10 @@ if command fzf --version > /dev/null 2>&1; then
   source <(fzf --zsh)
 fi
 
+if command -v task > /dev/null 2>&1; then
+  source <(task --completion zsh)
+fi
+
 if [[ -x dircolors ]]; then
   if [[ -r ~/.dircolors ]]; then
     eval "$(dircolors -b ~/.dircolors)"
