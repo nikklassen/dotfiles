@@ -6,7 +6,7 @@ email = "nikklassen@users.noreply.github.com"
 
 merge-editor = "nvimdiff"
 # diff.format = "git"
-diff.tool = "delta"
+diff-formatter = "delta"
 
 # diff-editor = "diffedit3"
 # diff-editor = ":builtin"

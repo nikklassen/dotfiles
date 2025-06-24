@@ -1,5 +1,10 @@
+_JJ_INSTALLED=0
+if command -v jj >/dev/null 2>&1; then
+  _JJ_INSTALLED=1
+fi
+
 function is-jj() {
-  find-vcs-up .jj
+  (( _JJ_INSTALLED )) && find-vcs-up .jj
 }
 
 function _jj_gcmsg() {
