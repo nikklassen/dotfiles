@@ -2,11 +2,10 @@
 
 function install() {
   pkgs=(
-    vscode-langservers-extracted
-    bash-language-server
     @anthropic-ai/claude-code
+    bash-language-server
+    typescript-language-server
+    vscode-langservers-extracted
   )
-  for pkg in $pkgs; do
-    npm install -g "$pkg"
-  done
+  npm install -g "${pkgs[@]}"
 }
