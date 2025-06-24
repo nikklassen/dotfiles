@@ -9,9 +9,11 @@ export LESS="-FXSR -# 0"
 # Node modules
 PATH="./node_modules/.bin:$PATH"
 
-# Cargo
-if [[ -d "$HOME/.cargo" ]]; then
-  PATH="$HOME/.cargo/bin:$PATH"
+# Rust
+export RUSTUP_HOME="$HOME/.local/share/rustup"
+export CARGO_HOME="$HOME/.local/share/cargo"
+if [[ -d "$CARGO_HOME" ]]; then
+  PATH="$CARGO_HOME/bin:$PATH"
 fi
 
 PATH="/usr/texbin:$PATH"
