@@ -1,5 +1,6 @@
 ## Go Development Guidelines
-- For Go, always use fakes instead of mocks. Don't use the word "mock" as the name for fakes
+- Follow the Google Go style guide.
+- Always use fakes instead of mocks. Don't use the word "mock" as the name for fakes
 
 ## General Development Practices
 - Format all files you have modified at the end of your task

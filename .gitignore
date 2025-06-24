@@ -19,3 +19,4 @@ vim/lazy-lock.json
 __pycache__
 *.egg-info
 .venv
+.claude
