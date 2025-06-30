@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-function symlink() {
+(( _DOTFILES_INSTALL_LINK_SH++ != 0 )) && return
+
+function link::symlink() {
   local admin=''
   if [[ "$1" == "--sudo" ]]; then
     admin='sudo'
@@ -25,7 +27,7 @@ function symlink() {
   sudo ln -s $FORCE "$from" "$to"
 }
 
-function home() {
+function link::home() {
   if [[ ! -L $HOME/.$1 || -n $FORCE ]]; then
     symlink $1 $HOME/.$1
   fi

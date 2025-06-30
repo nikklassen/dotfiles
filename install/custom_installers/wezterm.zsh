@@ -1,4 +1,8 @@
-function install() {
+#!/bin/zsh
+
+(( _DOTFILES_INSTALL_CUSTOM_INSTALLERS_WEZTERM_SH != 0 )) && return
+
+function wezterm::install() {
   wezterm_config_dir="${XDG_CONFIG_HOME:-${HOME}}/wezterm"
   if [[ ! -d "${wezterm_config_dir}" ]]; then
     mkdir "${wezterm_config_dir}"

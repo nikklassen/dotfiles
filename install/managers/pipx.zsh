@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-function install() {
+(( _DOTFILES_INSTALL_MANAGERS_PIPX_SH++ != 0 )) && return
+
+function pipx::install() {
   pkgs=(
     httpie
     install-release

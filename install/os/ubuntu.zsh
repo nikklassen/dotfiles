@@ -1,16 +1,19 @@
 #!/bin/zsh
-import::source custom_installers/docker
-import::source custom_installers/lua-language-server
-import::source custom_installers/wezterm_terminfo
-import::source custom_installers/wsl
-import::source managers/apt
-import::source managers/asdf
-import::source managers/github
-import::source managers/go
-import::source managers/npm
-import::source managers/pipx
 
-function install() {
+(( _DOTFILES_INSTALL_OS_UBUNTU_SH++ != 0 )) && return
+
+source ${DOTFILES_DIR}/install/custom_installers/docker.zsh
+source ${DOTFILES_DIR}/install/custom_installers/lua-language-server.zsh
+source ${DOTFILES_DIR}/install/custom_installers/wezterm_terminfo.zsh
+source ${DOTFILES_DIR}/install/custom_installers/wsl.zsh
+source ${DOTFILES_DIR}/install/managers/apt.zsh
+source ${DOTFILES_DIR}/install/managers/asdf.zsh
+source ${DOTFILES_DIR}/install/managers/github.zsh
+source ${DOTFILES_DIR}/install/managers/go.zsh
+source ${DOTFILES_DIR}/install/managers/npm.zsh
+source ${DOTFILES_DIR}/install/managers/pipx.zsh
+
+function ubuntu::install() {
   sudo add-apt-repository ppa:neovim-ppa/unstable
   sudo apt-get update
 
@@ -24,7 +27,6 @@ function install() {
 
   # Normally asdf is configured by oh-my-zsh, but we need to ensure it is set up before installing plugins.
   path=("$HOME/.asdf/shims" $path)
-  export ASDF_CRATE_DEFAULT_PACKAGES_FILE="${DOTFILES_DIR}/package_lists/cargo.txt"
   asdf::install
 
   go::install

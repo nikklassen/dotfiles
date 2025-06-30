@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-function install() {
+(( _DOTFILES_INSTALL_MANAGERS_APT_SH++ != 0 )) && return
+
+function apt::install() {
   pkgs=(
     bat
     build-essential

@@ -68,3 +68,5 @@ export JJ_CONFIG="$HOME/.config/jj"
 export COLORTERM=1
 
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+
+[[ -d ~/.local/share/lua-language-server ]] && export PATH="$HOME/.local/share/lua-language-server/bin:$PATH"

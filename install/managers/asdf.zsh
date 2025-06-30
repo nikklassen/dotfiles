@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-function install() {
+(( _DOTFILES_INSTALL_MANAGERS_ASDF_SH++ != 0 )) && return
+
+function asdf::install() {
   local existing_plugins=($(asdf plugin list))
 
   typeset -A plugins=(

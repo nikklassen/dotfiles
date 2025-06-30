@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-function install() {
+(( _DOTFILES_INSTALL_MANAGERS_GO_SH++ != 0 )) && return
+
+function go::install() {
   pkgs=(
     "golang.org/x/tools/gopls"
     "github.com/sqls-server/sqls"

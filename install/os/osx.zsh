@@ -1,8 +1,11 @@
 #!/bin/zsh
-import::source link
-import::source managers/asdf
 
-function install() {
+(( _DOTFILES_INSTALL_OS_OSX_SH++ != 0 )) && return
+
+source ${DOTFILES_DIR}/install/link.zsh
+source ${DOTFILES_DIR}/install/managers/asdf.zsh
+
+function osx::install() {
   link::home macos
 
   which -s brew 2>&1 > /dev/null
@@ -31,9 +34,10 @@ function install() {
       ln -s $PWD/iterm.plist $ITERM_DIR/com.googlecode.iterm2.plist
   fi
 
-  asdf::update_plugins
+  # Normally asdf is configured by oh-my-zsh, but we need to ensure it is set up before installing plugins.
+  path=("$HOME/.asdf/shims" $path)
+  asdf::install
 
-  while read -r line; do
-    npm install -g "$line"
-  done < "${DOTFILES_DIR}/install/package_lists/npm.txt"
+  go::install
+  npm::install
 }

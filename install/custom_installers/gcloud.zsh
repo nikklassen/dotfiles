@@ -1,6 +1,8 @@
 #!/bin/bash
 
-function install() {
+(( _DOTFILES_INSTALL_CUSTOM_INSTALLERS_GCLOUD_SH++ != 0 )) && return
+
+function gcloud::install() {
   sudo apt-get update
   sudo apt-get install -yq apt-transport-https ca-certificates gnupg curl
   local key_file="/usr/share/keyrings/cloud.google.gpg"

@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-function test_case() {
+function test::case() {
   echo "===\n$1:"
   if "$1"; then
     echo "PASS"

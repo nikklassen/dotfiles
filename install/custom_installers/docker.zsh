@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-function install() {
+(( _DOTFILES_INSTALL_CUSTOM_INSTALLERS_DOCKER_SH++ != 0 )) && return
+
+function docker::install() {
   # Add Docker's official GPG key:
   sudo apt-get update
   sudo apt-get install -yq ca-certificates curl
