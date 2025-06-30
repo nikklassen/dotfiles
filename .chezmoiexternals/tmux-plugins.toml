@@ -1,0 +1,24 @@
+[".local/share/tmux-plugins/tpm"]
+  type = 'archive'
+  url = 'https://github.com/tmux-plugins/tpm/archive/master.tar.gz'
+  exact = true
+  stripComponents = 1
+  refreshPeriod = '168h'
+[".local/share/tmux-plugins/tmux-sensible"]
+  type = 'archive'
+  url = 'https://github.com/tmux-plugins/tmux-sensible/archive/master.tar.gz'
+  exact = true
+  stripComponents = 1
+  refreshPeriod = '168h'
+[".local/share/tmux-plugins/tmux-pain-control"]
+  type = 'archive'
+  url = 'https://github.com/tmux-plugins/tmux-pain-control/archive/master.tar.gz'
+  exact = true
+  stripComponents = 1
+  refreshPeriod = '168h'
+[".local/share/tmux-plugins/tmux-open"]
+  type = 'archive'
+  url = 'https://github.com/tmux-plugins/tmux-open/archive/master.tar.gz'
+  exact = true
+  stripComponents = 1
+  refreshPeriod = '168h'

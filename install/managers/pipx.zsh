@@ -13,7 +13,7 @@ function pipx::install() {
   done
 
   pipx inject powerline-status --editable -r <(cat <<EOF
-${DOTFILES_DIR?}/powerline_ext
+${DOTFILES_DIR?}/python_plugins/powerline_ext
 requests
 EOF
   )

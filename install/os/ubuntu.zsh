@@ -4,7 +4,7 @@
 
 source ${DOTFILES_DIR}/install/custom_installers/docker.zsh
 source ${DOTFILES_DIR}/install/custom_installers/lua-language-server.zsh
-source ${DOTFILES_DIR}/install/custom_installers/wezterm_terminfo.zsh
+source ${DOTFILES_DIR}/install/custom_installers/wezterm.zsh
 source ${DOTFILES_DIR}/install/custom_installers/wsl.zsh
 source ${DOTFILES_DIR}/install/managers/apt.zsh
 source ${DOTFILES_DIR}/install/managers/asdf.zsh
@@ -34,8 +34,6 @@ function ubuntu::install() {
 
   ln -sf /usr/bin/batcat ~/.local/bin/bat
   ln -sf "$(which fdfind)" ~/.local/bin/fd
-  mkdir -p $HOME/.config/jj
-  ln -sf "${DOTFILES_DIR}/jj/config.toml" $HOME/.config/jj/config.toml
 
   lua-language-server::install
 
@@ -44,5 +42,5 @@ function ubuntu::install() {
   fi
 
   docker::install
-  wezterm_terminfo::install
+  wezterm::install
 }

@@ -1,0 +1,7 @@
+[".local/share/zsh-async"]
+    type = "archive"
+    url = "https://github.com/mafredri/zsh-async/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+

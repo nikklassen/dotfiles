@@ -1,7 +1,11 @@
+#!/bin/zsh
+
 # initialization completions
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-if [[ ! -d ~/.oh-my-zsh ]]; then
+export ZSH="$HOME/.local/share/oh-my-zsh"
+
+if [[ ! -d "$ZSH" ]]; then
   autoload -Uz compinit
   if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
     compinit
@@ -10,6 +14,8 @@ if [[ ! -d ~/.oh-my-zsh ]]; then
   fi
 fi
 
+fpath=("$HOME/.local/share/zsh-async" $fpath)
+autoload -Uz async && async
 autoload -U add-zsh-hook
 autoload -U zmv
 
@@ -142,9 +148,6 @@ PS1="${VENV}$PS1"
 # Exclude slashes from the default definition of WORDCHARS omz sets this to
 # empty, so we can't just remove the one character. Also omits = for flags.
 export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
-
-# Load z
-[ -f /usr/local/bin/z.sh ] && source /usr/local/bin/z.sh
 
 if command fzf --version > /dev/null 2>&1; then
   source <(fzf --zsh)

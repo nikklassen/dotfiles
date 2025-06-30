@@ -1,0 +1,12 @@
+scripts
+install
+python_plugins
+
+{{ if ne .chezmoi.os "darwin" }}
+dot_iterm
+dot_macos
+Library
+{{ end }}
+
+# Ignore local changes to externals
+~/.local/share/oh-my-zsh/cache/completions/

@@ -72,4 +72,6 @@ if #wezterm.default_wsl_domains() > 0 then
   config.default_domain = 'WSL:Ubuntu'
 end
 
+-- TODO: local customizations
+
 return config

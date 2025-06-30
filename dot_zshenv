@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # If we're in TMUX all this is already in the path
 if [[ -n $TMUX ]]; then
 	return

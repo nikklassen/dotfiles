@@ -6,8 +6,6 @@ source ${DOTFILES_DIR}/install/link.zsh
 source ${DOTFILES_DIR}/install/managers/asdf.zsh
 
 function osx::install() {
-  link::home macos
-
   which -s brew 2>&1 > /dev/null
   if [[ $? == 1 ]]; then
       bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -26,12 +24,6 @@ function osx::install() {
       brew install neovim
       mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
       sudo pip3 install neovim
-  fi
-
-  ITERM_DIR=$HOME/.iterm
-  if [[ ! -d $ITERM_DIR ]]; then
-      mkdir $ITERM_DIR
-      ln -s $PWD/iterm.plist $ITERM_DIR/com.googlecode.iterm2.plist
   fi
 
   # Normally asdf is configured by oh-my-zsh, but we need to ensure it is set up before installing plugins.

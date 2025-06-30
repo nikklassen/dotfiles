@@ -1,5 +1,6 @@
-export ZSH="$HOME/.oh-my-zsh"
-export ZSH_CUSTOM="$HOME/.zsh/omz-custom"
+# ZSH is defined in .zshrc
+export ZSH_CUSTOM="$HOME/.local/share/omz-custom"
+export DISABLE_AUTO_UPDATE="true"
 
 export ZSH_THEME=dpoggi
 
@@ -39,4 +40,4 @@ fi
 
 zstyle :omz:plugins:jj ignore-working-copy yes
 
-source ~/.oh-my-zsh/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
