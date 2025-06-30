@@ -78,7 +78,7 @@ return {
               -- Doesn't highlight properties yet
               -- semanticTokens = true,
               usePlaceholders = true,
-              templateExtensions = {".tmpl"},
+              templateExtensions = {"tmpl"},
             },
           },
           on_attach = function(client, bufnr)

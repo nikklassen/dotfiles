@@ -27,6 +27,7 @@ function M.configure()
       'dockerfile',
       'go',
       'gomod',
+      'gotmpl',
       'html',
       'http',
       'java',
@@ -42,6 +43,7 @@ function M.configure()
       'svelte',
       'sql',
       'textproto',
+      'toml',
       'tsx',
       'typescript',
       'yaml'
