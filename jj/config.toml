@@ -54,3 +54,7 @@ auto-update-stale = true
 [revsets]
 bookmark.set = '@'
 bookmark.delete = '@'
+
+[git]
+
+auto-local-bookmark = true
