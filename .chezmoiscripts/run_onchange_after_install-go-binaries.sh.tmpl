@@ -1,0 +1,7 @@
+#!/bin/bash
+
+{{ range .packages.go }}
+  go install "{{.}}@latest"
+{{ end }}
+
+asdf reshim

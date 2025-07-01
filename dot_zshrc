@@ -72,8 +72,11 @@ alias python=python3
 alias pip=pip3
 
 if which bat >/dev/null 2>&1; then
+  alias bat="batcat"
   alias cat="bat -p --wrap character"
 fi
+alias fd=fdfind
+
 # undo oh-my-zsh
 unalias rm cp \G
 alias -g G="| rg"
@@ -99,7 +102,6 @@ alias -g NV='--no-verify'
 alias -g LO='$(eval `fc -ln -1`)'
 
 alias youtube-mp3='youtube-dl -x --audio-format mp3'
-command -v wslview >/dev/null 2>&1 && alias v=wslview
 alias http="noglob http"
 
 alias cm="chezmoi"

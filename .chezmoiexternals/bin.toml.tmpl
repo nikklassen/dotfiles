@@ -1,0 +1,25 @@
+[".local/bin/golangci-lint"]
+    type = "archive-file"
+    url = {{ gitHubLatestReleaseAssetURL "golangci/golangci-lint" (printf "golangci-lint-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
+    executable = true
+    stripComponents = 1
+    path = "golangci-lint"
+
+[".local/bin/asdf"]
+    type = "archive-file"
+    url = {{ gitHubLatestReleaseAssetURL "asdf-vm/asdf" (printf "asdf-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
+    executable = true
+    path = "asdf"
+
+[".local/bin/delta"]
+    type = "archive-file"
+    url = {{ gitHubLatestReleaseAssetURL "dandavison/delta" "delta-*-x86_64-unknown-linux-gnu.tar.gz" | quote }}
+    executable = true
+    stripComponents = 1
+    path = "delta"
+
+[".local/bin/fzf"]
+    type = "archive-file"
+    url = {{ gitHubLatestReleaseAssetURL "junegunn/fzf" (printf "fzf-*-%s_%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
+    executable = true
+    path = "fzf"

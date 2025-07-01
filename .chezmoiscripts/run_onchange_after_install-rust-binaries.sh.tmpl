@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if ! command rustup -V &> /dev/null; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
+    sh -s -- -y --no-modify-path --default-toolchain stable
+fi
+
+{{ range list
+  "cargo-binstall"
+  "proximity-sort"
+-}}
+  cargo install {{.}}
+{{ end }}
+
+{{- range list
+  "jj-cli"
+-}}
+  cargo binstall -y --strategies crate-meta-data {{.}}
+{{ end -}}

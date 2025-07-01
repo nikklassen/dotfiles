@@ -1,0 +1,21 @@
+#!/bin/bash
+
+function _asdf_install_pkgs() {
+  # Normally asdf is configured by oh-my-zsh, but we need to ensure it is set up before installing plugins.
+  PATH="$HOME/.asdf/shims:$PATH"
+
+  local existing_plugins=($(asdf plugin list))
+
+  declare -A plugins=(
+    ["nodejs"]="https://github.com/asdf-vm/asdf-nodejs.git"
+    ["golang"]="https://github.com/asdf-community/asdf-golang.git"
+  )
+  for plugin in "${!plugins[@]}"; do
+    if [[ ! " ${existing_plugins[@]} " =~ " ${plugin} " ]]; then
+      asdf plugin add "$plugin" "${plugins[$plugin]}"
+      asdf install "$plugin" latest
+      asdf set -u "$plugin" latest
+    fi
+  done
+}
+_asdf_install_pkgs

@@ -1,28 +1,8 @@
 packages:
-  apt:
-    - bat
-    - build-essential
-    - clang
-    - cmake
-    - curl
-    - direnv
-    - fd-find
-    - fzf
-    - git
-    - htop
-    - jq
-    - neovim
-    - pipx
-    - python3-dev
-    - python3-neovim
-    - python3-pip
-    - ripgrep
-    - tmux
-    - tree
-  aptDesktop:
-    - compizconfig-settings-manager
-    - fonts-inconsolata
-    - gnome-tweak-tool
+  go:
+    - golang.org/x/tools/gopls
+    - github.com/sqls-server/sqls
+    - github.com/go-task/task/v3/cmd/task
   npm:
     - '@anthropic-ai/claude-code'
     - bash-language-server

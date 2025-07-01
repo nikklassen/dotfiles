@@ -1,0 +1,9 @@
+{{- if not .development -}}
+
+[".vim/vimrc"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/tpope/vim-sensible/master/plugin/sensible.vim"
+    exact = true
+    refreshPeriod = "168h"
+
+{{- end -}}

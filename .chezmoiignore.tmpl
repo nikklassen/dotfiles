@@ -8,11 +8,16 @@ dot_macos
 Library
 {{ end }}
 
-# Ignore local changes to externals
-.local/share/oh-my-zsh/cache/**
+{{ if ne .chezmoi.os "linux" }}
+.local/bin/delta
+{{ end }}
 
 {{ if eq .chezmoi.os "windows" }}
 .chezmoiscripts/**/*.sh
+.local/bin/asdf
 {{ else }}
 Documents/PowerShell/**
 {{ end }}
+
+# Ignore local changes to externals
+.local/share/oh-my-zsh/cache/**
