@@ -1,0 +1,5 @@
+#!/bin/bash
+
+{{ $terminfo := joinPath (.chezmoi.destDir | toString) ".local/share/wezterm/wezterm.terminfo" }}
+# hash: {{ $terminfo | sha256sum }}
+tic -x -o ~/.terminfo {{ $terminfo | quote }}

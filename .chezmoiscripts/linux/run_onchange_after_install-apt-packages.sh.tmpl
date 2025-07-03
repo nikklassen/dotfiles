@@ -1,0 +1,11 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+
+{{- $pkgs := .packages.apt -}}
+{{- if .desktop -}}
+{{-   $pkgs = concat $pkgs .packages.aptDesktop -}}
+{{- end }}
+
+sudo apt-get install -yq {{ $pkgs | join " " }}
+
+{{- end -}}

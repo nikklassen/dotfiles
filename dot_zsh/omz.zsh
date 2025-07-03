@@ -18,6 +18,7 @@ plugins=(
   jj
   tmux
   urltools
+  wd
   you-should-use
   zsh-syntax-highlighting
 )

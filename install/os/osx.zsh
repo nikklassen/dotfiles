@@ -31,5 +31,4 @@ function osx::install() {
   asdf::install
 
   go::install
-  npm::install
 }

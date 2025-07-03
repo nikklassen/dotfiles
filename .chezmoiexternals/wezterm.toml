@@ -1,0 +1,5 @@
+[".local/share/wezterm/wezterm.terminfo"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/wezterm/wezterm/main/termwiz/data/wezterm.terminfo"
+    exact = true
+    refreshPeriod = "168h"

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+{{ range $pkg := .packages.pipx }}
+pipx install {{ $pkg -}}
+{{ end }}
+
+pipx inject powerline-status --editable -r <(cat <<EOF
+{{ .chezmoi.sourceDir }}/python_plugins/powerline_ext
+requests
+EOF
+)

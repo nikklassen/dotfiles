@@ -2,9 +2,6 @@
 
 (( _DOTFILES_INSTALL_OS_COMMON_SH++ != 0 )) && return
 
-source ${DOTFILES_DIR}/install/link.zsh
-source ${DOTFILES_DIR}/install/custom_installers/wezterm.zsh
-
 function common::install() {
   if [[ -z "$DOTFILES_DIR" ]]; then
     cat >&2 <<< 'DOTFILES_DIR must be set, consider running the main install script instead'
@@ -22,6 +19,4 @@ function common::install() {
   if [[ $1 == '-f' ]]; then
       FORCE=-f
   fi
-
-  wezterm::install
 }

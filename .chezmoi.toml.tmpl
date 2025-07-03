@@ -1,2 +1,9 @@
+{{ $desktop := promptBoolOnce . "desktop" "desktop" }}
+{{ $work := promptBoolOnce . "work" "work" }}
+
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 mode = "symlink"
+
+[data]
+  desktop = {{ $desktop }}
+  work = {{ $work }}
