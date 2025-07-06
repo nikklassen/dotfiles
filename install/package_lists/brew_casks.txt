@@ -1,4 +1,0 @@
-bitwarden
-rectangle
-signal
-wezterm

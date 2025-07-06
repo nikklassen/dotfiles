@@ -85,4 +85,9 @@ if wezterm.target_triple:find('windows') then
   })
 end
 
+local ok, local_config  = pcall(require, 'wezterm-local')
+if ok then
+  config = local_config.configure(config)
+end
+
 return config

@@ -1,4 +1,28 @@
 packages:
+  brew:
+    - bat
+    - fd
+    - fzf
+    - git-delta
+    - gnu-sed
+    - gnu-time
+    - jj
+    - jq
+    - md5sha1sum
+    - neovim
+    - nmap
+    - node
+    - pipx
+    - python3
+    - ripgrep
+    - tmux
+    - tree
+    - wget
+  brewCasks:
+    - bitwarden
+    - rectangle
+    - signal
+    - wezterm
   go:
     - golang.org/x/tools/gopls
     - github.com/sqls-server/sqls
