@@ -10,3 +10,9 @@ Library
 
 # Ignore local changes to externals
 .local/share/oh-my-zsh/cache/**
+
+{{ if eq .chezmoi.os "windows" }}
+.chezmoiscripts/**/*.sh
+{{ else }}
+Documents/PowerShell/**
+{{ end }}

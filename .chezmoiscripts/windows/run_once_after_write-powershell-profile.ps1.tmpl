@@ -1,0 +1,5 @@
+{{- if eq .chezmoi.os "windows" -}}
+{{- $profileDir := joinPath .chezmoi.homeDir "Documents" "PowerShell" -}}
+New-Item -Path {{ $profileDir }} -ItemType Directory -Force
+New-Item -Path {{ joinPath $profileDir "profile.ps1" }} -ItemType File -Force -Value '. {{ joinPath .chezmoi.homeDir ".local" "share" "powershell" "profile.ps1" }}'
+{{- end -}}

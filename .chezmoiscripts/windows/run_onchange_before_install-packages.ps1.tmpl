@@ -1,0 +1,9 @@
+{{- if eq .chezmoi.os "windows" -}}
+winget install --no-upgrade {{ .packages.winget | join " " }}
+
+refreshenv
+
+nvm install latest
+nvm use latest
+
+{{- end -}}

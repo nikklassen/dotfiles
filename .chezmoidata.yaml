@@ -33,3 +33,26 @@ packages:
     - httpie
     - install-release
     - powerline-status
+  winget:
+    - Adobe.Acrobat.Reader.32-bit
+    - AutoHotkey.AutoHotkey
+    - Bitwarden.Bitwarden
+    - CoreyButler.NVMforWindows
+    - dandavison.delta
+    - Discord.Discord
+    - EaseUS.TodoBackup
+    - Git.Git
+    - Google.Chrome.EXE
+    - Google.QuickShare
+    - Microsoft.PowerShell
+    - Microsoft.PowerToys
+    - OpenWhisperSystems.Signal
+    - Python.Launcher
+    - Spotify.Spotify
+    - Tailscale.Tailscale
+    - TheDocumentFoundation.LibreOffice
+    - Valve.Steam
+    - VideoLAN.VLC
+    - WinDirStat.WinDirStat
+    - dorssel.usbipd-win
+    - wez.wezterm

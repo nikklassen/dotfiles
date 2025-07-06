@@ -1,4 +1,5 @@
 local wezterm = require 'wezterm'
+local act = wezterm.action
 
 local config = wezterm.config_builder()
 
@@ -72,6 +73,16 @@ if #wezterm.default_wsl_domains() > 0 then
   config.default_domain = 'WSL:Ubuntu'
 end
 
--- TODO: local customizations
+config.launch_menu = {}
+
+if wezterm.target_triple:find('windows') then
+  table.insert(config.launch_menu, {
+    label = 'PowerShell',
+    args = { 'powershell.exe', '-NoLogo' },
+    domain = {
+      DomainName = 'local',
+    },
+  })
+end
 
 return config
