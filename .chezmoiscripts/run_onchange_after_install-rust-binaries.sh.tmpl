@@ -1,3 +1,4 @@
+{{- if ne .chezmoi.os "darwin" -}}
 #!/bin/bash
 
 if ! command rustup -V &> /dev/null; then
@@ -17,3 +18,5 @@ fi
 -}}
   cargo binstall -y --strategies crate-meta-data {{.}}
 {{ end -}}
+
+{{- end -}}

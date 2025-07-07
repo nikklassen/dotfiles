@@ -6,6 +6,8 @@ packages:
     - git-delta
     - gnu-sed
     - gnu-time
+    - go
+    - gopls
     - jj
     - jq
     - md5sha1sum

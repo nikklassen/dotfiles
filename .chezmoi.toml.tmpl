@@ -8,5 +8,5 @@ mode = "symlink"
 [data]
   desktop = {{ $desktop }}
   work = {{ $work }}
-  wsl = {{ .chezmoi.kernel.osrelease | lower | contains "microsoft" }}
+  wsl = {{ and (ne (len .chezmoi.kernel) 0) (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
   development = {{ $development }}

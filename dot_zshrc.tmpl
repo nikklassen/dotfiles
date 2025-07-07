@@ -71,11 +71,13 @@ alias py-server="python3 -m http.server 3000"
 alias python=python3
 alias pip=pip3
 
+{{ if eq .chezmoi.os "linux" }}
 if which bat >/dev/null 2>&1; then
   alias bat="batcat"
   alias cat="bat -p --wrap character"
 fi
 alias fd=fdfind
+{{ end }}
 
 # undo oh-my-zsh
 unalias rm cp \G
@@ -83,7 +85,7 @@ alias -g G="| rg"
 
 function docker-upload () {
     local repo="$1"
-    local last_image=$(docker images --format '{{ .Repository }}:{{ .Tag }}' | head -1)
+    local last_image=$(docker images --format '{{"{{ .Repository }}:{{ .Tag }}"}}' | head -1)
     echo "Uploading $last_image"
     docker tag "$last_image" "$repo/$last_image"
     docker push "$repo/$last_image"

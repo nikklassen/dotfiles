@@ -17,6 +17,9 @@ export CARGO_HOME="$HOME/.local/share/cargo"
 if [[ -d "$CARGO_HOME" ]]; then
   PATH="$CARGO_HOME/bin:$PATH"
 fi
+if command rustc >/dev/null 2>&1; then
+    export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
+fi
 
 PATH="/usr/texbin:$PATH"
 
@@ -39,10 +42,6 @@ export FZF_DEFAULT_OPTS="--keep-right --bind=home:first,end:last"
 export FZF_TMUX=0
 
 [[ -f /usr/libexec/java_home/ ]] && export JAVA_HOME="$(/usr/libexec/java_home/)"
-
-if which rustc >/dev/null 2>&1; then
-    export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
-fi
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -70,8 +69,12 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 
 [[ -d ~/.local/share/lua-language-server ]] && export PATH="$HOME/.local/share/lua-language-server/bin:$PATH"
 
-{{- if .wsl }}
+{{ if .wsl -}}
 export BROWSER=explorer.exe
-{{ end -}}
+{{- end }}
+
+{{ if .work }}
+export NVIM_DISABLE_COPILOT=1
+{{ end }}
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
