@@ -1,10 +1,10 @@
 local utils = require 'nikklassen.utils'
 
 local builtin = utils.lazy_require('telescope.builtin')
-local previewers = utils.lazy_require("telescope.previewers")
-local pickers = utils.lazy_require("telescope.pickers")
-local sorters = utils.lazy_require("telescope.sorters")
-local finders = utils.lazy_require("telescope.finders")
+local previewers = utils.lazy_require('telescope.previewers')
+local pickers = utils.lazy_require('telescope.pickers')
+local sorters = utils.lazy_require('telescope.sorters')
+local finders = utils.lazy_require('telescope.finders')
 local nikklassen_telescope = utils.lazy_require('nikklassen.telescope')
 
 local function lsp_references()
@@ -14,7 +14,7 @@ end
 local function jj_files(opts)
   pickers
       .new(opts, {
-        results_title = "Modified in current branch",
+        results_title = 'Modified in current branch',
         finder = finders.new_oneshot_job({ 'sh', '-c', 'jj diff -s | sed -n "/^[MA] / s///p"' }, {
           entry_maker = nikklassen_telescope.vs_code_path_transform(opts),
         }),
@@ -37,7 +37,7 @@ end
 local function hg_files(opts)
   pickers
       .new(opts, {
-        results_title = "Modified in current branch",
+        results_title = 'Modified in current branch',
         finder = finders.new_oneshot_job({ 'sh', '-c', 'hg status | sed -n "/^[MA] / s///p"' }, {
           entry_maker = nikklassen_telescope.vs_code_path_transform(opts),
         }),
@@ -81,15 +81,16 @@ return {
     -- branch = '0.1.x',
     dependencies = {
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      'nvim-telescope/telescope-ui-select.nvim',
     },
     opts = {
       defaults = {
         layout_strategy = 'vertical',
         mappings = {
           i = {
-            ["<esc>"] = 'close',
-            ["<C-a>"] = { '<Home>', type = 'command' },
-            ["<C-e>"] = { '<End>', type = 'command' },
+            ['<esc>'] = 'close',
+            ['<C-a>'] = { '<Home>', type = 'command' },
+            ['<C-e>'] = { '<End>', type = 'command' },
             ['<C-o>'] = { '<esc>', type = 'command', opts = { remap = false } },
           },
         },
@@ -122,6 +123,7 @@ return {
       local telescope = require 'telescope'
       telescope.setup(opts)
       -- telescope.load_extension('fzf')
+      telescope.load_extension('ui-select')
     end
   },
 }
