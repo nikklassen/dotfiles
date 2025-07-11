@@ -46,6 +46,8 @@ require 'nikklassen.filetypes'
 require 'nikklassen.color'
 require 'nikklassen.commands'
 require 'nikklassen.keymappings'
+local yank = require 'nikklassen.yank'
+yank.configure()
 require 'nikklassen.options'
 require 'nikklassen.statusline'
 require 'nikklassen.view'
