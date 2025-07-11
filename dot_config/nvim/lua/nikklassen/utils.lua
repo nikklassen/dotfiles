@@ -100,6 +100,8 @@ function M.wrap_notify_on_error(f)
     local ok, err = pcall(f, ...)
     if not ok then
       vim.notify(err, vim.log.levels.ERROR)
+    else
+      return err
     end
   end
 end
