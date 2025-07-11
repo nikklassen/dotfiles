@@ -47,8 +47,8 @@ bindkey '\ed' kill-default-word
 bindkey '^U' backward-kill-line
 
 vim-none-command-line () {
-  if [[ -f ~/.vim/vimrc.command-line ]]; then
-    local VIMRC="~/.vim/vimrc.command-line"
+  if [[ -f ~/.config/nvim/vimrc.command-line ]]; then
+    local VIMRC="~/.config/nvim/vimrc.command-line"
   else
     local VIMRC="NONE"
   fi
