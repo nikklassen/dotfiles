@@ -4,3 +4,4 @@
     url = {{ gitHubLatestReleaseAssetURL "LuaLS/lua-language-server" (printf "lua-language-server-*-%s-%s.tar.gz" .chezmoi.os $arch) | quote }}
     exact = true
     refreshPeriod = "168h"
+    exclude = []

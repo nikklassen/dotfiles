@@ -17,6 +17,7 @@ packages:
     - pipx
     - python3
     - ripgrep
+    - shellcheck
     - tmux
     - tree
     - wget

@@ -1,6 +1,7 @@
 {{- if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
+{{- if not .work -}}
 echo "Adding Google Cloud apt repository"
 key_file="/usr/share/keyrings/cloud.google.gpg"
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
@@ -8,7 +9,6 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
 echo "deb [signed-by=${key_file}] https://packages.cloud.google.com/apt cloud-sdk main" | \
   sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list > /dev/null
 
-{{- if not .work -}}
 echo "Adding Docker apt repository"
 key_file="/usr/share/keyrings/docker.gpg"
 curl -s https://download.docker.com/linux/ubuntu/gpg | \
