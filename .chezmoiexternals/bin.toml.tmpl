@@ -1,5 +1,7 @@
 {{ if ne .chezmoi.os "darwin" }}
 
+{{ if .development }}
+
 [".local/bin/golangci-lint"]
     type = "archive-file"
     url = {{ gitHubLatestReleaseAssetURL "golangci/golangci-lint" (printf "golangci-lint-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
@@ -12,6 +14,13 @@
     url = {{ gitHubLatestReleaseAssetURL "asdf-vm/asdf" (printf "asdf-*-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
     executable = true
     path = "asdf"
+
+[".local/bin/gomplate"]
+    type = "file"
+    url = {{ gitHubLatestReleaseAssetURL "hairyhenderson/gomplate" "gomplate_linux-amd64" | quote }}
+    executable = true
+
+{{ end }}
 
 [".local/bin/delta"]
     type = "archive-file"
