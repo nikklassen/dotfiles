@@ -182,7 +182,7 @@ function M.on_attach(client, bufnr)
   end
 
   -- Set autocommands conditional on server_capabilities
-  if client:supports_method(ms.textDocument_documentHighlight, bufnr) then
+  if client:supports_method(ms.textDocument_documentHighlight, bufnr) and vim.bo.ft ~= 'bash' then
     vim.api.nvim_set_hl(0, 'LspReferenceRead', { link = 'Underlined', default = true })
     vim.api.nvim_set_hl(0, 'LspReferenceText', { link = 'Normal', default = true })
     vim.api.nvim_set_hl(0, 'LspReferenceWrite', { link = 'Underlined', default = true })

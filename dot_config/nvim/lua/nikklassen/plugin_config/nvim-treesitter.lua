@@ -22,6 +22,7 @@ function M.configure()
   require 'nvim-treesitter.configs'.setup {
     -- Parsers bundled with nvim are also always installed
     ensure_installed = {
+      'bash',
       'cpp',
       'css',
       'dockerfile',
