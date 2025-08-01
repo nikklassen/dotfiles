@@ -1,7 +1,7 @@
 #!/bin/bash
 
 {{ range $pkg := .packages.pipx }}
-pipx install -q {{ $pkg -}}
+pipx install {{ $pkg -}}
 {{ end }}
 
-pipx inject -q powerline-status "{{ .chezmoi.sourceDir }}/python_plugins/powerline_ext" requests
+pipx inject powerline-status "{{ .chezmoi.sourceDir }}/python_plugins/powerline_ext" requests

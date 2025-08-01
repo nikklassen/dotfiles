@@ -18,6 +18,8 @@ config.window_padding = {
   bottom = 0,
 }
 
+config.enable_kitty_graphics = true
+
 config.term = 'wezterm'
 
 -- Use the defaults as a base
