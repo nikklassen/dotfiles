@@ -51,8 +51,11 @@ function M.vs_code_path_transform(_opts)
 end
 
 function M.directory_files(opts)
-  local dir = vim.fn.expand('%:h')
   opts = opts or {}
+  local dir = opts.cwd or vim.fn.expand('%:h')
+  -- Keep a copy of the original opts for the recursive call.
+  local original_opts = vim.deepcopy(opts)
+
   local file_opts = vim.tbl_deep_extend('keep', {}, opts, {
     cwd = dir,
     path_display = { tail = true },
@@ -60,6 +63,18 @@ function M.directory_files(opts)
   opts = vim.tbl_deep_extend('keep', {}, opts, {
     entry_maker = require 'telescope.make_entry'.gen_from_file(file_opts),
     cwd = dir,
+    attach_mappings = function(prompt_bufnr, map)
+      local actions = require 'telescope.actions'
+      local action_state = require 'telescope.actions.state'
+      map('i', '<C-u>', function()
+        local picker = action_state.get_current_picker(prompt_bufnr)
+        local parent_dir = vim.fn.fnamemodify(picker.cwd, ':h')
+        actions.close(prompt_bufnr)
+        original_opts.cwd = parent_dir
+        M.directory_files(original_opts)
+      end)
+      return true
+    end,
   })
   require 'telescope.pickers'.new(opts, {
     prompt_title = 'directory files',
