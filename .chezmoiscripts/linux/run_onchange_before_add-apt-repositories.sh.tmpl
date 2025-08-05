@@ -1,7 +1,6 @@
-{{- if eq .chezmoi.os "linux" -}}
+{{- if and (eq .chezmoi.os "linux") (not .work) -}}
 #!/bin/bash
 
-{{- if not .work -}}
 echo "Adding Google Cloud apt repository"
 key_file="/usr/share/keyrings/cloud.google.gpg"
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
@@ -15,6 +14,5 @@ curl -s https://download.docker.com/linux/ubuntu/gpg | \
   sudo tee "$key_file" > /dev/null
 echo "deb [signed-by=${key_file}] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-{{- end -}}
 
 {{- end -}}
