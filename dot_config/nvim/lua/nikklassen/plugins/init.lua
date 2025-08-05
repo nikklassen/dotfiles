@@ -108,7 +108,7 @@ return {
   },
 
   -- Rust
-  { 'rust-lang/rust.vim', ft = 'rust' },
+  { 'rust-lang/rust.vim',      ft = 'rust' },
 
   -------------------
   -- Other plugins --
@@ -237,5 +237,6 @@ return {
         provider = 'native'
       }
     },
-  }
+  },
+  { 'akinsho/toggleterm.nvim', version = '*', config = true, cmd = { 'TermExec' } }
 }

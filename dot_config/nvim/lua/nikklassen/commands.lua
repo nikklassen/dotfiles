@@ -23,3 +23,5 @@ vim.api.nvim_create_autocmd('LspProgress', {
   pattern = '*',
   command = 'redrawstatus',
 })
+
+vim.api.nvim_create_user_command('JJDiff', [[TermExec cmd='jj diff; exit 1' direction=float]], {})
