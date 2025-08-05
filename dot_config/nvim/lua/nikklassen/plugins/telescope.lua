@@ -113,8 +113,7 @@ return {
           }
         end },
         { '<leader>gf', vcs_files },
-        { '<S-F12>',    lsp_references },
-        { '<F24>',      lsp_references },
+        { 'grr',        lsp_references },
         { '<leader>d',  utils.lazy_require('nikklassen.telescope').directory_files },
         { '<C-T>',      builtin.lsp_dynamic_workspace_symbols },
       })
