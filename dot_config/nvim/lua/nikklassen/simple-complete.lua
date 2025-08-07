@@ -12,7 +12,7 @@ local function open_completion()
   end
   for _, tc in ipairs(trigger_characters) do
     if vim.v.char == tc then
-      vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-x><C-o>', true, true, true), "n")
+      vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-x><C-o>', true, true, true), 'n')
       return
     end
   end

@@ -5,7 +5,7 @@ vim.o.wildignore = '*.o,*.pyc,*.hi'
 
 -- Completion settings
 vim.o.completeopt = 'menu,menuone,noinsert'
-if vim.fn.has("nvim-0.11.0") == 1 then
+if vim.fn.has('nvim-0.11.0') == 1 then
   vim.o.completeopt = vim.o.completeopt .. ',fuzzy'
 end
 vim.o.shortmess = vim.o.shortmess .. 'c'

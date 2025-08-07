@@ -14,7 +14,7 @@ return {
         end
       end,
       delete = function()
-        local shared = require("nvim-treesitter.textobjects.shared")
+        local shared = require('nvim-treesitter.textobjects.shared')
         local _, outer_textobject = shared.textobject_at_point('@type.outer', 'textobjects', nil, nil,
           { lookahead = false, lookbehind = false })
         if outer_textobject == nil then

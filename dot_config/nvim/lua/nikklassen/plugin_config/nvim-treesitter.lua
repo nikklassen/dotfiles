@@ -1,11 +1,11 @@
 local M = {}
 
 function M.configure()
-  -- local queries = require "nvim-treesitter.query"
-  -- require'nvim-treesitter'.define_modules {
+  -- local queries = require 'nvim-treesitter.query'
+  -- require 'nvim-treesitter'.define_modules {
   --   bulk_fold = {
   --     module_path = 'nikklassen.bulk-folds',
-  --     is_supported = function (lang)
+  --     is_supported = function(lang)
   --       return queries.has_query_files(lang, 'bulk_folds')
   --     end
   --   }

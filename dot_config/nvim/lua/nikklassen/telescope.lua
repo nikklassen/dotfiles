@@ -1,16 +1,16 @@
 local utils = require 'nikklassen.utils'
-local devicons = utils.lazy_require("nvim-web-devicons")
+local devicons = utils.lazy_require('nvim-web-devicons')
 
 local M = {
   _has_proximity_sort = nil
 }
 
 local function make_displayer()
-  local entry_display = require("telescope.pickers.entry_display")
-  local default_icons, _ = devicons.get_icon("file", "", { default = true })
+  local entry_display = require('telescope.pickers.entry_display')
+  local default_icons, _ = devicons.get_icon('file', '', { default = true })
 
   local displayer = entry_display.create {
-    separator = " ",
+    separator = ' ',
     items = {
       { width = vim.fn.strwidth(default_icons) },
       {},
@@ -22,7 +22,7 @@ local function make_displayer()
     return displayer {
       { entry.devicons, entry.devicons_highlight },
       entry.file_name,
-      { entry.dir_name, "Comment" }
+      { entry.dir_name, 'Comment' }
     }
   end
 end
@@ -30,12 +30,12 @@ end
 -- Based on https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#customize-buffers-display-to-look-like-leaderf
 function M.vs_code_path_transform(_opts)
   return function(entry)
-    local bufname = entry ~= "" and entry or "[No Name]"
+    local bufname = entry ~= '' and entry or '[No Name]'
 
-    local dir_name = vim.fn.fnamemodify(bufname, ":p:.:h")
-    local file_name = vim.fn.fnamemodify(bufname, ":p:t")
+    local dir_name = vim.fn.fnamemodify(bufname, ':p:.:h')
+    local file_name = vim.fn.fnamemodify(bufname, ':p:t')
 
-    local icons, highlight = devicons.get_icon(bufname, string.match(bufname, "%a+$"), { default = true })
+    local icons, highlight = devicons.get_icon(bufname, string.match(bufname, '%a+$'), { default = true })
 
     return {
       valid = true,

@@ -1,5 +1,5 @@
 local coop = require('coop')
-local uv = require("coop.uv")
+local uv = require('coop.uv')
 local MpscQueue = require('coop.mpsc-queue').MpscQueue
 local notify = require('notify')
 

@@ -78,7 +78,7 @@ return {
               -- Doesn't highlight properties yet
               -- semanticTokens = true,
               usePlaceholders = true,
-              templateExtensions = {"tmpl"},
+              templateExtensions = { 'tmpl' },
             },
           },
           on_attach = function(client, bufnr)
@@ -183,16 +183,16 @@ return {
       end
 
       vim.lsp.handlers[ms.client_registerCapability] = (function(overridden)
-            return function(err, res, ctx)
-              local result = overridden(err, res, ctx)
-              local client = vim.lsp.get_client_by_id(ctx.client_id)
-              if not client then
-                return
-              end
-              lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
-              return result
-            end
-          end)(vim.lsp.handlers[ms.client_registerCapability])
+        return function(err, res, ctx)
+          local result = overridden(err, res, ctx)
+          local client = vim.lsp.get_client_by_id(ctx.client_id)
+          if not client then
+            return
+          end
+          lsp_utils.on_attach(client, vim.api.nvim_get_current_buf())
+          return result
+        end
+      end)(vim.lsp.handlers[ms.client_registerCapability])
 
       vim.api.nvim_create_autocmd('LspAttach', {
         pattern = '*',

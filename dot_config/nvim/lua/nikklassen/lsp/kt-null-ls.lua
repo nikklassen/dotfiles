@@ -1,5 +1,5 @@
-local null_ls = require("null-ls")
-local finders = require("nikklassen.treesitter.finders")
+local null_ls = require('null-ls')
+local finders = require('nikklassen.treesitter.finders')
 
 ---@param n TSNode
 local function to_synthetic_getter(n)
@@ -66,7 +66,7 @@ end
 return {
   name = 'Kotlin',
   method = null_ls.methods.CODE_ACTION,
-  filetypes = { "kotlin" },
+  filetypes = { 'kotlin' },
   generator = {
     fn = code_action,
   },
