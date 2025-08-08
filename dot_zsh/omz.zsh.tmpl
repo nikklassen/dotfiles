@@ -44,4 +44,11 @@ fi
 
 zstyle :omz:plugins:jj ignore-working-copy yes
 
+if [[ -n "${FAST_CMD}" ]]; then
+  PROMPT='> '
+  RPS1=''
+  ZSH_THEME=''
+  plugins=(git jj)
+fi
+
 source "$ZSH/oh-my-zsh.sh"

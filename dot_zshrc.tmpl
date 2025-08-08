@@ -80,7 +80,7 @@ alias fd=fdfind
 {{ end }}
 
 # undo oh-my-zsh
-unalias rm cp \G
+unalias rm cp \G 2> /dev/null
 alias -g G="| rg"
 
 function docker-upload () {
