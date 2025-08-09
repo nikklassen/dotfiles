@@ -51,11 +51,6 @@ merge-tool-edits-conflict-markers = true
 
 auto-update-stale = true
 
-[revsets]
-bookmark.set = '@'
-bookmark.delete = '@'
-bookmark.move = "@"
-
 [git]
 
 auto-local-bookmark = true
