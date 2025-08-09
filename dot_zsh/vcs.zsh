@@ -16,7 +16,15 @@ function which-vcs-alias() {
   local fn="$1"; shift
   local vcs="$(which-vcs)"
   [[ -z "$vcs" ]] && return 1
-  echo "${vcs_alias[${vcs}_${fn}]}"
+  local resolved="${vcs_alias[${vcs}_${fn}]}"
+  local function_def="${functions[$resolved]}"
+  if [[ -n "$function_def" ]]; then
+    echo "$resolved() {
+  $function_def
+}"
+  else
+    echo "$resolved"
+  fi
 }
 
 function vcs-cmd() {
