@@ -86,8 +86,14 @@ source vcs/jj.zsh
 alias hx=glog
 
 function jj_prompt_info() {
-  local commit_info="$(jj_prompt_template 'self.change_id().shortest(3)')"
-  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${commit_info}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+  local commit_info="$(jj_prompt_template 'coalesce(self.bookmarks(), self.change_id().shortest(3))')"
+  local dirty
+  if [[ "$(jj status --quiet)" == *"has no changes"* ]]; then
+    dirty="$ZSH_THEME_GIT_PROMPT_CLEAN"
+  else
+    dirty="$ZSH_THEME_GIT_PROMPT_DIRTY"
+  fi
+  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${commit_info}${dirty}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
 }
 
 function git_or_jj_prompt_info() {
