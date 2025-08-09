@@ -13,18 +13,23 @@ function which-vcs() {
 }
 
 function which-vcs-alias() {
+  local verbose=0
+  if [[ "$1" == -v ]]; then
+    verbose=1
+    shift
+  fi
   local fn="$1"; shift
   local vcs="$(which-vcs)"
   [[ -z "$vcs" ]] && return 1
   local resolved="${vcs_alias[${vcs}_${fn}]}"
   local function_def="${functions[$resolved]}"
-  if [[ -n "$function_def" ]]; then
-    echo "$resolved() {
+  if [[ "$verbose" == 0 || -z "${function_def}" ]]; then
+    echo $resolved
+    return
+  fi
+  echo "$resolved() {
   $function_def
 }"
-  else
-    echo "$resolved"
-  fi
 }
 
 function vcs-cmd() {
