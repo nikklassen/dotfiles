@@ -1,17 +1,19 @@
 {{- if and (eq .chezmoi.os "linux") (not .work) -}}
 #!/bin/bash
 
+function get_key() {
+  curl -s "$1" | gpg --dearmor | sudo tee "$2" > /dev/null
+}
+
 echo "Adding Google Cloud apt repository"
 key_file="/usr/share/keyrings/cloud.google.gpg"
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
-  sudo tee "$key_file" > /dev/null
+get_key https://packages.cloud.google.com/apt/doc/apt-key.gpg "$key_file"
 echo "deb [signed-by=${key_file}] https://packages.cloud.google.com/apt cloud-sdk main" | \
   sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list > /dev/null
 
 echo "Adding Docker apt repository"
 key_file="/usr/share/keyrings/docker.gpg"
-curl -s https://download.docker.com/linux/ubuntu/gpg | \
-  sudo tee "$key_file" > /dev/null
+get_key https://download.docker.com/linux/ubuntu/gpg "$key_file"
 echo "deb [signed-by=${key_file}] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
