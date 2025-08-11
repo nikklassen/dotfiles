@@ -1,4 +1,10 @@
 #!/bin/zsh
+if [[ -n "${TMUX_POPUP}" ]]; then
+  pushd "$HOME/.zsh/" > /dev/null
+  source popuprc.zsh
+  popd > /dev/null
+  return
+fi
 
 # initialization completions
 fpath=(/usr/local/share/zsh-completions $fpath)
