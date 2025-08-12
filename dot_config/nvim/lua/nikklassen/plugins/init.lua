@@ -223,6 +223,9 @@ return {
   },
   {
     'coder/claudecode.nvim',
+    enabled = function()
+      return vim.env.NVIM_ENABLE_CLAUDE ~= '0'
+    end,
     cmd = {
       'ClaudeCode',
       'ClaudeCodeSend',
