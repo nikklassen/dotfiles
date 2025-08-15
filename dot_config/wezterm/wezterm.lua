@@ -39,6 +39,7 @@ config.keys = {
     action = wezterm.action.QuickSelectArgs {
       label = 'open url',
       patterns = {
+        [[\((?:\w+://\S+)\)]],
         'https?://\\S+',
       },
       action = wezterm.action_callback(function(window, pane)
@@ -87,7 +88,7 @@ if wezterm.target_triple:find('windows') then
   })
 end
 
-local ok, local_config  = pcall(require, 'wezterm-local')
+local ok, local_config = pcall(require, 'wezterm-local')
 if ok then
   config = local_config.configure(config)
 end
