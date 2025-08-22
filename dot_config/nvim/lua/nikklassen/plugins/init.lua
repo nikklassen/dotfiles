@@ -191,7 +191,12 @@ return {
     'stevearc/oil.nvim',
     ---@module 'oil'
     ---@type oil.SetupOpts
-    opts = {},
+    opts = {
+      keymaps = {
+        ['<C-s>'] = false,
+        ['<C-v>'] = { 'actions.select', opts = { vertical = true } },
+      }
+    },
     -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
     lazy = false,
     keys = {
