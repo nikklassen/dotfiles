@@ -96,7 +96,7 @@ return {
                 })
               end
             end
-            client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+            client:notify('workspace/didChangeConfiguration', { settings = client.config.settings })
           end
         },
         jsonls = {
@@ -122,7 +122,7 @@ return {
             },
           },
           on_attach = function(client)
-            client.notify('workspace/didChangeConfiguration', {
+            client:notify('workspace/didChangeConfiguration', {
               settings = {
                 typescript = {
                   format = {
