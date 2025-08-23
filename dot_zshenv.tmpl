@@ -70,7 +70,7 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 [[ -d ~/.local/share/lua-language-server ]] && export PATH="$HOME/.local/share/lua-language-server/bin:$PATH"
 
 {{ if .wsl -}}
-export BROWSER=explorer.exe
+export BROWSER=wslbrowser
 {{- end }}
 
 {{ if .work }}

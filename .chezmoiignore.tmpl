@@ -20,6 +20,10 @@ Documents/PowerShell/**
 AppData/**
 {{ end }}
 
+{{ if not .wsl -}}
+.local/bin/wslbrowser
+{{ end }}
+
 # Ignore local changes to externals
 .local/share/oh-my-zsh/cache/**
 .local/share/lua-language-server/log

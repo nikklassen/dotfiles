@@ -1,0 +1,2 @@
+#!/bin/bash
+powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "Start \"$1\""
