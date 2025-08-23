@@ -47,7 +47,7 @@ function M.configure()
       'toml',
       'tsx',
       'typescript',
-      'yaml'
+      'yaml',
     },
     highlight = {
       enable = true,
@@ -104,6 +104,7 @@ function M.configure()
       persist_queries = false -- Whether the query persists across vim sessions
     },
   }
+  vim.treesitter.language.register('bash', 'zsh')
 end
 
 return M
