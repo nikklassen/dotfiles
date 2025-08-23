@@ -8,8 +8,11 @@ function get_key() {
 echo "Adding Google Cloud apt repository"
 key_file="/usr/share/keyrings/cloud.google.gpg"
 get_key https://packages.cloud.google.com/apt/doc/apt-key.gpg "$key_file"
+
 echo "deb [signed-by=${key_file}] https://packages.cloud.google.com/apt cloud-sdk main" | \
   sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list > /dev/null
+echo "deb [signed-by=${key_file}] https://packages.cloud.google.com/apt gcsfuse-$(lsb_release -c -s) main" | \
+  sudo tee /etc/apt/sources.list.d/gcsfuse.list > /dev/null
 
 echo "Adding Docker apt repository"
 key_file="/usr/share/keyrings/docker.gpg"
