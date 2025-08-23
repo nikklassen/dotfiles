@@ -1,0 +1,27 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.os "darwin" -}}
+echo "Updating Homebrew packages..."
+brew upgrade
+{{- end }}
+
+{{ if eq .chezmoi.os "linux" -}}
+echo "Updating apt packages..."
+sudo apt-get upgrade
+{{- end }}
+
+{{ if ne .chezmoi.os "darwin" -}}
+echo "Updating asdf plugins..."
+asdf plugin update --all
+echo "Updating rust..."
+rustup upgrade
+echo "Updating binaries installed with Cargo..."
+cargo install-update -a
+{{- end }}
+
+echo "Updating binaries installed with Go..."
+gup update
+echo "Updating binaries installed with npm..."
+npm update -g
+echo "Updating binaries installed with pipx..."
+pipx upgrade-all
