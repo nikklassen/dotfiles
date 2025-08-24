@@ -1,6 +1,8 @@
 {{- if ne .chezmoi.os "darwin" -}}
 #!/bin/bash
 
+# go-version: {{ output "go" "version" }}
+
 {{ range .packages.go }}
   go install "{{.}}@latest"
 {{ end }}
