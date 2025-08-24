@@ -15,7 +15,7 @@ local plugins = {
   },
 }
 
-if vim.fn.has('nvim-0.12.0') then
+if not vim.fn.has('nvim-0.12.0') then
   vim.list_extend(plugins, {
     {
       'fang2hou/blink-copilot',
