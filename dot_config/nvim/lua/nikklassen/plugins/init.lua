@@ -210,7 +210,7 @@ return {
   {
     'm4xshen/hardtime.nvim',
     opts = {
-      disabled_filetypes = { 'qf', 'NvimTree', 'lazy', 'hunk' },
+      disabled_filetypes = { 'qf', 'NvimTree', 'lazy', 'hunk', 'TelescopePrompt' },
       disabled_keys = {
         ['<Up>'] = false,
         ['<Down>'] = false,
