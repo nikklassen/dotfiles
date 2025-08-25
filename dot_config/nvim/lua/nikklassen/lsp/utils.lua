@@ -217,6 +217,23 @@ function M.on_attach(client, bufnr)
   if not disable_inlay_hints and client:supports_method(ms.textDocument_inlayHint, bufnr) then
     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
   end
+
+  if vim.fn.has('nvim-0.12.0') and client:supports_method(ms.textDocument_inlineCompletion, bufnr) then
+    vim.lsp.inline_completion.enable(true, {
+      -- client_id = client.id,
+      bufnr = bufnr,
+    })
+    vim.keymap.set('i', '<C-CR>', function()
+      if not vim.lsp.inline_completion.get() then
+        return '<C-CR>'
+      end
+    end, {
+      expr = true,
+      replace_keycodes = true,
+      desc = 'Get the current inline completion',
+      buffer = bufnr,
+    })
+  end
 end
 
 return M
