@@ -11,7 +11,6 @@ sudo apt-get update
   "curl"
   "direnv"
   "fd-find"
-  "gcsfuse"
   "git"
   "google-cloud-cli"
   "htop"
@@ -38,7 +37,14 @@ sudo apt-get update
 {{- end -}}
 
 {{ if not .work -}}
-{{ $pkgs = concat $pkgs (list "docker-ce" "docker-ce-cli" "containerd.io" "docker-buildx-plugin" "docker-compose-plugin") }}
+{{ $pkgs = concat $pkgs (list
+  "docker-ce"
+  "docker-ce-cli"
+  "containerd.io"
+  "docker-buildx-plugin"
+  "docker-compose-plugin"
+  "gcsfuse"
+  ) }}
 {{- end -}}
 
 sudo apt-get install -yq {{ $pkgs | join " " }}
