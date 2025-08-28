@@ -1,6 +1,10 @@
+{{ if .development }}
+
 [".local/share/lua-language-server"]
     type = "archive"
     {{ $arch := .chezmoi.arch | replace "amd64" "x64" -}}
     url = {{ gitHubLatestReleaseAssetURL "LuaLS/lua-language-server" (printf "lua-language-server-*-%s-%s.tar.gz" .chezmoi.os $arch) | quote }}
     exact = true
     refreshPeriod = "168h"
+
+{{ end }}
