@@ -70,6 +70,12 @@ config.keys = {
     mods = 'CTRL|SHIFT|ALT',
     action = wezterm.action.ActivateCommandPalette,
   },
+  {
+    key = 'Return',
+    mods = 'CTRL',
+    -- Send the escape sequence to make this work in Windows
+    action = wezterm.action.SendString '\x1b[13;5u',
+  },
 }
 
 if #wezterm.default_wsl_domains() > 0 then
