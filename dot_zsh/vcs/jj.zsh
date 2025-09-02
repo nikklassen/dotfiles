@@ -48,6 +48,6 @@ alias jjpe="jj prev --edit"
 alias jjnw="echo 'use jjn'"
 alias jjbs="jj bookmark set -r @"
 alias jjbm="jj bookmark move -r @"
-alias jjbd="jj bookmark delete -r @"
+alias jjbd="jj bookmark delete"
 
 alias gpm="jj bookmark set main -r @- && gp"
