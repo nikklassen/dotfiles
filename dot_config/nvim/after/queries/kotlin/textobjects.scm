@@ -1,9 +1,8 @@
 ;; extends
 
 (call_expression
-  (navigation_expression (_) (navigation_suffix) @_start)
-  (call_suffix) @_end
-  (#make-range! "call.outer" @_start @_end))
+  (navigation_expression (_) (navigation_suffix) @call.outer)
+  (call_suffix) @call.outer)
 
 (call_expression (simple_identifier) (call_suffix)) @call.outer
 
@@ -15,8 +14,7 @@
 
 (value_argument) @parameter.inner
 (value_arguments
-  (value_argument) @_start
-  . ","? @_end
-  (#make-range! "parameter.outer" @_start @_end))
+  (value_argument) @parameter.outer
+  . ","? @parameter.outer)
 
 (user_type (_) (type_arguments) @type.inner) @type.outer

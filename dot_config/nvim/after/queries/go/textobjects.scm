@@ -1,42 +1,37 @@
 ;; extends
 
 (literal_value
-  "," @_field_start .
+  "," @field.outer
+  .
   (keyed_element
       _
-      (_) @field.inner) @_field_end
-  (#make-range! "field.outer" @_field_start @_field_end))
+      (_) @field.inner) @field.outer)
 
 (literal_value
   (keyed_element
       _
-      (_) @field.inner) @_field_start
-  . ","? @_field_end
-  (#make-range! "field.outer" @_field_start @_field_end))
+      (_) @field.inner) @field.outer
+  . ","? @field.outer)
 
 (method_elem) @field.inner @field.outer
 
 (composite_literal
   type: (slice_type)
-  body: (literal_value "," @_start . (literal_element) @field.inner)
-(#make-range! "field.outer" @_start @field.inner))
+  body: (literal_value "," @field.outer . (literal_element) @field.inner @field.outer))
 
 (composite_literal
   type: (slice_type)
-  body: (literal_value (literal_element) @field.inner . ","? @_end)
-(#make-range! "field.outer" @field.inner @_end))
+  body: (literal_value (literal_element) @field.inner @field.outer . ","? @field.outer))
 
 (return_statement
   (expression_list
-    "," @_start .
-    _ @_end
-    (#make-range! "parameter.outer" @_start @_end)))
+    "," @parameter.outer .
+    _ @parameter.outer))
 
 (return_statement
   (expression_list
-    . _ @_start
-    . ","? @_end
-    (#make-range! "parameter.outer" @_start @_end)))
+    . _ @parameter.outer
+    . ","? @parameter.outer))
 
 (unary_expression "&" (composite_literal)) @struct
 (composite_literal) @struct

@@ -114,17 +114,6 @@ return {
   -- Other plugins --
   -------------------
   {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    config = function()
-      require 'nikklassen.plugin_config.nvim-treesitter'.configure()
-    end,
-  },
-  {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    event = { 'BufReadPost', 'BufNewFile' },
-  },
-  {
     'kylechui/nvim-surround',
     opts = require('nikklassen.plugin_config.nvim-surround'),
     event = 'InsertEnter',

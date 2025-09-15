@@ -20,6 +20,18 @@
     url = {{ gitHubLatestReleaseAssetURL "hairyhenderson/gomplate" "gomplate_linux-amd64" | quote }}
     executable = true
 
+[".local/bin/tree-sitter"]
+    {{ $tsArch := .chezmoi.arch -}}
+    {{- if eq $tsArch "amd64" -}}
+    {{-   $tsArch = "x64" -}}
+    {{- end -}}
+    # type = "archive-file"
+    type = "file"
+    url = {{ gitHubLatestReleaseAssetURL "tree-sitter/tree-sitter" (printf "tree-sitter-%s-%s.gz" .chezmoi.os $tsArch) | quote }}
+    executable = true
+    decompress = "gzip"
+    # path = {{ printf "tree-sitter-%s-%s" .chezmoi.os $tsArch | quote }}
+
 {{ end }}
 
 [".local/bin/delta"]
