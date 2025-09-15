@@ -52,11 +52,12 @@ return {
       },
 
       cmdline = {
-        enabled = false,
+        -- enabled = false,
         keymap = {
-          preset = 'cmdline',
+          preset = 'inherit',
           ['<C-e>'] = { 'cancel', 'fallback' },
         },
+        completion = { menu = { auto_show = true } },
       },
 
       -- fuzzy = {
