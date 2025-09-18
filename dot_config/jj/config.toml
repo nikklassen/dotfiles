@@ -38,6 +38,10 @@ merge-args = ["-u", "NONE", "-f", "-d", "$output", "-M",
 program = "nvim"
 merge-tool-edits-conflict-markers = true
 
+[merge-tools.kdiff3]
+
+merge-args = ["$base", "$left", "$right", "-o", "$output", "--auto"]
+
 # [merge-tools.delta]
 #
 # merge-args = ["$left", "$right", "--paging", "always"]
