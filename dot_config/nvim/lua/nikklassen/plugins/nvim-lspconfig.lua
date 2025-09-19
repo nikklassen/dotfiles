@@ -174,12 +174,14 @@ return {
       },
     },
     config = function(_, opts)
-      local nvim_lsp = require 'lspconfig'
-
       vim.diagnostic.config(opts.diagnostics)
 
       if opts.debug then
-        vim.lsp.set_log_level('debug')
+        if vim.fn.has('nvim-0.12.0') then
+          vim.lsp.log.set_level('debug')
+        else
+          vim.lsp.set_log_level('debug')
+        end
       end
 
       vim.lsp.handlers[ms.client_registerCapability] = (function(overridden)
@@ -211,7 +213,8 @@ return {
         server_config = vim.tbl_deep_extend('force', {
           capabilities = default_capabilities,
         }, server_config)
-        nvim_lsp[server].setup(server_config)
+        vim.lsp.config(server, server_config)
+        vim.lsp.enable(server)
       end
     end,
   },
