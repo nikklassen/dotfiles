@@ -115,6 +115,10 @@ return {
     config = configure_treesitter,
   },
   {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = true,
+  },
+  {
     'nvim-treesitter/nvim-treesitter-textobjects',
     branch = 'main',
     event = 'VeryLazy',
