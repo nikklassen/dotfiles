@@ -56,6 +56,7 @@ packages:
     - Microsoft.PowerToys
     - OpenWhisperSystems.Signal
     - Python.Launcher
+    - rustup
     - Spotify.Spotify
     - Tailscale.Tailscale
     - TheDocumentFoundation.LibreOffice
