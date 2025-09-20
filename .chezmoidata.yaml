@@ -54,6 +54,7 @@ packages:
     - Google.QuickShare
     - Microsoft.PowerShell
     - Microsoft.PowerToys
+    - Microsoft.VisualStudio.2022.BuildTools
     - OpenWhisperSystems.Signal
     - Python.Launcher
     - rustup
