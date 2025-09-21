@@ -95,8 +95,8 @@ function M.attach(client, bufnr)
     return
   end
   vim.lsp.inline_completion.enable(true, {
-    client_id = client.id,
-    -- bufnr = bufnr,
+    -- client_id = client.id,
+    bufnr = bufnr,
   })
   vim.keymap.set('i', '<C-CR>', function()
     if not vim.lsp.inline_completion.get({
