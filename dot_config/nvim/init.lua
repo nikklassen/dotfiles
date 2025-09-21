@@ -51,3 +51,4 @@ yank.configure()
 require 'nikklassen.options'
 require 'nikklassen.statusline'
 require 'nikklassen.view'
+require 'nikklassen.lsp'
