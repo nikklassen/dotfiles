@@ -107,21 +107,6 @@ vim.cmd.abbreviate('reutrn', 'return')
 
 vim.keymap.set('n', '<Del>', 'ciw', { remap = false })
 
--- Treesitter incremental selection
-vim.keymap.set('n', '<CR>', function()
-  if vim.bo.buftype == '' then
-    require('nvim-treesitter.incremental_selection').init_selection()
-  else
-    vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, true, true), 'n')
-  end
-end)
-vim.keymap.set('v', '<Tab>', function()
-  require('nvim-treesitter.incremental_selection').node_incremental()
-end)
-vim.keymap.set('v', '<S-Tab>', function()
-  require('nvim-treesitter.incremental_selection').node_decremental()
-end)
-
 vim.keymap.set('n', '<C-l>', function()
   vim.cmd.nohlsearch()
   vim.cmd.diffupdate()
