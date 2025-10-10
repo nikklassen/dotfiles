@@ -51,3 +51,10 @@ alias jjbm="jj bookmark move -r @"
 alias jjbd="jj bookmark delete"
 
 alias gpm="jj bookmark set main -r @- && gp"
+
+function jj_add_parent() {
+  local src="$1"
+  local new_parent="$2"
+  # x- is all the parents of x
+  jj rebase -s "$src" -d "${src}-" -d "${new_parent}"
+}
