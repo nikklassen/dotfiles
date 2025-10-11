@@ -193,9 +193,7 @@ return {
     },
   },
   {
-    -- 'phelipetls/jsonpath.nvim',
-    'angelinuxx/jsonpath.nvim',
-    branch = 'fix/deprecated-treesitter-api',
+    'phelipetls/jsonpath.nvim',
     ft = { 'json' },
   },
   {
