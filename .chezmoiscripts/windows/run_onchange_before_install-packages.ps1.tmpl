@@ -1,4 +1,6 @@
 {{- if eq .chezmoi.os "windows" -}}
+Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+
 winget install --no-upgrade {{ .packages.winget | join " " }}
 
 refreshenv
