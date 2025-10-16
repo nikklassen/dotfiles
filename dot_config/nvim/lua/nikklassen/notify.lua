@@ -1,21 +1,22 @@
 local coop = require('coop')
-local uv = require('coop.uv')
+local sleep = require('coop.uv-utils').sleep
 local MpscQueue = require('coop.mpsc-queue').MpscQueue
 local notify = require('notify')
+local nk_utils = require('nikklassen.utils')
 
 local M = {}
 
 local function event_loop()
   while true do
     local event = M._queue:pop()
-    event()
-    uv.sleep(200)
+    vim.schedule(nk_utils.wrap_notify_on_error(event))
+    sleep(400)
   end
 end
 
 local function start_loop()
   M._queue = MpscQueue.new()
-  coop.spawn(event_loop)
+  coop.spawn(nk_utils.wrap_notify_on_error(event_loop))
 end
 
 
