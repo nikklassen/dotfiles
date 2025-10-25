@@ -31,6 +31,7 @@ packages:
     - github.com/nao1215/gup
     - github.com/sqls-server/sqls
     - golang.org/x/tools/gopls
+    - github.com/idursun/jjui/cmd/jjui
   npm:
     - '@anthropic-ai/claude-code'
     - bash-language-server
