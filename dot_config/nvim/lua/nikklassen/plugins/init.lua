@@ -28,7 +28,7 @@ return {
     'tpope/vim-abolish',
     cmd = { 'S' },
     keys = {
-      { 'ga', '<Plug>(abolish-coerce-word)', mode = { 'n' }, desc = 'coerce word' },
+      { 'ga', '<Plug>(abolish-coerce-word)', mode = { 'n', 'v' }, desc = 'coerce word' },
     },
     init = function()
       vim.g.abolish_no_mappings = 1
