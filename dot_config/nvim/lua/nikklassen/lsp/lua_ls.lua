@@ -1,6 +1,6 @@
 local function init_lua_ls(client)
   local path = ''
-  if client.workspace_folders ~= nil then
+  if client.workspace_folders then
     path = client.workspace_folders[1].name
   end
   if path ~= vim.fn.stdpath('config') and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
@@ -8,19 +8,18 @@ local function init_lua_ls(client)
   end
   client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
     runtime = {
-      version = 'LuaJIT'
+      version = 'LuaJIT',
+      path = {
+        'lua/?.lua',
+        'lua/?/init.lua',
+      },
     },
     -- Make the server aware of Neovim runtime files
     workspace = {
       checkThirdParty = false,
-      -- library = vim.list_extend({
-      --   vim.env.VIMRUNTIME,
-      -- }, vim.api.nvim_get_runtime_file('', true)),
       library = {
         vim.env.VIMRUNTIME,
         vim.fn.stdpath('data') .. '/lazy/TODO',
-        vim.fn.stdpath('config') .. '/lua',
-        vim.env.PWD,
       },
     },
     completion = {
@@ -44,6 +43,9 @@ vim.lsp.config('lua_ls', {
         enable = true,
         arrayIndex = 'Disable',
         paramName = 'Literal',
+      },
+      diagnostics = {
+        globals = { 'vim' },
       },
     },
   },
