@@ -66,10 +66,11 @@ local function configure_textobjects(_, opts)
     ['a='] = '@assignment.outer',
     ['al'] = '@call.outer',
     ['il'] = '@call.inner',
+    ['ap'] = '@block.outer',
+    ['ip'] = '@block.inner',
   }
   for keys, selector in pairs(select_keymaps) do
     vim.keymap.set({ 'x', 'o' }, keys, function()
-      print(selector)
       require('nvim-treesitter-textobjects.select').select_textobject(selector, 'textobjects')
     end)
   end
