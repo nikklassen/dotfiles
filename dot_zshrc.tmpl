@@ -183,7 +183,7 @@ bindkey '^X?' _complete_debug
 zstyle ':completion:*' accept-exact-dirs true
 
 # Needs to run after asdf
-export PATH="$PATH:$(go env GOPATH)/bin"
+export PATH="$PATH:$(go env GOBIN)"
 export PATH="$PATH:$(npm config get prefix)/bin"
 
 function osc52() {
