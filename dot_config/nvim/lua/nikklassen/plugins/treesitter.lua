@@ -38,10 +38,10 @@ local function configure_treesitter(_, opts)
     'tsx',
     'typescript',
     'yaml',
+    'zsh',
   }
   ts.setup(opts)
   ts.install(file_types)
-  vim.treesitter.language.register('bash', 'zsh')
   vim.api.nvim_create_autocmd('FileType', {
     pattern = file_types,
     callback = function()
