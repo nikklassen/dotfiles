@@ -5,7 +5,8 @@ return {
     main = 'null-ls',
     opts = function(_, opts)
       local kt_null_ls = require('nikklassen.lsp.kt-null-ls')
-      opts.sources = { kt_null_ls }
+      local go_null_ls = require('nikklassen.lsp.go-null-ls')
+      opts.sources = { kt_null_ls, go_null_ls }
       return opts
     end,
   },
