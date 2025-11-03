@@ -28,5 +28,8 @@ vim.treesitter.query.add_directive('inject-go-tmpl!', function(_, _, bufnr, _, m
   if ext == nil then
     return
   end
+  if ext == 'tf' then
+    ext = 'terraform'
+  end
   metadata['injection.language'] = ext
 end, {})

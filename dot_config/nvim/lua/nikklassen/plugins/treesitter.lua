@@ -32,6 +32,7 @@ local function configure_treesitter(_, opts)
     'scss',
     'sql',
     'svelte',
+    'terraform',
     'textproto',
     'toml',
     'tsx',
