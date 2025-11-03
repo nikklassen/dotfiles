@@ -58,3 +58,14 @@ auto-update-stale = true
 [git]
 
 auto-local-bookmark = true
+
+[aliases]
+pull = ["util", "exec", "--", "bash", "-c", """
+if [ -z "$1" ]; then
+    echo "missing branch"
+    exit 1
+fi
+set -euo pipefail
+jj git fetch -b $1
+jj rebase -s "at_operation(@-, $1+) & mutable()" -d $1
+""", ""]
