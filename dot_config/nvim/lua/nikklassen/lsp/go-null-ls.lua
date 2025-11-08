@@ -16,12 +16,13 @@ local function split_struct_action()
   if not node then return end
 
   -- Find the enclosing composite_literal
-  local comp_literal = node
-  while comp_literal and comp_literal:type() ~= 'composite_literal' do
-    local parent = comp_literal:parent()
-    if parent ~= nil then
-      comp_literal = parent
+  local comp_literal
+  while node do
+    if node:type() == 'composite_literal' then
+      comp_literal = node
+      break
     end
+    node = node:parent()
   end
 
   if not comp_literal then return end
