@@ -12,9 +12,4 @@
 (property_declaration _ _ ["*=" "+=" "-=" "="] _ @assignment.rhs) @assignment.outer
 (assignment _ ["*=" "+=" "-=" "="] _ @assignment.rhs) @assignment.outer
 
-(value_argument) @parameter.inner
-(value_arguments
-  (value_argument) @parameter.outer
-  . ","? @parameter.outer)
-
 (user_type (_) (type_arguments) @type.inner) @type.outer
