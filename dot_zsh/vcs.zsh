@@ -108,3 +108,14 @@ function git_or_jj_prompt_info() {
 
 PS1="${PS1//git_prompt_info/git_or_jj_prompt_info}"
 _omz_register_handler _omz_git_prompt_info
+
+function _modified_files_finder() {
+  local selected=$(vcs-cmd _modified_files | fzf)
+  if [[ -n "$selected" ]]; then
+    LBUFFER="$LBUFFER$selected"
+    zle redisplay
+  fi
+}
+
+zle -N _modified_files_finder
+bindkey '^[g' _modified_files_finder

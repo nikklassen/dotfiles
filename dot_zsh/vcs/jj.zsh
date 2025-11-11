@@ -16,6 +16,10 @@ function _jj_gd() {
   jj diff --git "$@" | delta
 }
 
+function _jj_modified_files() {
+  jj diff -s | awk '{print $2}'
+}
+
 declare -A jj_aliases=(
   [gst]="jj status"
   [gl]="jj git fetch"
@@ -34,6 +38,8 @@ declare -A jj_aliases=(
   [grhh]="jj abandon"
   [grbm]="jj rebase --destination 'trunk()'"
   [gf]="jj git fetch"
+
+  [_modified_files]=_jj_modified_files
 
   # Don't know yet
   # [gclean]=""

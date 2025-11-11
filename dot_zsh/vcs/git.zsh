@@ -7,6 +7,10 @@ function _git_gcmsg() {
   git commit -m "$msg" "$@"
 }
 
+function _git_modified_files() {
+  git status -s | awk '{print $2}'
+}
+
 # using $aliases works because this is the first to VCS to be added
 declare -A git_aliases=(
   [gst]="git status"
@@ -34,6 +38,8 @@ declare -A git_aliases=(
   [grbm]="git rebase \$(git_main_branch)"
   [gf]="$aliases[gf]"
   [gcoh]="gco HEAD"
+
+  [_modified_files]=_git_modified_files
 )
 
 register-vcs git is-git git_aliases
