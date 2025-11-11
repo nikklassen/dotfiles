@@ -40,7 +40,7 @@ vim.wo.relativenumber = true
 vim.wo.signcolumn = 'yes'
 
 -- Shorter timeout for escape keys
-vim.o.tm = 250
+vim.o.tm = 500
 
 vim.o.concealcursor = 'n'
 vim.o.conceallevel = 0
