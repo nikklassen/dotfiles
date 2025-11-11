@@ -53,43 +53,55 @@ end
 
 local function configure_textobjects(_, opts)
   require('nvim-treesitter-textobjects').setup(opts)
-  local select_keymaps = {
-    ['af'] = '@function.outer',
-    ['if'] = '@function.inner',
-    ['ia'] = '@parameter.inner',
-    ['aa'] = '@parameter.outer',
-    ['ii'] = '@field.inner',
-    ['ai'] = '@field.outer',
-    ['ic'] = '@class.inner',
-    ['ac'] = '@class.outer',
-    ['i='] = '@assignment.rhs',
-    ['a='] = '@assignment.outer',
-    ['al'] = '@call.outer',
-    ['il'] = '@call.inner',
-    ['ap'] = '@block.outer',
-    ['ip'] = '@block.inner',
-  }
-  for keys, selector in pairs(select_keymaps) do
-    vim.keymap.set({ 'x', 'o' }, keys, function()
-      require('nvim-treesitter-textobjects.select').select_textobject(selector, 'textobjects')
-    end)
-  end
-  local next_movements = {
-    [']m'] = '@function.outer'
-  }
-  for keys, selector in pairs(next_movements) do
-    vim.keymap.set({ 'n', 'x', 'o' }, keys, function()
-      require('nvim-treesitter-textobjects.move').goto_next_start(selector, 'textobjects')
-    end)
-  end
-  local previous_movements = {
-    ['[m'] = '@function.outer'
-  }
-  for keys, selector in pairs(previous_movements) do
-    vim.keymap.set({ 'n', 'x', 'o' }, keys, function()
-      require('nvim-treesitter-textobjects.move').goto_previous_start(selector, 'textobjects')
-    end)
-  end
+  vim.api.nvim_create_autocmd('FileType', {
+    callback = function(ev)
+      local bufnr = ev.buf
+      local lang = ev.match
+      local parser = vim.treesitter.get_parser(bufnr, lang, {
+        error = false
+      })
+      if not parser then
+        return
+      end
+      local select_keymaps = {
+        ['af'] = '@function.outer',
+        ['if'] = '@function.inner',
+        ['ia'] = '@parameter.inner',
+        ['aa'] = '@parameter.outer',
+        ['ii'] = '@field.inner',
+        ['ai'] = '@field.outer',
+        ['ic'] = '@class.inner',
+        ['ac'] = '@class.outer',
+        ['i='] = '@assignment.rhs',
+        ['a='] = '@assignment.outer',
+        ['al'] = '@call.outer',
+        ['il'] = '@call.inner',
+        ['ap'] = '@block.outer',
+        ['ip'] = '@block.inner',
+      }
+      for keys, selector in pairs(select_keymaps) do
+        vim.keymap.set({ 'x', 'o' }, keys, function()
+          require('nvim-treesitter-textobjects.select').select_textobject(selector, 'textobjects')
+        end, { buffer = bufnr })
+      end
+      local next_movements = {
+        [']m'] = '@function.outer'
+      }
+      for keys, selector in pairs(next_movements) do
+        vim.keymap.set({ 'n', 'x', 'o' }, keys, function()
+          require('nvim-treesitter-textobjects.move').goto_next_start(selector, 'textobjects')
+        end, { buffer = bufnr })
+      end
+      local previous_movements = {
+        ['[m'] = '@function.outer'
+      }
+      for keys, selector in pairs(previous_movements) do
+        vim.keymap.set({ 'n', 'x', 'o' }, keys, function()
+          require('nvim-treesitter-textobjects.move').goto_previous_start(selector, 'textobjects')
+        end, { buffer = bufnr })
+      end
+    end,
+  })
 end
 
 return {
