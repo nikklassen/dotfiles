@@ -70,7 +70,7 @@ local function split_struct_action()
 
   local literals = children_of_type(comp_literal, 'literal_value')
   if #literals == 0 then return end
-  local literal_value = literals[0]
+  local literal_value = literals[1]
 
   return {
     title = 'Split struct literal',
