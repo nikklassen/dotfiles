@@ -206,7 +206,21 @@ end
 function M.on_detach(client, bufnr)
   vim.api.nvim_del_augroup_by_name('lsp_buf_' .. bufnr .. '_' .. client.name)
 
-  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  local clients = vim.lsp.get_clients({
+    bufnr = bufnr,
+  })
+  local no_highlight_support = vim.iter(clients):all(function(c)
+    return c.name == client.name or not c:supports_method(ms.textDocument_documentHighlight, bufnr)
+  end)
+  if no_highlight_support then
+    -- Clear the autocommands inside the group. We can't test if the group
+    -- exists, and deleting a non-existant group throws an error, so this is
+    -- just easiest
+    vim.api.nvim_create_augroup('lsp_highlight_buf_' .. bufnr, {
+      clear = true
+    })
+  end
+
   if #clients > 0 then
     return
   end
