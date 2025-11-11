@@ -12,6 +12,7 @@ return {
       vim.cmd('hi! link @lsp.type.namespace @variable')
       vim.cmd('hi! link @lsp.typemod.variable.defaultLibrary @constant.builtin')
       vim.cmd('hi! link @lsp.typemod.enumMember.defaultLibrary @constant.builtin')
+      vim.cmd('hi clear @spell')
     end,
   },
 }
