@@ -57,6 +57,9 @@ local function configure_textobjects(_, opts)
     callback = function(ev)
       local bufnr = ev.buf
       local lang = ev.match
+      if vim.fn.bufloaded(bufnr) == 0 then
+        return
+      end
       local parser = vim.treesitter.get_parser(bufnr, lang, {
         error = false
       })
