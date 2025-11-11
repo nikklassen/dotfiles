@@ -203,4 +203,22 @@ function M.on_attach(client, bufnr)
   require('nikklassen.lsp.inline_completion').attach(client, bufnr)
 end
 
+function M.on_detach(client, bufnr)
+  vim.api.nvim_del_augroup_by_name('lsp_buf_' .. bufnr .. '_' .. client.name)
+
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  if #clients > 0 then
+    return
+  end
+
+  local keys = {
+    n = { 'K', 'gd', '<Up>', '<Down>', ']d', '[d' }
+  }
+  for mode, mapped in pairs(keys) do
+    for _, key in ipairs(mapped) do
+      vim.keymap.del(mode, key, { buffer = bufnr })
+    end
+  end
+end
+
 return M

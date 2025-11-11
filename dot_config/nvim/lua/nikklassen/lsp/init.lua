@@ -29,9 +29,20 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if not client then
       return
     end
-    capabilities.on_attach(client, vim.api.nvim_get_current_buf())
+    capabilities.on_attach(client, ev.buf)
   end,
 })
+vim.api.nvim_create_autocmd('LspDetach', {
+  callback = function(ev)
+    -- Get the detaching client
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if not client then
+      return
+    end
+    capabilities.on_detach(client, ev.buf)
+  end,
+})
+
 
 vim.lsp.config('*', {
   capabilities = require('blink.cmp').get_lsp_capabilities()
