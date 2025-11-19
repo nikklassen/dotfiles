@@ -6,12 +6,16 @@
 {{- end -}}
 
 [".local/share"]
-  {{- $tag := "nightly" }}
-  {{- if .mobile -}}
+  {{ $tag := "nightly" -}}
+  {{- if or .mobile (eq .chezmoi.os "darwin") -}}
   {{-   $tag = "stable" -}}
-  {{- end }}
+  {{- end -}}
+  {{- $os := .chezmoi.os }}
+  {{- if eq $os "darwin" -}}
+  {{-   $os = "macos" -}}
+  {{- end -}}
   type = "archive"
   stripComponents = 1
-  url = {{ gitHubReleaseAssetURL "neovim/neovim" $tag (printf "nvim-%s-%s.tar.gz" .chezmoi.os $x86_64Arch ) | quote }}
+  url = {{ gitHubReleaseAssetURL "neovim/neovim" $tag (printf "nvim-%s-%s.tar.gz" $os $x86_64Arch ) | quote }}
 
 {{- end -}}
