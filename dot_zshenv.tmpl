@@ -17,9 +17,9 @@ export CARGO_HOME="$HOME/.local/share/cargo"
 if [[ -d "$CARGO_HOME" ]]; then
   PATH="$CARGO_HOME/bin:$PATH"
 fi
-if command rustc >/dev/null 2>&1; then
-    export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
-fi
+# if command rustc >/dev/null 2>&1; then
+#     export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
+# fi
 
 PATH="/usr/texbin:$PATH"
 
@@ -69,17 +69,21 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 
 [[ -d ~/.local/share/lua-language-server ]] && export PATH="$HOME/.local/share/lua-language-server/bin:$PATH"
 
+
+[[ -d "$HOME/.cache/.bun/bin" ]] && export PATH="$HOME/.cache/.bun/bin:$PATH"
+
 {{ if .wsl -}}
 export BROWSER=wslbrowser
 {{- end }}
 
-{{ if .work }}
-export NVIM_ENABLE_AVANTE=1
+ {{ if .work }}
+ export NVIM_ENABLE_AVANTE=1
 {{ else }}
 export NVIM_ENABLE_COPILOT=1
 {{ end }}
 
 # Disabled for now since I'm no longer using Claude
+export NVIM_ENABLE_AVANTE=0
 export NVIM_ENABLE_CLAUDE=0
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local
