@@ -55,9 +55,9 @@ merge-args = ["$base", "$left", "$right", "-o", "$output", "--auto"]
 
 auto-update-stale = true
 
-[git]
+[remotes.git]
 
-auto-local-bookmark = true
+auto-track-bookmarks = 'glob:*'
 
 [aliases]
 pull = ["util", "exec", "--", "bash", "-c", """
