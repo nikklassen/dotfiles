@@ -13,7 +13,6 @@ return {
         hi! link @lsp.type.namespace @variable
         hi! link @lsp.typemod.variable.defaultLibrary @constant.builtin
         hi! link @lsp.typemod.enumMember.defaultLibrary @constant.builtin
-        hi clear @spell
       ]])
     end,
   },
