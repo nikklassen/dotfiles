@@ -23,34 +23,28 @@ end
 ---@param client vim.lsp.Client
 ---@param bufnr number
 function M.organize_imports_and_format(client, bufnr)
-  if client.name == 'ts_ls' then
-    local command = {
-      command = '_typescript.organizeImports',
-      arguments = { vim.fn.expand('%:p') },
-    }
-    client:exec_cmd(command, { bufnr = bufnr })
-  else
-    local params = vim.lsp.util.make_range_params(nil, client.offset_encoding) ---@type table
-    params.context = { only = { 'source.organizeImports' } }
-    -- buf_request_sync defaults to a 1000ms timeout. Depending on your
-    -- machine and codebase, you may want longer. Add an additional
-    -- argument after params if you find that you have to write the file
-    -- twice for changes to be saved.
-    -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-    local result = vim.lsp.buf_request_sync(bufnr, 'textDocument/codeAction', params)
-    for cid, res in pairs(result or {}) do
-      for _, r in pairs(res.result or {}) do
-        if r.edit then
-          local encoding = 'utf-16'
-          local client_for_edit = vim.lsp.get_client_by_id(cid)
-          if client_for_edit then
-            encoding = client_for_edit.offset_encoding
-          end
-          vim.lsp.util.apply_workspace_edit(r.edit, encoding)
-        end
-      end
+  local params = vim.tbl_deep_extend('force', vim.lsp.util.make_range_params(0, client.offset_encoding), {
+    context = {
+      -- ts_ls requires this to be non-null
+      diagnostics = {},
+      only = { 'source.organizeImports' },
+      triggerKind = 1,
+    },
+  })
+  local result, err = client:request_sync('textDocument/codeAction', params, 1000, bufnr)
+  if result and result.err then
+    error('organizing imports request failed: ' .. result.err.message)
+  elseif err then
+    error('organizing imports request failed: ' .. err)
+  elseif not result or not result.result then
+    error('organizing imports request failed')
+  end
+  for _, action in ipairs(result.result) do
+    if action.edit then
+      vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
     end
   end
+
   vim.lsp.buf.format {
     id = client.id,
     bufnr = bufnr,
