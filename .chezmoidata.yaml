@@ -44,6 +44,7 @@ packages:
     - httpie
     - litecli
     - powerline-status
+    - pyright
   winget:
     - Adobe.Acrobat.Reader.32-bit
     - AutoHotkey.AutoHotkey
