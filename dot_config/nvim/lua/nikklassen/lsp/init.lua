@@ -55,7 +55,6 @@ vim.lsp.handlers[ms.client_registerCapability] = (function(overridden)
     if not client then
       return
     end
-    vim.notify('calling dynamic registration for ' .. client.name)
     capabilities.on_attach(client, vim.api.nvim_get_current_buf())
     return result
   end
