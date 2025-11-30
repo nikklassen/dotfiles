@@ -36,7 +36,7 @@ declare -A jj_aliases=(
   [glog]="jj log"
   [grs]="jj restore"
   [grhh]="jj abandon"
-  [grbm]="jj rebase --destination 'trunk()'"
+  [grbm]="jj rebase --onto 'trunk()'"
   [gf]="jj git fetch"
 
   [_modified_files]=_jj_modified_files
@@ -62,5 +62,5 @@ function jj_add_parent() {
   local src="$1"
   local new_parent="$2"
   # x- is all the parents of x
-  jj rebase -s "$src" -d "${src}-" -d "${new_parent}"
+  jj rebase -s "$src" --onto "${src}-" --onto "${new_parent}"
 }
