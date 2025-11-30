@@ -114,7 +114,7 @@ alias http="noglob http"
 
 alias cm="chezmoi"
 alias cmd="chezmoi diff"
-alias cma="chezmoi apply"
+alias cma="chezmoi apply && update-chezmoi-installed"
 
 function testport () {
     nc -v "$1" "$2" < /dev/null
