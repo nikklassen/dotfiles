@@ -41,7 +41,7 @@ vim.lsp.config('gopls', {
       staticcheck = true,
       gofumpt = true,
       -- Doesn't highlight properties yet
-      -- semanticTokens = true,
+      semanticTokens = true,
       usePlaceholders = true,
       templateExtensions = { 'tmpl' },
     },
