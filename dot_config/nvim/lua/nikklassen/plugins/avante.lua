@@ -8,10 +8,6 @@ return {
     lazy = true,
   },
   {
-    'stevearc/dressing.nvim',
-    lazy = true,
-  },
-  {
     'saghen/blink.cmp',
     opts = {
       sources = {
@@ -36,16 +32,19 @@ return {
     version = false,
     build = 'make',
     opts = {
-      provider = 'copilot',
-      providers = {
-        ollama = {
-          -- model = 'qwq:32b',
-          model = 'codeqwen:7b-chat',
+      provider = 'gemini-cli',
+      acp_providers = {
+        ['gemini-cli'] = {
+          command = 'gemini',
+          args = { '--experimental-acp' },
+          env = {
+            HOME = vim.env.HOME,
+            NODE_NO_WARNINGS = '1',
+            GOOGLE_CLOUD_PROJECT = '',
+          },
+          auth_method = 'oauth-personal',
+          timeout = 10000,
         },
-      },
-      -- cursor_applying_provider = 'ollama',
-      behaviour = {
-        enable_cursor_planning_mode = true,
       },
       vendors = {},
       file_selector = {
