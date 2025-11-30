@@ -35,3 +35,9 @@ end, {})
 vim.api.nvim_buf_create_user_command(0, 'GoTestCurrentFunction', function()
   go_test(true)
 end, {})
+
+-- Remove semantic token highlights that are worse than treesitter
+vim.cmd([[
+  hi link @lsp.type.string.go NONE
+  hi link @lsp.type.variable.go NONE
+]])
