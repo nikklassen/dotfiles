@@ -11,6 +11,9 @@ local function find_containing_function()
     return
   end
   local name = n:named_child(0)
+  if name == nil then
+    return
+  end
   return vim.treesitter.get_node_text(name, 0)
 end
 
