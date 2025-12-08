@@ -13,3 +13,5 @@
 (assignment _ ["*=" "+=" "-=" "="] _ @assignment.rhs) @assignment.outer
 
 (user_type (_) (type_arguments) @type.inner) @type.outer
+
+(function_declaration (function_body . "{" . _+ @function.inner . "}")) @function.outer
