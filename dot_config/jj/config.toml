@@ -69,3 +69,8 @@ set -euo pipefail
 jj git fetch -b $1
 jj rebase -s "at_operation(@-, $1+) & mutable()" -d $1
 """, ""]
+
+[revsets]
+
+bookmark.set = '@'
+bookmark.move = '@'
