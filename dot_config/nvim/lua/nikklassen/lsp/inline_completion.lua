@@ -37,7 +37,7 @@ local function accept_completion(item)
     col = col + 1
   end
 
-  local word = string.match(lines[row]:sub(col), '%s*[^%s]%w*[(%[]?[)%]]?')
+  local word = string.match(lines[row]:sub(col), '%s*[^%s][%w_]*[(%[]?[)%]]?')
   item.insert_text = table.concat(vim.list_slice(lines, 1, row - 1), '\n')
       .. (row <= #current_lines and '' or '\n')
       .. (row <= #lines and col <= #lines[row] and lines[row]:sub(1, col - 1) or '')
