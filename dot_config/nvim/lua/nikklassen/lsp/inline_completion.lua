@@ -30,7 +30,7 @@ local function accept_string_completion(item, mode, insert_text, win_id)
       col = col + 1
     end
 
-    local word = string.match(lines[row]:sub(col), '%s*[^%s]%w*')
+    local word = string.match(lines[row]:sub(col), '%s*[^%s]%w*[(%[]?[)%]]?')
     vim.api.nvim_buf_set_text(
       range.start.buf,
       math.min(range.start.row + row - 1, range.end_.row),
@@ -39,10 +39,9 @@ local function accept_string_completion(item, mode, insert_text, win_id)
       range.end_.col,
       row <= #current_lines and { word } or { '', word }
     )
-    local pos = item.range.start:to_cursor()
     vim.api.nvim_win_set_cursor(win_id, {
-      pos[1] + row - 1,
-      pos[2] + col - 1 + #lines[1] - 1,
+      range.end_.row + 1 + (row <= #current_lines and 0 or 1),
+      range.end_.col + 1 + #word,
     })
   else
     vim.api.nvim_buf_set_text(
