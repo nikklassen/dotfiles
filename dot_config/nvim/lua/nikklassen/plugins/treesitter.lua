@@ -25,6 +25,7 @@ local function configure_treesitter(_, opts)
     'json',
     'kotlin',
     'latex',
+    'lua',
     'markdown',
     'proto',
     'python',
