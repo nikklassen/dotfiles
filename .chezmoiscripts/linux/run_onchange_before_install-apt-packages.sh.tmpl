@@ -48,10 +48,6 @@ sudo apt-get update
 {{-  end -}}
 {{- end -}}
 
-{{ if not .mobile }}
-{{ $pkgs = append $pkgs "neovim" }}
-{{ end }}
-
 sudo apt-get install -yq {{ $pkgs | join " " }}
 
 {{- end -}}
