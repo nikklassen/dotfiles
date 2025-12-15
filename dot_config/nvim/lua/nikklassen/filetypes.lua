@@ -16,6 +16,7 @@ local function get_ext(fname, bufnr)
     if first_line_tbl[1] == '#!/bin/zsh' then
       return 'zsh'
     elseif first_line_tbl[1] == '#!/bin/bash' then
+      return 'bash'
     end
   end
 
