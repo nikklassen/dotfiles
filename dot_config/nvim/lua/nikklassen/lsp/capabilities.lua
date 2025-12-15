@@ -36,10 +36,10 @@ function M.organize_imports_and_format(client, bufnr)
     error('organizing imports request failed: ' .. result.err.message)
   elseif err then
     error('organizing imports request failed: ' .. err)
-  elseif not result or not result.result then
+  elseif not result then
     error('organizing imports request failed')
   end
-  for _, action in ipairs(result.result) do
+  for _, action in ipairs(result.result or {}) do
     if action.edit then
       vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
     end
