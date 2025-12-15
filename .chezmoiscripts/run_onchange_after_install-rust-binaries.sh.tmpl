@@ -16,10 +16,12 @@ fi
   cargo install {{.}}
 {{ end }}
 
-{{- range list
-  "jj-cli"
+{{- if not .work }}
+{{-   range list
+        "jj-cli"
 -}}
   cargo binstall -y --strategies crate-meta-data {{.}}
+{{-  end -}}
 {{ end -}}
 
 {{- end -}}
