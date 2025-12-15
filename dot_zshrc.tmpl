@@ -53,10 +53,9 @@ bindkey '\ed' kill-default-word
 bindkey '^U' backward-kill-line
 
 vim-none-command-line () {
-  if [[ -f ~/.config/nvim/vimrc.command-line ]]; then
-    local VIMRC="~/.config/nvim/vimrc.command-line"
-  else
-    local VIMRC="NONE"
+  local VIMRC="~/.config/nvim/command-line-init.lua"
+  if [[ -f "$VIMRC" ]]; then
+    VIMRC="NONE"
   fi
   local EDITOR="$EDITOR -u $VIMRC"
   edit-command-line
