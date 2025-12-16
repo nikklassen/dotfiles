@@ -7,7 +7,7 @@ brew upgrade
 
 {{ if eq .chezmoi.os "linux" -}}
 echo "Updating apt packages..."
-sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade
 {{- end }}
 
 {{ if ne .chezmoi.os "darwin" -}}
