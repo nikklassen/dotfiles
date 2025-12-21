@@ -35,7 +35,6 @@ packages:
     - github.com/idursun/jjui/cmd/jjui
     - mvdan.cc/sh/v3/cmd/shfmt
   npm:
-    - '@anthropic-ai/claude-code'
     - bash-language-server
     - typescript-language-server
     - vim-language-server

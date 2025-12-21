@@ -74,8 +74,9 @@ export BROWSER=wslbrowser
 {{- end }}
 
 {{ if .work }}
-export NVIM_DISABLE_COPILOT=1
 export NVIM_ENABLE_AVANTE=1
+{{ else }}
+export NVIM_ENABLE_COPILOT=1
 {{ end }}
 
 # Disabled for now since I'm no longer using Claude

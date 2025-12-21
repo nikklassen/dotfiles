@@ -1,4 +1,4 @@
-if vim.env.NVIM_DISABLE_COPILOT == '1' then
+if vim.env.NVIM_ENABLE_COPILOT ~= '1' then
   return {}
 end
 
