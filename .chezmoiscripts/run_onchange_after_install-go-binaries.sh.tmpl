@@ -7,6 +7,11 @@
   go install "{{.}}@latest"
 {{ end }}
 
+{{ if not .work }}
+go install github.com/GoogleCloudPlatform/docker-credential-gcr/v2@latest
+docker-credential-gcr configure-docker --registries=us-central1-docker.pkg.dev
+{{ end }}
+
 asdf reshim
 
 {{- end -}}
