@@ -1,6 +1,6 @@
-{{ if eq .chezmoi.os "linux" }}
+{{- if eq .chezmoi.os "linux" -}}
 
-{{ if .development }}
+{{- if .development -}}
 
 [".local/bin/golangci-lint"]
     type = "archive-file"
@@ -32,7 +32,21 @@
     decompress = "gzip"
     # path = {{ printf "tree-sitter-%s-%s" .chezmoi.os $tsArch | quote }}
 
-{{ end }}
+[".local/bin/bws"]
+    {{ $arch := .chezmoi.arch -}}
+    {{- if eq $arch "amd64" -}}
+    {{-   $arch = "x86_64" -}}
+    {{- end -}}
+    type = "archive-file"
+    url = {{ gitHubReleaseAssetURL
+      "bitwarden/sdk-sm"
+      (gitHubTags "bitwarden/sdk-sm" | toJson | fromJson | jq ".[] | .name | select(test(\"bws-.*\"))" | first)
+      (printf "bws-*%s*-%s-*.zip" $arch .chezmoi.os)
+      | quote }}
+    executable = true
+    path = "bws"
+
+{{ end -}}
 
 [".local/bin/delta"]
     type = "archive-file"
