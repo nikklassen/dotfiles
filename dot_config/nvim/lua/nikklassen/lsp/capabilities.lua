@@ -186,6 +186,14 @@ function M.on_attach(client, bufnr)
     })
   end
 
+  if client:supports_method('textDocument/codeLens', bufnr) then
+    vim.lsp.codelens.refresh()
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+      buffer = bufnr,
+      callback = vim.lsp.codelens.refresh,
+    })
+    vim.keymap.set('n', '<leader>cl', vim.lsp.codelens.run, opts)
+  end
 
   local disabled_inlay_hint_file_types = vim.tbl_get(client.config, 'settings', 'inlay_hints', 'disabled_file_types') or
       {}
