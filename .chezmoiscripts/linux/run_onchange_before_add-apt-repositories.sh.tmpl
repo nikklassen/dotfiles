@@ -18,7 +18,7 @@ function add_apt_repository() {
     get_key "${key_url}" "${key_file}"
   fi
 
-  if [[ -f "${apt_file}" ]]; then
+  if [[ ! -f "${apt_file}" ]]; then
     echo "deb [signed-by=${key_file}] ${apt_url} ${apt_version}" | \
       sudo tee "${apt_file}" > /dev/null
   fi
