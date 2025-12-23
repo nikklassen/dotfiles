@@ -10,7 +10,6 @@ return {
       vim.cmd([[
         hi! link @lsp.type.variable @variable
         hi! link @lsp.type.property @field
-        hi! link @lsp.type.namespace @variable
         hi! link @lsp.typemod.variable.defaultLibrary @constant.builtin
         hi! link @lsp.typemod.enumMember.defaultLibrary @constant.builtin
       ]])
