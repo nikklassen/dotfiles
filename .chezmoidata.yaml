@@ -39,6 +39,7 @@ packages:
     - "@typescript/native-preview"
     - vim-language-server
     - vscode-langservers-extracted
+    - tree-sitter-cli
   pipx:
     - httpie
     - litecli
