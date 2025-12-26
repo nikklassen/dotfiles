@@ -36,7 +36,7 @@ packages:
     - mvdan.cc/sh/v3/cmd/shfmt
   npm:
     - bash-language-server
-    - typescript-language-server
+    - "@typescript/native-preview"
     - vim-language-server
     - vscode-langservers-extracted
   pipx:
