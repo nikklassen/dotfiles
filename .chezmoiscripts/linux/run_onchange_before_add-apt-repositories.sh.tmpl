@@ -1,23 +1,58 @@
 {{- if and (eq .chezmoi.os "linux") (not .work) -}}
 #!/bin/bash
 
+CODENAME="$(lsb_release -c -s)"
+
 function get_key() {
   curl -s "$1" | gpg --dearmor | sudo tee "$2" > /dev/null
 }
 
-echo "Adding Google Cloud apt repository"
-key_file="/usr/share/keyrings/cloud.google.gpg"
-get_key https://packages.cloud.google.com/apt/doc/apt-key.gpg "$key_file"
+function add_apt_repository() {
+  local key_url="$1"
+  local key_file="$2"
+  local apt_url="$3"
+  local apt_version="$4"
+  local apt_file="$5"
 
-echo "deb [signed-by=${key_file}] https://packages.cloud.google.com/apt cloud-sdk main" | \
-  sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list > /dev/null
-echo "deb [signed-by=${key_file}] https://packages.cloud.google.com/apt gcsfuse-$(lsb_release -c -s) main" | \
-  sudo tee /etc/apt/sources.list.d/gcsfuse.list > /dev/null
+  if [[ ! -f "${key_file}" ]]; then
+    get_key "${key_url}" "${key_file}"
+  fi
+
+  if [[ -f "${apt_file}" ]]; then
+    echo "deb [signed-by=${key_file}] ${apt_url} ${apt_version}" | \
+      sudo tee "${apt_file}" > /dev/null
+  fi
+}
+
+echo "Adding Google Cloud apt repository"
+add_apt_repository \
+  "https://packages.cloud.google.com/apt/doc/apt-key.gpg" \
+  "/usr/share/keyrings/cloud.google.gpg" \
+  "https://packages.cloud.google.com/apt" \
+  "cloud-sdk main" \
+  "/etc/apt/sources.list.d/google-cloud-sdk.list"
+
+add_apt_repository \
+  "https://packages.cloud.google.com/apt/doc/apt-key.gpg" \
+  "/usr/share/keyrings/cloud.google.gpg" \
+  "https://packages.cloud.google.com/apt" \
+  "gcsfuse-${CODENAME?} main" \
+  "/etc/apt/sources.list.d/gcsfuse.list"
 
 echo "Adding Docker apt repository"
-key_file="/usr/share/keyrings/docker.gpg"
-get_key https://download.docker.com/linux/ubuntu/gpg "$key_file"
-echo "deb [signed-by=${key_file}] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+add_apt_repository \
+  "https://download.docker.com/linux/ubuntu/gpg" \
+  "/usr/share/keyrings/docker.gpg" \
+  "https://download.docker.com/linux/ubuntu" \
+  "${CODENAME?} stable" \
+  "/etc/apt/sources.list.d/docker.list"
+
+echo "Adding Postgres apt repository"
+add_apt_repository \
+  "https://www.postgresql.org/media/keys/ACCC4CF8.asc" \
+  "/usr/share/keyrings/postgres.gpg" \
+  "https://apt.postgresql.org/pub/repos/apt" \
+  "${CODENAME?}-pgdg main" \
+  "/etc/apt/sources.list.d/pgdg.list"
 
 {{- end -}}
