@@ -1,4 +1,12 @@
 {{- if eq .chezmoi.os "linux" -}}
+{{ $x64Arch := .chezmoi.arch -}}
+{{- if eq $x64Arch "amd64" -}}
+{{-   $x64Arch = "x64" -}}
+{{- end -}}
+{{ $x86_64Arch := .chezmoi.arch -}}
+{{- if eq $x86_64Arch "amd64" -}}
+{{-   $x86_64Arch = "x86_64" -}}
+{{- end -}}
 
 {{- if .development -}}
 
@@ -21,27 +29,17 @@
     executable = true
 
 [".local/bin/tree-sitter"]
-    {{ $tsArch := .chezmoi.arch -}}
-    {{- if eq $tsArch "amd64" -}}
-    {{-   $tsArch = "x64" -}}
-    {{- end -}}
-    # type = "archive-file"
     type = "file"
-    url = {{ gitHubLatestReleaseAssetURL "tree-sitter/tree-sitter" (printf "tree-sitter-%s-%s.gz" .chezmoi.os $tsArch) | quote }}
+    url = {{ gitHubLatestReleaseAssetURL "tree-sitter/tree-sitter" (printf "tree-sitter-%s-%s.gz" .chezmoi.os $x64Arch) | quote }}
     executable = true
     decompress = "gzip"
-    # path = {{ printf "tree-sitter-%s-%s" .chezmoi.os $tsArch | quote }}
 
 [".local/bin/bws"]
-    {{ $arch := .chezmoi.arch -}}
-    {{- if eq $arch "amd64" -}}
-    {{-   $arch = "x86_64" -}}
-    {{- end -}}
     type = "archive-file"
     url = {{ gitHubReleaseAssetURL
       "bitwarden/sdk-sm"
       (gitHubTags "bitwarden/sdk-sm" | toJson | fromJson | jq ".[] | .name | select(test(\"bws-.*\"))" | first)
-      (printf "bws-*%s*-%s-*.zip" $arch .chezmoi.os)
+      (printf "bws-*%s*-%s-*.zip" $x86_64Arch .chezmoi.os)
       | quote }}
     executable = true
     path = "bws"
@@ -60,5 +58,12 @@
     url = {{ gitHubLatestReleaseAssetURL "junegunn/fzf" (printf "fzf-*-%s_%s.tar.gz" .chezmoi.os .chezmoi.arch) | quote }}
     executable = true
     path = "fzf"
+
+[".local/bin/bun"]
+    type = "archive-file"
+    url = {{ gitHubLatestReleaseAssetURL "oven-sh/bun" (printf "bun-%s-%s.zip" .chezmoi.os $x64Arch) | quote }}
+    executable = true
+    stripComponents = 1
+    path = "bun"
 
 {{ end }}
