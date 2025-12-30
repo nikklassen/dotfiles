@@ -44,12 +44,14 @@ packages:
     - litecli
     - powerline-status
     - pyright
+  ps:
+    - PSFzf
   winget:
     - Adobe.Acrobat.Reader.32-bit
     - AutoHotkey.AutoHotkey
     - Bitwarden.Bitwarden
+    - BurntSushi.ripgrep.MSVC
     - CoreyButler.NVMforWindows
-    - dandavison.delta
     - Discord.Discord
     - EaseUS.TodoBackup
     - Git.Git
@@ -58,14 +60,19 @@ packages:
     - Microsoft.PowerShell
     - Microsoft.PowerToys
     - Microsoft.VisualStudio.2022.BuildTools
+    - Neovim.Neovim
     - OpenWhisperSystems.Signal
+    - Oven-sh.Bun
     - Python.Launcher
-    - rustup
     - Spotify.Spotify
     - Tailscale.Tailscale
     - TheDocumentFoundation.LibreOffice
     - Valve.Steam
     - VideoLAN.VLC
     - WinDirStat.WinDirStat
+    - dandavison.delta
     - dorssel.usbipd-win
+    - junegunn.fzf
+    - Rustlang.Rustup
+    - sharkdp.fd
     - wez.wezterm

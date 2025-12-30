@@ -1,11 +1,49 @@
 {{- if eq .chezmoi.os "windows" -}}
 Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
 
-winget install --no-upgrade {{ .packages.winget | join " " }}
+$desiredPackages = @(
+{{ .packages.winget | quoteList | join ",\n" }}
+)
+
+$installedIds = @()
+$installedJsonPath = Join-Path $env:TEMP "winget-installed.json"
+
+if (Test-Path $installedJsonPath) {
+    Remove-Item $installedJsonPath -Force -ErrorAction SilentlyContinue
+}
+
+# Export installed packages to check what's missing
+# Redirecting stderr to null to avoid noise, relying on file existence for success
+winget export -o $installedJsonPath --include-versions --accept-source-agreements 2>$null | Out-Null
+
+if (Test-Path $installedJsonPath) {
+    try {
+        $json = Get-Content $installedJsonPath -Raw | ConvertFrom-Json
+        if ($json.Sources) {
+            $installedIds = $json.Sources | ForEach-Object { $_.Packages } | ForEach-Object { $_.PackageIdentifier }
+        }
+    } catch {
+        Write-Warning "Failed to parse winget export. Proceeding to check all."
+    }
+    Remove-Item $installedJsonPath -ErrorAction SilentlyContinue
+}
+
+$missingPackages = $desiredPackages | Where-Object { $installedIds -notcontains $_ }
+
+if ($missingPackages.Count -gt 0) {
+    Write-Host "Installing missing packages: $($missingPackages -join ', ')"
+    winget install --no-upgrade --accept-package-agreements --accept-source-agreements $missingPackages
+} else {
+    Write-Host "All winget packages are already installed."
+}
 
 refreshenv
 
 nvm install latest
 nvm use latest
+
+{{ range $package := .packages.ps }}
+Install-PSResource -Name {{ $package }}
+{{ end }}
 
 {{- end -}}

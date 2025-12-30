@@ -1,0 +1,8 @@
+{{ if eq .chezmoi.os "windows" -}}
+
+[".local/bin/winutil.ps1"]
+  type = "file"
+  url = {{ gitHubLatestReleaseAssetURL "ChrisTitusTech/winutil" "winutil.ps1" | quote }}
+  executable = true
+
+{{- end }}

@@ -87,7 +87,7 @@ config.launch_menu = {}
 if wezterm.target_triple:find('windows') then
   table.insert(config.launch_menu, {
     label = 'PowerShell',
-    args = { 'powershell.exe', '-NoLogo' },
+    args = { 'pwsh.exe', '-NoLogo' },
     domain = {
       DomainName = 'local',
     },

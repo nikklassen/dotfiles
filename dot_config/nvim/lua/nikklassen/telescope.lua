@@ -91,7 +91,7 @@ local function fzf_executable()
     end
   end
   if not M._has_proximity_sort then
-    return utils.string_split(vim.env.FZF_DEFAULT_COMMAND)
+    return utils.string_split(vim.env.FZF_DEFAULT_COMMAND or '')
   end
   local f = vim.fn.expand('%')
   --- @cast f string
