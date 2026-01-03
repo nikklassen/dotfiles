@@ -4,7 +4,7 @@ local ms = vim.lsp.protocol.Methods
 require('nikklassen.lsp.gopls')
 require('nikklassen.lsp.jsonls')
 require('nikklassen.lsp.lua_ls')
-require('nikklassen.lsp.ts_ls')
+require('nikklassen.lsp.typescript')
 require('nikklassen.lsp.svelte')
 
 vim.diagnostic.config({

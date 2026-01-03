@@ -23,6 +23,7 @@ local function configure_treesitter(_, opts)
     'java',
     'javascript',
     'jq',
+    'jsdoc',
     'json',
     'kotlin',
     'latex',

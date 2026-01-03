@@ -35,11 +35,13 @@ packages:
     - github.com/idursun/jjui/cmd/jjui
     - mvdan.cc/sh/v3/cmd/shfmt
   npm:
-    - bash-language-server
     - "@typescript/native-preview"
+    - bash-language-server
+    - tree-sitter-cli
+    - typescript
+    - typescript-language-server
     - vim-language-server
     - vscode-langservers-extracted
-    - tree-sitter-cli
   pipx:
     - httpie
     - litecli

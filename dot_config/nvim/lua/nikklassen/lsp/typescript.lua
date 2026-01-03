@@ -1,23 +1,32 @@
+-- local lsp = 'tsgo'
+local lsp = 'ts_ls'
+
 vim.api.nvim_create_autocmd('LspAttach', {
-  pattern = '*.ts',
+  pattern = { '*.ts', '*.js' },
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if not client then
       return
     end
+    local common_options = {
+      format = {
+        semicolons = 'remove',
+        indentSize = 2,
+      },
+      inlayHints = {
+        includeInlayVariableTypeHints = true,
+      },
+    }
     client:notify('workspace/didChangeConfiguration', {
       settings = {
-        typescript = {
-          format = {
-            semicolons = 'remove',
-          },
-        },
+        typescript = common_options,
+        javascript = common_options,
       },
     })
   end,
 })
 
-vim.lsp.config('ts_ls', {
+vim.lsp.config(lsp, {
   init_options = {
     preferences = {
       quotePreference = 'single',
@@ -25,4 +34,4 @@ vim.lsp.config('ts_ls', {
     },
   },
 })
-vim.lsp.enable('ts_ls')
+vim.lsp.enable(lsp)
