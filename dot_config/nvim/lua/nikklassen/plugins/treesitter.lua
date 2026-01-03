@@ -19,6 +19,7 @@ local function configure_treesitter(_, opts)
     'gotmpl',
     'html',
     'http',
+    'ini',
     'java',
     'javascript',
     'jq',

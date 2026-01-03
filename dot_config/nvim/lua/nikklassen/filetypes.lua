@@ -1,8 +1,10 @@
+local custom_extensions = {
+  gotmpl = 'gotmpl',
+  tmpl = 'gotmpl',
+  service = 'ini',
+}
 vim.filetype.add({
-  extension = {
-    gotmpl = 'gotmpl',
-    tmpl = 'gotmpl',
-  },
+  extension = custom_extensions,
 })
 
 local function get_ext(fname, bufnr)
@@ -34,6 +36,9 @@ local function get_lang(bufnr)
   end
   if ext == 'tf' then
     return 'terraform'
+  end
+  if custom_extensions[ext] ~= nil then
+    return custom_extensions[ext]
   end
   return ext
 end
