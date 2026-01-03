@@ -65,7 +65,7 @@ local servers = {
   vimls = {},
   cssls = {},
   bashls = {
-    filetypes = { 'sh', 'zsh' },
+    filetypes = { 'sh', 'zsh', 'bash' },
   },
   -- rust_analyzer = {
   --   cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' }
