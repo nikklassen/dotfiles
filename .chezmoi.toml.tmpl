@@ -1,6 +1,7 @@
 {{ $desktop := promptBoolOnce . "desktop" "desktop" }}
 {{ $work := promptBoolOnce . "work" "work" }}
 {{ $development := promptBoolOnce . "development" "development" }}
+{{ $mobile := promptBoolOnce . "mobile" "mobile" }}
 
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 mode = "symlink"
@@ -10,3 +11,4 @@ mode = "symlink"
   work = {{ $work }}
   wsl = {{ and (ne (len .chezmoi.kernel) 0) (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
   development = {{ $development }}
+  mobile = {{ $mobile }}

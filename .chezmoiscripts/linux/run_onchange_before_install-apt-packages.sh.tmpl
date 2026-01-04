@@ -36,15 +36,17 @@ sudo apt-get update
 }}
 {{- end -}}
 
-{{ if not .work -}}
-{{ $pkgs = concat $pkgs (list
-  "docker-ce"
-  "docker-ce-cli"
-  "containerd.io"
-  "docker-buildx-plugin"
-  "docker-compose-plugin"
-  "gcsfuse"
-  ) }}
+{{- if not .work -}}
+{{- $pkgs = append $pkgs "gcsfuse" -}}
+{{-   if not .mobile -}}
+{{    $pkgs = concat $pkgs (list
+        "docker-ce"
+        "docker-ce-cli"
+        "containerd.io"
+        "docker-buildx-plugin"
+        "docker-compose-plugin"
+        ) }}
+{{-  end -}}
 {{- end -}}
 
 sudo apt-get install -yq {{ $pkgs | join " " }}

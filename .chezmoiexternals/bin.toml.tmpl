@@ -1,11 +1,15 @@
 {{- if eq .chezmoi.os "linux" -}}
-{{ $x64Arch := .chezmoi.arch -}}
+{{- $x64Arch := .chezmoi.arch -}}
 {{- if eq $x64Arch "amd64" -}}
 {{-   $x64Arch = "x64" -}}
+{{- else if eq $x64Arch "arm64" -}}
+{{-   $x64Arch = "aarch64" -}}
 {{- end -}}
-{{ $x86_64Arch := .chezmoi.arch -}}
+{{- $x86_64Arch := .chezmoi.arch -}}
 {{- if eq $x86_64Arch "amd64" -}}
 {{-   $x86_64Arch = "x86_64" -}}
+{{- else if eq $x86_64Arch "arm64" -}}
+{{-   $x86_64Arch = "aarch64" -}}
 {{- end -}}
 
 {{- if .development -}}
@@ -29,8 +33,12 @@
     executable = true
 
 [".local/bin/tree-sitter"]
+    {{- $arch := .chezmoi.arch }}
+    {{- if eq $arch "amd64" -}}
+    {{-   $arch = "x64" -}}
+    {{- end }}
     type = "file"
-    url = {{ gitHubLatestReleaseAssetURL "tree-sitter/tree-sitter" (printf "tree-sitter-%s-%s.gz" .chezmoi.os $x64Arch) | quote }}
+    url = {{ gitHubLatestReleaseAssetURL "tree-sitter/tree-sitter" (printf "tree-sitter-%s-%s.gz" .chezmoi.os $arch) | quote }}
     executable = true
     decompress = "gzip"
 
@@ -47,8 +55,14 @@
 {{ end -}}
 
 [".local/bin/delta"]
+		{{- $arch := .chezmoi.arch -}}
+		{{- if eq $arch "amd64" -}}
+		{{-   $arch = "x86_64" -}}
+		{{- else if eq $arch "arm64" -}}
+		{{-   $arch = "aarch64" -}}
+		{{- end }}
     type = "archive-file"
-    url = {{ gitHubLatestReleaseAssetURL "dandavison/delta" "delta-*-x86_64-unknown-linux-gnu.tar.gz" | quote }}
+    url = {{ gitHubLatestReleaseAssetURL "dandavison/delta" (printf "delta-*-%s-unknown-linux-gnu.tar.gz" $arch) | quote }}
     executable = true
     stripComponents = 1
     path = "delta"
