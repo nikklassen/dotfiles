@@ -16,7 +16,6 @@ sudo apt-get update
   "htop"
   "jq"
   "libssl-dev"
-  "neovim"
   "pipx"
   "python3-dev"
   "python3-neovim"
@@ -48,6 +47,10 @@ sudo apt-get update
         ) }}
 {{-  end -}}
 {{- end -}}
+
+{{ if not .mobile }}
+{{ $pkgs = append $pkgs "neovim" }}
+{{ end }}
 
 sudo apt-get install -yq {{ $pkgs | join " " }}
 

@@ -1,0 +1,8 @@
+{{- if .mobile -}}
+
+[".local/share/neovim"]
+  type = "archive"
+	stripComponents = 1
+  url = {{ gitHubReleaseAssetURL "neovim/neovim" "stable" (printf "nvim-%s-%s.tar.gz" .chezmoi.os .chezmoi.arch ) | quote }}
+
+{{- end -}}

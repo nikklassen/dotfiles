@@ -28,3 +28,7 @@ AppData/**
 .local/share/oh-my-zsh/cache/**
 .local/share/lua-language-server/log
 .local/share/lua-language-server/meta/Lua*en-us utf8
+
+{{ if not .mobile }}
+.local/bin/nvim
+{{ end }}
