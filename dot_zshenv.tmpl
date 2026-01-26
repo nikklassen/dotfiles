@@ -76,14 +76,10 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export BROWSER=wslbrowser
 {{- end }}
 
- {{ if .work }}
- export NVIM_ENABLE_AVANTE=1
+# AI features
+{{ if .work }}
 {{ else }}
 export NVIM_ENABLE_COPILOT=1
 {{ end }}
-
-# Disabled for now since I'm no longer using Claude
-export NVIM_ENABLE_AVANTE=0
-export NVIM_ENABLE_CLAUDE=0
 
 [ -f ~/.zshenv.local ] && source ~/.zshenv.local

@@ -1,4 +1,4 @@
-if vim.env.NVIM_DISABLE_COPILOT == '1' and vim.env.NVIM_ENABLE_AVANTE ~= '1' then
+if vim.env.NVIM_ENABLE_AVANTE ~= '1' then
   return {}
 end
 
