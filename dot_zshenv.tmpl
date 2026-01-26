@@ -17,9 +17,9 @@ export CARGO_HOME="$HOME/.local/share/cargo"
 if [[ -d "$CARGO_HOME" ]]; then
   PATH="$CARGO_HOME/bin:$PATH"
 fi
-# if command rustc >/dev/null 2>&1; then
-#     export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
-# fi
+if command rustc >/dev/null 2>&1; then
+    export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src/
+fi
 
 PATH="/usr/texbin:$PATH"
 
@@ -47,8 +47,8 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-if which python >/dev/null 2>&1; then 
-	export SITE_PACKAGES="$(python -m site --user-site)"
+if which python >/dev/null 2>&1; then
+  export SITE_PACKAGES="$(python -m site --user-site)"
 fi
 
 # For security the local directory should be at the end
