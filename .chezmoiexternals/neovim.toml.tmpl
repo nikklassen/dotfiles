@@ -1,3 +1,5 @@
+{{- if not (eq .chezmoi.os "windows") -}}
+
 {{- $x86_64Arch := .chezmoi.arch -}}
 {{- if eq $x86_64Arch "amd64" -}}
 {{-   $x86_64Arch = "x86_64" -}}
@@ -11,3 +13,5 @@
   type = "archive"
   stripComponents = 1
   url = {{ gitHubReleaseAssetURL "neovim/neovim" $tag (printf "nvim-%s-%s.tar.gz" .chezmoi.os $x86_64Arch ) | quote }}
+
+{{- end -}}
