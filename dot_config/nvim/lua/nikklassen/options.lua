@@ -8,7 +8,7 @@ vim.o.completeopt = 'menu,menuone,noinsert'
 if vim.fn.has('nvim-0.11.0') == 1 then
   vim.o.completeopt = vim.o.completeopt .. ',fuzzy'
 end
-vim.o.shortmess = vim.o.shortmess .. 'c'
+vim.o.shortmess = vim.o.shortmess .. 'cI'
 vim.o.pumheight = 10
 
 -- Show partial commands in the last line of the screen
