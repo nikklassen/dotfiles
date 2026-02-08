@@ -36,7 +36,8 @@ declare -A jj_aliases=(
   [glog]="jj log"
   [grs]="jj restore"
   [grhh]="jj abandon"
-  [grbm]="jj rebase --onto 'trunk()'"
+  [grbm]="jj rebase --onto main"
+  [grbt]="jj rebase --onto 'trunk()'"
   [gf]="jj git fetch"
 
   [_modified_files]=_jj_modified_files
