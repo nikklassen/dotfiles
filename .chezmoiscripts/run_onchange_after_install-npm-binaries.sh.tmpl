@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -n "$(which update-bun-token)" ]]; then
+  update-bun-token
+fi
+
 bun install -g {{ .packages.npm | join " " }}
 
 {{ if not .work }}
