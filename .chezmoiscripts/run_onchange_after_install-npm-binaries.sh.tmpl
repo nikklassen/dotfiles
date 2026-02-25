@@ -9,3 +9,7 @@ bun install -g {{ .packages.npm | join " " }}
 {{ if not .work }}
 bun install -g @anthropic-ai/claude-code
 {{ end }}
+
+{{ if not .mobile }}
+bun install -g tree-sitter-cli
+{{ end }}

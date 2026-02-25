@@ -38,7 +38,6 @@ packages:
   npm:
     - "@typescript/native-preview"
     - bash-language-server
-    - tree-sitter-cli
     - typescript
     - typescript-language-server
     - vim-language-server
