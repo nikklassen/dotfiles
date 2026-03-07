@@ -22,29 +22,38 @@ end
 
 ---@param client vim.lsp.Client
 ---@param bufnr number
-function M.organize_imports_and_format(client, bufnr)
+---@param action string
+local function apply_code_action(client, bufnr, action)
   local params = vim.tbl_deep_extend('force', vim.lsp.util.make_range_params(0, client.offset_encoding), {
     context = {
       -- ts_ls requires this to be non-null
       diagnostics = {},
-      only = { 'source.organizeImports' },
+      only = { action },
       triggerKind = 1,
     },
   })
   local result, err = client:request_sync('textDocument/codeAction', params, 1000, bufnr)
   if result and result.err then
-    error('organizing imports request failed: ' .. result.err.message)
+    error(action .. ' request failed: ' .. result.err.message)
   elseif err then
-    error('organizing imports request failed: ' .. err)
+    error(action .. ' request failed: ' .. err)
   elseif not result then
-    error('organizing imports request failed')
+    error(action .. ' request failed')
   end
   for _, action in ipairs(result.result or {}) do
     if action.edit then
       vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
     end
   end
+end
 
+---@param client vim.lsp.Client
+---@param bufnr number
+function M.organize_imports_and_format(client, bufnr)
+  if client.name == 'ts_ls' then
+    apply_code_action(client, bufnr, 'source.removeUnusedImports')
+  end
+  apply_code_action(client, bufnr, 'source.organizeImports')
   vim.lsp.buf.format {
     id = client.id,
     bufnr = bufnr,
