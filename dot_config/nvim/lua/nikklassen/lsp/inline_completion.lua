@@ -2,7 +2,9 @@ local ms = vim.lsp.protocol.Methods
 
 local M = {}
 
-local function accept_completion(item)
+---@param item vim.lsp.inline_completion.Item
+---@param mode 'word' | 'line'
+local function accept_completion(item, mode)
   local insert_text = item.insert_text
   if type(insert_text) ~= 'string' then
     return item
@@ -12,6 +14,12 @@ local function accept_completion(item)
     return item
   end
   local lines = vim.split(insert_text, '\n')
+
+  if mode == 'line' and #lines > 0 then
+    item.insert_text = lines[1]
+    return item
+  end
+
   local current_lines = vim.api.nvim_buf_get_text(
     range.start.buf,
     range.start.row,
@@ -69,10 +77,27 @@ function M.attach(client, bufnr)
     desc = 'Get the current inline completion',
     buffer = bufnr,
   })
+  vim.keymap.set('i', '<C-S-Right>', function()
+    if not vim.lsp.inline_completion.get({
+          bufnr = bufnr,
+          on_accept = function(item)
+            return accept_completion(item, 'line')
+          end,
+        }) then
+      return '<C-S-Right>'
+    end
+  end, {
+    expr = true,
+    replace_keycodes = true,
+    desc = 'Get the current inline completion word',
+    buffer = bufnr,
+  })
   vim.keymap.set('i', '<C-Right>', function()
     if not vim.lsp.inline_completion.get({
           bufnr = bufnr,
-          on_accept = accept_completion,
+          on_accept = function(item)
+            return accept_completion(item, 'word')
+          end,
         }) then
       return '<C-Right>'
     end
