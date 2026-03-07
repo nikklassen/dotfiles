@@ -35,6 +35,7 @@ packages:
     - golang.org/x/tools/gopls
     - github.com/idursun/jjui/cmd/jjui
     - mvdan.cc/sh/v3/cmd/shfmt
+    - golang.org/x/vuln/cmd/govulncheck
   npm:
     - "@typescript/native-preview"
     - bash-language-server
