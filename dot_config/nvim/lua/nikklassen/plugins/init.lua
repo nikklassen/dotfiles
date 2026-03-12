@@ -14,9 +14,7 @@ return {
     end,
   },
   {
-    -- 'mhinz/vim-signify',
-    'vim-signify',
-    url = 'https://github.com/nikklassen/vim-signify',
+    'mhinz/vim-signify',
     config = function()
       vim.g.signify_number_highlight = 1
       vim.g.signify_sign_change = '~'
