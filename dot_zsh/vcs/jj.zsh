@@ -12,10 +12,6 @@ function _jj_gcmsg() {
   jj describe -m "$msg"; jj new
 }
 
-function _jj_gd() {
-  jj diff --git "$@" | delta
-}
-
 function _jj_modified_files() {
   jj diff -s | awk '{print $2}'
 }
@@ -32,7 +28,7 @@ declare -A jj_aliases=(
   [gci]="jj split -i"
   [grb]="jj rebase"
   [gcmsg]="_jj_gcmsg"
-  [gd]="_jj_gd"
+  [gd]="jj diff"
   [glog]="jj log"
   [grs]="jj restore"
   [grhh]="jj abandon"

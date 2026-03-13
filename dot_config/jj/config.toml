@@ -16,6 +16,7 @@ diff-editor = "hunk"
 pager = ["less", "-FRX", "--quit-if-one-screen"]
 
 [merge-tools.delta]
+
 diff-expected-exit-codes = [0, 1]
 
 [merge-tools.diffedit3]
@@ -41,10 +42,6 @@ merge-tool-edits-conflict-markers = true
 [merge-tools.kdiff3]
 
 merge-args = ["$base", "$left", "$right", "-o", "$output", "--auto"]
-
-# [merge-tools.delta]
-#
-# merge-args = ["$left", "$right", "--paging", "always"]
 
 [template-aliases]
 
