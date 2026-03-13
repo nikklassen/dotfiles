@@ -5,7 +5,7 @@
 {{-   $x86_64Arch = "x86_64" -}}
 {{- end -}}
 
-[".local/share"]
+[".local"]
   {{ $tag := "nightly" -}}
   {{- if or .mobile (eq .chezmoi.os "darwin") -}}
   {{-   $tag = "stable" -}}
@@ -16,6 +16,7 @@
   {{- end -}}
   type = "archive"
   stripComponents = 1
+  refreshPeriod = '24h'
   url = {{ gitHubReleaseAssetURL "neovim/neovim" $tag (printf "nvim-%s-%s.tar.gz" $os $x86_64Arch ) | quote }}
 
 {{- end -}}
