@@ -44,10 +44,6 @@ vim.keymap.set('n', '<F16>', '<cmd>cprevious<CR>')
 vim.keymap.set('n', '<M-Down>', 'ddp')
 vim.keymap.set('n', '<M-Up>', 'ddkP')
 
-local config_path = vim.fn.stdpath('config')
-vim.keymap.set('n', '<leader>v', '<cmd>tabe ' .. config_path .. '/init.lua<CR>')
-vim.keymap.set('n', '<leader>vp', '<cmd>tabe ' .. config_path .. '/lua/nikklassen/plugin_config<CR>')
-
 vim.keymap.set('n', '<M-h>', '<C-W>h')
 vim.keymap.set('n', '<M-j>', '<C-W>j')
 vim.keymap.set('n', '<M-k>', '<C-W>k')
@@ -100,8 +96,8 @@ vim.keymap.set('n', 'U', '<C-R>', { remap = false })
 vim.keymap.set('n', 'gU', 'U', { remap = false })
 
 vim.keymap.set('n', '<leader>lu', function()
-  require('lazy').update()
-end, { desc = 'Update Lazy plugins' })
+  vim.pack.update()
+end, { desc = 'Update plugins' })
 
 vim.cmd.abbreviate('reutrn', 'return')
 

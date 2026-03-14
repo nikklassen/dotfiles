@@ -1,4 +1,4 @@
-return {
+require('nvim-surround').setup {
   surrounds = {
     y = {
       add = function()

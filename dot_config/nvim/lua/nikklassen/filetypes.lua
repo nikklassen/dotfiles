@@ -2,6 +2,7 @@ local custom_extensions = {
   gotmpl = 'gotmpl',
   tmpl = 'gotmpl',
   service = 'ini',
+  http = 'http',
 }
 vim.filetype.add({
   extension = custom_extensions,

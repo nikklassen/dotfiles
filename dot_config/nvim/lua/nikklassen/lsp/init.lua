@@ -44,9 +44,6 @@ vim.api.nvim_create_autocmd('LspDetach', {
 })
 
 
-vim.lsp.config('*', {
-  capabilities = require('blink.cmp').get_lsp_capabilities()
-})
 
 vim.lsp.handlers[ms.client_registerCapability] = (function(overridden)
   return function(err, res, ctx)
@@ -74,8 +71,7 @@ local servers = {
   sqls = {
     cmd = { 'sqls', '-config', '.sqls-config.yml' },
     root_dir = function(start)
-      local lsputil = require 'lspconfig.util'
-      return lsputil.root_pattern('.sqls-config.yml')(start)
+      return vim.fs.find({ '.sqls-config.yml' }, { upward = true, type = 'file', path = start })[1]
     end
   },
 }

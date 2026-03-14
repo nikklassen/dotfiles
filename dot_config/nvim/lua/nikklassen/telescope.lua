@@ -1,5 +1,5 @@
 local utils = require 'nikklassen.utils'
-local devicons = utils.lazy_require('nvim-web-devicons')
+local devicons = require('nvim-web-devicons')
 
 local M = {
   _has_proximity_sort = nil

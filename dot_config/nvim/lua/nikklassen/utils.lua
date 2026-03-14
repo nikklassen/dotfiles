@@ -5,12 +5,6 @@ function _G.dump(...)
   print(unpack(objects))
 end
 
-if vim.uv then
-  M.uv = vim.uv
-else
-  M.uv = vim.loop
-end
-
 function M.tbl_list_extend(tbl1, tbl2)
   if tbl2 == nil then
     return
