@@ -93,11 +93,6 @@ return {
     },
   },
   {
-    'jremmen/vim-ripgrep',
-    cmd = 'Rg',
-  },
-
-  {
     'ludovicchabant/vim-lawrencium',
     cond = function()
       return utils.is_cwd_readable() and not vim.tbl_isempty(vim.fs.find('.hg', { upward = true }))
