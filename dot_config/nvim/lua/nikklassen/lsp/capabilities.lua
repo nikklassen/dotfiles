@@ -74,7 +74,7 @@ local function jump_to_diagnostic(d)
   end
   local opts = { diagnostic = d }
   if not current_line_has_float() then
-    opts.float = { focusable = false }
+    opts.float = false
   end
   vim.diagnostic.jump(opts)
 end
@@ -187,10 +187,21 @@ function M.on_attach(client, bufnr)
   end
 
   if client:supports_method('textDocument/codeLens', bufnr) then
-    vim.lsp.codelens.refresh()
+    if not vim.fn.has('nvim-0.12.0') then
+      vim.lsp.codelens.refresh()
+    else
+      vim.lsp.codelens.enable(true)
+    end
+
     vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
       buffer = bufnr,
-      callback = vim.lsp.codelens.refresh,
+      callback = function()
+        if not vim.fn.has('nvim-0.12.0') then
+          vim.lsp.codelens.refresh()
+        else
+          vim.lsp.codelens.enable(true)
+        end
+      end,
     })
     vim.keymap.set('n', '<leader>cl', vim.lsp.codelens.run, opts)
   end
