@@ -76,6 +76,11 @@ config.keys = {
     -- Send the escape sequence to make this work in Windows
     action = wezterm.action.SendString '\x1b[13;5u',
   },
+  {
+    key = 'RightArrow',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.SendString '\x1b[1;6C',
+  },
 }
 
 if #wezterm.default_wsl_domains() > 0 then
