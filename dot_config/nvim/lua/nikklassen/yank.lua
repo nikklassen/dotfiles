@@ -23,7 +23,7 @@ function M.set_buffer_key(key, op)
   keys[key] = op
 end
 
-function M.configure()
+function M.setup()
   vim.keymap.set('n', '<leader>y', function()
     local next = vim.fn.getcharstr()
 
