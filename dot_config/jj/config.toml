@@ -5,14 +5,13 @@ email = "nikklassen@users.noreply.github.com"
 [ui]
 
 merge-editor = "nvimdiff"
-# diff.format = "git"
-diff-formatter = "delta"
+diff.format = "git"
+# diff-formatter = "delta"
 
 # diff-editor = "diffedit3"
 # diff-editor = ":builtin"
 diff-editor = "hunk"
 
-# diff.format = "git"
 pager = ["less", "-FRX", "--quit-if-one-screen"]
 
 [merge-tools.delta]

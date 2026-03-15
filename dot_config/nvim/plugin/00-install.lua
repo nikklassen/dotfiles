@@ -13,13 +13,16 @@ vim.api.nvim_create_autocmd('PackChanged', {
   end
 })
 
+-- Abolish provides the :S command, and case coercion
+vim.g.abolish_no_mappings = 1
+
 vim.pack.add({
   -- Shared dependencies
   -- hardtime, codediff, and hunk
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/nvim-lua/plenary.nvim',
 
-  -- 'https://github.com/dstein64/vim-startuptime',
+  'https://github.com/dstein64/vim-startuptime',
 
   'https://github.com/tpope/vim-sensible',
   'https://github.com/tpope/vim-abolish',
@@ -83,13 +86,13 @@ vim.pack.add({
 })
 
 vim.schedule(function()
-  vim.pack.add({ 'https://github.com/mhinz/vim-signify' })
   vim.g.signify_number_highlight = 1
   vim.g.signify_sign_change = '~'
+  vim.pack.add({ 'https://github.com/mhinz/vim-signify' })
 end)
 
--- Abolish provides the :S command, and case coercion
-vim.g.abolish_no_mappings = 1
+
+vim.keymap.set({ 'n', 'v' }, 'ga', '<Plug>(abolish-coerce-word)', { desc = 'coerce word' })
 
 require('mini.operators').setup {
   replace = {
@@ -102,7 +105,7 @@ vim.g.eunuch_no_maps = true
 local notify = require('notify')
 vim.notify = notify
 
-require('notify').setup {
+notify.setup {
   timeout = 3000,
   render = 'compact',
   stages = 'fade',
