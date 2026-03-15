@@ -92,16 +92,6 @@ return {
       },
     },
   },
-  {
-    'ludovicchabant/vim-lawrencium',
-    cond = function()
-      return utils.is_cwd_readable() and not vim.tbl_isempty(vim.fs.find('.hg', { upward = true }))
-    end,
-    cmd = { 'Hg' }
-  },
-
-  -- Rust
-  { 'rust-lang/rust.vim', ft = 'rust' },
 
   -------------------
   -- Other plugins --
@@ -147,26 +137,6 @@ return {
     },
   },
   {
-    'ii14/neorepl.nvim',
-    cmd = { 'Repl' },
-    config = function()
-      require('neorepl').config({
-        lang = 'lua'
-      })
-      vim.api.nvim_create_user_command('Repl', function()
-        -- create a new split for the repl
-        vim.cmd('split')
-        -- spawn repl and set the context to our buffer
-        require('neorepl').new {
-          buffer = 0,
-          window = 0,
-        }
-        -- resize repl window and make it fixed height
-        vim.cmd('resize 10 | setl winfixheight')
-      end, { bang = true })
-    end
-  },
-  {
     'gregorias/coop.nvim',
   },
   {
@@ -206,26 +176,6 @@ return {
           length = 3,
         },
       },
-    },
-  },
-  {
-    'coder/claudecode.nvim',
-    enabled = function()
-      return vim.env.NVIM_ENABLE_CLAUDE == '1'
-    end,
-    cmd = {
-      'ClaudeCode',
-      'ClaudeCodeSend',
-    },
-    keys = {
-      { '<leader>as', '<cmd>ClaudeCodeSend<cr>', mode = 'v', desc = 'Send to Claude' },
-    },
-    -- config = true,
-    opts = {
-      -- log_level = 'debug',
-      terminal = {
-        provider = 'native'
-      }
     },
   },
   {
