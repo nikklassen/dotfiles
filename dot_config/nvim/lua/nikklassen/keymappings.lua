@@ -96,6 +96,7 @@ vim.keymap.set('n', 'U', '<C-R>', { remap = false })
 vim.keymap.set('n', 'gU', 'U', { remap = false })
 
 vim.keymap.set('n', '<leader>lu', function()
+  vim.notify('Updating plugins')
   vim.pack.update()
 end, { desc = 'Update plugins' })
 

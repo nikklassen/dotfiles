@@ -22,7 +22,7 @@ vim.pack.add({
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/nvim-lua/plenary.nvim',
 
-  'https://github.com/dstein64/vim-startuptime',
+  -- 'https://github.com/dstein64/vim-startuptime',
 
   'https://github.com/tpope/vim-sensible',
   'https://github.com/tpope/vim-abolish',
