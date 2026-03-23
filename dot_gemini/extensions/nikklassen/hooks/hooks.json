@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${extensionPath}${/}hooks${/}update_tmux_title.sh"
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "description": "reset tmux pane",
+            "command": "tmux rename-window -t \"$TMUX_PANE\" \"$(basename \"$(dirname \"$PWD\")\")\""
+          }
+        ]
+      }
+    ]
+  }
+}

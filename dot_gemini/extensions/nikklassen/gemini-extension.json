@@ -1,0 +1,5 @@
+{
+  "name": "nikklassen",
+  "version": "1.0.0",
+  "hooks": "${extensionPath}${/}hooks${/}hooks.json"
+}
