@@ -16,11 +16,7 @@ vim.diagnostic.config({
 })
 
 if capabilities.DEBUG then
-  if vim.fn.has('nvim-0.12.0') then
-    vim.lsp.log.set_level('debug')
-  else
-    vim.lsp.set_log_level('debug')
-  end
+  vim.lsp.log.set_level('debug')
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {

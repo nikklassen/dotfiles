@@ -58,7 +58,7 @@ end
 ---@param client vim.lsp.Client
 ---@param bufnr number
 function M.attach(client, bufnr)
-  if not vim.fn.has('nvim-0.12.0') or not client:supports_method(ms.textDocument_inlineCompletion, bufnr) then
+  if not client:supports_method(ms.textDocument_inlineCompletion, bufnr) then
     return
   end
   vim.lsp.inline_completion.enable(true, {

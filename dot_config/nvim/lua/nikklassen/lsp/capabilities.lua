@@ -196,23 +196,14 @@ function M.on_attach(client, bufnr)
   end
 
   if client:supports_method('textDocument/codeLens', bufnr) then
-    if not vim.fn.has('nvim-0.12.0') then
-      vim.lsp.codelens.refresh()
-    else
-      vim.lsp.codelens.enable(true)
-    end
+    vim.lsp.codelens.enable(true)
 
     vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
       buffer = bufnr,
       callback = function()
-        if not vim.fn.has('nvim-0.12.0') then
-          vim.lsp.codelens.refresh()
-        else
-          vim.lsp.codelens.enable(true)
-        end
+        vim.lsp.codelens.enable(true)
       end,
     })
-    vim.keymap.set('n', '<leader>cl', vim.lsp.codelens.run, opts)
   end
 
   local disabled_inlay_hint_file_types = vim.tbl_get(client.config, 'settings', 'inlay_hints', 'disabled_file_types') or
@@ -226,7 +217,8 @@ function M.on_attach(client, bufnr)
 end
 
 function M.on_detach(client, bufnr)
-  vim.api.nvim_del_augroup_by_name('lsp_buf_' .. bufnr .. '_' .. client.name)
+  -- Ignore any errors, autogroup may not exist if there were issues with initializing the LSP
+  pcall(vim.api.nvim_del_augroup_by_name, 'lsp_buf_' .. bufnr .. '_' .. client.name)
 
   local clients = vim.lsp.get_clients({
     bufnr = bufnr,
