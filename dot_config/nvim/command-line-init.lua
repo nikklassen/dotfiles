@@ -1,9 +1,10 @@
-vim.cmd('source ~/.local/share/nvim/lazy/vim-sensible/plugin/sensible.vim')
 vim.o.ft = 'zsh'
 
 vim.g.abolish_no_mappings = 1
 
 vim.pack.add({
+  -- 'https://github.com/dstein64/vim-startuptime',
+  'https://github.com/tpope/vim-sensible',
   'https://github.com/kylechui/nvim-surround',
   'https://github.com/echasnovski/mini.operators',
   'https://github.com/tpope/vim-abolish',

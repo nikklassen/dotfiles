@@ -1,4 +1,4 @@
-if not vim.uv.fs_stat(vim.env.HOME .. '/.vim.local') then
+if not vim.uv.fs_stat(vim.env.HOME .. '/.vim.local') or vim.env.NVIM_COMMAND_LINE == '1' then
   return
 end
 

@@ -57,7 +57,7 @@ vim-none-command-line () {
   if [[ -f "$VIMRC" ]]; then
     VIMRC="NONE"
   fi
-  local EDITOR="$EDITOR -u $VIMRC"
+  local EDITOR="NVIM_COMMAND_LINE=1 $EDITOR -u $VIMRC"
   edit-command-line
 }
 zle -N vim-none-command-line
