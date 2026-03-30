@@ -1,16 +1,5 @@
 local lsp_status = nil
 
-local function git_sl()
-  local ok, head = pcall(vim.fn.FugitiveHead)
-  if not ok then
-    return ''
-  end
-  if head ~= '' then
-    return ' @ ' .. head
-  end
-  return ''
-end
-
 vim.api.nvim_create_autocmd('LspProgress', {
   pattern = '*',
   callback = function()
@@ -20,14 +9,9 @@ vim.api.nvim_create_autocmd('LspProgress', {
 })
 
 local function lsp_sl()
-  local clients
-  if vim.lsp.get_clients then
-    clients = vim.lsp.get_clients({
-      bufnr = 0,
-    })
-  else
-    clients = vim.lsp.get_active_clients()
-  end
+  local clients = vim.lsp.get_clients({
+    bufnr = 0,
+  })
   if vim.tbl_isempty(clients) then
     return ''
   end
@@ -43,20 +27,23 @@ local function lsp_sl()
       lsps = lsps .. ' ' .. lsp_status[2]
     end
   end
-  return lsps
+  return lsps .. ' ' .. vim.diagnostic.status()
 end
 
 function _G.nikklassen_statusline()
+  local progress = vim.ui.progress_status()
+  if #progress > 0 then
+    progress = progress .. ' '
+  end
   return table.concat({
-    '[%n] ', -- buffer number
-    '%<%.99f', -- file name
-    git_sl(),
-    ' ',
+    '[%n] ',      -- buffer number
+    '%<%.99f',    -- file name
     '%h%m%r%w%q', -- flags
-    '%=', -- right align
+    '%=',         -- right align
     lsp_sl(),
     ' ',
-    '%y ', -- file type
+    progress,
+    '%y ',           -- file type
     '%-8( %l,%c %)', -- offset
   })
 end
