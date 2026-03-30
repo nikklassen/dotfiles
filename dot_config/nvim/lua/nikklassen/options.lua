@@ -4,10 +4,7 @@ vim.o.wildmode = 'list:longest,full'
 vim.o.wildignore = '*.o,*.pyc,*.hi'
 
 -- Completion settings
-vim.o.completeopt = 'menu,menuone,noinsert'
-if vim.fn.has('nvim-0.11.0') == 1 then
-  vim.o.completeopt = vim.o.completeopt .. ',fuzzy'
-end
+vim.o.completeopt = 'menu,menuone,noinsert,fuzzy'
 vim.o.shortmess = vim.o.shortmess .. 'cI'
 vim.o.pumheight = 10
 
@@ -68,7 +65,7 @@ vim.o.expandtab = true
 vim.o.shiftround = true
 vim.o.joinspaces = false
 
-vim.o.diffopt = vim.o.diffopt .. ',followwrap'
+vim.o.diffopt = vim.o.diffopt .. ',followwrap,inline:word'
 
 -- Disable health checks for languages I don't care about
 vim.g.loaded_ruby_provider = 0
