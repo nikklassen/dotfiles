@@ -111,7 +111,10 @@ local function setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
     buffer = bufnr,
     callback = function()
       if supports_organize_imports then
-        M.organize_imports_and_format(client, bufnr)
+        local ok, err = pcall(M.organize_imports_and_format, client, bufnr)
+        if not ok then
+          vim.notify('Failed to organize imports and format: ' .. err, vim.log.levels.ERROR)
+        end
       else
         vim.lsp.buf.format { bufnr = bufnr }
       end
