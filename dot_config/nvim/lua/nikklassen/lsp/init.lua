@@ -70,6 +70,7 @@ local servers = {
       return vim.fs.find({ '.sqls-config.yml' }, { upward = true, type = 'file', path = start })[1]
     end
   },
+  ansiblels = {},
 }
 for server, server_config in pairs(servers) do
   vim.lsp.config(server, server_config)
