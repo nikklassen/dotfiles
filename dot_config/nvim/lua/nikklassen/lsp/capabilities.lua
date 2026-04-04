@@ -217,6 +217,12 @@ function M.on_attach(client, bufnr)
   end
 
   require('nikklassen.lsp.inline_completion').attach(client, bufnr)
+
+  if client:supports_method('textDocument/documentColor', bufnr) then
+    vim.lsp.document_color.enable(true, { bufnr = bufnr }, {
+      style = 'virtual'
+    })
+  end
 end
 
 function M.on_detach(client, bufnr)
