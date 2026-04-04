@@ -113,7 +113,8 @@ require('oil').setup {
   keymaps = {
     ['<C-s>'] = false,
     ['<C-v>'] = { 'actions.select', opts = { vertical = true } },
-  }
+  },
+  skip_confirm_for_simple_edits = true,
 }
 vim.keymap.set('n', '<leader>o', function()
   local oil = require 'oil'
