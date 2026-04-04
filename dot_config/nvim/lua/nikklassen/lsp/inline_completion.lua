@@ -21,11 +21,11 @@ local function accept_completion(item, mode)
   end
 
   local current_lines = vim.api.nvim_buf_get_text(
-    range.start.buf,
-    range.start.row,
-    range.start.col,
-    range.end_.row,
-    range.end_.col,
+    range.buf,
+    range.start_row,
+    range.start_col,
+    range.end_row,
+    range.end_col,
     {}
   )
 
