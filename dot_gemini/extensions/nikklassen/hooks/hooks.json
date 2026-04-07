@@ -23,7 +23,7 @@
         ]
       }
     ],
-    "AfterTool": [
+    "BeforeTool": [
       {
         "matcher": "*",
         "hooks": [
