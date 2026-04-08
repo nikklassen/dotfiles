@@ -39,6 +39,7 @@ function _G.nikklassen_statusline()
     '[%n] ',      -- buffer number
     '%<%.99f',    -- file name
     '%h%m%r%w%q', -- flags
+    ' ',
     '%=',         -- right align
     lsp_sl(),
     ' ',
