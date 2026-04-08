@@ -69,7 +69,9 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
-require('treesitter-context').setup()
+require('treesitter-context').setup {
+  enable = false
+}
 
 require('nvim-treesitter-textobjects').setup(
   {
