@@ -18,7 +18,7 @@ vim.g.abolish_no_mappings = 1
 
 vim.pack.add({
   -- Shared dependencies
-  -- hardtime, codediff, and hunk
+  -- codediff and hunk
   'https://github.com/MunifTanjim/nui.nvim',
   'https://github.com/nvim-lua/plenary.nvim',
 
@@ -31,7 +31,6 @@ vim.pack.add({
   'https://github.com/gregorias/coop.nvim',
   'https://github.com/phelipetls/jsonpath.nvim',
   'https://github.com/folke/flash.nvim',
-  'https://github.com/m4xshen/hardtime.nvim',
   'https://github.com/julienvincent/hunk.nvim',
   'https://github.com/windwp/nvim-autopairs',
   'https://github.com/windwp/nvim-ts-autotag',
