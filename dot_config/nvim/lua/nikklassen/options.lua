@@ -54,6 +54,8 @@ vim.o.spelloptions = 'camel'
 
 vim.o.updatetime = 1000
 
+vim.o.nrformats = vim.o.nrformats .. ',blank,octal,alpha'
+
 --------------------------------------------------------------
 -- Indentation options
 --------------------------------------------------------------
