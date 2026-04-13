@@ -21,7 +21,14 @@ cargo install-update -a
 
 echo "Updating binaries installed with Go..."
 gup update
-echo "Updating binaries installed with bun..."
-bun update -g
+
+{{ if .work }}
+NPM_BIN="npm"
+{{ else }}
+NPM_BIN="bun"
+{{ end }}
+echo "Updating binaries installed with ${NPM_BIN?}..."
+"${NPM_BIN?}" update -g
+
 echo "Updating binaries installed with pipx..."
 pipx upgrade-all --include-injected 
