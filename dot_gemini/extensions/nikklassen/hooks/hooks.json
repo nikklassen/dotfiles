@@ -34,6 +34,18 @@
           }
         ]
       }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "description": "reset tmux pane",
+            "command": "${extensionPath}${/}hooks${/}reset_tmux_title.sh"
+          }
+        ]
+      }
     ]
   }
 }
