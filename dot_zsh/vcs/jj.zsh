@@ -7,11 +7,6 @@ function is-jj() {
   (( _JJ_INSTALLED )) && find-vcs-up .jj
 }
 
-function _jj_gcmsg() {
-  local msg="$1"; shift
-  jj describe -m "$msg"; jj new
-}
-
 function _jj_modified_files() {
   jj diff -s | awk '{print $2}'
 }
@@ -25,9 +20,10 @@ declare -A jj_aliases=(
   [gm]="jj new @"
   [gsh]="jj show"
   [gc!]="jj squash"
-  [gci]="jj split -i"
+  [gc]="jj commit"
+  [gci]="jj commit -i"
   [grb]="jj rebase"
-  [gcmsg]="_jj_gcmsg"
+  [gcmsg]="jj commit -m"
   [gd]="jj diff"
   [glog]="jj log"
   [grs]="jj restore"
