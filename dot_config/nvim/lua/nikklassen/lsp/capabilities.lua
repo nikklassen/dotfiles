@@ -40,9 +40,13 @@ local function apply_code_action(client, bufnr, action)
   elseif not result then
     error(action .. ' request failed')
   end
-  for _, action in ipairs(result.result or {}) do
-    if action.edit then
-      vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+  for _, action_result in ipairs(result.result or {}) do
+    if action_result.edit then
+      vim.lsp.util.apply_workspace_edit(action_result.edit, client.offset_encoding)
+    elseif action_result.command then
+      client:exec_cmd(action_result.command, {
+        bufnr = bufnr,
+      })
     end
   end
 end
