@@ -66,9 +66,13 @@ local servers = {
   pyright = {},
   sqls = {
     cmd = { 'sqls', '-config', '.sqls-config.yml' },
-    root_dir = function(start)
-      return vim.fs.find({ '.sqls-config.yml' }, { upward = true, type = 'file', path = start })[1]
-    end
+    root_dir = function(bufnr, on_dir)
+      local start = vim.api.nvim_buf_get_name(bufnr)
+      local parent = vim.fs.find({ '.sqls-config.yml' }, { upward = true, type = 'file', path = start })
+      if not vim.tbl_isempty(parent) then
+        on_dir(parent[1])
+      end
+    end,
   },
   ansiblels = {},
 }
