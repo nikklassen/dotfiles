@@ -3,3 +3,5 @@ node_modules/
 .agignore
 .tern-project
 .tool-versions
+.antigravitycli
+.env
