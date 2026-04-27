@@ -73,10 +73,9 @@
     executable = true
     path = "fzf"
 
-[".local/bin/pnpm"]
-    type = "archive-file"
+[".local/share/pnpm-cli"]
+    type = "archive"
     url = {{ gitHubLatestReleaseAssetURL "pnpm/pnpm" (printf "pnpm-%s-%s.tar.gz" .chezmoi.os $x64Arch) | quote }}
-    executable = true
-    path = "pnpm"
+    exact = true
 
 {{ end }}
