@@ -78,4 +78,14 @@
     url = {{ gitHubLatestReleaseAssetURL "pnpm/pnpm" (printf "pnpm-%s-%s.tar.gz" .chezmoi.os $x64Arch) | quote }}
     exact = true
 
+[".local/bin/gitleaks"]
+    {{- $arch := .chezmoi.arch }}
+    {{- if eq $arch "amd64" -}}
+    {{-   $arch = "x64" -}}
+    {{- end }}
+    type = "archive-file"
+    url = {{ gitHubLatestReleaseAssetURL "gitleaks/gitleaks" (printf "gitleaks_*_%s_%s.tar.gz" .chezmoi.os $arch) | quote }}
+    executable = true
+    path = "gitleaks"
+
 {{ end }}
