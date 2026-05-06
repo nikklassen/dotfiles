@@ -6,6 +6,10 @@ local function init_lua_ls(client)
   if path ~= vim.fn.stdpath('config') and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
     return
   end
+  local libraries = { vim.env.VIMRUNTIME }
+  if path ~= vim.env.HOME .. '/dotfiles' then
+    libraries[#libraries + 1] = vim.env.HOME .. '/dotfiles/dot_config/nvim'
+  end
   client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
     runtime = {
       version = 'LuaJIT',
@@ -17,10 +21,7 @@ local function init_lua_ls(client)
     -- Make the server aware of Neovim runtime files
     workspace = {
       checkThirdParty = false,
-      library = {
-        vim.env.VIMRUNTIME,
-        vim.fn.stdpath('data') .. '/lazy/TODO',
-      },
+      library = libraries,
     },
     completion = {
       callSnippet = 'Replace',

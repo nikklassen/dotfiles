@@ -2,6 +2,7 @@ local M = {
   _buffer_keys = {}
 }
 
+---@type { [string]: fun(): string }
 M.keys = {
   -- "yank to clipboard"
   ['c'] = function()
