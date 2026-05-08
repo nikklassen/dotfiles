@@ -73,11 +73,10 @@
     executable = true
     path = "fzf"
 
-[".local/bin/bun"]
+[".local/bin/pnpm"]
     type = "archive-file"
-    url = {{ gitHubLatestReleaseAssetURL "oven-sh/bun" (printf "bun-%s-%s.zip" .chezmoi.os $x64Arch) | quote }}
+    url = {{ gitHubLatestReleaseAssetURL "pnpm/pnpm" (printf "pnpm-%s-%s.tar.gz" .chezmoi.os $x64Arch) | quote }}
     executable = true
-    stripComponents = 1
-    path = "bun"
+    path = "pnpm"
 
 {{ end }}

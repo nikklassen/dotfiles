@@ -25,7 +25,7 @@ gup update
 {{ if .work }}
 NPM_BIN="npm"
 {{ else }}
-NPM_BIN="bun"
+NPM_BIN="pnpm"
 {{ end }}
 echo "Updating binaries installed with ${NPM_BIN?}..."
 "${NPM_BIN?}" update -g

@@ -5,12 +5,9 @@
 {{- if .work -}}
 NPM_BIN="npm"
 {{ else }}
-NPM_BIN="bun"
+NPM_BIN="pnpm"
+SHELL="$SHELL" "${NPM_BIN?}" setup --force
 {{- end }}
-
-if [[ -n "$(which update-bun-token)" ]]; then
-  update-bun-token
-fi
 
 "${NPM_BIN?}" install -g {{ .packages.npm | join " " }} || true
 

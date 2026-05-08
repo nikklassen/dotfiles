@@ -14,7 +14,7 @@ packages:
     - neovim
     - nmap
     - node
-    - oven-sh/bun/bun
+    - pnpm
     - pipx
     - python3
     - ripgrep
@@ -65,7 +65,7 @@ packages:
     - Microsoft.PowerToys
     - Microsoft.VisualStudio.2022.BuildTools
     - OpenWhisperSystems.Signal
-    - Oven-sh.Bun
+    - pnpm.pnpm
     - Python.Launcher
     - Spotify.Spotify
     - Tailscale.Tailscale
