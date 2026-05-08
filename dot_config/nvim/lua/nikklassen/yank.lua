@@ -2,6 +2,10 @@ local M = {
   _buffer_keys = {}
 }
 
+local function file_name()
+  return vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
+end
+
 ---@type { [string]: fun(): string }
 M.keys = {
   -- "yank to clipboard"
@@ -10,7 +14,12 @@ M.keys = {
   end,
   -- "yank filename"
   ['f'] = function()
-    return vim.fn.fnamemodify(vim.fn.expand('%'), ':~:.')
+    return file_name()
+  end,
+  -- "yank line"
+  ['l'] = function()
+    local line = vim.api.nvim_win_get_cursor(0)
+    return file_name() .. ', line ' .. line[1]
   end,
 }
 
