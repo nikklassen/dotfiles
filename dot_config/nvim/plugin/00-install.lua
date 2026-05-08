@@ -34,7 +34,6 @@ vim.pack.add({
   'https://github.com/julienvincent/hunk.nvim',
   'https://github.com/windwp/nvim-autopairs',
   'https://github.com/windwp/nvim-ts-autotag',
-  'https://github.com/nvimtools/none-ls.nvim',
   'https://github.com/rgroli/other.nvim',
   'https://github.com/nvim-tree/nvim-web-devicons',
   {

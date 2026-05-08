@@ -4,8 +4,12 @@ local ms = vim.lsp.protocol.Methods
 require('nikklassen.lsp.gopls')
 require('nikklassen.lsp.jsonls')
 require('nikklassen.lsp.lua_ls')
-require('nikklassen.lsp.typescript')
 require('nikklassen.lsp.svelte')
+require('nikklassen.lsp.typescript')
+
+local in_memory_actions = require('nikklassen.lsp.in_memory_actions')
+vim.lsp.config('in_memory_actions', in_memory_actions)
+vim.lsp.enable('in_memory_actions')
 
 vim.diagnostic.config({
   virtual_lines = { current_line = true },
