@@ -49,7 +49,7 @@ alias jjbs="jj bookmark set"
 alias jjbm="jj bookmark move"
 alias jjbd="jj bookmark delete"
 
-alias gpm="jj bookmark set main -r @- && gp"
+alias gpm="command jj bookmark set main -r @- && gp"
 
 function jj_add_parent() {
   local src="$1"
