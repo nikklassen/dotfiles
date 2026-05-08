@@ -6,6 +6,7 @@ email = "nikklassen@users.noreply.github.com"
 
 merge-editor = "nvimdiff"
 diff.format = "git"
+diff.git.show-path-prefix = false
 diff-formatter = "delta"
 
 # diff-editor = "diffedit3"
