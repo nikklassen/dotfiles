@@ -64,7 +64,6 @@ packages:
     - Microsoft.PowerShell
     - Microsoft.PowerToys
     - Microsoft.VisualStudio.2022.BuildTools
-    - Neovim.Neovim
     - OpenWhisperSystems.Signal
     - Oven-sh.Bun
     - Python.Launcher
