@@ -184,6 +184,8 @@ zstyle ':completion:*' accept-exact-dirs true
 # Needs to run after asdf
 export PATH="$PATH:$(go env GOBIN)"
 export PATH="$PATH:$(npm config get prefix)/bin"
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PATH:$(pnpm bin -g)"
 
 function osc52() {
   local input
