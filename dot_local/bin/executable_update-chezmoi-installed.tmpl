@@ -13,8 +13,6 @@ sudo apt-get update && sudo apt-get upgrade
 {{ if ne .chezmoi.os "darwin" -}}
 echo "Updating asdf plugins..."
 asdf plugin update --all
-echo "Updating rust..."
-rustup upgrade
 echo "Updating binaries installed with Cargo..."
 cargo install-update -a
 {{- end }}

@@ -1,13 +1,6 @@
 {{- if ne .chezmoi.os "darwin" -}}
 #!/bin/bash
 
-if ! command rustup -V &> /dev/null; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
-    sh -s -- -y --no-modify-path --default-toolchain stable
-  source ~/.local/share/cargo/env
-	rustup default stable
-fi
-
 {{ range list
   "cargo-binstall"
   "cargo-update"

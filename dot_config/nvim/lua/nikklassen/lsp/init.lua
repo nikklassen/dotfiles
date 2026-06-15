@@ -64,9 +64,6 @@ local servers = {
   bashls = {
     filetypes = { 'sh', 'zsh', 'bash' },
   },
-  -- rust_analyzer = {
-  --   cmd = { 'rustup', 'run', 'nightly', 'rust-analyzer' }
-  -- },
   pyright = {},
   sqls = {
     cmd = { 'sqls', '-config', '.sqls-config.yml' },
