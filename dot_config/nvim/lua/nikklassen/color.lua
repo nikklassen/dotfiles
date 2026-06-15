@@ -1,3 +1,15 @@
+-- Load onedark here so that the "from" group in the hi_link commands below works
+vim.pack.add({
+  {
+    src = 'https://github.com/navarasu/onedark.nvim',
+    version = vim.version.range('*'),
+  },
+})
+
+local onedark = require 'onedark'
+onedark.setup()
+onedark.load()
+
 vim.cmd([[
   hi Pmenu ctermbg=Blue
   hi clear Conceal

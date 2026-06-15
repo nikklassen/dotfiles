@@ -49,10 +49,6 @@ vim.pack.add({
     version = vim.version.range('*'),
   },
   {
-    src = 'https://github.com/navarasu/onedark.nvim',
-    version = vim.version.range('*'),
-  },
-  {
     src = 'https://github.com/neovim/nvim-lspconfig',
     version = vim.version.range('2.*'),
   },
@@ -120,10 +116,5 @@ vim.keymap.set('n', '<leader>o', function()
   local current_dir = vim.fn.expand('%:h')
   oil.open(current_dir)
 end, { desc = "Edit current file's directory with oil" })
-
--- Onedark
-local onedark = require 'onedark'
-onedark.setup()
-onedark.load()
 
 require('nikklassen.yank').setup()
