@@ -4,9 +4,11 @@
 
 {{- if .work -}}
 NPM_BIN="npm"
+# npm-version: {{ output "npm" "--version" }}
 {{ else }}
 NPM_BIN="pnpm"
 SHELL="$SHELL" "${NPM_BIN?}" setup --force
+# pnpm-version: {{ output "pnpm" "--version" }}
 {{- end }}
 
 "${NPM_BIN?}" install -g {{ .packages.npm | join " " }} || true
