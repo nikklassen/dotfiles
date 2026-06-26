@@ -185,7 +185,9 @@ zstyle ':completion:*' accept-exact-dirs true
 export PATH="$PATH:$(go env GOBIN)"
 export PATH="$PATH:$(npm config get prefix)/bin"
 export PNPM_HOME="$HOME/.local/share/pnpm"
-export PATH="$PATH:$(pnpm bin -g)"
+if command -v pnpm > /dev/null 2>&1; then
+  export PATH="$PATH:$(pnpm bin -g)"
+fi
 
 function osc52() {
   local input
