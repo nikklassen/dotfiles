@@ -28,18 +28,28 @@ local function make_displayer()
 end
 
 -- Based on https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#customize-buffers-display-to-look-like-leaderf
-function M.vs_code_path_transform(_opts)
+function M.vs_code_path_transform(opts)
+  opts = opts or {}
+  local cwd = opts.cwd or vim.fn.getcwd()
   return function(entry)
     local bufname = entry ~= '' and entry or '[No Name]'
 
-    local dir_name = vim.fn.fnamemodify(bufname, ':p:.:h')
-    local file_name = vim.fn.fnamemodify(bufname, ':p:t')
+    local abs_path
+    if string.sub(bufname, 1, 1) == '/' then
+      abs_path = bufname
+    else
+      abs_path = cwd .. '/' .. bufname
+    end
+    abs_path = vim.fs.normalize(abs_path)
 
-    local icons, highlight = devicons.get_icon(bufname, string.match(bufname, '%a+$'), { default = true })
+    local dir_name = vim.fn.fnamemodify(abs_path, ':.:h')
+    local file_name = vim.fn.fnamemodify(abs_path, ':t')
+
+    local icons, highlight = devicons.get_icon(abs_path, string.match(abs_path, '%a+$'), { default = true })
 
     return {
       valid = true,
-      value = bufname,
+      value = abs_path,
       ordinal = file_name,
       display = make_displayer(),
       devicons = icons,

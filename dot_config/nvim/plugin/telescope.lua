@@ -32,6 +32,7 @@ local function jj_files(opts)
         results_title = 'Modified in current branch',
         finder = finders.new_oneshot_job({ 'sh', '-c', 'jj diff -s | sed -n "/^[MA] / s///p"' }, {
           entry_maker = nikklassen_telescope.vs_code_path_transform(opts),
+          cwd = opts.cwd,
         }),
         sorter = sorters.get_fuzzy_file(),
         previewer = previewers.new_termopen_previewer({
@@ -55,6 +56,7 @@ local function hg_files(opts)
         results_title = 'Modified in current branch',
         finder = finders.new_oneshot_job({ 'sh', '-c', 'hg status | sed -n "/^[MA] / s///p"' }, {
           entry_maker = nikklassen_telescope.vs_code_path_transform(opts),
+          cwd = opts.cwd,
         }),
         sorter = sorters.get_fuzzy_file(),
         previewer = previewers.new_termopen_previewer({
@@ -78,6 +80,8 @@ local function vcs_files(opts)
     upward = true,
   })
   for _, dir in ipairs(dirs) do
+    local repo_root = vim.fn.fnamemodify(dir, ':h')
+    opts.cwd = repo_root
     if string.match(dir, '.*%.jj$') then
       jj_files(opts)
       return
@@ -86,7 +90,7 @@ local function vcs_files(opts)
       return
     end
   end
-  builtin.git_files()
+  builtin.git_files(opts)
 end
 
 vim.keymap.set('n', '<c-p>', nikklassen_telescope.files)
