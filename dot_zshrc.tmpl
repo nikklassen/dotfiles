@@ -188,7 +188,7 @@ export PATH="$PATH:$(go env GOBIN)"
 export PATH="$PATH:$(npm config get prefix)/bin"
 export PNPM_HOME="$HOME/.local/share/pnpm"
 if command -v pnpm > /dev/null 2>&1; then
-  export PATH="$PATH:$(pnpm bin -g)"
+  export PATH="$PATH:${PNPM_HOME}/bin"
 fi
 
 function osc52() {
