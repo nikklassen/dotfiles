@@ -14,7 +14,3 @@ SHELL="$SHELL" "${NPM_BIN?}" setup --force
 {{ if not .work }}
 "${NPM_BIN?}" install -g @anthropic-ai/claude-code || true
 {{ end }}
-
-{{ if not .mobile }}
-"${NPM_BIN?}" install -g tree-sitter-cli || true
-{{ end }}
