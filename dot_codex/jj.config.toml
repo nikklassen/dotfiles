@@ -1,0 +1,20 @@
+default_permissions = "jj-workspace"
+
+[permissions.jj-workspace]
+description = "Workspace writes with Git metadata writable for jj"
+extends = ":workspace"
+
+[permissions.jj-workspace.filesystem]
+":minimal" = "read"
+":tmpdir" = "write"
+":slash_tmp" = "write"
+
+[permissions.jj-workspace.filesystem.":workspace_roots"]
+".git" = "write"
+".jj" = "write"
+
+[permissions.jj-workspace.network]
+enabled = true
+
+[permissions.jj-workspace.network.domains]
+"localhost:5432" = "allow"
