@@ -19,7 +19,23 @@ pager = ["less", "-FRX", "--quit-if-one-screen"]
 git.show-path-prefix = false
 
 [merge-tools.delta]
-
+program = "bash"
+diff-args = [
+    "-c",
+    """
+    args+=(--width "$3")
+    if [ "$3" -ge 160 ]; then
+        args+=(--side-by-side)
+    fi
+    args+=(--file-transformation "${DELTA_FILE_TRANSFORMATION:-s!^(left|right)\\/!!}")
+    args+=("$1" "$2")
+    delta "${args[@]}"
+    """,
+    "diff",
+    "$left",
+    "$right",
+    "$width"
+]
 diff-expected-exit-codes = [0, 1]
 
 [merge-tools.diffedit3]
