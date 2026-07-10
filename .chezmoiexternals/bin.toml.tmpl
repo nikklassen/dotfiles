@@ -88,4 +88,10 @@
     executable = true
     path = "gitleaks"
 
+[".local/bin/tmux"]
+    type = "archive-file"
+    url = {{ gitHubLatestReleaseAssetURL "tmux/tmux-builds" (printf "tmux-*-linux-%s.tar.gz" $x86_64Arch) | quote }}
+    executable = true
+    path = "tmux"
+
 {{ end }}
