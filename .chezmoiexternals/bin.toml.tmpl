@@ -97,6 +97,13 @@
     executable = true
     path = "opencode"
 
+[".local/bin/codex"]
+    {{- $codexBinary := (printf "codex-%s-unknown-%s-musl" $x86_64Arch .chezmoi.os) }}
+    type = "archive-file"
+    url = {{ gitHubLatestReleaseAssetURL "openai/codex" (printf "%s.tar.gz" $codexBinary) | quote }}
+    executable = true
+    path = {{ $codexBinary | quote }}
+
 {{ end }}
 
 {{ end }}
