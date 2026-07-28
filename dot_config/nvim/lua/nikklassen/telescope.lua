@@ -42,8 +42,15 @@ function M.vs_code_path_transform(opts)
     end
     abs_path = vim.fs.normalize(abs_path)
 
-    local dir_name = vim.fn.fnamemodify(abs_path, ':.:h')
-    local file_name = vim.fn.fnamemodify(abs_path, ':t')
+    local dir_name
+    local file_name
+    if string.sub(bufname, 1, 1) == '/' then
+      dir_name = vim.fn.fnamemodify(abs_path, ':.:h')
+      file_name = vim.fn.fnamemodify(abs_path, ':t')
+    else
+      dir_name = vim.fn.fnamemodify(bufname, ':h')
+      file_name = vim.fn.fnamemodify(bufname, ':t')
+    end
 
     local icons, highlight = devicons.get_icon(abs_path, string.match(abs_path, '%a+$'), { default = true })
 
