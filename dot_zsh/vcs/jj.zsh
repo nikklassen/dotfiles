@@ -11,6 +11,10 @@ function _jj_modified_files() {
   jj diff -s | awk '{print $2}'
 }
 
+function _jj_gd() {
+  DELTA_FILE_TRANSFORMATION='s!^(left|right)\/!!' jj diff
+}
+
 declare -A jj_aliases=(
   [gst]="jj status"
   [gl]="jj git fetch"
@@ -24,7 +28,7 @@ declare -A jj_aliases=(
   [gci]="jj commit -i"
   [grb]="jj rebase"
   [gcmsg]="jj commit -m"
-  [gd]="jj diff"
+  [gd]="_jj_gd"
   [glog]="jj log"
   [grs]="jj restore"
   [grhh]="jj abandon"
