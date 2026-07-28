@@ -1,5 +1,9 @@
 {{ $desktop := promptBoolOnce . "desktop" "desktop" }}
 {{ $work := promptBoolOnce . "work" "work" }}
+{{ $workDir := "" }}
+{{ if $work }}
+{{   $workDir = promptStringOnce . "work_dir" "Work dotfiles directory" }}
+{{ end }}
 {{ $development := promptBoolOnce . "development" "development" }}
 {{ $mobile := promptBoolOnce . "mobile" "mobile" }}
 
@@ -9,6 +13,7 @@ mode = "symlink"
 [data]
   desktop = {{ $desktop }}
   work = {{ $work }}
+  work_dir = {{ $workDir | quote }}
   wsl = {{ and (ne (len .chezmoi.kernel) 0) (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
   development = {{ $development }}
   mobile = {{ $mobile }}

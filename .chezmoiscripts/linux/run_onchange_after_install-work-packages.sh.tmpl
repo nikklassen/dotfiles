@@ -1,0 +1,11 @@
+{{- $workDir := get . "work_dir" | default "" -}}
+{{- if and (eq .chezmoi.os "linux") .work (ne $workDir "") -}}
+{{-   $workTmpl := joinPath $workDir "install/install.sh.tmpl" -}}
+{{-   if stat $workTmpl -}}
+{{      includeTemplate $workTmpl . }}
+{{-   else -}}
+#!/bin/bash
+echo "=> Notice: Work template not found at {{ $workTmpl }}"
+echo "   Ensure your work dotfiles repository is checked out or symlinked at {{ $workDir }}."
+{{-   end -}}
+{{- end -}}
