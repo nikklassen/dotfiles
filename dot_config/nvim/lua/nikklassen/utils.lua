@@ -19,7 +19,7 @@ end
 ---@generic T
 ---@param pred fun(e: T): boolean
 ---@param tbl T[]
----@return T | nil
+---@return T
 ---@return boolean
 function M.list_find(pred, tbl)
   for _, e in ipairs(tbl) do
@@ -85,8 +85,11 @@ function M.is_cwd_readable()
   return vim.fn.isdirectory(cwd) == 1
 end
 
-function string:starts_with(prefix)
-  return self:sub(1, #prefix) == prefix
+---@param s string
+---@param prefix string
+---@return boolean
+function M.string_starts_with(s, prefix)
+  return s:sub(1, #prefix) == prefix
 end
 
 function M.wrap_notify_on_error(f)
