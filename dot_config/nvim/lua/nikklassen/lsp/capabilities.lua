@@ -257,7 +257,7 @@ function M.on_detach(client, bufnr)
   }
   for mode, mapped in pairs(keys) do
     for _, key in ipairs(mapped) do
-      vim.keymap.del(mode, key, { buffer = bufnr })
+      pcall(vim.keymap.del, mode, key, { buffer = bufnr })
     end
   end
 end
