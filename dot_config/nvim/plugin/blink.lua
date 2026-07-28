@@ -66,21 +66,12 @@ local opts = {
   },
 
   cmdline = {
-    -- enabled = false,
     keymap = {
-      preset = 'inherit',
-      ['<C-e>'] = { 'cancel', 'fallback' },
+      preset = 'cmdline',
+      ['<Tab>'] = { 'show', 'accept' },
+      ['<S-Tab>'] = { 'show_and_insert_or_accept_single' },
     },
-    completion = { menu = { auto_show = true } },
   },
-
-  -- fuzzy = {
-  --   sorts = {
-  --     -- Blink default is reversed, sort_text seems better for Go. May need to customize this per language
-  --     'sort_text',
-  --     'score',
-  --   },
-  -- },
 }
 
 require('blink.cmp').setup(opts)
