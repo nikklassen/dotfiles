@@ -76,6 +76,7 @@ packages:
     - WinDirStat.WinDirStat
     - dandavison.delta
     - dorssel.usbipd-win
+    - jj-vcs.jj
     - junegunn.fzf
     - Rustlang.Rustup
     - sharkdp.fd

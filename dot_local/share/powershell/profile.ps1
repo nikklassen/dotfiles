@@ -6,12 +6,11 @@ Remove-PSReadlineKeyHandler 'Ctrl+r'
 Remove-PSReadlineKeyHandler 'Ctrl+t'
 Import-Module PSFzf
 
-function ga { git add @args }
-function gd { git diff @args }
-function gdca { git diff --cached @args }
-function gl { git pull @args }
-function gst { git status @args }
-function glog { git log --oneline --decorate --graph }
+function ga { jj add @args }
+function gd { jj diff @args }
+function gl { jj git fetch @args }
+function gst { jj status @args }
+function glog { jj log @args }
 function hx { glog }
 
 function cma { chezmoi apply }
