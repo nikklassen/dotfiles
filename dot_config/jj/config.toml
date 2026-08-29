@@ -90,3 +90,7 @@ jj rebase -s "at_operation(@-, $1+) & mutable()" -d $1
 
 bookmark.set = '@'
 bookmark.move = '@'
+
+[working-copy]
+
+eol-conversion = "input-output"
