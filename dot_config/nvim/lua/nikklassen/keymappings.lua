@@ -109,7 +109,8 @@ vim.keymap.set('n', '<C-l>', function()
   vim.cmd.diffupdate()
   vim.api.nvim_buf_clear_namespace(0, vim.api.nvim_create_namespace('nvim.multicursor'), 0, -1)
   require('notify').dismiss()
-  vim.cmd('normal! <C-L>')
+  local mc_ns = vim.api.nvim_create_namespace('nvim.multicursor')
+  vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)
 end, { remap = false })
 
 -- All the ways to start a search, with a description
