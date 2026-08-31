@@ -10,6 +10,12 @@ local function init_lua_ls(client)
   if path ~= vim.env.HOME .. '/dotfiles' then
     libraries[#libraries + 1] = vim.env.HOME .. '/dotfiles/dot_config/nvim'
   end
+  local runtime_files = vim.api.nvim_get_runtime_file('', true)
+  for _, v in ipairs(runtime_files) do
+    if string.match(v, '.*async.nvim$') then
+      libraries[#libraries + 1] = v
+    end
+  end
   client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
     runtime = {
       version = 'LuaJIT',

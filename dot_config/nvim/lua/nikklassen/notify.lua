@@ -1,22 +1,54 @@
-local coop = require('coop')
-local sleep = require('coop.uv-utils').sleep
-local MpscQueue = require('coop.mpsc-queue').MpscQueue
+local async = vim.async
 local notify = require('notify')
 local nk_utils = require('nikklassen.utils')
 
 local M = {}
 
+local function new_queue()
+  local items = {}
+  local waiting = nil
+  return {
+    push = function(self, val)
+      if waiting then
+        local cb = waiting
+        waiting = nil
+        cb(val)
+      else
+        table.insert(items, val)
+      end
+    end,
+    pop = function(self)
+      if #items > 0 then
+        return table.remove(items, 1)
+      end
+      return async.await(function(done)
+        waiting = done
+        return {
+          close = function(self, cb)
+            if waiting == done then
+              waiting = nil
+            end
+            if cb then
+              cb()
+            end
+          end,
+        }
+      end)
+    end,
+  }
+end
+
 local function event_loop()
   while true do
     local event = M._queue:pop()
     vim.schedule(nk_utils.wrap_notify_on_error(event))
-    sleep(400)
+    async.sleep(400)
   end
 end
 
 local function start_loop()
-  M._queue = MpscQueue.new()
-  coop.spawn(nk_utils.wrap_notify_on_error(event_loop))
+  M._queue = new_queue()
+  async.run(nk_utils.wrap_notify_on_error(event_loop))
 end
 
 

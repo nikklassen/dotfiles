@@ -28,7 +28,6 @@ vim.pack.add({
   'https://github.com/echasnovski/mini.operators',
   'https://github.com/tpope/vim-eunuch',
   'https://github.com/rcarriga/nvim-notify',
-  'https://github.com/gregorias/coop.nvim',
   'https://github.com/phelipetls/jsonpath.nvim',
   'https://github.com/folke/flash.nvim',
   'https://github.com/julienvincent/hunk.nvim',
@@ -76,6 +75,11 @@ vim.pack.add({
   'https://github.com/nvim-treesitter/nvim-treesitter-context',
   'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
 })
+
+if vim.fn.has('nvim-0.13') == 0 then
+  vim.pack.add({ 'https://github.com/lewis6991/async.nvim' })
+  vim.async = require('async')
+end
 
 vim.schedule(function()
   vim.g.signify_number_highlight = 1
