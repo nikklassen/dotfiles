@@ -11,14 +11,22 @@ local uv = {
   fs_write = async.wrap(4, vim.uv.fs_write),
 }
 
+---@generic R
+---@param client vim.lsp.Client
+---@param method string
+---@param params any
+---@param bufnr number
+---@return R result
 local function lsp_request(client, method, params, bufnr)
   return async.await(function(done)
-    local success, request_id = client:request(method, params, function(...)
-      done(...)
+    local success, request_id = client:request(method, params, function(err, result)
+      if err then
+        error(err)
+      end
+      done(result)
     end, bufnr)
     if not success then
-      done('Could not send the request for ' .. method .. '.')
-      return
+      error('Could not send the request for ' .. method .. '.')
     end
     return {
       close = function(self, cb)

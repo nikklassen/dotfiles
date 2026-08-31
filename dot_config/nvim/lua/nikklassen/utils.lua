@@ -92,15 +92,17 @@ function M.string_starts_with(s, prefix)
   return s:sub(1, #prefix) == prefix
 end
 
-function M.wrap_notify_on_error(f)
-  return function(...)
-    local ok, err = pcall(f, ...)
-    if not ok then
-      vim.notify(err, vim.log.levels.ERROR)
-    else
-      return err
+---@generic R
+---@param t vim.async.Task<R>
+---@return vim.async.Task<R>
+function M.notify_on_error(t)
+  t:on_complete(function(err)
+    if not err then
+      return
     end
-  end
+    vim.notify(err, vim.log.levels.ERROR)
+  end)
+  return t
 end
 
 return M

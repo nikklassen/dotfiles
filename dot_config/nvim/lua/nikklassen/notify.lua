@@ -1,54 +1,73 @@
-local async = vim.async
 local notify = require('notify')
 local nk_utils = require('nikklassen.utils')
 
-local M = {}
+local M = {
+  ---@type Queue<function>?
+  _queue = nil
+}
 
-local function new_queue()
-  local items = {}
-  local waiting = nil
-  return {
-    push = function(self, val)
-      if waiting then
-        local cb = waiting
-        waiting = nil
-        cb(val)
-      else
-        table.insert(items, val)
-      end
-    end,
-    pop = function(self)
-      if #items > 0 then
-        return table.remove(items, 1)
-      end
-      return async.await(function(done)
-        waiting = done
-        return {
-          close = function(self, cb)
-            if waiting == done then
-              waiting = nil
-            end
-            if cb then
-              cb()
-            end
-          end,
-        }
-      end)
-    end,
+---@generic R
+---@class Queue
+---@field private _items table<R>
+---@field private _waiting function?
+local Queue = {}
+Queue.__index = Queue
+
+---@generic R
+---@return Queue<R>
+function Queue.new()
+  local q = {
+    _items = {},
+    _waiting = nil,
   }
+  setmetatable(q, Queue)
+  return q
+end
+
+---@generic R
+---@param val R
+function Queue:push(val)
+  local cb = self._waiting
+  if cb then
+    self._waiting = nil
+    cb(val)
+  else
+    table.insert(self._items, val)
+  end
+end
+
+---@generic R
+---@return R
+function Queue:pop()
+  if #self._items > 0 then
+    return table.remove(self._items, 1)
+  end
+  return vim.async.await(function(done)
+    self._waiting = done
+    return {
+      close = function(cb)
+        if self._waiting == done then
+          self._waiting = nil
+        end
+        if cb then
+          cb()
+        end
+      end,
+    }
+  end)
 end
 
 local function event_loop()
   while true do
     local event = M._queue:pop()
-    vim.schedule(nk_utils.wrap_notify_on_error(event))
-    async.sleep(400)
+    nk_utils.notify_on_error(vim.async.run(event)):detach()
+    vim.async.sleep(400)
   end
 end
 
 local function start_loop()
-  M._queue = new_queue()
-  async.run(nk_utils.wrap_notify_on_error(event_loop))
+  M._queue = Queue.new()
+  nk_utils.notify_on_error(vim.async.run(event_loop)):detach()
 end
 
 
