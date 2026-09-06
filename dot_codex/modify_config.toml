@@ -1,0 +1,46 @@
+#!/bin/sh
+
+set -eu
+
+input="$(mktemp)"
+output="$(mktemp)"
+trap 'rm -f "$input" "$output"' EXIT
+
+cat >"$input"
+
+# Remove an older copy of the managed block, while leaving Codex-owned state
+# such as project trust and UI notices untouched.
+awk '
+  $0 == "# BEGIN chezmoi: jj workspace permissions" { managed = 1; next }
+  $0 == "# END chezmoi: jj workspace permissions" { managed = 0; next }
+  !managed && $0 == "" { blanks = blanks ORS; next }
+  !managed {
+    printf "%s", blanks
+    blanks = ""
+    print
+  }
+' "$input" >"$output"
+
+cat "$output"
+printf '\n%s\n' '# BEGIN chezmoi: jj workspace permissions'
+cat <<'EOF'
+[permissions.jj-workspace]
+description = "Workspace writes with Git metadata writable for jj"
+extends = ":workspace"
+
+[permissions.jj-workspace.filesystem]
+":minimal" = "read"
+":tmpdir" = "write"
+":slash_tmp" = "write"
+
+[permissions.jj-workspace.filesystem.":workspace_roots"]
+".git" = "write"
+".jj" = "write"
+
+[permissions.jj-workspace.network]
+enabled = true
+
+[permissions.jj-workspace.network.domains]
+"localhost:5432" = "allow"
+EOF
+printf '%s\n' '# END chezmoi: jj workspace permissions'

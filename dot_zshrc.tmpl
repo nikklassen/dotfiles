@@ -115,7 +115,7 @@ alias cm="chezmoi"
 alias cmd="chezmoi diff"
 alias cma="chezmoi init && chezmoi apply && update-chezmoi-installed"
 
-alias codex="codex --profile jj"
+alias codex="codex --config 'default_permissions=\"jj-workspace\"'"
 
 function testport () {
     nc -v "$1" "$2" < /dev/null
