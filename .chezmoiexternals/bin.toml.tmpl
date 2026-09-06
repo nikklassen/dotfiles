@@ -73,11 +73,6 @@
     executable = true
     path = "fzf"
 
-[".local/share/pnpm-cli"]
-    type = "archive"
-    url = {{ gitHubLatestReleaseAssetURL "pnpm/pnpm" (printf "pnpm-%s-%s.tar.gz" .chezmoi.os $x64Arch) | quote }}
-    exact = true
-
 [".local/bin/gitleaks"]
     {{- $arch := .chezmoi.arch }}
     {{- if eq $arch "amd64" -}}

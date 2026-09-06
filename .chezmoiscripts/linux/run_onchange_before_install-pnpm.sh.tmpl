@@ -1,0 +1,25 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+
+{{- $arch := .chezmoi.arch -}}
+{{- if eq $arch "amd64" -}}
+{{-   $arch = "x64" -}}
+{{- end -}}
+{{- $url := gitHubLatestReleaseAssetURL "pnpm/pnpm" (printf "pnpm-%s-%s.tar.gz" .chezmoi.os $arch) }}
+
+set -euo pipefail
+
+# pnpm's release archive contains hard links, which chezmoi's archive extractor
+# does not support. Extract it with the system tar implementation instead.
+install_dir="${HOME:?}/.local/share/pnpm-cli"
+archive="$(mktemp)"
+staging_dir="$(mktemp -d "${TMPDIR:-/tmp}/pnpm.XXXXXXXX")"
+trap 'rm -f "$archive"; rm -rf "$staging_dir"' EXIT
+
+curl -fsSL {{ $url | quote }} -o "$archive"
+tar -xzf "$archive" -C "$staging_dir"
+
+mkdir -p "$(dirname "$install_dir")"
+rm -rf "$install_dir"
+mv "$staging_dir" "$install_dir"
+{{- end }}

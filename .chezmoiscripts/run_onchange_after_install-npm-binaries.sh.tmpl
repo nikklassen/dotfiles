@@ -8,7 +8,7 @@ NPM_BIN="npm"
 {{ else }}
 NPM_BIN="pnpm"
 SHELL="$SHELL" "${NPM_BIN?}" setup --force
-# pnpm-version: {{ output "pnpm" "--version" }}
+# pnpm-version: {{ output "sh" "-c" "pnpm --version 2>/dev/null || true" }}
 {{- end }}
 
 "${NPM_BIN?}" install -g {{ .packages.npm | join " " }} || true
