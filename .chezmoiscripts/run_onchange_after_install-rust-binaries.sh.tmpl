@@ -1,4 +1,4 @@
-{{- if ne .chezmoi.os "darwin" -}}
+{{- if and (ne .chezmoi.os "darwin") (ne .chezmoi.arch "arm64") -}}
 #!/bin/bash
 
 {{ range list

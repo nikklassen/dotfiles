@@ -3,6 +3,8 @@
 
 CODENAME="$(lsb_release -c -s)"
 
+sudo apt-get install gpg
+
 function get_key() {
   curl -s "$1" | gpg --dearmor | sudo tee "$2" > /dev/null
 }

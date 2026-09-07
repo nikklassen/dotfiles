@@ -22,7 +22,11 @@ vim.o.termguicolors = true
 vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
   callback = function()
-    vim.hl.hl_op { timeout = 500 }
+    if vim.fn.has('nvim-0.13') == 1 then
+      vim.hl.hl_op { timeout = 500 }
+    else
+      vim.highlight.on_yank { timeout = 500 }
+    end
   end,
 })
 
