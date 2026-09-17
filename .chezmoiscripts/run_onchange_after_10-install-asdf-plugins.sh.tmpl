@@ -1,7 +1,7 @@
 {{- if ne .chezmoi.os "darwin" -}}
 #!/bin/bash
 
-# {{ exec "asdf" "plugin" "list" }}
+# {{ output "asdf" "plugin" "list" }}
 
 function _asdf_install_pkgs() {
   # Normally asdf is configured by oh-my-zsh, but we need to ensure it is set up before installing plugins.
