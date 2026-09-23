@@ -12,7 +12,7 @@ function _jj_modified_files() {
 }
 
 function _jj_gd() {
-  DELTA_FILE_TRANSFORMATION='s!^(left|right)\/!!' jj diff
+  DELTA_FILE_TRANSFORMATION='s!^(left|right)\/!!' jj diff "$@"
 }
 
 declare -A jj_aliases=(
