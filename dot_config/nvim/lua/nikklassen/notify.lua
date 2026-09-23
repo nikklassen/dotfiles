@@ -45,7 +45,7 @@ function Queue:pop()
   return vim.async.await(function(done)
     self._waiting = done
     return {
-      close = function(cb)
+      close = function(_, cb)
         if self._waiting == done then
           self._waiting = nil
         end
