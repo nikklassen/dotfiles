@@ -163,9 +163,18 @@ end
 ---@param displayer fun(string): string
 ---@return string[] lines formatted as `<file><path>:<line>:<text>`
 local function comments_with_line(displayer)
-  return vim.tbl_map(function(c)
-    return ('<file>%s:%d:%s'):format(displayer(c.path), c.line, c.text)
-  end, sorted())
+  local file_lines = {}
+  for _, c in ipairs(sorted()) do
+    local lines = file_lines[c.path] or {}
+    lines[#lines + 1] = ('L%d: %s'):format(c.line, c.text)
+    file_lines[c.path] = lines
+  end
+  local all_lines = {}
+  for file, lines in pairs(file_lines) do
+    all_lines[#all_lines + 1] = ('[%s]'):format(displayer(file))
+    vim.list_extend(all_lines, lines)
+  end
+  return all_lines
 end
 
 ---Copies all comments to the system clipboard.
