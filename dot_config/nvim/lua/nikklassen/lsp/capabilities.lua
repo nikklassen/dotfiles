@@ -141,6 +141,18 @@ local function setup_formatting(client, bufnr, lsp_augroup)
   setup_document_formatting(client, bufnr, autoformat, lsp_augroup)
 end
 
+---Check if file is already displayed in a window
+local function get_or_open_file(win, filename)
+  local bufname = vim.fn.fnameescape(filename)
+  local bufnr = vim.fn.bufadd(bufname)
+  if vim.api.nvim_buf_is_loaded(bufnr) then
+    vim.api.nvim_win_set_buf(win, bufnr)
+    return
+  end
+
+  vim.cmd.edit(bufname)
+end
+
 ---Configures LSP client for this buffer
 ---@param client vim.lsp.Client
 ---@param bufnr number
@@ -159,7 +171,28 @@ function M.on_attach(client, bufnr)
       vim.lsp.buf.hover()
     end
   end, opts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  vim.keymap.set('n', 'gd', function()
+    vim.lsp.buf.definition({
+      on_list = function(options)
+        if vim.tbl_isempty(options.items) then
+          print('No definition found')
+        elseif #options.items > 1 then
+          vim.fn.setqflist({}, ' ', {
+            title = 'LSP Definitions',
+            items = options.items,
+          })
+          vim.cmd('copen')
+        else
+          local item = options.items[1]
+          vim.cmd("normal! m'")
+          local winnr = vim.api.nvim_get_current_win()
+          get_or_open_file(winnr, item.filename)
+          vim.api.nvim_win_set_cursor(winnr, { item.lnum, item.col - 1 })
+          vim.cmd('normal! zv')
+        end
+      end,
+    })
+  end, opts)
 
   local next_diagnostic = function()
     local goto_opts = goto_diagnostic_options()
