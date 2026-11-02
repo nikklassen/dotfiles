@@ -6,12 +6,20 @@ Remove-PSReadlineKeyHandler 'Ctrl+r'
 Remove-PSReadlineKeyHandler 'Ctrl+t'
 Import-Module PSFzf
 
+del alias:gp -Force
+
 function ga { jj add @args }
+function gco { jj edit @args }
 function gd { jj diff @args }
 function gl { jj git fetch @args }
-function gst { jj status @args }
 function glog { jj log @args }
+function gp { jj push --all --deleted @args }
+function gpm { jj bookmark set main -r '@-' && gp @args }
+function gst { jj status @args }
 function hx { glog }
+function jjds { jj desc @args }
+function jjn { jj new @args }
+function jjsp { jj split @args }
 
 function cma { chezmoi apply }
 
