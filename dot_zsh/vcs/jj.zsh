@@ -20,7 +20,8 @@ declare -A jj_aliases=(
   [gl]="jj git fetch"
   [gco]="jj edit"
   [gcoh]="jj new -r 'trunk()'"
-  [gp]="jj git push --all --deleted"
+  # Uses the push alias from the config
+  [gp]="jj push --all --deleted"
   [gm]="jj new @"
   [gsh]="jj show"
   [gc!]="jj squash"

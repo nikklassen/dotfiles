@@ -86,6 +86,8 @@ jj git fetch -b $1
 jj rebase -s "at_operation(@-, $1+) & mutable()" -d $1
 """, ""]
 
+push = ["util", "exec", "--", "jj-pre-push", "push"]
+
 [revsets]
 
 bookmark.set = '@'

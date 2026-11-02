@@ -45,8 +45,10 @@ packages:
     - vscode-langservers-extracted
   pipx:
     - httpie
+    - jj-pre-push
     - litecli
     - powerline-status
+    - pre-commit
     - pyright
     - semgrep
   ps:
